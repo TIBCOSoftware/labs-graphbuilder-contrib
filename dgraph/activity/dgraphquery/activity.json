@@ -1,0 +1,49 @@
+{
+    "name": "dgraphquery",
+    "version": "1.0.0",
+    "author": "TIBCO Software Inc.",
+    "type": "flogo:activity",
+    "title": "Dgraph Query",
+     
+    "display": {
+       "category": "GraphBuilder_dgraph",
+       "visible": true,
+       "smallIcon": "dgraphquery.png",
+       "description": "This activity query data from Dgraph"
+    },
+
+    "ref": "github.com/TIBCOSoftware/GraphBuilder_dgraph/activity/dgraphquery",
+    "settings": [
+		{
+            "name": "dgraphConnection",
+            "type": "object",
+            "required": true,
+            "display":{
+              "name": "Dgraph Connection",
+              "description": "Select Dgraph connection",
+              "type": "connection"
+            },
+            "allowed":[]
+		}
+    ],
+    "inputs": [
+		{
+			"name": "pathParams",
+			"type": "complex_object"
+		},
+		{
+			"name": "queryParams",
+			"type": "complex_object"
+		},
+		{
+			"name": "searchParams",
+			"type": "complex_object"
+		}
+    ],
+    "outputs": [
+		{
+            "name": "queryResult",
+            "type": "complex_object"
+		}
+    ]
+}

@@ -1,0 +1,41 @@
+{
+    "name": "neo4jupsert",
+    "version": "1.0.0",
+    "author": "TIBCO Software Inc.",
+    "type": "flogo:activity",
+    "title": "Neo4j Upsert",
+     
+    "display": {
+       "category": "GraphBuilder_neo4j",
+       "visible": true,
+       "smallIcon": "neo4jupsert.png",
+       "description": "This activity upsert to Neo4j"
+    },
+ 
+    "ref": "github.com/TIBCOSoftware/GraphBuilder_neo4j/activity/neo4jupsert",
+    "settings": [
+		{
+            "name": "neo4jConnection",
+            "type": "object",
+            "required": true,
+            "display":{
+              "name": "Neo4j Connection",
+              "description": "Select Neo4j connection",
+              "type": "connection"
+            },
+            "allowed":[]
+		}
+    ],
+    "inputs": [
+ 		{
+			"name": "Graph",
+			"type": "object"
+		}
+    ],
+    "outputs": [
+		{
+            "name": "MessageId",
+            "type": "string"
+		}
+    ]
+}

@@ -1,0 +1,47 @@
+{
+	"name": "flogo-simple-filter",
+	"type": "flogo:activity",
+	"ref": "github.com/TIBCOSoftware/GraphBuilder_Tools/activity/simplefilter",
+	"version": "0.0.1",
+	"title": "Simple Filter",
+	"description": "Simple Filter Activity",
+	"homepage": "https://github.com/TIBCOSoftware/GraphBuilder_Tools/activity/simplefilter",
+    "display": {
+       "category": "GraphBuilder_Tools",
+       "visible": true,
+       "smallIcon": "simplefilter.png",
+       "description": "This activity filter incoming data by expression"
+    },
+	"settings": [
+		{
+			"name": "proceedOnlyOnEmit",
+			"type": "boolean",
+			"display": {
+				"name": "Stop flow if not pass filter",
+				"description": "Stop flow if filter expression is false"
+			},
+			"value": false,
+			"required": true
+		}
+	],
+	"input":[
+		{
+			"name": "filterExpression",
+			"type": "boolean"
+		},
+		{
+			"name": "value",
+			"type": "any"
+		}
+	],
+	"output": [
+		{
+			"name": "filtered",
+			"type": "boolean"
+		},
+		{
+			"name": "value",
+			"type": "any"
+		}
+	]
+}

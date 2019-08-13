@@ -1,0 +1,54 @@
+{
+    "name": "builder",
+    "version": "1.0.0",
+    "title": "Build Graph",
+    "author": "TIBCO Software Inc.",
+    "type": "flogo:activity",
+     
+    "display": {
+       "category": "GraphBuilder",
+       "visible": true,
+       "smallIcon": "builder.png",
+       "description": "This activity build graph from incoming data"
+    },
+ 
+    "ref": "github.com/TIBCOSoftware/GraphBuilder/activity/builder",
+	"settings": [
+		{
+			"name": "GraphModel",
+			"type": "object",
+			"required": true,
+			"display": {
+				"name": "Graph Model",
+				"description": "User Graph Model",
+				"type": "connection"
+			},
+			"allowed": []
+		},
+ 		{
+			"name": "Multiinstances",
+			"type": "array",
+			"display": {
+				"name": "Modify size of instances",
+				"type": "table",
+					"schema": "{    \r\n \"$schema\": \"http:\/\/json-schema.org\/draft-04\/schema#\",\r\n \"definitions\": {},\r\n \"id\": \"http:\/\/example.com\/example.json\",\r\n \"items\": {\r\n  \"id\": \"items\",\r\n   \"properties\": {\r\n   \"EntityType\": {\r\n    \"id\": \"\/items\/properties\/EntityType\",\r\n    \"type\": {\r\n     \"enum\":[\r\n      \"Node\"\r\n     ,\"Edge\"\r\n     ]\r\n    }\r\n   },\r\n   \"Name\": {\r\n    \"id\": \"\/items\/properties\/Name\",\r\n    \"type\": \"string\"\r\n   },\r\n   \"NumberOfInstances\": {\r\n    \"id\": \"\/items\/properties\/NumberOfInstances\",\r\n    \"type\": {\r\n     \"enum\":[\r\n      \"0\", \r\n      \"2\", \r\n      \"3\",\r\n      \"4\",\r\n      \"5\",\r\n      \"6\",\r\n      \"7\",\r\n      \"8\",\r\n      \"9\",\r\n      \"10\"\r\n     ]\r\n    }\r\n   }\r\n  },\r\n  \"type\":\"object\"\r\n },\r\n \"type\": \"array\"\r\n}"
+			}
+		}
+	],
+    "inputs": [
+ 		{
+			"name": "Nodes",
+			"type": "complex_object"
+		},
+ 		{
+			"name": "Edges",
+			"type": "complex_object"
+		}
+    ],
+	"outputs": [
+		{
+			"name": "Graph",
+			"type": "object"
+		}
+	]
+}

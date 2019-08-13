@@ -1,0 +1,42 @@
+{
+	"name": "flogo-tablequery",
+	"type": "flogo:activity",
+	"ref": "github.com/TIBCOSoftware/GraphBuilder_Tools/activity/tablequery",
+	"version": "0.0.1",
+	"title": "Table Query",
+	"display": {
+    		"category": "GraphBuilder_Tools",
+    		"visible": true,
+    		"smallIcon": "tablequery.png",
+  		"description": "A simple activity for quering data from table"
+	},
+	"settings": [
+		{
+			"name": "Table",
+			"type": "object",
+			"required": true,
+			"display": {
+				"name": "Table Name",
+				"description": "Select table for upserting",
+				"type": "connection"
+			},
+			"allowed": []
+		}
+	],
+	"input":[
+		{
+			"name": "QueryKey",
+			"type": "complex_object"
+		}
+	],
+	"output": [
+		{
+            "name": "Data",
+            "type": "complex_object"
+		},
+		{
+            "name": "Exists",
+            "type": "bool"
+		}
+	]
+}
