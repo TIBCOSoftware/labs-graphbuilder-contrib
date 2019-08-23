@@ -12,8 +12,8 @@ import (
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"
 	"github.com/TIBCOSoftware/flogo-lib/core/data"
 	"github.com/TIBCOSoftware/flogo-lib/logger"
-	"github.com/TIBCOSoftware/graph-builder-flogo/lib/internet/sseserver"
-	"github.com/TIBCOSoftware/graph-builder-flogo/lib/util"
+	"github.com/TIBCOSoftware/labs-graphbuilder-lib/internet/sseserver"
+	"github.com/TIBCOSoftware/labs-graphbuilder-lib/util"
 )
 
 var log = logger.GetLogger("activity-sse-endpoint")

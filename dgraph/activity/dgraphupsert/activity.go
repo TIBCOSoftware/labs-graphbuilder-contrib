@@ -14,9 +14,9 @@ import (
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"
 	"github.com/TIBCOSoftware/flogo-lib/core/data"
 	"github.com/TIBCOSoftware/flogo-lib/logger"
-	"github.com/TIBCOSoftware/graph-builder-flogo/lib/dbservice/dgraph"
-	"github.com/TIBCOSoftware/graph-builder-flogo/lib/model"
-	"github.com/TIBCOSoftware/graph-builder-flogo/lib/util"
+	"github.com/TIBCOSoftware/labs-graphbuilder-lib/dbservice/dgraph"
+	"github.com/TIBCOSoftware/labs-graphbuilder-lib/model"
+	"github.com/TIBCOSoftware/labs-graphbuilder-lib/util"
 )
 
 const (

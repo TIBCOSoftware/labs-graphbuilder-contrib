@@ -11,8 +11,8 @@ import (
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"
 	"github.com/TIBCOSoftware/flogo-lib/core/data"
 	"github.com/TIBCOSoftware/flogo-lib/logger"
-	"github.com/TIBCOSoftware/graph-builder-flogo/lib/dbservice/tgdb"
-	"github.com/TIBCOSoftware/graph-builder-flogo/lib/util"
+	"github.com/TIBCOSoftware/labs-graphbuilder-lib/dbservice/tgdb"
+	"github.com/TIBCOSoftware/labs-graphbuilder-lib/util"
 )
 
 const (

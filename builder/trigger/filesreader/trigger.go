@@ -12,7 +12,7 @@ import (
 
 	"github.com/TIBCOSoftware/flogo-lib/core/trigger"
 	"github.com/TIBCOSoftware/flogo-lib/logger"
-	"github.com/TIBCOSoftware/graph-builder-flogo/lib/file"
+	"github.com/TIBCOSoftware/labs-graphbuilder-lib/file"
 )
 
 var log = logger.GetLogger("trigger-files")

@@ -14,7 +14,7 @@ import (
 	"github.com/TIBCOSoftware/flogo-lib/core/data"
 	"github.com/TIBCOSoftware/flogo-lib/core/trigger"
 	"github.com/TIBCOSoftware/flogo-lib/logger"
-	"github.com/TIBCOSoftware/graph-builder-flogo/lib/sql"
+	"github.com/TIBCOSoftware/labs-graphbuilder-lib/sql"
 )
 
 var log = logger.GetLogger("trigger-sql")

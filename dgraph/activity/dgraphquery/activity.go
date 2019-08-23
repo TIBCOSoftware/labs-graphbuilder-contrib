@@ -14,8 +14,8 @@ import (
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"
 	"github.com/TIBCOSoftware/flogo-lib/core/data"
 	"github.com/TIBCOSoftware/flogo-lib/logger"
-	"github.com/TIBCOSoftware/graph-builder-flogo/lib/dbservice/dgraph"
-	"github.com/TIBCOSoftware/graph-builder-flogo/lib/util"
+	"github.com/TIBCOSoftware/labs-graphbuilder-lib/dbservice/dgraph"
+	"github.com/TIBCOSoftware/labs-graphbuilder-lib/util"
 	//"github.com/TIBCOSoftware/tgdb-client/client/goAPI/types"
 )
 
