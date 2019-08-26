@@ -1,0 +1,36 @@
+{
+	"name": "sse",
+	"type": "flogo:trigger",
+	"ref": "github.com/TIBCOSoftware/GraphBuilder_SSE/trigger/ssesub",
+	"version": "0.0.1",
+	"title": "SSESubscriber",
+	"description": "Server-sent Events Subscriber",
+	"homepage": "https://github.com/TIBCOSoftware/GraphBuilder_SSE/trigger/ssesub",
+	"display": {
+		"category": "GraphBuilder_SSE",
+		"visible": true,
+		"smallIcon": "ssesub.png",
+		"description": "This trigger listen to server-sent events"
+	},
+    "outputs": [
+		{
+            "name": "Event",
+            "type": "string"
+		}
+    ],
+	"handler": {
+		"settings": [
+			{
+        			"name": "sseConnection",
+        			"type": "object",
+        			"required": true,
+        			"display":{
+        				"name": "SSE Connection",
+        				"description": "Select SSE Connection",
+        				"type": "connection"
+        			},
+        			"allowed":[]
+			}
+		]
+	}
+}

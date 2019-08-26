@@ -1,0 +1,47 @@
+{
+    "name": "graphquerier",
+    "version": "1.0.0",
+    "author": "TIBCO Software Inc.",
+    "type": "flogo:activity",
+    "title": "Graph Querier",
+     
+    "display": {
+       "category": "GraphBuilder",
+       "visible": true,
+       "smallIcon": "graphquerier.png",
+       "description": "This activity filter graph based on user query"
+    },
+ 
+    "ref": "github.com/TIBCOSoftware/GraphBuilder/activity/graphquerier",
+    "settings": [
+		{
+            "name": "testFilter",
+            "type": "string",
+            "required": true,
+            "display":{
+              "name": "Test filter file",
+              "description": "The file contains test filter"
+            }
+		}
+    ],
+    "inputs": [
+		{
+            "name": "graphId",
+            "type": "string"
+		},
+		{
+            "name": "queryId",
+            "type": "string"
+		},
+ 		{
+			"name": "Query",
+			"type": "object"
+		}
+    ],
+    "outputs": [
+ 		{
+			"name": "MatchedData",
+			"type": "object"
+		}
+    ]
+}

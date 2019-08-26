@@ -1,0 +1,81 @@
+{
+  "name": "tibco-tgdb",
+  "title": "TGDB Connector",
+  "author": "TIBCO Software Inc.",
+  "type": "flogo:connector",
+  "version": "1.0.0",
+  "display": {
+    "description": "This is TGDB GraphDatabase connector",
+    "category": "GraphBuilder_TGDB",
+    "visible": true,
+    "smallIcon": "tgdb.png"
+  },
+  "ref": "github.com/TIBCOSoftware/GraphBuilder_TGDB/connector/tgdb",
+  "keyfield": "name",
+  "settings": [
+    {
+      "name": "name",
+      "type": "string",
+      "required": true,
+      "display": {
+        "name": "Connection Name",
+        "description": "Name of the connection"
+      }
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "display": {
+        "name": "Description",
+        "description": "Connection description"
+      }
+    },
+    {
+      "name": "url",
+      "type": "string",
+      "required": true,
+      "display": {
+        "name": "TGDB Server URL",
+        "description": "TGDB server URL ex. tcp://scott@localhost:8222",
+        "type": "string"
+      }
+    },
+    {
+      "name": "user",
+      "type": "string",
+      "display": {
+        "name": "Username",
+        "description": "Username for login to TGDB server",
+        "type": "string"
+      }
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "required": true,
+      "display": {
+        "name": "Password",
+        "description": "Password for login to TGDB server",
+        "type": "password"
+      }
+    },
+		{
+			"name": "keepAlive",
+			"type": "boolean",
+			"display": {
+				"name": "Keep Connection Alive",
+				"description": "Will keep connection alive"
+			},
+			"value": false,
+			"required": true
+		}
+  ],
+  "actions": [
+    {
+      "name": "Connect",
+      "display": {
+        "readonly": true
+      }
+    }
+  ]
+}

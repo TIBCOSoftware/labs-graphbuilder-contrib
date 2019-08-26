@@ -1,0 +1,36 @@
+{
+	"name": "sseserver",
+	"type": "flogo:trigger",
+	"ref": "github.com/TIBCOSoftware/GraphBuilder_SSE/trigger/sseserver",
+	"version": "0.0.1",
+	"title": "SSEServer",
+	"description": "Server-sent Events Server",
+	"homepage": "https://github.com/TIBCOSoftware/GraphBuilder_SSE/trigger/sseserver",
+	"display": {
+		"category": "GraphBuilder_SSE",
+		"visible": true,
+		"smallIcon": "sseserver.png",
+		"description": "This trigger serves server-sent events"
+	},
+    "outputs": [
+		{
+            "name": "Request",
+            "type": "string"
+		}
+    ],
+	"handler": {
+		"settings": [
+			{
+        			"name": "sseConnection",
+        			"type": "object",
+        			"required": true,
+        			"display":{
+        				"name": "SSE Connection",
+        				"description": "Select SSE Connection",
+        				"type": "connection"
+        			},
+        			"allowed":[]
+			}
+		]
+	}
+}

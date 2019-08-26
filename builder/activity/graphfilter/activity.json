@@ -1,0 +1,39 @@
+{
+    "name": "graphfilter",
+    "version": "1.0.0",
+    "author": "TIBCO Software Inc.",
+    "type": "flogo:activity",
+    "title": "Graph Filter",
+     
+    "display": {
+       "category": "GraphBuilder",
+       "visible": true,
+       "smallIcon": "graphfilter.png",
+       "description": "This activity filter graph based on user query"
+    },
+ 
+    "ref": "github.com/TIBCOSoftware/GraphBuilder/activity/graphfilter",
+    "settings": [
+		{
+            "name": "testFilter",
+            "type": "string",
+            "required": false,
+            "display":{
+              "name": "Test filter file",
+              "description": "The file contains test filter"
+            }
+		}
+    ],
+    "inputs": [
+ 		{
+			"name": "Graph",
+			"type": "object"
+		}
+    ],
+    "outputs": [
+ 		{
+			"name": "MatchedData",
+			"type": "object"
+		}
+    ]
+}

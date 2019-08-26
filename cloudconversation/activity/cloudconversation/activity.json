@@ -1,0 +1,59 @@
+{
+    "name": "cloudconversation",
+    "version": "1.0.0",
+    "author": "TIBCO Software Inc.",
+    "type": "flogo:activity",
+    "title": "Cloud Conversation",
+     
+    "display": {
+       "category": "GraphBuilder_cloudconversation",
+       "visible": true,
+       "smallIcon": "cloudconversation.png",
+       "description": "This activity query data from graph database for cloud conversation"
+    },
+
+    "ref": "github.com/TIBCOSoftware/GraphBuilder_dgraph/activity/cloudconversation",
+    "settings": [
+		{
+            "name": "databaseType",
+            "type": "string",
+            "required": true,
+            "display":{
+              "name": "Database Type",
+              "description": "Select type of graph database"
+            },
+            "allowed":["TGDB", "Dgraph", "Neo4j"]
+		},
+		{
+            "name": "databaseConnection",
+            "type": "object",
+            "required": true,
+            "display":{
+              "name": "Database Connection",
+              "description": "Select graph database connection",
+              "type": "connection"
+            },
+            "allowed":[]
+		}
+    ],
+    "inputs": [
+		{
+			"name": "pathParams",
+			"type": "complex_object"
+		},
+		{
+			"name": "queryParams",
+			"type": "complex_object"
+		},
+		{
+			"name": "searchParams",
+			"type": "complex_object"
+		}
+    ],
+    "outputs": [
+		{
+            "name": "queryResult",
+            "type": "complex_object"
+		}
+    ]
+}

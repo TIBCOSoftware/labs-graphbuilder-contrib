@@ -1,0 +1,42 @@
+{
+	"name": "flogo-tableupsert",
+	"type": "flogo:activity",
+	"ref": "github.com/TIBCOSoftware/GraphBuilder_Tools/activity/tableupsert",
+	"version": "0.0.1",
+	"title": "Table Upsert",
+	"display": {
+    		"category": "GraphBuilder_Tools",
+    		"visible": true,
+    		"smallIcon": "tableupsert.png",
+  		"description": "A simple activity for upserting data to table"
+	},
+	"settings": [
+		{
+			"name": "Table",
+			"type": "object",
+			"required": true,
+			"display": {
+				"name": "Table Name",
+				"description": "Select table for upserting",
+				"type": "connection"
+			},
+			"allowed": []
+		}
+	],
+	"input":[
+		{
+			"name": "Mapping",
+			"type": "complex_object"
+		}
+	],
+	"output": [
+		{
+            "name": "Data",
+            "type": "complex_object"
+		},
+		{
+            "name": "Exists",
+            "type": "bool"
+		}
+	]
+}
