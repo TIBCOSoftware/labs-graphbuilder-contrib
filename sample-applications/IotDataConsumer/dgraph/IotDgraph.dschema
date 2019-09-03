@@ -1,0 +1,10 @@
+{
+	"uuid" : {
+		"type"  : "string"  , 
+		"index" : ["exact", "term"]
+	},
+	"opportunity_flag" : {
+		"type"  : "uid" , 
+		"extraFlags" : ["reverse", "count"]
+	}
+}

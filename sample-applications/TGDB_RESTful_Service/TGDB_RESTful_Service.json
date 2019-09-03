@@ -1,0 +1,689 @@
+{
+    "name": "TGDB_RESTful_Service",
+    "description": " ",
+    "version": "1.0.0",
+    "type": "flogo:app",
+    "appModel": "1.0.0",
+    "feVersion": "2.5.0",
+    "resources": [
+        {
+            "id": "flow:Metadata_Query",
+            "data": {
+                "name": "Metadata Query",
+                "description": "",
+                "tasks": [
+                    {
+                        "id": "TGDBQuery",
+                        "name": "TGDBQuery",
+                        "activity": {
+                            "ref": "github.com/TIBCOSoftware/GraphBuilder_TGDB/activity/tgdbquery",
+                            "settings": {
+                                "tgdbConnection": {
+                                    "type": "flogo:connector",
+                                    "version": "1.0.0",
+                                    "name": "tibco-tgdb",
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "TGDB Connector",
+                                    "description": "This is TGDB GraphDatabase connector",
+                                    "ref": "github.com/TIBCOSoftware/GraphBuilder_TGDB/connector/tgdb",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Connection Name",
+                                                "description": "Name of the connection"
+                                            },
+                                            "value": "TGDB"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "description": "Connection description"
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "url",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "TGDB Server URL",
+                                                "description": "TGDB server URL ex. tcp://scott@localhost:8222",
+                                                "type": "string"
+                                            },
+                                            "value": "tcp://scott@localhost:8222"
+                                        },
+                                        {
+                                            "name": "user",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Username",
+                                                "description": "Username for login to TGDB server",
+                                                "type": "string"
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "password",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Password",
+                                                "description": "Password for login to TGDB server",
+                                                "type": "password"
+                                            },
+                                            "value": "SECRET:ZPMhdaHn+GbtJmSjA4yN/QK7H3uL"
+                                        },
+                                        {
+                                            "name": "keepAlive",
+                                            "type": "boolean",
+                                            "display": {
+                                                "name": "Keep Connection Alive",
+                                                "description": "Will keep connection alive"
+                                            },
+                                            "value": true,
+                                            "required": true
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "flogo",
+                                    "key": "flogo/GraphBuilder_TGDB/connector/connector.json",
+                                    "display": {
+                                        "description": "This is TGDB GraphDatabase connector",
+                                        "category": "GraphBuilder_TGDB",
+                                        "visible": true,
+                                        "smallIcon": "tgdb.png"
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "Connect",
+                                            "display": {
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            }
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1567466120203,
+                                    "createdTime": 1567466120203,
+                                    "user": "flogo",
+                                    "subscriptionId": "flogo_sbsc",
+                                    "id": "886e3f20-cdd7-11e9-9e48-a525b2c952ca",
+                                    "connectorName": " ",
+                                    "connectorDescription": " "
+                                }
+                            },
+                            "input": {
+                                "pathParams": {
+                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"queryType\":{\"type\":\"string\"},\"entityType\":{\"type\":\"string\"}}}",
+                                    "value": "",
+                                    "fe_metadata": "{\"queryType\":\"queryType\",\"entityType\":\"entityType\"}"
+                                },
+                                "queryParams": {
+                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+                                    "value": "",
+                                    "fe_metadata": "{}"
+                                }
+                            },
+                            "output": {
+                                "queryResult": {
+                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"object\",\"properties\":{}},\"success\":{\"type\":\"boolean\"},\"error\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\"},\"message\":{\"type\":\"string\"}}}}}",
+                                    "value": "",
+                                    "fe_metadata": "{\"data\":{},\"success\":true,\"error\":{\"code\":101,\"message\":\"string\"}}"
+                                }
+                            },
+                            "mappings": {
+                                "input": [
+                                    {
+                                        "mapTo": "$INPUT['pathParams']['queryType']",
+                                        "type": "assign",
+                                        "value": "$flow.pathParams.queryType"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "activity": {
+                            "ref": "github.com/TIBCOSoftware/flogo-contrib/activity/actreturn",
+                            "settings": {},
+                            "input": {
+                                "mappings": [
+                                    {
+                                        "mapTo": "$INPUT['code']",
+                                        "type": "literal",
+                                        "value": 200
+                                    },
+                                    {
+                                        "mapTo": "$INPUT['data']['data']",
+                                        "type": "assign",
+                                        "value": "$activity[TGDBQuery].queryResult.data"
+                                    },
+                                    {
+                                        "mapTo": "$INPUT['data']['success']",
+                                        "type": "assign",
+                                        "value": "$activity[TGDBQuery].queryResult.success"
+                                    },
+                                    {
+                                        "mapTo": "$INPUT['data']['error']['code']",
+                                        "type": "assign",
+                                        "value": "$activity[TGDBQuery].queryResult.error.code"
+                                    },
+                                    {
+                                        "mapTo": "$INPUT['data']['error']['message']",
+                                        "type": "assign",
+                                        "value": "$activity[TGDBQuery].queryResult.error.message"
+                                    }
+                                ]
+                            },
+                            "output": {}
+                        }
+                    }
+                ],
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "TGDBQuery",
+                        "to": "Return",
+                        "type": "default"
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "pathParams",
+                            "type": "complex_object",
+                            "value": {
+                                "value": "",
+                                "metadata": "{\"queryType\":{\"type\":\"string\"}}"
+                            }
+                        },
+                        {
+                            "name": "headers",
+                            "type": "complex_object",
+                            "value": {
+                                "value": "",
+                                "metadata": "{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}}"
+                            }
+                        }
+                    ],
+                    "output": [
+                        {
+                            "name": "code",
+                            "type": "integer"
+                        },
+                        {
+                            "name": "data",
+                            "type": "complex_object",
+                            "value": {
+                                "value": "",
+                                "metadata": "{\"data\":{\"type\":\"object\",\"properties\":{}},\"success\":{\"type\":\"boolean\"},\"error\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"integer\"},\"message\":{\"type\":\"string\"}}}}"
+                            }
+                        },
+                        {
+                            "name": "message",
+                            "type": "string"
+                        }
+                    ],
+                    "fe_metadata": {
+                        "input": "{\"type\":\"object\",\"title\":\"ReceiveHTTPMessage\",\"properties\":{\"pathParams\":{\"type\":\"object\",\"properties\":{\"queryType\":{\"type\":\"string\"}},\"required\":[]},\"headers\":{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]}}}",
+                        "output": "{\"type\":\"object\",\"title\":\"Inputs\",\"properties\":{\"code\":{\"type\":\"integer\",\"required\":false},\"data\":{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"object\",\"properties\":{}},\"success\":{\"type\":\"boolean\"},\"error\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"integer\"},\"message\":{\"type\":\"string\"}}}}},\"message\":{\"type\":\"string\",\"required\":false}},\"required\":[]}"
+                    }
+                },
+                "explicitReply": true
+            }
+        },
+        {
+            "id": "flow:Data_Query",
+            "data": {
+                "name": "Data Query",
+                "description": "",
+                "tasks": [
+                    {
+                        "id": "TGDBQuery",
+                        "name": "TGDBQuery",
+                        "activity": {
+                            "ref": "github.com/TIBCOSoftware/GraphBuilder_TGDB/activity/tgdbquery",
+                            "settings": {
+                                "tgdbConnection": {
+                                    "type": "flogo:connector",
+                                    "version": "1.0.0",
+                                    "name": "tibco-tgdb",
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "TGDB Connector",
+                                    "description": "This is TGDB GraphDatabase connector",
+                                    "ref": "github.com/TIBCOSoftware/GraphBuilder_TGDB/connector/tgdb",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Connection Name",
+                                                "description": "Name of the connection"
+                                            },
+                                            "value": "TGDB"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "description": "Connection description"
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "url",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "TGDB Server URL",
+                                                "description": "TGDB server URL ex. tcp://scott@localhost:8222",
+                                                "type": "string"
+                                            },
+                                            "value": "tcp://scott@localhost:8222"
+                                        },
+                                        {
+                                            "name": "user",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Username",
+                                                "description": "Username for login to TGDB server",
+                                                "type": "string"
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "password",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Password",
+                                                "description": "Password for login to TGDB server",
+                                                "type": "password"
+                                            },
+                                            "value": "SECRET:cCZrP2mnC5L+uBCB2bN3Y0ZX1LTo"
+                                        },
+                                        {
+                                            "name": "keepAlive",
+                                            "type": "boolean",
+                                            "display": {
+                                                "name": "Keep Connection Alive",
+                                                "description": "Will keep connection alive"
+                                            },
+                                            "value": true,
+                                            "required": true
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "flogo",
+                                    "key": "flogo/GraphBuilder_TGDB/connector/connector.json",
+                                    "display": {
+                                        "description": "This is TGDB GraphDatabase connector",
+                                        "category": "GraphBuilder_TGDB",
+                                        "visible": true,
+                                        "smallIcon": "tgdb.png"
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "Connect",
+                                            "display": {
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            }
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1567466120203,
+                                    "createdTime": 1567466120203,
+                                    "user": "flogo",
+                                    "subscriptionId": "flogo_sbsc",
+                                    "id": "886e3f20-cdd7-11e9-9e48-a525b2c952ca",
+                                    "connectorName": " ",
+                                    "connectorDescription": " "
+                                }
+                            },
+                            "input": {
+                                "pathParams": {
+                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"queryType\":{\"type\":\"string\"},\"entityType\":{\"type\":\"string\"}}}",
+                                    "value": "",
+                                    "fe_metadata": "{\"queryType\":\"queryType\",\"entityType\":\"entityType\"}"
+                                },
+                                "queryParams": {
+                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+                                    "value": "",
+                                    "fe_metadata": "{}"
+                                }
+                            },
+                            "output": {
+                                "queryResult": {
+                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"object\",\"properties\":{}},\"success\":{\"type\":\"boolean\"},\"error\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\"},\"message\":{\"type\":\"string\"}}}}}",
+                                    "value": "",
+                                    "fe_metadata": "{\"data\":{},\"success\":true,\"error\":{\"code\":101,\"message\":\"string\"}}"
+                                }
+                            },
+                            "mappings": {
+                                "input": [
+                                    {
+                                        "mapTo": "$INPUT['pathParams']['queryType']",
+                                        "type": "assign",
+                                        "value": "$flow.pathParams.queryType"
+                                    },
+                                    {
+                                        "mapTo": "$INPUT['queryParams']",
+                                        "type": "assign",
+                                        "value": "$flow.body.query"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "activity": {
+                            "ref": "github.com/TIBCOSoftware/flogo-contrib/activity/actreturn",
+                            "settings": {},
+                            "input": {
+                                "mappings": [
+                                    {
+                                        "mapTo": "$INPUT['data']['data']",
+                                        "type": "assign",
+                                        "value": "$activity[TGDBQuery].queryResult.data"
+                                    },
+                                    {
+                                        "mapTo": "$INPUT['data']['success']",
+                                        "type": "assign",
+                                        "value": "$activity[TGDBQuery].queryResult.success"
+                                    },
+                                    {
+                                        "mapTo": "$INPUT['data']['error']['code']",
+                                        "type": "assign",
+                                        "value": "$activity[TGDBQuery].queryResult.error.code"
+                                    },
+                                    {
+                                        "mapTo": "$INPUT['data']['error']['message']",
+                                        "type": "assign",
+                                        "value": "$activity[TGDBQuery].queryResult.error.message"
+                                    },
+                                    {
+                                        "mapTo": "$INPUT['code']",
+                                        "type": "literal",
+                                        "value": 200
+                                    }
+                                ]
+                            },
+                            "output": {}
+                        }
+                    }
+                ],
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "TGDBQuery",
+                        "to": "Return",
+                        "type": "default"
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "pathParams",
+                            "type": "complex_object",
+                            "value": {
+                                "value": "",
+                                "metadata": "{\"queryType\":{\"type\":\"string\"}}"
+                            }
+                        },
+                        {
+                            "name": "headers",
+                            "type": "complex_object",
+                            "value": {
+                                "value": "",
+                                "metadata": "{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}}"
+                            }
+                        },
+                        {
+                            "name": "body",
+                            "type": "complex_object",
+                            "value": {
+                                "value": "",
+                                "metadata": "{\"query\":{\"type\":\"object\",\"properties\":{}},\"data\":{\"type\":\"object\",\"properties\":{}},\"success\":{\"type\":\"boolean\"},\"error\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\"},\"message\":{\"type\":\"string\"}}}}"
+                            }
+                        }
+                    ],
+                    "output": [
+                        {
+                            "name": "code",
+                            "type": "integer"
+                        },
+                        {
+                            "name": "data",
+                            "type": "complex_object",
+                            "value": {
+                                "value": "",
+                                "metadata": "{\"query\":{\"type\":\"object\",\"properties\":{}},\"data\":{\"type\":\"object\",\"properties\":{}},\"success\":{\"type\":\"boolean\"},\"error\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\"},\"message\":{\"type\":\"string\"}}}}"
+                            }
+                        },
+                        {
+                            "name": "message",
+                            "type": "string"
+                        }
+                    ],
+                    "fe_metadata": {
+                        "input": "{\"type\":\"object\",\"title\":\"ReceiveHTTPMessage\",\"properties\":{\"pathParams\":{\"type\":\"object\",\"properties\":{\"queryType\":{\"type\":\"string\"}},\"required\":[]},\"headers\":{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]},\"body\":{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"query\":{\"type\":\"object\",\"properties\":{}},\"data\":{\"type\":\"object\",\"properties\":{}},\"success\":{\"type\":\"boolean\"},\"error\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\"},\"message\":{\"type\":\"string\"}}}}}}}",
+                        "output": "{\"type\":\"object\",\"title\":\"Inputs\",\"properties\":{\"code\":{\"type\":\"integer\",\"required\":false},\"data\":{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"query\":{\"type\":\"object\",\"properties\":{}},\"data\":{\"type\":\"object\",\"properties\":{}},\"success\":{\"type\":\"boolean\"},\"error\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\"},\"message\":{\"type\":\"string\"}}}}},\"message\":{\"type\":\"string\",\"required\":false}},\"required\":[]}"
+                    }
+                },
+                "explicitReply": true
+            }
+        }
+    ],
+    "triggers": [
+        {
+            "ref": "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/trigger/rest",
+            "name": "ReceiveHTTPMessage",
+            "description": "",
+            "settings": {
+                "port": 9999
+            },
+            "id": "ReceiveHTTPMessage",
+            "handlers": [
+                {
+                    "description": "",
+                    "settings": {
+                        "Method": "GET",
+                        "Path": "/tgdb/{queryType}",
+                        "OutputValidation": false
+                    },
+                    "outputs": {
+                        "pathParams": {
+                            "metadata": "{\"type\":\"object\",\"properties\":{\"queryType\":{\"type\":\"string\"}},\"required\":[]}",
+                            "value": "",
+                            "fe_metadata": "[{\"parameterName\":\"queryType\",\"type\":\"string\"}]"
+                        },
+                        "headers": {
+                            "metadata": "{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]}",
+                            "value": "",
+                            "fe_metadata": "[{\"parameterName\":\"Accept\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Charset\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Encoding\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Type\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Length\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Connection\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Cookie\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Pragma\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false}]"
+                        },
+                        "body": {
+                            "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"object\",\"properties\":{}},\"success\":{\"type\":\"boolean\"},\"error\":{\"type\":\"object\",\"properties\":{}}}}",
+                            "value": "",
+                            "fe_metadata": "{\n    \"data\" : {},\n    \"success\": true,\n    \"error\": {}\n}"
+                        }
+                    },
+                    "action": {
+                        "ref": "github.com/TIBCOSoftware/flogo-contrib/action/flow",
+                        "data": {
+                            "flowURI": "res://flow:Metadata_Query"
+                        },
+                        "mappings": {
+                            "input": [
+                                {
+                                    "mapTo": "$INPUT['headers']",
+                                    "type": "assign",
+                                    "value": "$.headers"
+                                },
+                                {
+                                    "mapTo": "$INPUT['pathParams']['queryType']",
+                                    "type": "assign",
+                                    "value": "$.pathParams.queryType"
+                                }
+                            ],
+                            "output": [
+                                {
+                                    "mapTo": "$INPUT['code']",
+                                    "type": "assign",
+                                    "value": "$.code"
+                                },
+                                {
+                                    "mapTo": "$INPUT['data']['data']",
+                                    "type": "assign",
+                                    "value": "$.data.data"
+                                },
+                                {
+                                    "mapTo": "$INPUT['data']['success']",
+                                    "type": "assign",
+                                    "value": "$.data.success"
+                                },
+                                {
+                                    "mapTo": "$INPUT['data']['error']['code']",
+                                    "type": "assign",
+                                    "value": "$.data.error.code"
+                                },
+                                {
+                                    "mapTo": "$INPUT['data']['error']['message']",
+                                    "type": "assign",
+                                    "value": "$.data.error.message"
+                                }
+                            ]
+                        }
+                    },
+                    "reply": {
+                        "code": "$.code",
+                        "data": {
+                            "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"object\",\"properties\":{}},\"success\":{\"type\":\"boolean\"},\"error\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\"},\"message\":{\"type\":\"string\"}}}}}",
+                            "value": "",
+                            "fe_metadata": "{\n    \"data\" : {},\n    \"success\": true,\n    \"error\": {\n        \"code\" : 101,\n        \"message\" : \"\"\n    }\n}"
+                        },
+                        "message": "any"
+                    }
+                },
+                {
+                    "description": "",
+                    "settings": {
+                        "Method": "POST",
+                        "Path": "/tgdb/{queryType}",
+                        "OutputValidation": false
+                    },
+                    "outputs": {
+                        "pathParams": {
+                            "metadata": "{\"type\":\"object\",\"properties\":{\"queryType\":{\"type\":\"string\"}},\"required\":[]}",
+                            "value": "",
+                            "fe_metadata": "[{\"parameterName\":\"queryType\",\"type\":\"string\"}]"
+                        },
+                        "headers": {
+                            "metadata": "{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]}",
+                            "value": "",
+                            "fe_metadata": "[{\"parameterName\":\"Accept\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Charset\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Encoding\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Type\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Length\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Connection\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Cookie\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Pragma\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false}]"
+                        },
+                        "body": {
+                            "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"query\":{\"type\":\"object\",\"properties\":{}},\"data\":{\"type\":\"object\",\"properties\":{}},\"success\":{\"type\":\"boolean\"},\"error\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\"},\"message\":{\"type\":\"string\"}}}}}",
+                            "value": "",
+                            "fe_metadata": "{\n    \"query\" : {},\n    \"data\" : {},\n    \"success\": true,\n    \"error\": {\n        \"code\" : 101,\n        \"message\" : \"\"\n    }\n}"
+                        }
+                    },
+                    "action": {
+                        "ref": "github.com/TIBCOSoftware/flogo-contrib/action/flow",
+                        "data": {
+                            "flowURI": "res://flow:Data_Query"
+                        },
+                        "mappings": {
+                            "input": [
+                                {
+                                    "mapTo": "$INPUT['pathParams']['queryType']",
+                                    "type": "assign",
+                                    "value": "$.pathParams.queryType"
+                                },
+                                {
+                                    "mapTo": "$INPUT['body']['query']",
+                                    "type": "assign",
+                                    "value": "$.body.query"
+                                }
+                            ],
+                            "output": [
+                                {
+                                    "mapTo": "$INPUT['code']",
+                                    "type": "assign",
+                                    "value": "$.code"
+                                },
+                                {
+                                    "mapTo": "$INPUT['data']['data']",
+                                    "type": "assign",
+                                    "value": "$.data.data"
+                                },
+                                {
+                                    "mapTo": "$INPUT['data']['success']",
+                                    "type": "assign",
+                                    "value": "$.data.success"
+                                },
+                                {
+                                    "mapTo": "$INPUT['data']['error']['code']",
+                                    "type": "assign",
+                                    "value": "$.data.error.code"
+                                },
+                                {
+                                    "mapTo": "$INPUT['data']['error']['message']",
+                                    "type": "assign",
+                                    "value": "$.data.error.message"
+                                }
+                            ]
+                        }
+                    },
+                    "reply": {
+                        "code": "$.code",
+                        "data": {
+                            "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"query\":{\"type\":\"object\",\"properties\":{}},\"data\":{\"type\":\"object\",\"properties\":{}},\"success\":{\"type\":\"boolean\"},\"error\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\"},\"message\":{\"type\":\"string\"}}}}}",
+                            "value": "",
+                            "fe_metadata": "{\n    \"query\" : {},\n    \"data\" : {},\n    \"success\": true,\n    \"error\": {\n        \"code\" : 101,\n        \"message\" : \"\"\n    }\n}"
+                        },
+                        "message": "any"
+                    }
+                }
+            ]
+        }
+    ],
+    "properties": [],
+    "contrib": "W3sicmVmIjoiZ2l0aHViLmNvbS9USUJDT1NvZnR3YXJlL0dyYXBoQnVpbGRlcl9UR0RCIiwiczNsb2NhdGlvbiI6IntVU0VSSUR9L0dyYXBoQnVpbGRlcl9UR0RCIn0seyJyZWYiOiJnaXQudGliY28uY29tL2dpdC9wcm9kdWN0L2lwYWFzL3dpLWNvbnRyaWIuZ2l0L2NvbnRyaWJ1dGlvbnMvR2VuZXJhbCIsInMzbG9jYXRpb24iOiJUaWJjby9HZW5lcmFsIn1d",
+    "fe_metadata": "UEsDBAoAAAAIAKthI0+rqSRGFQAAABMAAAAIAAAAYXBwLmpzb26rViopykxPTy1yy8kvL1ayio6tBQBQSwECFAAKAAAACACrYSNPq6kkRhUAAAATAAAACAAAAAAAAAAAAAAAAAAAAAAAYXBwLmpzb25QSwUGAAAAAAEAAQA2AAAAOwAAAAAA"
+}

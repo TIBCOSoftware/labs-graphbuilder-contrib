@@ -1,0 +1,92 @@
+{
+	"name": "tibco-sse",
+	"title": "Server-sent Events Connection",
+	"author": "TIBCO Software Inc.",
+	"type": "flogo:connector",
+	"version": "1.0.0",
+	"display": {
+		"description": "This is Server-send Events connector",
+		"category": "GraphBuilder_SSE",
+		"visible": true,
+		"smallIcon": "sse.png"
+	},
+	"ref": "github.com/TIBCOSoftware/GraphBuilder_SSE/connector/sse",
+	"keyfield": "name",
+	"settings": [
+		{
+			"name": "name",
+			"type": "string",
+			"required": true,
+			"display": {
+			"name": "Connection Name",
+			"description": "Name of the connection"
+			}
+		},
+		{
+			"name": "description",
+			"type": "string",
+			"display": {
+				"name": "Description",
+				"description": "Connection description"
+			}
+		},
+		{
+			"name": "outbound",
+			"type": "boolean",
+			"display": {
+				"name": "Outbound",
+				"description": "Inbound : Local SSE Server, Outbound : Remote SSE Service"
+			},
+			"value": true,
+			"required": true
+		},
+		{
+			"name": "url",
+			"type": "string",
+			"required": false,
+			"display": {
+				"name": "Server URL",
+				"description": "SSE server URL ex. http://[domain name/IP]",
+				"type": "string"
+			}
+		},
+		{
+			"name": "port",
+			"type": "string",
+			"required": false,
+			"display": {
+				"name": "Server port",
+				"description": "SSE server port",
+				"type": "string"
+			}
+		},
+		{
+			"name": "resource",
+			"type": "string",
+			"required": false,
+			"display": {
+				"name": "Resource Name",
+				"description": "Resource name for the event service",
+				"type": "string"
+			}
+		},
+		{
+			"name": "accessToken",
+			"type": "string",
+			"required": false,
+			"display": {
+				"name": "Access Token",
+				"description": "Access token for authentication",
+				"type": "password"
+			}
+		}
+	],
+	"actions": [
+		{
+			"name": "Connect",
+			"display": {
+				"readonly": true
+			}
+		}
+	]
+}

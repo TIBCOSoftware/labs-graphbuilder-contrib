@@ -1,0 +1,62 @@
+{
+	"name": "files-reader",
+	"type": "flogo:trigger",
+	"ref": "github.com/TIBCOSoftware/GraphBuilder/trigger/filesreader",
+	"version": "0.0.1",
+	"title": "FilesReader",
+	"description": "Files Reader",
+	"homepage": "https://github.com/TIBCOSoftware/GraphBuilder/trigger/filesreader",
+	"display": {
+		"category": "GraphBuilder",
+		"visible": true,
+		"smallIcon": "filesreader.png",
+		"description": "This activity read file and pass string content to downstream"
+	},
+	"output": [
+		{
+			"name": "FileContent",
+			"type": "string"
+		},
+		{
+			"name": "ModifiedTime",
+			"type": "integer"
+		},
+		{
+			"name": "LineNumber",
+			"type": "integer"
+		}
+	],
+	"handler": {
+		"settings": [
+			{
+        			"name": "Filename",
+        			"type": "string",
+        			"required": true,
+        			"display":{
+        				"name": "Filename",
+        				"description": "Set filename/folder for reading files as string"
+        			}
+			},
+			{
+				"name": "Asynchronous",
+				"type": "boolean",
+				"display": {
+					"name": "Asynchronous",
+					"description": "Handle file asynchrously"
+				},
+				"value": false,
+				"required": true
+			},
+			{
+				"name": "EmitPerLine",
+				"type": "boolean",
+				"display": {
+					"name": "Emit Per Line",
+					"description": "Emit content per line"
+				},
+				"value": false,
+				"required": true
+			}
+		]
+	}
+}

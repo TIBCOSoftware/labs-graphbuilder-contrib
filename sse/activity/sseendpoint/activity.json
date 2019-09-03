@@ -1,0 +1,34 @@
+{
+	"name": "flogo-sse-endpoint",
+	"type": "flogo:activity",
+	"ref": "github.com/TIBCOSoftware/GraphBuilder_SSE/activity/sseendpoint",
+	"version": "0.0.1",
+	"title": "SSEEndPoint",
+	"return": true,
+	"homepage": "https://github.com/TIBCOSoftware/GraphBuilder_SSE/activity/sseendpoint",
+	"display": {
+		"category": "GraphBuilder_SSE",
+		"visible": true,
+		"smallIcon": "sseendpoint.png",
+		"description": "This activity reply data to sse client"
+	},
+	"settings": [
+		{
+        		"name": "sseConnection",
+        		"type": "object",
+        		"required": true,
+        		"display":{
+        			"name": "SSE Connection",
+        			"description": "Select SSE Connection",
+        			"type": "connection"
+        		},
+        		"allowed":[]
+		}
+	],
+	"input":[
+		{
+			"name": "Data",
+			"type": "object"
+		}
+	]
+}
