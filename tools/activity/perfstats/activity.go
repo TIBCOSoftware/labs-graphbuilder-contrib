@@ -3,7 +3,7 @@
  * This file is subject to the license terms contained
  * in the license file that is distributed with this file.
  */
-package clock
+package perfstats
 
 import (
 	"fmt"
@@ -27,7 +27,7 @@ const (
 	time_field = "Datetime"
 )
 
-type Clock struct {
+type Perfstats struct {
 	metadata             *activity.Metadata
 	initialized          bool
 	InputDatetimeType    string
@@ -39,18 +39,18 @@ type Clock struct {
 
 // NewActivity creates a new AppActivity
 func NewActivity(metadata *activity.Metadata) activity.Activity {
-	aCSVParserActivity := &Clock{metadata: metadata}
+	aCSVParserActivity := &Perfstats{metadata: metadata}
 	return aCSVParserActivity
 }
 
 // Metadata returns the activity's metadata
-func (a *Clock) Metadata() *activity.Metadata {
+func (a *Perfstats) Metadata() *activity.Metadata {
 	return a.metadata
 }
 
 // Eval implements api.Activity.Eval - Filters the Message
-func (a *Clock) Eval(ctx activity.Context) (done bool, err error) {
-	log.Info("(Clock.eval) Entering .........")
+func (a *Perfstats) Eval(ctx activity.Context) (done bool, err error) {
+	log.Info("(Perfstats.eval) Entering .........")
 
 	err = a.init(ctx)
 
@@ -105,7 +105,7 @@ func (a *Clock) Eval(ctx activity.Context) (done bool, err error) {
 	return true, nil
 }
 
-func (a *Clock) init(context activity.Context) error {
+func (a *Perfstats) init(context activity.Context) error {
 
 	if !a.initialized {
 		a.mux.Lock()

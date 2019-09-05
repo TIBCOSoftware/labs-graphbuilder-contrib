@@ -1,0 +1,25 @@
+{
+	"name": "flogo-aggregate",
+	"type": "flogo:activity",
+	"ref": "github.com/TIBCOSoftware/GraphBuilder_Tools/activity/aggregate",
+	"version": "0.0.1",
+	"title": "Aggregate",
+	"display": {
+    		"category": "GraphBuilder_Tools",
+    		"visible": true,
+    		"smallIcon": "aggregate.png",
+  		"description": "Aggregate tuples"
+	},
+	"input":[
+		{
+			"name": "Data",
+			"type": "object"
+		}
+	],
+	"output": [
+		{
+            "name": "AggregatedData",
+            "type": "object"
+		}
+	]
+}

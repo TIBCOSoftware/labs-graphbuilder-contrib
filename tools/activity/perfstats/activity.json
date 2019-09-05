@@ -1,0 +1,65 @@
+{
+    "name": "flogo-perfstats",
+    "type": "flogo:activity",
+    "ref": "github.com/TIBCOSoftware/GraphBuilder_Tools/activity/perfstats",
+    "version": "0.0.1",
+    "title": "Perfstats",
+    "display": {
+        "category": "GraphBuilder_Tools",
+        "visible": true,
+        "smallIcon": "perfstats.png",
+        "description": "Performance statistics"
+    },
+    "settings": [
+        {
+            "name": "InputDatetimeType",
+            "type": "string",
+            "display": {
+                "name": "InputDatetime Data Type",
+                "description": "Select Data Type for InputDatetime"
+            },
+            "allowed": ["String", "Date"],
+            "required": true
+        },
+        {
+            "name": "InputDatetimeFormat",
+            "type": "string",
+            "required": false,
+            "display": {
+                "name": "Datetime Format Sample",
+                "description": "Sample formate for parsing incoming string Date"
+            }
+        },
+        {
+            "name": "OutputDatetimeType",
+            "type": "string",
+            "display": {
+                "name": "OutputDatetime Data Type",
+                "description": "Select Data Type for OutputDatetime"
+            },
+            "allowed": ["String", "Date"],
+            "required": true
+        },
+        {
+            "name": "OutputDatetimeFormat",
+            "type": "string",
+            "required": false,
+            "display": {
+                "name": "Datetime Format Sample",
+                "description": "Sample formate for formatting outgoing string Date"
+            }
+        }
+    ],
+    "input": [
+        {
+            "name": "iCurrentTime",
+            "type": "complex_object"
+        }
+    ],
+    "output": [
+        {
+            "name": "oCurrentTime",
+            "type": "complex_object"
+        }
+    ]
+}

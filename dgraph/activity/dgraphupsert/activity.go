@@ -21,6 +21,7 @@ import (
 
 const (
 	Connection         = "dgraphConnection"
+	cacheSize          = "cacheSize"
 	typeTag            = "typeTag"
 	explicitType       = "explicitType"
 	readableExternalId = "readableExternalId"
@@ -48,31 +49,31 @@ func (a *DgraphUpsertActivity) Metadata() *activity.Metadata {
 
 func (a *DgraphUpsertActivity) Eval(context activity.Context) (done bool, err error) {
 
-	log.Debug("(getDgraphService) entering ......")
+	log.Info("(DgraphUpsertActivity) entering ......")
 
 	dgraphService, err := a.getDgraphService(context)
 
 	if nil != err {
+		log.Error("(DgraphUpsertActivity) exit after get service, with error = ", err.Error())
 		return false, err
 	}
-
-	a.mux.Lock()
-	defer a.mux.Unlock()
 
 	var graph model.Graph
 	graph, err = GetGraph(context)
 
 	if nil != err {
+		log.Error("(DgraphUpsertActivity) exit after get graph data, with error = ", err.Error())
 		return false, err
 	}
 
 	err = dgraphService.UpsertGraph(graph)
 
 	if nil != err {
+		log.Error("(DgraphUpsertActivity) exit during upsert, with error = ", err.Error())
 		return false, err
 	}
 
-	log.Debug("(getDgraphService) exit ......")
+	log.Info("(DgraphUpsertActivity) exit normally ......")
 
 	return true, nil
 }
@@ -149,25 +150,32 @@ func (a *DgraphUpsertActivity) getDgraphService(context activity.Context) (*dgra
 				}
 			}
 
+			cacheSize, exist := context.GetSetting(cacheSize)
+			if exist {
+				properties["cacheSize"] = cacheSize
+			} else {
+				log.Warn("cacheSize configuration is not configured, will turn off cache!")
+			}
+
 			readableExternalId, exist := context.GetSetting(readableExternalId)
 			if exist {
 				properties["readableExternalId"] = readableExternalId
 			} else {
-				log.Info("readableExternalId configuration is not configured, will make readableExternalId true!")
+				log.Warn("readableExternalId configuration is not configured, will make readableExternalId true!")
 			}
 
 			explicitType, exist := context.GetSetting(explicitType)
 			if exist {
 				properties["explicitType"] = explicitType
 			} else {
-				log.Info("explicitType configuration is not configured, will make type defininated implicit!")
+				log.Warn("explicitType configuration is not configured, will make type defininated implicit!")
 			}
 
 			typeName, exist := context.GetSetting(typeTag)
 			if exist {
 				properties["typeName"] = typeName
 			} else {
-				log.Info("Type tag is not configured, will reate an predicate as type!")
+				log.Warn("Type tag is not configured, will reate an predicate as type!")
 			}
 
 			addPrefixToAttr, _ := context.GetSetting(attrWithPrefix)

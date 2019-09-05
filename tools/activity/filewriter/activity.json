@@ -1,0 +1,33 @@
+{
+    "name": "filewriter",
+    "version": "1.0.0",
+    "author": "TIBCO Software Inc.",
+    "type": "flogo:activity",
+    "title": "File Writer",
+     
+    "display": {
+       "category": "GraphBuilder_Tools",
+       "visible": true,
+       "smallIcon": "filewriter.png",
+       "description": "This activity write incoming object to file system"
+    },
+ 
+    "ref": "github.com/TIBCOSoftware/GraphBuilder_Tools/activity/filewriter",
+    "settings": [
+		{
+            "name": "outputFile",
+            "type": "string",
+            "required": true,
+            "display":{
+              "name": "Output File",
+              "description": "Set file for writing object"
+            }
+		}
+    ],
+    "inputs": [
+ 		{
+			"name": "Data",
+			"type": "object"
+		}
+    ]
+}
