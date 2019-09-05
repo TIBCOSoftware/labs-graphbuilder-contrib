@@ -25,6 +25,15 @@
 			},
 			"allowed": []
 		},
+		{
+			"name": "BatchMode",
+			"type": "boolean",
+			"display": {
+				"name": "Batch Mode",
+				"description": "Batch Mode"
+			},
+			"value": false
+		},
  		{
 			"name": "Multiinstances",
 			"type": "array",
@@ -43,6 +52,11 @@
  		{
 			"name": "Edges",
 			"type": "complex_object"
+		},
+		{
+			"name": "BatchEnd",
+			"type": "boolean",
+			"required": true
 		}
     ],
 	"outputs": [

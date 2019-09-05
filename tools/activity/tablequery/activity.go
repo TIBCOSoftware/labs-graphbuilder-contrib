@@ -97,7 +97,6 @@ func (a *TableQueryActivity) getTable(context activity.Context) (*table.Table, e
 			}
 
 			var tablename string
-			var keyName string
 			var schema []interface{}
 			tableSettings, _ := tableInfo["settings"].([]interface{})
 			if tableSettings != nil {
@@ -114,8 +113,6 @@ func (a *TableQueryActivity) getTable(context activity.Context) (*table.Table, e
 							if nil != err {
 								return nil, err
 							}
-						} else if setting["name"] == "key" {
-							keyName = setting["value"].(string)
 						} else if setting["name"] == "name" {
 							tablename = setting["value"].(string)
 						}
@@ -131,9 +128,13 @@ func (a *TableQueryActivity) getTable(context activity.Context) (*table.Table, e
 			log.Info(schema)
 			log.Info("-===========================================-")
 
+			keyName := make([]string, 0)
 			tableSchema := make([](map[string]interface{}), len(schema))
 			for index, field := range schema {
 				tableSchema[index] = field.(map[string]interface{})
+				if "yes" == tableSchema[index]["IsKey"].(string) {
+					keyName = append(keyName, tableSchema[index]["Name"].(string))
+				}
 			}
 
 			myTable = table.GetTableManager().CreateTable(

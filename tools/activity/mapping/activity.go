@@ -23,10 +23,9 @@ const (
 
 // Mapping is an Activity that is used to Filter a message to the console
 type Mapping struct {
-	metadata            *activity.Metadata
-	initialized         bool
-	includeUpstreamData bool
-	mux                 sync.Mutex
+	metadata    *activity.Metadata
+	initialized bool
+	mux         sync.Mutex
 }
 
 // NewActivity creates a new AppActivity
@@ -59,17 +58,6 @@ func (a *Mapping) Eval(ctx activity.Context) (done bool, err error) {
 }
 
 func (a *Mapping) init(context activity.Context) error {
-
-	if !a.initialized {
-		a.mux.Lock()
-		defer a.mux.Unlock()
-		if !a.initialized {
-			a.initialized = true
-
-			includeUpstreamData, _ := context.GetSetting("IncludeUpstreamData")
-			a.includeUpstreamData = includeUpstreamData.(bool)
-		}
-	}
 
 	return nil
 }

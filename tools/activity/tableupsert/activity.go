@@ -59,11 +59,11 @@ func (a *TableUpsertActivity) Eval(ctx activity.Context) (done bool, err error) 
 
 	iData := ctx.GetInput(input).(*data.ComplexObject).Value
 
-	log.Debug("iData.Value = ", iData, ", type = ", reflect.TypeOf(iData))
+	log.Info("iData.Value = ", iData, ", type = ", reflect.TypeOf(iData))
 
 	outputTuple, exists := myTable.Upsert(iData.(map[string]interface{}))
 
-	log.Debug("output tuple = ", outputTuple, ", exist = ", exists, ", row count = ", myTable.RowCount())
+	log.Info("output tuple = ", outputTuple, ", exist = ", exists, ", row count = ", myTable.RowCount())
 
 	complexdata := &data.ComplexObject{Metadata: "Data", Value: outputTuple}
 	ctx.SetOutput(output_Data, complexdata)
@@ -97,7 +97,6 @@ func (a *TableUpsertActivity) getTable(context activity.Context) (*table.Table, 
 			}
 
 			var tablename string
-			var keyName string
 			var schema []interface{}
 			tableSettings, _ := tableInfo["settings"].([]interface{})
 			if tableSettings != nil {
@@ -114,8 +113,6 @@ func (a *TableUpsertActivity) getTable(context activity.Context) (*table.Table, 
 							if nil != err {
 								return nil, err
 							}
-						} else if setting["name"] == "key" {
-							keyName = setting["value"].(string)
 						} else if setting["name"] == "name" {
 							tablename = setting["value"].(string)
 						}
@@ -131,9 +128,13 @@ func (a *TableUpsertActivity) getTable(context activity.Context) (*table.Table, 
 			log.Info(schema)
 			log.Info("-===========================================-")
 
+			keyName := make([]string, 0)
 			tableSchema := make([](map[string]interface{}), len(schema))
 			for index, field := range schema {
 				tableSchema[index] = field.(map[string]interface{})
+				if "yes" == tableSchema[index]["IsKey"].(string) {
+					keyName = append(keyName, tableSchema[index]["Name"].(string))
+				}
 			}
 
 			myTable = table.GetTableManager().CreateTable(
@@ -141,7 +142,7 @@ func (a *TableUpsertActivity) getTable(context activity.Context) (*table.Table, 
 				keyName,
 				tableSchema,
 			)
-			log.Info("[TableUpsertActivity] init : ", "initialize table done ....")
+			log.Info("[TableUpsertActivity] init : ", "initialize table done : myTable = ", myTable)
 			a.activityToTable[myId] = tablename
 		}
 	}

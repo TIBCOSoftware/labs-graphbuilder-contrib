@@ -29,6 +29,7 @@ export class GraphBuilderActivityContributionHandler extends WiServiceHandlerCon
     value = (fieldName: string, context: IActivityContribution): Observable<any> | any => {
 
 		console.log('[GraphBuilder::value] Build field : ', fieldName);
+		console.log(context);
 		
         if (fieldName === "GraphModel") {
             let allowedConnectors = context.getField("GraphModel").allowed;	
@@ -191,6 +192,15 @@ export class GraphBuilderActivityContributionHandler extends WiServiceHandlerCon
         		if (connection.value === null) {
             		return ValidationResult.newValidationResult().setError("GraphBuilder-MSG-1000", "Graph model must be configured");
         		}
+        } else if (fieldName === "BatchEnd") {			
+            let batchMode: IFieldDefinition = context.getField("BatchMode")
+		console.log('[GraphBuilder::value] batchMode : ', batchMode);
+        		if (batchMode.value === true) {
+            		return ValidationResult.newValidationResult().setVisible(true);
+        		} else {
+				return ValidationResult.newValidationResult().setVisible(false);
+
+			}
         }
 		return null; 
     }

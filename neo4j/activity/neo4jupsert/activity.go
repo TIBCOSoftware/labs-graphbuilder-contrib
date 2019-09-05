@@ -6,9 +6,7 @@
 package neo4jupsert
 
 import (
-	//	b64 "encoding/base64"
 	"fmt"
-	//	"strings"
 	"sync"
 
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"

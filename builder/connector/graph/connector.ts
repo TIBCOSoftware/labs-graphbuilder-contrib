@@ -23,15 +23,28 @@ export class TibcoGraphContribution extends WiServiceHandlerContribution {
 	validate = (name: string, context: IConnectorContribution): Observable<IValidationResult> | IValidationResult => {
 		console.log('------------- validate --------------');
 		console.log(context);
-		console.log('%%%%%%%%%% name = ' + name);
-		
-		if(name === "Connect") {
+		console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> name = ' + name);
+		let modelSource: IFieldDefinition = context.getField("modelSource")
+		console.log(modelSource);
+ 		if (name === "url") {
+        		if (modelSource.value === "TGDB") {
+            		return ValidationResult.newValidationResult().setVisible(true);
+        		} else {
+				return ValidationResult.newValidationResult().setVisible(false);
+			}
+		} else if (name === "model") {			
+        		if (modelSource.value === "Local File") {
+            		return ValidationResult.newValidationResult().setVisible(true);
+        		} else {
+				return ValidationResult.newValidationResult().setVisible(false);
+			}
+		} else if(name === "Connect") {
 			let model: IFieldDefinition;
 			let filename: string;
 			let content: string; 
 
 			for (let configuration of context.settings) {
-				if( configuration.name === "model") {
+				if( modelSource.value === "Local File" && configuration.name === "model") {
 					model = configuration
 					if(configuration.value) {
 						filename = configuration.value.filename;
@@ -42,16 +55,14 @@ export class TibcoGraphContribution extends WiServiceHandlerContribution {
 						}
 						console.log('filename = ' + filename);
 						console.log('content = ' + content);
-					}			
+					}
+					
+					if(!model.value) {
+						return ValidationResult.newValidationResult().setReadOnly(true);
+					}
 				}
 			}
-
-			if( model.value) {
-				return ValidationResult.newValidationResult().setReadOnly(false);
-			} else {
-				return ValidationResult.newValidationResult().setReadOnly(true);
-
-			}
+			return ValidationResult.newValidationResult().setReadOnly(false);
 		}
  		return null;
 	}
@@ -66,13 +77,19 @@ export class TibcoGraphContribution extends WiServiceHandlerContribution {
                  * These are the two fields that need to be checked whether they're filled in or not
                  */
                 let model: IFieldDefinition;
- 
-                for (let configuration of context.settings) {
-                    if (configuration.name === "model") {
-                        model = configuration
-						console.log(model.value);
-                    }
-                }
+ 				let modelSource: IFieldDefinition = context.getField("modelSource")
+				if (modelSource.value === "Local File") {
+			console.log('----------------------------------------------->' + modelSource.value);
+					model = context.getField("model");
+					console.log('content = ' + model.value);
+				} else if (modelSource.value === "TGDB") {
+			console.log('----------------------------------------------->' + modelSource.value);
+					model = context.getField("model");
+					model.value.filename = "ServerModel";
+					model.value.content = "{}";
+					console.log('filename = ' + model.value.filename);
+					console.log('content = ' + model.value.content);
+				}
 
                 /**
                  * Set the action result to save the configuration data
