@@ -140,11 +140,13 @@ func (a *DgraphUpsertActivity) getDgraphService(context activity.Context) (*dgra
 							if nil != err {
 								break
 							}
-							schemaBytes, err := b64.StdEncoding.DecodeString(strings.Split(content["content"].(string), ",")[1])
-							if nil != err {
-								break
+							if nil != content["content"] {
+								schemaBytes, err := b64.StdEncoding.DecodeString(strings.Split(content["content"].(string), ",")[1])
+								if nil != err {
+									break
+								}
+								properties["schema"] = string(schemaBytes)
 							}
-							properties["schema"] = string(schemaBytes)
 						}
 					}
 				}
