@@ -22,30 +22,54 @@
 		},
 		{
 			"name":"State_Province",
-			"key":["State_Province"],
+			"key":["State_Province", "Country"],
 			"attributes":[
 				{
 					"name":"State_Province",
+					"type":"string"
+				},
+				{
+					"name" : "Country",
 					"type":"string"
 				}
 			]
 		},
 		{
 			"name":"City",
-			"key":["City"],
+			"key":["City", "State_Province", "Country"],
 			"attributes":[
 				{
 					"name":"City",
+					"type":"string"
+				},
+				{
+					"name":"State_Province",
+					"type":"string"
+				},
+				{
+					"name" : "Country",
 					"type":"string"
 				}
 			]
 		},
 		{
 			"name":"Address",
-			"key":["Address"],
+			"key":["Address", "City", "State_Province", "Country"],
 			"attributes":[
 				{
 					"name":"Address",
+					"type":"string"
+				},
+				{
+					"name":"City",
+					"type":"string"
+				},
+				{
+					"name":"State_Province",
+					"type":"string"
+				},
+				{
+					"name" : "Country",
 					"type":"string"
 				}
 			]
@@ -88,7 +112,7 @@
 	"edges":[
 		{
 			"to":"Country",
-			"name":"in",
+			"name":"in Country",
 			"from":"Location"
 		},
 		{
@@ -98,12 +122,12 @@
 		},
 		{
 			"to":"State_Province",
-			"name":"in",
+			"name":"in State_Province",
 			"from":"Location"
 		},
 		{
 			"to":"City",
-			"name":"in",
+			"name":"in City",
 			"from":"Location"
 		},
 		{
