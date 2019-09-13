@@ -41,6 +41,8 @@ func (a *TGDBUpsertActivity) Metadata() *activity.Metadata {
 
 func (a *TGDBUpsertActivity) Eval(context activity.Context) (done bool, err error) {
 
+	log.Info("(TGDBUpsertActivity) entering ......")
+
 	tgdbService, err := a.getTGDBService(context)
 
 	if nil != err {
@@ -49,7 +51,13 @@ func (a *TGDBUpsertActivity) Eval(context activity.Context) (done bool, err erro
 
 	graph, _ := context.GetInput("Graph").(map[string]interface{})["graph"].(map[string]interface{})
 
-	tgdbService.UpsertGraph(graph)
+	err = tgdbService.UpsertGraph(graph)
+
+	if nil != err {
+		return false, err
+	}
+
+	log.Info("(TGDBUpsertActivity) exit normally ......")
 
 	return true, nil
 }
@@ -94,11 +102,21 @@ func (a *TGDBUpsertActivity) getTGDBService(context activity.Context) (*tgdb.TGD
 						}
 					}
 				}
-				log.Info("(getTGDBService) - properties = ", properties)
 
-				tgdbService, _ = tgdb.GetFactory().CreateService(connectorName, properties)
 				a.activityToConnector[myId] = connectorName
 			}
+
+			allowEmptyStringKey, exist := context.GetSetting("allowEmptyStringKey")
+			if exist {
+				properties["allowEmptyStringKey"] = allowEmptyStringKey
+			} else {
+				log.Warn("allowEmptyStringKey configuration is not configured, will make type defininated implicit!")
+			}
+
+			log.Info("(getTGDBService) - properties = ", properties)
+
+			tgdbService, _ = tgdb.GetFactory().CreateService(connectorName, properties)
+
 			log.Info("Initializing TGDB Service end, tgdbService = ", tgdbService)
 		}
 	}
