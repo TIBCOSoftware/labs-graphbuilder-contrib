@@ -170,7 +170,7 @@ func (a *DgraphUpsertActivity) getDgraphService(context activity.Context) (*dgra
 			if exist {
 				properties["explicitType"] = explicitType
 			} else {
-				log.Warn("explicitType configuration is not configured, will make type defininated implicit!")
+				log.Warn("explicitType configuration is not configured, will make type implicit!")
 			}
 
 			typeName, exist := context.GetSetting(typeTag)
