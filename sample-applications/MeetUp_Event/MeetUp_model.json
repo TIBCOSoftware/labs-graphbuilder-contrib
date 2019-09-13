@@ -2,16 +2,16 @@
 	"nodes":[
 		{
 			"name":"Country",
-			"key":["Country"],
+			"key":["Country_Code"],
 			"attributes":[
 				{
-					"name" : "Country",
+					"name" : "Country_Code",
 					"type":"string"
 				}
 			]
 		},
 		{
-			"name":"Meet Up",
+			"name":"Meet_Up",
 			"key":["Name"],
 			"attributes":[
 				{
@@ -22,54 +22,54 @@
 		},
 		{
 			"name":"State_Province",
-			"key":["State_Province", "Country"],
+			"key":["State_Province_Code", "Country_Code"],
 			"attributes":[
 				{
-					"name":"State_Province",
+					"name":"State_Province_Code",
 					"type":"string"
 				},
 				{
-					"name" : "Country",
+					"name" : "Country_Code",
 					"type":"string"
 				}
 			]
 		},
 		{
 			"name":"City",
-			"key":["City", "State_Province", "Country"],
+			"key":["City_Name", "State_Province_Code", "Country_Code"],
 			"attributes":[
 				{
-					"name":"City",
+					"name":"City_Name",
 					"type":"string"
 				},
 				{
-					"name":"State_Province",
+					"name":"State_Province_Code",
 					"type":"string"
 				},
 				{
-					"name" : "Country",
+					"name" : "Country_Code",
 					"type":"string"
 				}
 			]
 		},
 		{
 			"name":"Address",
-			"key":["Address", "City", "State_Province", "Country"],
+			"key":["Street_Address", "City_Name", "State_Province_Code", "Country_Code"],
 			"attributes":[
 				{
-					"name":"Address",
+					"name":"Street_Address",
 					"type":"string"
 				},
 				{
-					"name":"City",
+					"name":"City_Name",
 					"type":"string"
 				},
 				{
-					"name":"State_Province",
+					"name":"State_Province_Code",
 					"type":"string"
 				},
 				{
-					"name" : "Country",
+					"name" : "Country_Code",
 					"type":"string"
 				}
 			]
@@ -112,22 +112,22 @@
 	"edges":[
 		{
 			"to":"Country",
-			"name":"in Country",
+			"name":"in_Country",
 			"from":"Location"
 		},
 		{
 			"to":"Location",
-			"name":"Take place",
-			"from":"Meet Up"
+			"name":"Take_place",
+			"from":"Meet_Up"
 		},
 		{
 			"to":"State_Province",
-			"name":"in State_Province",
+			"name":"in_State_Province",
 			"from":"Location"
 		},
 		{
 			"to":"City",
-			"name":"in City",
+			"name":"in_City",
 			"from":"Location"
 		},
 		{
@@ -137,12 +137,12 @@
 		},
 		{
 			"to":"Group",
-			"name":"Contains",
+			"name":"Contains_Group",
 			"from":"Category"
 		},
 		{
-			"to":"Meet Up",
-			"name":"Contains",
+			"to":"Meet_Up",
+			"name":"Contains_Meet_Up",
 			"from":"Group"
 		}
 	]
