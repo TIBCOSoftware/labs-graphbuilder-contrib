@@ -56,12 +56,15 @@ func (a *JSONParserActivity) Eval(ctx activity.Context) (done bool, err error) {
 
 	in := ctx.GetInput(input).(string)
 
+	log.Debug("Incoming data : ", in)
+
 	tupleArray := parser.Parse([]byte(in))
 
 	if nil == tupleArray {
-		log.Info("No valid data !!!! ")
+		log.Info("No valid data !!!! Incoming data : ", in)
 		return false, nil
 	}
+
 	log.Info("Valid data : ", tupleArray)
 
 	jsondata := &data.ComplexObject{Metadata: "Data", Value: tupleArray}

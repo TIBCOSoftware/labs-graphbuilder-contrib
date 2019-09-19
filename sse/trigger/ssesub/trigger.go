@@ -11,40 +11,54 @@ import (
 
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"
 	"github.com/TIBCOSoftware/flogo-lib/core/data"
-	"github.com/TIBCOSoftware/flogo-lib/core/trigger"
-	"github.com/TIBCOSoftware/flogo-lib/logger"
 	"github.com/TIBCOSoftware/labs-graphbuilder-lib/internet/sseservice"
+	"github.com/project-flogo/core/data/metadata"
+	"github.com/project-flogo/core/support/log"
+	"github.com/project-flogo/core/trigger"
 )
-
-var log = logger.GetLogger("trigger-sse")
 
 const (
 	Connection = "sseConnection"
 )
 
 //-============================================-//
-//   Entry point create a new Trigger factory
+//   Entry point register Trigger & factory
 //-============================================-//
 
-func NewFactory(md *trigger.Metadata) trigger.Factory {
-	return &SSESubscriberFactory{metadata: md}
+var triggerMd = trigger.NewMetadata(&Settings{}, &HandlerSettings{}, &Output{})
+
+func init() {
+	_ = trigger.Register(&SSESubscriber{}, &Factory{})
 }
 
 //-===============================-//
 //     Define Trigger Factory
 //-===============================-//
 
-type SSESubscriberFactory struct {
-	metadata *trigger.Metadata
+type Factory struct {
 }
 
-func (t *SSESubscriberFactory) New(config *trigger.Config) trigger.Trigger {
-	return &SSESubscriber{metadata: t.metadata, config: config}
+// Metadata implements trigger.Factory.Metadata
+func (*Factory) Metadata() *trigger.Metadata {
+	return triggerMd
+}
+
+// New implements trigger.Factory.New
+func (*Factory) New(config *trigger.Config) (trigger.Trigger, error) {
+	settings := &Settings{}
+	err := metadata.MapToStruct(config.Settings, settings, true)
+	if err != nil {
+		return nil, err
+	}
+
+	return &SSESubscriber{settings: settings}, nil
 }
 
 //-=========================-//
 //      Define Trigger
 //-=========================-//
+
+var logger log.Logger
 
 type SSESubscriber struct {
 	metadata   *trigger.Metadata
@@ -52,30 +66,28 @@ type SSESubscriber struct {
 	sseService sse.SSEService
 	mux        sync.Mutex
 
-	handlers []*trigger.Handler
-}
-
-// implements trigger.Trigger.Metadata (trigger.go)
-func (this *SSESubscriber) Metadata() *trigger.Metadata {
-	return this.metadata
+	settings *Settings
+	handlers []trigger.Handler
 }
 
 // implements trigger.Initializable.Initialize
 func (this *SSESubscriber) Initialize(ctx trigger.InitContext) error {
 
 	this.handlers = ctx.GetHandlers()
+	logger = ctx.Logger()
+
 	return nil
 }
 
 // implements ext.Trigger.Start
 func (this *SSESubscriber) Start() error {
 
-	log.Debug("Start")
+	logger.Debug("Start")
 	handlers := this.handlers
 
-	log.Debug("Processing handlers")
+	logger.Debug("Processing handlers")
 
-	connection, exist := handlers[0].GetSetting(Connection)
+	connection, exist := handlers[0].Settings()[Connection]
 	if !exist {
 		return activity.NewError("SSE connection is not configured", "TGDB-SSE-4001", nil)
 	}
@@ -100,7 +112,7 @@ func (this *SSESubscriber) Start() error {
 				}
 			}
 		}
-		log.Info(properties)
+		logger.Info(properties)
 
 		this.sseService = sse.NewSSEServiceFactory().GetService(properties)
 		this.sseService.SetEventListener(this)
@@ -113,18 +125,22 @@ func (this *SSESubscriber) Start() error {
 
 // implements ext.Trigger.Stop
 func (this *SSESubscriber) Stop() error {
+	logger.Debug("Stopping endpoints")
 	this.sseService.Stop()
 	return nil
 }
 
 func (this *SSESubscriber) ProcessEvent(event string) error {
-	//	log.Info("Even : ", event)
-	output := make(map[string]interface{})
-	output["Event"] = event
-	log.Debug(output)
-	_, err := this.handlers[0].Handle(context.Background(), output)
+	this.mux.Lock()
+	defer this.mux.Unlock()
+	logger.Debug("Got SSE Even : ", event)
+	outputData := &Output{}
+	outputData.Event = event
+	logger.Debug("Send SSE Even out : ", outputData)
+
+	_, err := this.handlers[0].Handle(context.Background(), outputData)
 	if nil != err {
-		log.Info("Error -> ", err)
+		logger.Info("Error -> ", err)
 	}
 
 	return err
