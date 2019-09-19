@@ -1,337 +1,22 @@
 {
+    "imports": [
+        "github.com/project-flogo/flow",
+        "github.com/TIBCOSoftware/GraphBuilder_Tools/activity/jsonparser",
+        "github.com/TIBCOSoftware/GraphBuilder/activity/builder",
+        "github.com/TIBCOSoftware/GraphBuilder/activity/graphtofile",
+        "github.com/TIBCOSoftware/GraphBuilder_dgraph/activity/dgraphupsert",
+        "github.com/TIBCOSoftware/GraphBuilder_TGDB/activity/tgdbupsert",
+        "github.com/TIBCOSoftware/GraphBuilder_SSE/trigger/ssesub"
+    ],
     "name": "MeetUp_Event",
     "description": " ",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "type": "flogo:app",
-    "appModel": "1.0.0",
-    "feVersion": "2.5.0",
-    "resources": [
-        {
-            "id": "flow:Open_Event",
-            "data": {
-                "name": "Open Event",
-                "description": "",
-                "tasks": [
-                    {
-                        "id": "JSONParser",
-                        "name": "JSONParser",
-                        "activity": {
-                            "ref": "github.com/TIBCOSoftware/GraphBuilder/activity/jsonparser",
-                            "settings": {
-                                "OutputFieldnames": "[{\"parameterName\":\"\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"isEditable\":true,\"AttributeName\":\"Name\",\"JSONPath\":\"root.name\",\"Type\":\"String\"},{\"parameterName\":\"\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"isEditable\":true,\"AttributeName\":\"Group\",\"JSONPath\":\"root.group.name\",\"Type\":\"String\"},{\"parameterName\":\"\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"isEditable\":true,\"AttributeName\":\"Category\",\"JSONPath\":\"root.group.category.name\",\"Type\":\"String\"},{\"parameterName\":\"\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"isEditable\":true,\"AttributeName\":\"Location\",\"JSONPath\":\"root.venue.name\",\"Type\":\"String\"},{\"parameterName\":\"\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"isEditable\":true,\"AttributeName\":\"Country\",\"JSONPath\":\"root.venue.country\",\"Type\":\"String\"},{\"parameterName\":\"\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"isEditable\":true,\"AttributeName\":\"State\",\"JSONPath\":\"root.venue.state\",\"Type\":\"String\"},{\"parameterName\":\"\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"isEditable\":true,\"AttributeName\":\"City\",\"JSONPath\":\"root.venue.city\",\"Type\":\"String\"},{\"parameterName\":\"\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"isEditable\":true,\"AttributeName\":\"Address\",\"JSONPath\":\"root.venue.address_1\",\"Type\":\"String\"}]"
-                            },
-                            "input": {
-                                "JSONString": ""
-                            },
-                            "output": {
-                                "Data": {
-                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Group\":{\"type\":\"string\"},\"Category\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"Country\":{\"type\":\"string\"},\"State\":{\"type\":\"string\"},\"City\":{\"type\":\"string\"},\"Address\":{\"type\":\"string\"}}}}",
-                                    "value": "",
-                                    "fe_metadata": "[{\"Name\":\"2\",\"Group\":\"2\",\"Category\":\"2\",\"Location\":\"2\",\"Country\":\"2\",\"State\":\"2\",\"City\":\"2\",\"Address\":\"2\"}]"
-                                }
-                            },
-                            "mappings": {
-                                "input": [
-                                    {
-                                        "mapTo": "$INPUT['JSONString']",
-                                        "type": "assign",
-                                        "value": "$flow.Event"
-                                    }
-                                ]
-                            }
-                        }
-                    },
-                    {
-                        "id": "BuildGraph",
-                        "name": "BuildGraph",
-                        "settings": {
-                            "iterate": "$activity[JSONParser].Data"
-                        },
-                        "type": "iterator",
-                        "activity": {
-                            "ref": "github.com/TIBCOSoftware/GraphBuilder/activity/builder",
-                            "settings": {
-                                "GraphModel": {
-                                    "id": "bbc42d20-cab8-11e9-aca2-a14e2a179560",
-                                    "type": "flogo:connector",
-                                    "version": "1.0.0",
-                                    "name": "tibco-graph",
-                                    "inputMappings": {},
-                                    "outputMappings": {},
-                                    "iteratorMappings": {},
-                                    "title": "Graph",
-                                    "description": "This is URL file reader",
-                                    "ref": "github.com/TIBCOSoftware/GraphBuilder/connector/graph",
-                                    "settings": [
-                                        {
-                                            "name": "name",
-                                            "type": "string",
-                                            "required": true,
-                                            "display": {
-                                                "name": "Graph Name",
-                                                "description": "Name of the graph"
-                                            },
-                                            "value": "MeetUp"
-                                        },
-                                        {
-                                            "name": "description",
-                                            "type": "string",
-                                            "display": {
-                                                "name": "Description",
-                                                "description": "Graph description"
-                                            },
-                                            "value": ""
-                                        },
-                                        {
-                                            "name": "InMemory",
-                                            "type": "boolean",
-                                            "display": {
-                                                "name": "In Memory",
-                                                "description": "Will keep graph in memory"
-                                            },
-                                            "value": false,
-                                            "required": true
-                                        },
-                                        {
-                                            "name": "model",
-                                            "type": "string",
-                                            "required": true,
-                                            "display": {
-                                                "name": "Graph Model",
-                                                "description": "Define nodes and entities for a graph",
-                                                "type": "fileselector",
-                                                "fileExtensions": [
-                                                    ".tgbm",
-                                                    ".json"
-                                                ]
-                                            },
-                                            "value": {
-                                                "filename": "MeetUp.tgbm",
-                                                "content": "data:application/octet-stream;base64,ewoJIm5vZGVzIjpbCgkJewoJCQkibmFtZSI6IkNvdW50cnkiLAoJCQkia2V5IjpbIkNvdW50cnkiXSwKCQkJImF0dHJpYnV0ZXMiOlsKCQkJCXsKCQkJCQkibmFtZSIgOiAiQ291bnRyeSIsCgkJCQkJInR5cGUiOiJzdHJpbmciCgkJCQl9CgkJCV0KCQl9LAoJCXsKCQkJIm5hbWUiOiJNZWV0IFVwIiwKCQkJImtleSI6WyJOYW1lIl0sCgkJCSJhdHRyaWJ1dGVzIjpbCgkJCQl7CgkJCQkJIm5hbWUiOiJOYW1lIiwKCQkJCQkidHlwZSI6IlN0cmluZyIKCQkJCX0KCQkJXQoJCX0sCgkJewoJCQkibmFtZSI6IlN0YXRlX1Byb3ZpbmNlIiwKCQkJImtleSI6WyJTdGF0ZV9Qcm92aW5jZSJdLAoJCQkiYXR0cmlidXRlcyI6WwoJCQkJewoJCQkJCSJuYW1lIjoiU3RhdGVfUHJvdmluY2UiLAoJCQkJCSJ0eXBlIjoic3RyaW5nIgoJCQkJfQoJCQldCgkJfSwKCQl7CgkJCSJuYW1lIjoiQ2l0eSIsCgkJCSJrZXkiOlsiQ2l0eSJdLAoJCQkiYXR0cmlidXRlcyI6WwoJCQkJewoJCQkJCSJuYW1lIjoiQ2l0eSIsCgkJCQkJInR5cGUiOiJzdHJpbmciCgkJCQl9CgkJCV0KCQl9LAoJCXsKCQkJIm5hbWUiOiJBZGRyZXNzIiwKCQkJImtleSI6WyJBZGRyZXNzIl0sCgkJCSJhdHRyaWJ1dGVzIjpbCgkJCQl7CgkJCQkJIm5hbWUiOiJBZGRyZXNzIiwKCQkJCQkidHlwZSI6InN0cmluZyIKCQkJCX0KCQkJXQoJCX0sCgkJewoJCQkibmFtZSI6IkxvY2F0aW9uIiwKCQkJImtleSI6WyJVSUQiXSwKCQkJImF0dHJpYnV0ZXMiOlsKCQkJCXsKCQkJCQkibmFtZSI6IlVJRCIsCgkJCQkJInR5cGUiOiJzdHJpbmciCgkJCQl9LAoJCQkJewoJCQkJCSJuYW1lIjoiTmFtZSIsCgkJCQkJInR5cGUiOiJTdHJpbmciCgkJCQl9CgkJCV0KCQl9LAoJCXsKCQkJIm5hbWUiOiJHcm91cCIsCgkJCSJrZXkiOlsiTmFtZSJdLAoJCQkiYXR0cmlidXRlcyI6WwoJCQkJewoJCQkJCSJuYW1lIjoiTmFtZSIsCgkJCQkJInR5cGUiOiJTdHJpbmciCgkJCQl9CgkJCV0KCQl9LAoJCXsKCQkJIm5hbWUiOiJDYXRlZ29yeSIsCgkJCSJrZXkiOlsiTmFtZSJdLAoJCQkiYXR0cmlidXRlcyI6WwoJCQkJewoJCQkJCSJuYW1lIjoiTmFtZSIsCgkJCQkJInR5cGUiOiJTdHJpbmciCgkJCQl9CgkJCV0KCQl9CgldLAoJImVkZ2VzIjpbCgkJewoJCQkidG8iOiJDb3VudHJ5IiwKCQkJIm5hbWUiOiJpbiIsCgkJCSJmcm9tIjoiTG9jYXRpb24iCgkJfSwKCQl7CgkJCSJ0byI6IkxvY2F0aW9uIiwKCQkJIm5hbWUiOiJUYWtlIHBsYWNlIiwKCQkJImZyb20iOiJNZWV0IFVwIgoJCX0sCgkJewoJCQkidG8iOiJTdGF0ZV9Qcm92aW5jZSIsCgkJCSJuYW1lIjoiaW4iLAoJCQkiZnJvbSI6IkxvY2F0aW9uIgoJCX0sCgkJewoJCQkidG8iOiJDaXR5IiwKCQkJIm5hbWUiOiJpbiIsCgkJCSJmcm9tIjoiTG9jYXRpb24iCgkJfSwKCQl7CgkJCSJ0byI6IkFkZHJlc3MiLAoJCQkibmFtZSI6Im9uIiwKCQkJImZyb20iOiJMb2NhdGlvbiIKCQl9LAoJCXsKCQkJInRvIjoiR3JvdXAiLAoJCQkibmFtZSI6IkNvbnRhaW5zIiwKCQkJImZyb20iOiJDYXRlZ29yeSIKCQl9LAoJCXsKCQkJInRvIjoiTWVldCBVcCIsCgkJCSJuYW1lIjoiQ29udGFpbnMiLAoJCQkiZnJvbSI6Ikdyb3VwIgoJCX0KCV0KfQo="
-                                            }
-                                        }
-                                    ],
-                                    "outputs": [],
-                                    "inputs": [],
-                                    "handler": {
-                                        "settings": []
-                                    },
-                                    "reply": [],
-                                    "s3Prefix": "flogo",
-                                    "key": "flogo/GraphBuilder/connector/graph/connector.json",
-                                    "display": {
-                                        "description": "This is URL file reader",
-                                        "category": "GraphBuilder",
-                                        "visible": true,
-                                        "smallIcon": "graph.png"
-                                    },
-                                    "actions": [
-                                        {
-                                            "name": "Connect",
-                                            "display": {
-                                                "readonly": false,
-                                                "valid": true,
-                                                "visible": true
-                                            }
-                                        }
-                                    ],
-                                    "feature": {},
-                                    "propertyMap": {},
-                                    "keyfield": "name",
-                                    "isValid": true,
-                                    "lastUpdatedTime": 1567125821419,
-                                    "user": "flogo",
-                                    "connectorName": "MeetUp",
-                                    "connectorDescription": " "
-                                },
-                                "Multiinstances": ""
-                            },
-                            "input": {
-                                "Nodes": {
-                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Country\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"Country\":{\"type\":\"string\"}}}},\"Meet Up\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"Name\":{\"type\":\"string\"}}}},\"State_Province\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"State_Province\":{\"type\":\"string\"}}}},\"City\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"City\":{\"type\":\"string\"}}}},\"Address\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"Address\":{\"type\":\"string\"}}}},\"Location\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"UID\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"}}}},\"Group\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"Name\":{\"type\":\"string\"}}}},\"Category\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"Name\":{\"type\":\"string\"}}}}}}}",
-                                    "value": "",
-                                    "fe_metadata": "[{\"Country\":[{\"_skipCondition\":false,\"Country\":\"2\"}],\"Meet Up\":[{\"_skipCondition\":false,\"Name\":\"2\"}],\"State_Province\":[{\"_skipCondition\":false,\"State_Province\":\"2\"}],\"City\":[{\"_skipCondition\":false,\"City\":\"2\"}],\"Address\":[{\"_skipCondition\":false,\"Address\":\"2\"}],\"Location\":[{\"_skipCondition\":false,\"UID\":\"2\",\"Name\":\"2\"}],\"Group\":[{\"_skipCondition\":false,\"Name\":\"2\"}],\"Category\":[{\"_skipCondition\":false,\"Name\":\"2\"}]}]"
-                                },
-                                "Edges": {
-                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"in\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}}}},\"Take place\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}}}},\"on\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}}}},\"Contains\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}}}}}}}",
-                                    "value": "",
-                                    "fe_metadata": "[{\"in\":[{\"_skipCondition\":false,\"vertices\":[{\"from\":\"string\",\"to\":\"string\"}]}],\"Take place\":[{\"_skipCondition\":false,\"vertices\":[{\"from\":\"string\",\"to\":\"string\"}]}],\"on\":[{\"_skipCondition\":false,\"vertices\":[{\"from\":\"string\",\"to\":\"string\"}]}],\"Contains\":[{\"_skipCondition\":false,\"vertices\":[{\"from\":\"string\",\"to\":\"string\"}]}]}]"
-                                }
-                            },
-                            "output": {},
-                            "mappings": {
-                                "input": [
-                                    {
-                                        "mapTo": "$INPUT['Nodes']",
-                                        "type": "array",
-                                        "value": "{\"to\":\"$INPUT['Nodes']\",\"from\":\"NEWARRAY\",\"type\":\"foreach\",\"fields\":[{\"to\":\"$INPUT.$$['Country']\",\"from\":\"NEWARRAY\",\"type\":\"foreach\",\"fields\":[{\"to\":\"$INPUT.$$['Country']\",\"from\":\"$current.iteration.value.Country\",\"type\":\"assign\"}]},{\"to\":\"$INPUT.$$['Meet Up']\",\"from\":\"NEWARRAY\",\"type\":\"foreach\",\"fields\":[{\"to\":\"$INPUT.$$['Name']\",\"from\":\"$current.iteration.value.Name\",\"type\":\"assign\"}]},{\"to\":\"$INPUT.$$['State_Province']\",\"from\":\"NEWARRAY\",\"type\":\"foreach\",\"fields\":[{\"to\":\"$INPUT.$$['State_Province']\",\"from\":\"$current.iteration.value.State\",\"type\":\"assign\"}]},{\"to\":\"$INPUT.$$['City']\",\"from\":\"NEWARRAY\",\"type\":\"foreach\",\"fields\":[{\"to\":\"$INPUT.$$['City']\",\"from\":\"$current.iteration.value.City\",\"type\":\"assign\"}]},{\"to\":\"$INPUT.$$['Address']\",\"from\":\"NEWARRAY\",\"type\":\"foreach\",\"fields\":[{\"to\":\"$INPUT.$$['Address']\",\"from\":\"$current.iteration.value.Address\",\"type\":\"assign\"}]},{\"to\":\"$INPUT.$$['Location']\",\"from\":\"NEWARRAY\",\"type\":\"foreach\",\"fields\":[{\"to\":\"$INPUT.$$['UID']\",\"from\":\"$current.iteration.value.Location\",\"type\":\"assign\"},{\"to\":\"$INPUT.$$['Name']\",\"from\":\"$current.iteration.value.Location\",\"type\":\"assign\"}]},{\"to\":\"$INPUT.$$['Group']\",\"from\":\"NEWARRAY\",\"type\":\"foreach\",\"fields\":[{\"to\":\"$INPUT.$$['Name']\",\"from\":\"$current.iteration.value.Group\",\"type\":\"assign\"}]},{\"to\":\"$INPUT.$$['Category']\",\"from\":\"NEWARRAY\",\"type\":\"foreach\",\"fields\":[{\"to\":\"$INPUT.$$['Name']\",\"from\":\"$current.iteration.value.Category\",\"type\":\"assign\"}]}]}"
-                                    },
-                                    {
-                                        "mapTo": "$INPUT['Edges']",
-                                        "type": "array",
-                                        "value": "{\"to\":\"$INPUT['Edges']\",\"from\":\"NEWARRAY\",\"type\":\"foreach\",\"fields\":[{\"to\":\"$INPUT.$$['in']\",\"from\":\"NEWARRAY\",\"type\":\"foreach\",\"fields\":[]},{\"to\":\"$INPUT.$$['Take place']\",\"from\":\"NEWARRAY\",\"type\":\"foreach\",\"fields\":[]},{\"to\":\"$INPUT.$$['on']\",\"from\":\"NEWARRAY\",\"type\":\"foreach\",\"fields\":[]},{\"to\":\"$INPUT.$$['Contains']\",\"from\":\"NEWARRAY\",\"type\":\"foreach\",\"fields\":[]}]}"
-                                    }
-                                ]
-                            }
-                        }
-                    },
-                    {
-                        "id": "DgraphUpsert",
-                        "name": "DgraphUpsert",
-                        "activity": {
-                            "ref": "github.com/TIBCOSoftware/GraphBuilder_dgraph/activity/dgraphupsert",
-                            "settings": {
-                                "dgraphConnection": {
-                                    "id": "aa395950-ca8f-11e9-bc3e-d1065db3fa04",
-                                    "type": "flogo:connector",
-                                    "version": "1.0.0",
-                                    "name": "tibco-dgraph",
-                                    "inputMappings": {},
-                                    "outputMappings": {},
-                                    "iteratorMappings": {},
-                                    "title": "Dgraph Connector",
-                                    "description": "This is Dgraph connector",
-                                    "ref": "github.com/TIBCOSoftware/GraphBuilder_dgraph/connector/dgraph",
-                                    "settings": [
-                                        {
-                                            "name": "name",
-                                            "type": "string",
-                                            "required": true,
-                                            "display": {
-                                                "name": "Connection Name",
-                                                "description": "Name of the connection"
-                                            },
-                                            "value": "Dgraph"
-                                        },
-                                        {
-                                            "name": "description",
-                                            "type": "string",
-                                            "display": {
-                                                "name": "Description",
-                                                "description": "Connection description"
-                                            },
-                                            "value": ""
-                                        },
-                                        {
-                                            "name": "url",
-                                            "type": "string",
-                                            "required": true,
-                                            "display": {
-                                                "name": "Dgraph Server URL",
-                                                "description": "Dgraph server URL ex. localhost:9080",
-                                                "type": "string"
-                                            },
-                                            "value": "localhost:9080"
-                                        },
-                                        {
-                                            "name": "user",
-                                            "type": "string",
-                                            "display": {
-                                                "name": "Username",
-                                                "description": "Username for login to Dgraph server",
-                                                "type": "string"
-                                            },
-                                            "value": ""
-                                        },
-                                        {
-                                            "name": "password",
-                                            "type": "string",
-                                            "required": true,
-                                            "display": {
-                                                "name": "Password",
-                                                "description": "Password for login to Dgraph server",
-                                                "type": "password"
-                                            },
-                                            "value": "SECRET:6EbpalTtFhkEikJVofctD3JZUA=="
-                                        }
-                                    ],
-                                    "outputs": [],
-                                    "inputs": [],
-                                    "handler": {
-                                        "settings": []
-                                    },
-                                    "reply": [],
-                                    "s3Prefix": "flogo",
-                                    "key": "flogo/GraphBuilder_dgraph/connector/dgraph/connector.json",
-                                    "display": {
-                                        "description": "This is Dgraph connector",
-                                        "category": "GraphBuilder_dgraph",
-                                        "visible": true,
-                                        "smallIcon": "dgraph.png"
-                                    },
-                                    "actions": [
-                                        {
-                                            "name": "Connect",
-                                            "display": {
-                                                "readonly": false,
-                                                "valid": true,
-                                                "visible": true
-                                            }
-                                        }
-                                    ],
-                                    "feature": {},
-                                    "propertyMap": {},
-                                    "keyfield": "name",
-                                    "isValid": true,
-                                    "lastUpdatedTime": 1567129477209,
-                                    "user": "flogo",
-                                    "connectorName": "Dgraph",
-                                    "connectorDescription": " "
-                                },
-                                "readableExternalId": false,
-                                "explicitType": true,
-                                "typeTag": "type",
-                                "attrWithPrefix": false
-                            },
-                            "input": {
-                                "Graph": ""
-                            },
-                            "output": {},
-                            "mappings": {
-                                "input": [
-                                    {
-                                        "mapTo": "$INPUT['Graph']",
-                                        "type": "assign",
-                                        "value": "$activity[BuildGraph].Graph"
-                                    }
-                                ]
-                            }
-                        }
-                    }
-                ],
-                "links": [
-                    {
-                        "id": 1,
-                        "from": "JSONParser",
-                        "to": "BuildGraph",
-                        "type": "default"
-                    },
-                    {
-                        "id": 2,
-                        "from": "BuildGraph",
-                        "to": "DgraphUpsert",
-                        "type": "default"
-                    }
-                ],
-                "metadata": {
-                    "input": [
-                        {
-                            "name": "Event",
-                            "type": "string"
-                        }
-                    ],
-                    "output": [],
-                    "fe_metadata": {
-                        "input": "{\n    \"Event\": \"string\"\n}",
-                        "output": ""
-                    }
-                }
-            }
-        }
-    ],
+    "appModel": "1.1.0",
+    "feVersion": "2.6.1",
     "triggers": [
         {
-            "ref": "github.com/TIBCOSoftware/GraphBuilder_SSE/trigger/ssesub",
+            "ref": "#ssesub",
             "name": "SSESubscriber",
             "description": "",
             "settings": {},
@@ -341,10 +26,10 @@
                     "description": "",
                     "settings": {
                         "sseConnection": {
-                            "id": "bbc67710-cab8-11e9-aca2-a14e2a179560",
                             "type": "flogo:connector",
                             "version": "1.0.0",
                             "name": "tibco-sse",
+                            "hashTags": [],
                             "inputMappings": {},
                             "outputMappings": {},
                             "iteratorMappings": {},
@@ -423,7 +108,7 @@
                                         "description": "Access token for authentication",
                                         "type": "password"
                                     },
-                                    "value": "SECRET:NfwgEsgyDDUeiD0hPnAX+w=="
+                                    "value": "SECRET:BLxeuMMIzEY22gWnMtl2Bw=="
                                 }
                             ],
                             "outputs": [],
@@ -454,36 +139,616 @@
                             "propertyMap": {},
                             "keyfield": "name",
                             "isValid": true,
-                            "lastUpdatedTime": 1567129016155,
+                            "lastUpdatedTime": 1567795087243,
+                            "createdTime": 1567795087243,
                             "user": "flogo",
-                            "connectorName": "MeetUp Open Events",
+                            "subscriptionId": "flogo_sbsc",
+                            "id": "780fe5b0-d0d5-11e9-b415-c19ec89c528a",
+                            "connectorName": " ",
                             "connectorDescription": " "
                         }
                     },
-                    "outputs": {
-                        "Event": ""
-                    },
                     "action": {
-                        "ref": "github.com/TIBCOSoftware/flogo-contrib/action/flow",
-                        "data": {
+                        "ref": "github.com/project-flogo/flow",
+                        "settings": {
                             "flowURI": "res://flow:Open_Event"
                         },
-                        "mappings": {
-                            "input": [
-                                {
-                                    "mapTo": "$INPUT['Event']",
-                                    "type": "assign",
-                                    "value": "$.Event"
-                                }
-                            ],
-                            "output": []
+                        "input": {
+                            "Event": "=$.Event"
                         }
                     }
                 }
             ]
         }
     ],
+    "resources": [
+        {
+            "id": "flow:Open_Event",
+            "data": {
+                "name": "Open Event",
+                "description": "",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "JSONParser",
+                        "to": "BuildGraph",
+                        "type": "default"
+                    },
+                    {
+                        "id": 2,
+                        "from": "BuildGraph",
+                        "to": "GraphtoFile",
+                        "type": "default"
+                    },
+                    {
+                        "id": 3,
+                        "from": "BuildGraph",
+                        "to": "DgraphUpsert",
+                        "type": "label"
+                    },
+                    {
+                        "id": 4,
+                        "from": "BuildGraph",
+                        "to": "TGDBUpsert",
+                        "type": "label"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "JSONParser",
+                        "name": "JSONParser",
+                        "activity": {
+                            "ref": "#jsonparser",
+                            "settings": {
+                                "DateFormat": "",
+                                "OutputFieldnames": "[{\"parameterName\":\"\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"isEditable\":true,\"AttributeName\":\"Name\",\"JSONPath\":\"root.name\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"parameterName\":\"\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"isEditable\":true,\"AttributeName\":\"Group\",\"JSONPath\":\"root.group.name\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"parameterName\":\"\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"isEditable\":true,\"AttributeName\":\"Category\",\"JSONPath\":\"root.group.category.name\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"parameterName\":\"\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"isEditable\":true,\"AttributeName\":\"Location\",\"JSONPath\":\"root.venue.name\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"parameterName\":\"\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"isEditable\":true,\"AttributeName\":\"Country\",\"JSONPath\":\"root.venue.country\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"parameterName\":\"\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"isEditable\":true,\"AttributeName\":\"State\",\"JSONPath\":\"root.venue.state\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"parameterName\":\"\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"isEditable\":true,\"AttributeName\":\"City\",\"JSONPath\":\"root.venue.city\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"parameterName\":\"\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"isEditable\":true,\"AttributeName\":\"Address\",\"JSONPath\":\"root.venue.address_1\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"}]"
+                            },
+                            "input": {
+                                "JSONString": "=$flow.Event"
+                            },
+                            "schemas": {
+                                "output": {
+                                    "Data": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Group\":{\"type\":\"string\"},\"Category\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"Country\":{\"type\":\"string\"},\"State\":{\"type\":\"string\"},\"City\":{\"type\":\"string\"},\"Address\":{\"type\":\"string\"},\"LastElement\":{\"type\":\"boolean\"}}}}",
+                                        "fe_metadata": "[{\"Name\":\"2\",\"Group\":\"2\",\"Category\":\"2\",\"Location\":\"2\",\"Country\":\"2\",\"State\":\"2\",\"City\":\"2\",\"Address\":\"2\",\"LastElement\":true}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "BuildGraph",
+                        "name": "BuildGraph",
+                        "settings": {
+                            "iterate": "=$activity[JSONParser].Data"
+                        },
+                        "type": "iterator",
+                        "activity": {
+                            "ref": "#builder",
+                            "settings": {
+                                "GraphModel": {
+                                    "id": "b31e0aa0-d0d6-11e9-b415-c19ec89c528a",
+                                    "type": "flogo:connector",
+                                    "version": "1.0.0",
+                                    "name": "tibco-graph",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "Graph",
+                                    "description": "This is URL file reader",
+                                    "ref": "github.com/TIBCOSoftware/GraphBuilder/connector/graph",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Graph Name",
+                                                "description": "Name of the graph"
+                                            },
+                                            "value": "MeetUp"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "description": "Graph description"
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "modelSource",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Model Source",
+                                                "description": "Where the model stored",
+                                                "type": "string"
+                                            },
+                                            "allowed": [
+                                                "Local File",
+                                                "TGDB"
+                                            ],
+                                            "value": "Local File"
+                                        },
+                                        {
+                                            "name": "url",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Model Server URL",
+                                                "description": "URL to the model server, ex. http://localhost:9999/tgdb/metadata",
+                                                "type": "string",
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": false
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "model",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Graph Model",
+                                                "description": "Define nodes and entities for a graph",
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".tgbm",
+                                                    ".json"
+                                                ],
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            },
+                                            "value": {
+                                                "filename": "MeetUp_model.json",
+                                                "content": "data:application/json;base64,ewoJIm5vZGVzIjpbCgkJewoJCQkibmFtZSI6IkNvdW50cnkiLAoJCQkia2V5IjpbIkNvdW50cnlfQ29kZSJdLAoJCQkiYXR0cmlidXRlcyI6WwoJCQkJewoJCQkJCSJuYW1lIiA6ICJDb3VudHJ5X0NvZGUiLAoJCQkJCSJ0eXBlIjoic3RyaW5nIgoJCQkJfQoJCQldCgkJfSwKCQl7CgkJCSJuYW1lIjoiTWVldF9VcCIsCgkJCSJrZXkiOlsiTmFtZSJdLAoJCQkiYXR0cmlidXRlcyI6WwoJCQkJewoJCQkJCSJuYW1lIjoiTmFtZSIsCgkJCQkJInR5cGUiOiJTdHJpbmciCgkJCQl9CgkJCV0KCQl9LAoJCXsKCQkJIm5hbWUiOiJTdGF0ZV9Qcm92aW5jZSIsCgkJCSJrZXkiOlsiU3RhdGVfUHJvdmluY2VfQ29kZSIsICJDb3VudHJ5X0NvZGUiXSwKCQkJImF0dHJpYnV0ZXMiOlsKCQkJCXsKCQkJCQkibmFtZSI6IlN0YXRlX1Byb3ZpbmNlX0NvZGUiLAoJCQkJCSJ0eXBlIjoic3RyaW5nIgoJCQkJfSwKCQkJCXsKCQkJCQkibmFtZSIgOiAiQ291bnRyeV9Db2RlIiwKCQkJCQkidHlwZSI6InN0cmluZyIKCQkJCX0KCQkJXQoJCX0sCgkJewoJCQkibmFtZSI6IkNpdHkiLAoJCQkia2V5IjpbIkNpdHlfTmFtZSIsICJTdGF0ZV9Qcm92aW5jZV9Db2RlIiwgIkNvdW50cnlfQ29kZSJdLAoJCQkiYXR0cmlidXRlcyI6WwoJCQkJewoJCQkJCSJuYW1lIjoiQ2l0eV9OYW1lIiwKCQkJCQkidHlwZSI6InN0cmluZyIKCQkJCX0sCgkJCQl7CgkJCQkJIm5hbWUiOiJTdGF0ZV9Qcm92aW5jZV9Db2RlIiwKCQkJCQkidHlwZSI6InN0cmluZyIKCQkJCX0sCgkJCQl7CgkJCQkJIm5hbWUiIDogIkNvdW50cnlfQ29kZSIsCgkJCQkJInR5cGUiOiJzdHJpbmciCgkJCQl9CgkJCV0KCQl9LAoJCXsKCQkJIm5hbWUiOiJBZGRyZXNzIiwKCQkJImtleSI6WyJTdHJlZXRfQWRkcmVzcyIsICJDaXR5X05hbWUiLCAiU3RhdGVfUHJvdmluY2VfQ29kZSIsICJDb3VudHJ5X0NvZGUiXSwKCQkJImF0dHJpYnV0ZXMiOlsKCQkJCXsKCQkJCQkibmFtZSI6IlN0cmVldF9BZGRyZXNzIiwKCQkJCQkidHlwZSI6InN0cmluZyIKCQkJCX0sCgkJCQl7CgkJCQkJIm5hbWUiOiJDaXR5X05hbWUiLAoJCQkJCSJ0eXBlIjoic3RyaW5nIgoJCQkJfSwKCQkJCXsKCQkJCQkibmFtZSI6IlN0YXRlX1Byb3ZpbmNlX0NvZGUiLAoJCQkJCSJ0eXBlIjoic3RyaW5nIgoJCQkJfSwKCQkJCXsKCQkJCQkibmFtZSIgOiAiQ291bnRyeV9Db2RlIiwKCQkJCQkidHlwZSI6InN0cmluZyIKCQkJCX0KCQkJXQoJCX0sCgkJewoJCQkibmFtZSI6IkxvY2F0aW9uIiwKCQkJImtleSI6WyJVSUQiXSwKCQkJImF0dHJpYnV0ZXMiOlsKCQkJCXsKCQkJCQkibmFtZSI6IlVJRCIsCgkJCQkJInR5cGUiOiJzdHJpbmciCgkJCQl9LAoJCQkJewoJCQkJCSJuYW1lIjoiTmFtZSIsCgkJCQkJInR5cGUiOiJTdHJpbmciCgkJCQl9CgkJCV0KCQl9LAoJCXsKCQkJIm5hbWUiOiJHcm91cCIsCgkJCSJrZXkiOlsiTmFtZSJdLAoJCQkiYXR0cmlidXRlcyI6WwoJCQkJewoJCQkJCSJuYW1lIjoiTmFtZSIsCgkJCQkJInR5cGUiOiJTdHJpbmciCgkJCQl9CgkJCV0KCQl9LAoJCXsKCQkJIm5hbWUiOiJDYXRlZ29yeSIsCgkJCSJrZXkiOlsiTmFtZSJdLAoJCQkiYXR0cmlidXRlcyI6WwoJCQkJewoJCQkJCSJuYW1lIjoiTmFtZSIsCgkJCQkJInR5cGUiOiJTdHJpbmciCgkJCQl9CgkJCV0KCQl9CgldLAoJImVkZ2VzIjpbCgkJewoJCQkidG8iOiJDb3VudHJ5IiwKCQkJIm5hbWUiOiJpbl9Db3VudHJ5IiwKCQkJImZyb20iOiJMb2NhdGlvbiIKCQl9LAoJCXsKCQkJInRvIjoiTG9jYXRpb24iLAoJCQkibmFtZSI6IlRha2VfcGxhY2UiLAoJCQkiZnJvbSI6Ik1lZXRfVXAiCgkJfSwKCQl7CgkJCSJ0byI6IlN0YXRlX1Byb3ZpbmNlIiwKCQkJIm5hbWUiOiJpbl9TdGF0ZV9Qcm92aW5jZSIsCgkJCSJmcm9tIjoiTG9jYXRpb24iCgkJfSwKCQl7CgkJCSJ0byI6IkNpdHkiLAoJCQkibmFtZSI6ImluX0NpdHkiLAoJCQkiZnJvbSI6IkxvY2F0aW9uIgoJCX0sCgkJewoJCQkidG8iOiJBZGRyZXNzIiwKCQkJIm5hbWUiOiJvbiIsCgkJCSJmcm9tIjoiTG9jYXRpb24iCgkJfSwKCQl7CgkJCSJ0byI6Ikdyb3VwIiwKCQkJIm5hbWUiOiJDb250YWluc19Hcm91cCIsCgkJCSJmcm9tIjoiQ2F0ZWdvcnkiCgkJfSwKCQl7CgkJCSJ0byI6Ik1lZXRfVXAiLAoJCQkibmFtZSI6IkNvbnRhaW5zX01lZXRfVXAiLAoJCQkiZnJvbSI6Ikdyb3VwIgoJCX0KCV0KfQo="
+                                            }
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "flogo",
+                                    "key": "flogo/GraphBuilder/connector/graph/connector.json",
+                                    "display": {
+                                        "description": "This is URL file reader",
+                                        "category": "GraphBuilder",
+                                        "visible": true,
+                                        "smallIcon": "graph.png"
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "Connect",
+                                            "display": {
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            }
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1568323129876,
+                                    "user": "flogo",
+                                    "connectorName": "MeetUp",
+                                    "connectorDescription": " "
+                                },
+                                "BatchMode": false,
+                                "Multiinstances": ""
+                            },
+                            "input": {
+                                "Nodes": {
+                                    "mapping": [
+                                        {
+                                            "Country": [
+                                                {
+                                                    "_skipCondition": "=null==$iteration[value].Country",
+                                                    "Country_Code": "=$iteration[value].Country"
+                                                }
+                                            ],
+                                            "Meet_Up": [
+                                                {
+                                                    "Name": "=$iteration[value].Name",
+                                                    "_skipCondition": "=null==$iteration[value].Name"
+                                                }
+                                            ],
+                                            "State_Province": [
+                                                {
+                                                    "Country_Code": "=$iteration[value].Country",
+                                                    "State_Province_Code": "=$iteration[value].State",
+                                                    "_skipCondition": "=null==$iteration[value].State"
+                                                }
+                                            ],
+                                            "City": [
+                                                {
+                                                    "Country_Code": "=$iteration[value].Country",
+                                                    "State_Province_Code": "=$iteration[value].State",
+                                                    "City_Name": "=$iteration[value].City",
+                                                    "_skipCondition": "=null==$iteration[value].City"
+                                                }
+                                            ],
+                                            "Address": [
+                                                {
+                                                    "Country_Code": "=$iteration[value].Country",
+                                                    "State_Province_Code": "=$iteration[value].State",
+                                                    "City_Name": "=$iteration[value].City",
+                                                    "Street_Address": "=$iteration[value].City",
+                                                    "_skipCondition": "=null==$iteration[value].Address"
+                                                }
+                                            ],
+                                            "Location": [
+                                                {
+                                                    "Name": "=$iteration[value].Location",
+                                                    "UID": "=$iteration[value].Location",
+                                                    "_skipCondition": "=null==$iteration[value].Location"
+                                                }
+                                            ],
+                                            "Group": [
+                                                {
+                                                    "Name": "=$iteration[value].Group",
+                                                    "_skipCondition": "=null==$iteration[value].Group"
+                                                }
+                                            ],
+                                            "Category": [
+                                                {
+                                                    "Name": "=$iteration[value].Category",
+                                                    "_skipCondition": "=null==$iteration[value].Category"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                "Edges": {
+                                    "mapping": [
+                                        {
+                                            "in_Country": [],
+                                            "Take_place": [],
+                                            "in_State_Province": [],
+                                            "in_City": [],
+                                            "on": [],
+                                            "Contains_Group": [],
+                                            "Contains_Meet_Up": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Nodes": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Country\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"Country_Code\":{\"type\":\"string\"}}}},\"Meet_Up\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"Name\":{\"type\":\"string\"}}}},\"State_Province\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"State_Province_Code\":{\"type\":\"string\"},\"Country_Code\":{\"type\":\"string\"}}}},\"City\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"City_Name\":{\"type\":\"string\"},\"State_Province_Code\":{\"type\":\"string\"},\"Country_Code\":{\"type\":\"string\"}}}},\"Address\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"Street_Address\":{\"type\":\"string\"},\"City_Name\":{\"type\":\"string\"},\"State_Province_Code\":{\"type\":\"string\"},\"Country_Code\":{\"type\":\"string\"}}}},\"Location\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"UID\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"}}}},\"Group\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"Name\":{\"type\":\"string\"}}}},\"Category\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"Name\":{\"type\":\"string\"}}}}}}}",
+                                        "fe_metadata": "[{\"Country\":[{\"_skipCondition\":false,\"Country_Code\":\"2\"}],\"Meet_Up\":[{\"_skipCondition\":false,\"Name\":\"2\"}],\"State_Province\":[{\"_skipCondition\":false,\"State_Province_Code\":\"2\",\"Country_Code\":\"2\"}],\"City\":[{\"_skipCondition\":false,\"City_Name\":\"2\",\"State_Province_Code\":\"2\",\"Country_Code\":\"2\"}],\"Address\":[{\"_skipCondition\":false,\"Street_Address\":\"2\",\"City_Name\":\"2\",\"State_Province_Code\":\"2\",\"Country_Code\":\"2\"}],\"Location\":[{\"_skipCondition\":false,\"UID\":\"2\",\"Name\":\"2\"}],\"Group\":[{\"_skipCondition\":false,\"Name\":\"2\"}],\"Category\":[{\"_skipCondition\":false,\"Name\":\"2\"}]}]"
+                                    },
+                                    "Edges": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"in_Country\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}}}},\"Take_place\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}}}},\"in_State_Province\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}}}},\"in_City\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}}}},\"on\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}}}},\"Contains_Group\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}}}},\"Contains_Meet_Up\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}}}}}}}",
+                                        "fe_metadata": "[{\"in_Country\":[{\"_skipCondition\":false,\"vertices\":[{\"from\":\"string\",\"to\":\"string\"}]}],\"Take_place\":[{\"_skipCondition\":false,\"vertices\":[{\"from\":\"string\",\"to\":\"string\"}]}],\"in_State_Province\":[{\"_skipCondition\":false,\"vertices\":[{\"from\":\"string\",\"to\":\"string\"}]}],\"in_City\":[{\"_skipCondition\":false,\"vertices\":[{\"from\":\"string\",\"to\":\"string\"}]}],\"on\":[{\"_skipCondition\":false,\"vertices\":[{\"from\":\"string\",\"to\":\"string\"}]}],\"Contains_Group\":[{\"_skipCondition\":false,\"vertices\":[{\"from\":\"string\",\"to\":\"string\"}]}],\"Contains_Meet_Up\":[{\"_skipCondition\":false,\"vertices\":[{\"from\":\"string\",\"to\":\"string\"}]}]}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "GraphtoFile",
+                        "name": "GraphtoFile",
+                        "activity": {
+                            "ref": "#graphtofile",
+                            "settings": {
+                                "outputFile": "/Users/steven/Desktop/TN2019/meetup/logs/meetup.txt"
+                            },
+                            "input": {
+                                "Graph": "=$activity[BuildGraph].Graph"
+                            }
+                        }
+                    },
+                    {
+                        "id": "DgraphUpsert",
+                        "name": "DgraphUpsert",
+                        "activity": {
+                            "ref": "#dgraphupsert",
+                            "settings": {
+                                "dgraphConnection": {
+                                    "type": "flogo:connector",
+                                    "version": "1.0.0",
+                                    "name": "tibco-dgraph",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "Dgraph Connector",
+                                    "description": "This is Dgraph connector",
+                                    "ref": "github.com/TIBCOSoftware/GraphBuilder_dgraph/connector/dgraph",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Connection Name",
+                                                "description": "Name of the connection"
+                                            },
+                                            "value": "MeetUpEventGraph"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "description": "Connection description"
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "url",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Dgraph Server URL",
+                                                "description": "Dgraph server URL ex. localhost:9080",
+                                                "type": "string"
+                                            },
+                                            "value": "localhost:9080"
+                                        },
+                                        {
+                                            "name": "user",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Username",
+                                                "description": "Username for login to Dgraph server",
+                                                "type": "string"
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "password",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Password",
+                                                "description": "Password for login to Dgraph server",
+                                                "type": "password"
+                                            },
+                                            "value": "SECRET:2ii3KaC9qiiHYCETzMx/XhvC0g=="
+                                        },
+                                        {
+                                            "name": "tls",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "TLS Configuration",
+                                                "description": "Configuration file for TLS",
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".json"
+                                                ]
+                                            },
+                                            "value": {
+                                                "filename": "tls.json",
+                                                "content": "data:application/json;base64,e30="
+                                            }
+                                        },
+                                        {
+                                            "name": "useSchemaDesigner",
+                                            "type": "boolean",
+                                            "display": {
+                                                "name": "Use Schema Designer",
+                                                "description": "Will use schema designer to build schema"
+                                            },
+                                            "value": false,
+                                            "required": true
+                                        },
+                                        {
+                                            "name": "schema",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Graph Schema",
+                                                "description": "Define schema for queries",
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".dschema"
+                                                ]
+                                            },
+                                            "value": ""
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "flogo",
+                                    "key": "flogo/GraphBuilder_dgraph/connector/dgraph/connector.json",
+                                    "display": {
+                                        "description": "This is Dgraph connector",
+                                        "category": "GraphBuilder_dgraph",
+                                        "visible": true,
+                                        "smallIcon": "dgraph.png"
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "Connect",
+                                            "display": {
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            }
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1567795958790,
+                                    "createdTime": 1567795958790,
+                                    "user": "flogo",
+                                    "subscriptionId": "flogo_sbsc",
+                                    "id": "7f8b6a60-d0d7-11e9-b415-c19ec89c528a",
+                                    "connectorName": " ",
+                                    "connectorDescription": " "
+                                },
+                                "cacheSize": -1,
+                                "readableExternalId": false,
+                                "explicitType": true,
+                                "typeTag": "type",
+                                "attrWithPrefix": false
+                            },
+                            "input": {
+                                "Graph": "=$activity[BuildGraph].Graph"
+                            }
+                        }
+                    },
+                    {
+                        "id": "TGDBUpsert",
+                        "name": "TGDBUpsert",
+                        "activity": {
+                            "ref": "#tgdbupsert",
+                            "settings": {
+                                "tgdbConnection": {
+                                    "type": "flogo:connector",
+                                    "version": "1.0.0",
+                                    "name": "tibco-tgdb",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "TGDB Connector",
+                                    "description": "This is TGDB GraphDatabase connector",
+                                    "ref": "github.com/TIBCOSoftware/GraphBuilder_TGDB/connector/tgdb",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Connection Name",
+                                                "description": "Name of the connection"
+                                            },
+                                            "value": "TGDB"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "description": "Connection description"
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "url",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "TGDB Server URL",
+                                                "description": "TGDB server URL ex. tcp://scott@localhost:8222",
+                                                "type": "string"
+                                            },
+                                            "value": "tcp://scott@localhost:8222"
+                                        },
+                                        {
+                                            "name": "user",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Username",
+                                                "description": "Username for login to TGDB server",
+                                                "type": "string"
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "password",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Password",
+                                                "description": "Password for login to TGDB server",
+                                                "type": "password"
+                                            },
+                                            "value": "SECRET:gxVeiCAcJ6U4jhkbcBgiRjc/qEJO"
+                                        },
+                                        {
+                                            "name": "keepAlive",
+                                            "type": "boolean",
+                                            "display": {
+                                                "name": "Keep Connection Alive",
+                                                "description": "Will keep connection alive"
+                                            },
+                                            "value": true,
+                                            "required": true
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "flogo",
+                                    "key": "flogo/GraphBuilder_TGDB/connector/connector.json",
+                                    "display": {
+                                        "description": "This is TGDB GraphDatabase connector",
+                                        "category": "GraphBuilder_TGDB",
+                                        "visible": true,
+                                        "smallIcon": "tgdb.png"
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "Connect",
+                                            "display": {
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            }
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1567793903424,
+                                    "createdTime": 1567793903424,
+                                    "user": "flogo",
+                                    "subscriptionId": "flogo_sbsc",
+                                    "id": "b6737400-d0d2-11e9-b415-c19ec89c528a",
+                                    "connectorName": " ",
+                                    "connectorDescription": " "
+                                },
+                                "allowEmptyStringKey": true
+                            },
+                            "input": {
+                                "Graph": "=$activity[BuildGraph].Graph"
+                            }
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "Event",
+                            "type": "string"
+                        }
+                    ],
+                    "output": [],
+                    "fe_metadata": {
+                        "input": "{\n    \"Event\": \"string\"\n}"
+                    }
+                }
+            }
+        }
+    ],
     "properties": [],
-    "contrib": "W3sicmVmIjoiZ2l0aHViLmNvbS9USUJDT1NvZnR3YXJlL0dyYXBoQnVpbGRlciIsInMzbG9jYXRpb24iOiJ7VVNFUklEfS9HcmFwaEJ1aWxkZXIifSx7InJlZiI6ImdpdGh1Yi5jb20vVElCQ09Tb2Z0d2FyZS9HcmFwaEJ1aWxkZXJfZGdyYXBoIiwiczNsb2NhdGlvbiI6IntVU0VSSUR9L0dyYXBoQnVpbGRlcl9kZ3JhcGgifSx7InJlZiI6ImdpdGh1Yi5jb20vVElCQ09Tb2Z0d2FyZS9HcmFwaEJ1aWxkZXJfU1NFIiwiczNsb2NhdGlvbiI6IntVU0VSSUR9L0dyYXBoQnVpbGRlcl9TU0UifV0=",
-    "fe_metadata": "UEsDBAoAAAAIAKFhI0+rqSRGFQAAABMAAAAIAAAAYXBwLmpzb26rViopykxPTy1yy8kvL1ayio6tBQBQSwECFAAKAAAACAChYSNPq6kkRhUAAAATAAAACAAAAAAAAAAAAAAAAAAAAAAAYXBwLmpzb25QSwUGAAAAAAEAAQA2AAAAOwAAAAAA"
+    "contrib": "W3sicmVmIjoiZ2l0aHViLmNvbS9USUJDT1NvZnR3YXJlL0dyYXBoQnVpbGRlcl9Ub29scyIsInMzbG9jYXRpb24iOiJ7VVNFUklEfS9HcmFwaEJ1aWxkZXJfVG9vbHMifSx7InJlZiI6ImdpdGh1Yi5jb20vVElCQ09Tb2Z0d2FyZS9HcmFwaEJ1aWxkZXIiLCJzM2xvY2F0aW9uIjoie1VTRVJJRH0vR3JhcGhCdWlsZGVyIn0seyJyZWYiOiJnaXRodWIuY29tL1RJQkNPU29mdHdhcmUvR3JhcGhCdWlsZGVyX2RncmFwaCIsInMzbG9jYXRpb24iOiJ7VVNFUklEfS9HcmFwaEJ1aWxkZXJfZGdyYXBoIn0seyJyZWYiOiJnaXRodWIuY29tL1RJQkNPU29mdHdhcmUvR3JhcGhCdWlsZGVyX1NTRSIsInMzbG9jYXRpb24iOiJ7VVNFUklEfS9HcmFwaEJ1aWxkZXJfU1NFIn0seyJyZWYiOiJnaXRodWIuY29tL1RJQkNPU29mdHdhcmUvR3JhcGhCdWlsZGVyX1RHREIiLCJzM2xvY2F0aW9uIjoie1VTRVJJRH0vR3JhcGhCdWlsZGVyX1RHREIifV0=",
+    "fe_metadata": "UEsDBAoAAAAIALupLU+rqSRGFQAAABMAAAAIAAAAYXBwLmpzb26rViopykxPTy1yy8kvL1ayio6tBQBQSwECFAAKAAAACAC7qS1Pq6kkRhUAAAATAAAACAAAAAAAAAAAAAAAAAAAAAAAYXBwLmpzb25QSwUGAAAAAAEAAQA2AAAAOwAAAAAA"
 }
