@@ -59,9 +59,9 @@ export class GraphBuilderActivityContributionHandler extends WiServiceHandlerCon
                 });
             });
         } else if (fieldName === "Nodes") {
-        	    return buildEntity(this.http, this.selectedConnector, (filename : string, content : string) => {
+        	    return buildEntity(this.http, this.selectedConnector, (content : string) => {
                 	let nodes = [{}];
-                	if(filename) {
+                	if(content) {
 					var instanceSizeMap = {};
 					let multiinstancesDef: IFieldDefinition = context.getField("Multiinstances");
 					if (multiinstancesDef.value) {
@@ -74,9 +74,9 @@ export class GraphBuilderActivityContributionHandler extends WiServiceHandlerCon
 					}
 					
 					console.log(instanceSizeMap);
-
-					let nodesConfiguration: IFieldDefinition = context.getField("Nodes");
 					let graphModel = JSON.parse(content);
+					
+					let nodesConfiguration: IFieldDefinition = context.getField("Nodes");
 					if(nodesConfiguration.value) {
 						var entities = graphModel["nodes"];
 							
@@ -107,9 +107,9 @@ export class GraphBuilderActivityContributionHandler extends WiServiceHandlerCon
                 	return nodes;
             });
         } else if (fieldName === "Edges") {
-        		return buildEntity(this.http, this.selectedConnector, (filename : string, content : string) => {
+        		return buildEntity(this.http, this.selectedConnector, (content : string) => {
             		var edges = [{}];
-				if(filename) {
+				if(content) {
 					var instanceSizeMap = {};
 					let multiinstancesDef: IFieldDefinition = context.getField("Multiinstances");
 					if (multiinstancesDef.value) {
@@ -209,25 +209,22 @@ export class GraphBuilderActivityContributionHandler extends WiServiceHandlerCon
 function buildEntity(http, selectedConnector, builder) : Observable<any> {
 	return Observable.create(observer => {
 		WiContributionUtils.getConnections(http, "GraphBuilder").subscribe((data: IConnectorContribution[]) => {
-			var filename;
-			var content;
+			let content : string;
         		data.forEach(connection => {
 				var currentConnector;
             		for (let setting of connection.settings) {
 					if(setting.name === "name") {
 						currentConnector = setting.value
-					}else if (setting.name === "model"&&
+					}else if (setting.name === "metadata"&&
 						selectedConnector === currentConnector) {
-						filename = setting.value.filename;
-						content = setting.value.content;
-						if(content) {
-							content = content.substr(content.indexOf(',')+1);
-							content = atob(content);
-						}
+						content = setting.value;
+						console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+						console.log(content)
+						console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
                 		}
             		}
         		});
-			observer.next(JSON.stringify(builder(filename, content)));
+			observer.next(JSON.stringify(builder(content)));
 			observer.complete();
 		});
 	});			

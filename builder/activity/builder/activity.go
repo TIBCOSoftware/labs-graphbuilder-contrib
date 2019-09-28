@@ -7,7 +7,7 @@ package builder
 
 import (
 	b64 "encoding/base64"
-	"strings"
+	//"strings"
 	"sync"
 
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"
@@ -124,9 +124,11 @@ func (a *BuilderActivity) getGraphModel(context activity.Context) (*model.Graph,
 					setting, _ := data.CoerceToObject(v)
 
 					if nil != setting {
-						if setting["name"] == "model" {
-							modelcontent, _ := data.CoerceToObject(setting["value"])
-							jsonmodel, _ = b64.StdEncoding.DecodeString(strings.Split(modelcontent["content"].(string), ",")[1])
+						if setting["name"] == "metadata" {
+							//if setting["name"] == "model" {
+							//modelcontent, _ := data.CoerceToObject(setting["value"])
+							//jsonmodel, _ = b64.StdEncoding.DecodeString(strings.Split(modelcontent["content"].(string), ",")[1])
+							jsonmodel, _ = b64.StdEncoding.DecodeString(setting["value"].(string))
 						} else if setting["name"] == "inMemory" {
 							a.inMemoryGraph = setting["value"].(bool)
 						} else if setting["name"] == "name" {
