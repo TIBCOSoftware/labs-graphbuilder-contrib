@@ -20,8 +20,6 @@ import {
 @WiContrib({})
 @Injectable()
 export class JSONParserContributionHandler extends WiServiceHandlerContribution {
-	filename: string;
-	content: string; 
 
     constructor(@Inject(Injector) injector, private http: Http) {
         super(injector, http);
@@ -30,22 +28,109 @@ export class JSONParserContributionHandler extends WiServiceHandlerContribution 
     value = (fieldName: string, context: IActivityContribution): Observable<any> | any => {
     	
 		console.log('value ?????????? fieldName = ' + fieldName);
+		let serveGraphData: IFieldDefinition = context.getField("ServeGraphData")
+		let attrNames: IFieldDefinition = context.getField("OutputFieldnames");
+		let graphModel: IFieldDefinition = context.getField("GraphModel");
+		console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+		console.log(attrNames);
+		console.log(graphModel)
+		console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+
+		if (serveGraphData.value) {
+			let selectedConnector : string;
+            	let allowedConnectors = context.getField("GraphModel").allowed;	
+			let selectedConnectorId = context.getField("GraphModel").value;
+			for(let allowedConnector of allowedConnectors) {
+				if(allowedConnector["unique_id"] === selectedConnectorId) {
+					selectedConnector = allowedConnector["name"]
+				}
+			}
+			if (fieldName === "GraphModel") {
+            		return Observable.create(observer => {
+            			//Connector Type must match with the category defined in connector.json
+            		    WiContributionUtils.getConnections(this.http, "GraphBuilder").subscribe((data: IConnectorContribution[]) => {
+            		    		let connectionRefs = [];
+            		        data.forEach(connection => {
+            		            for (let setting of connection.settings) {
+								if(setting.name === "name") {
+									connectionRefs.push({
+										"unique_id": WiContributionUtils.getUniqueId(connection),
+										"name": setting.value
+									});
+								}
+            		            }
+            		        });
+            		        observer.next(connectionRefs);
+            		    		observer.complete();
+            		    });
+            		});
+        		} else if (fieldName === "OutputFieldnames") {
+				//[{"parameterName":"","type":"string","repeating":"false","required":"false","isEditable":true,"AttributeName":"aa","JSONPath":"aa","Default":"a","Type":"String","Optional":"yes"}]
+        		    return buildData(this.http, selectedConnector, (content : string) => {
+        		        	if(content && 0==attrNames.value.length) {
+						let data = [];
+						let graphModel = JSON.parse(content);
+						let nodes = graphModel["nodes"];
+						for(let node of nodes) {
+							let nodeName = node["name"];
+							if(!node["attributes"]) {
+								continue;
+							}
+							for(let attr of node["attributes"]) {
+								let attrName = attr["name"];
+								data.push({
+									"parameterName":"",
+									"type":"string",
+									"repeating":"false",
+									"required":"false",
+									"isEditable":true,
+									"AttributeName":"node_"+nodeName+"_"+attrName,
+									"JSONPath":"",
+									"Default":"",
+									"Type":attr["type"],
+									"Optional":"yes"
+								});
+							}
+						}
+						let edges = graphModel["edges"];
+						for(let edge of edges) {
+							if(!edge["attributes"]) {
+								continue;
+							}
+							let edgeName = edge["name"];
+							for(let attr of edge["attributes"]) {
+								let attrName = attr["name"];
+								data.push({
+									"parameterName":"",
+									"type":"string",
+									"repeating":"false",
+									"required":"false",
+									"isEditable":true,
+									"AttributeName":"edge_"+edgeName+"_"+attrName,
+									"JSONPath":"",
+									"Default":"",
+									"Type":"String",
+									"Optional":attr["type"]
+								});
+							}
+						}
+						return data;
+					}
+					return attrNames.value;
+				});
+        		}
+		}
 		
 		if (fieldName === "Data") {
             var attrJsonSchema = [{}];
             let attrNames: IFieldDefinition = context.getField("OutputFieldnames");
-			console.log(attrNames);
             if (attrNames.value) {
                 let data = JSON.parse(attrNames.value);
-			console.log(data);
                 for (var i = 0; i < data.length; i++) {
-			console.log(data[i]);
                 	    attrJsonSchema[0][data[i].AttributeName] = populateAttribute(data[i].Type);
                 }
                 attrJsonSchema[0]["LastElement"] = populateAttribute("Boolean");
             }
-			console.log(attrJsonSchema);
-			console.log(JSON.stringify(attrJsonSchema));
             return JSON.stringify(attrJsonSchema);
         }
         
@@ -56,8 +141,44 @@ export class JSONParserContributionHandler extends WiServiceHandlerContribution 
 		
 		console.log('validate >>>>>>>> fieldName = ' + fieldName);
 
+ 		if (fieldName === "GraphModel") {
+			let serveGraphData: IFieldDefinition = context.getField("ServeGraphData")
+			console.log(serveGraphData)
+        		if (serveGraphData.value) {
+            		return ValidationResult.newValidationResult().setVisible(true);
+        		} else {
+				return ValidationResult.newValidationResult().setVisible(false);
+			}
+		}
+
 		return null; 
     }
+}
+
+function buildData(http, selectedConnector, builder) : Observable<any> {
+	return Observable.create(observer => {
+		WiContributionUtils.getConnections(http, "GraphBuilder").subscribe((data: IConnectorContribution[]) => {
+			let content : string;
+        		data.forEach(connection => {
+				var currentConnector;
+            		for (let setting of connection.settings) {
+					if(setting.name === "name") {
+						currentConnector = setting.value
+					}else if (setting.name === "metadata"&&
+						selectedConnector === currentConnector) {
+						content = setting.value;
+                		}
+            		}
+        		});
+			console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+			console.log(content)
+			console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+			console.log(builder(content))
+			console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+			observer.next(JSON.stringify(builder(content)));
+			observer.complete();
+		});
+	});			
 }
 
 function populateAttribute(attrType) : any {

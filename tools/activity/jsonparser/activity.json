@@ -21,6 +21,25 @@
         		}
 		},
 		{
+			"name": "ServeGraphData",
+			"type": "boolean",
+			"display": {
+				"name": "Serve Graph Data",
+				"description": "Serve Graph Data"
+			},
+			"value": false
+		},
+		{
+			"name": "GraphModel",
+			"type": "object",
+			"display": {
+				"name": "Graph Model",
+				"description": "User Graph Model",
+				"type": "connection"
+			},
+			"allowed": []
+		},
+		{
 			"name": "OutputFieldnames",
 			"type": "array",
 			"required": false,
