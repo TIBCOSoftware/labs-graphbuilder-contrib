@@ -124,10 +124,10 @@ func (a *CSVParserActivity) getWorkingData(ctx activity.Context) (*CSVParserWork
 			workingData.indexToFieldtype = make(map[int]string)
 			for _, outputFieldname := range outputFieldnames.([]interface{}) {
 				outputFieldnameInfo := outputFieldname.(map[string]interface{})
-				i, _ := strconv.Atoi(outputFieldnameInfo["Column"].(string))
-				workingData.indexToFieldname[i-1] = outputFieldnameInfo["Name"].(string)
+				i, _ := strconv.Atoi(outputFieldnameInfo["CSVFieldName"].(string))
+				workingData.indexToFieldname[i-1] = outputFieldnameInfo["AttributeName"].(string)
 				workingData.indexToFieldtype[i-1] = outputFieldnameInfo["Type"].(string)
-				log.Info("Processing handlers : parameter.Column-1 = ", strconv.Itoa(i-1), ", parameter.Name = ", outputFieldnameInfo["Name"])
+				log.Info("Processing handlers : parameter.Column-1 = ", strconv.Itoa(i-1), ", parameter.Name = ", outputFieldnameInfo["AttributeName"])
 			}
 			a.workingDatas[myId] = workingData
 

@@ -31,12 +31,13 @@ export class JSONParserContributionHandler extends WiServiceHandlerContribution 
 		let serveGraphData: IFieldDefinition = context.getField("ServeGraphData")
 		let attrNames: IFieldDefinition = context.getField("OutputFieldnames");
 		let graphModel: IFieldDefinition = context.getField("GraphModel");
-		console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-		console.log(attrNames);
-		console.log(graphModel)
-		console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+    		let data = [];
+		if(attrNames.value) {
+			data = JSON.parse(attrNames.value)
+		}
 
 		if (serveGraphData.value) {
+			let previousConnector = context.getField("PreviousConnector").value
 			let selectedConnector : string;
             	let allowedConnectors = context.getField("GraphModel").allowed;	
 			let selectedConnectorId = context.getField("GraphModel").value;
@@ -67,58 +68,18 @@ export class JSONParserContributionHandler extends WiServiceHandlerContribution 
         		} else if (fieldName === "OutputFieldnames") {
 				//[{"parameterName":"","type":"string","repeating":"false","required":"false","isEditable":true,"AttributeName":"aa","JSONPath":"aa","Default":"a","Type":"String","Optional":"yes"}]
         		    return buildData(this.http, selectedConnector, (content : string) => {
-        		        	if(content && 0==attrNames.value.length) {
-						let data = [];
+					console.log('in value >>>>>>>> selectedConnector = ' + selectedConnector + ', previousConnector = ' + previousConnector);
+        		        	if(content && (0===data.length||selectedConnector!=previousConnector)) {
+						data = [];
 						let graphModel = JSON.parse(content);
-						let nodes = graphModel["nodes"];
-						for(let node of nodes) {
-							let nodeName = node["name"];
-							if(!node["attributes"]) {
-								continue;
-							}
-							for(let attr of node["attributes"]) {
-								let attrName = attr["name"];
-								data.push({
-									"parameterName":"",
-									"type":"string",
-									"repeating":"false",
-									"required":"false",
-									"isEditable":true,
-									"AttributeName":"node_"+nodeName+"_"+attrName,
-									"JSONPath":"",
-									"Default":"",
-									"Type":attr["type"],
-									"Optional":"yes"
-								});
-							}
-						}
-						let edges = graphModel["edges"];
-						for(let edge of edges) {
-							if(!edge["attributes"]) {
-								continue;
-							}
-							let edgeName = edge["name"];
-							for(let attr of edge["attributes"]) {
-								let attrName = attr["name"];
-								data.push({
-									"parameterName":"",
-									"type":"string",
-									"repeating":"false",
-									"required":"false",
-									"isEditable":true,
-									"AttributeName":"edge_"+edgeName+"_"+attrName,
-									"JSONPath":"",
-									"Default":"",
-									"Type":"String",
-									"Optional":attr["type"]
-								});
-							}
-						}
-						return data;
+						buildAttributeDataForEntity("node", data, graphModel["nodes"])
+						buildAttributeDataForEntity("edge", data, graphModel["edges"])
 					}
-					return attrNames.value;
+					return data;
 				});
-        		}
+        		} else if (fieldName === "PreviousConnector"){
+				return selectedConnector;
+			}
 		}
 		
 		if (fieldName === "Data") {
@@ -149,6 +110,8 @@ export class JSONParserContributionHandler extends WiServiceHandlerContribution 
         		} else {
 				return ValidationResult.newValidationResult().setVisible(false);
 			}
+		} else if (fieldName === "PreviousConnector") {
+			return ValidationResult.newValidationResult().setVisible(false);
 		}
 
 		return null; 
@@ -179,6 +142,30 @@ function buildData(http, selectedConnector, builder) : Observable<any> {
 			observer.complete();
 		});
 	});			
+}
+
+function buildAttributeDataForEntity(entityType, data, entities) {
+	for(let entity of entities) {
+		let entityName = entity["name"];
+		if(!entity["attributes"]) {
+			continue;
+		}
+		for(let attr of entity["attributes"]) {
+			let attrName = attr["name"];
+			data.push({
+				"parameterName":"",
+				"type":"string",
+				"repeating":"false",
+				"required":"false",
+				"isEditable":true,
+				"AttributeName":entityType+"_"+entityName+"_"+attrName,
+				"JSONPath":"",
+				"Default":"",
+				"Type":attr["type"],
+				"Optional":"yes"
+			});
+		}
+	}
 }
 
 function populateAttribute(attrType) : any {

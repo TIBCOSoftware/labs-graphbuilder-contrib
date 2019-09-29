@@ -59,8 +59,11 @@
 			},
 			"value": false,
 			"required": true
+		},
+		{
+			"name": "PreviousConnector",
+			"type": "string"
 		}
-
 	],
 	"input":[
 		{

@@ -20,7 +20,6 @@ import {
 @WiContrib({})
 @Injectable()
 export class XMLParserContributionHandler extends WiServiceHandlerContribution {
-	selectedConnector: string;
 
     constructor(@Inject(Injector) injector, private http: Http) {
         super(injector, http);
@@ -30,93 +29,60 @@ export class XMLParserContributionHandler extends WiServiceHandlerContribution {
     	
 		console.log('value ?????????? fieldName = ' + fieldName);
 		let serveGraphData: IFieldDefinition = context.getField("ServeGraphData")
-		
-		if (fieldName === "GraphModel" && serveGraphData.value) {
-            let allowedConnectors = context.getField("GraphModel").allowed;	
+		let attrNames: IFieldDefinition = context.getField("OutputFieldnames");
+		let graphModel: IFieldDefinition = context.getField("GraphModel");
+    		let data = [];
+		if(attrNames.value) {
+			data = JSON.parse(attrNames.value)
+		}
+
+		if (serveGraphData.value) {
+			let previousConnector = context.getField("PreviousConnector").value
+			let selectedConnector : string;
+            	let allowedConnectors = context.getField("GraphModel").allowed;	
 			let selectedConnectorId = context.getField("GraphModel").value;
 			for(let allowedConnector of allowedConnectors) {
 				if(allowedConnector["unique_id"] === selectedConnectorId) {
-					this.selectedConnector = allowedConnector["name"]
+					selectedConnector = allowedConnector["name"]
 				}
 			}
-            
-            return Observable.create(observer => {
-            		//Connector Type must match with the category defined in connector.json
-                WiContributionUtils.getConnections(this.http, "GraphBuilder").subscribe((data: IConnectorContribution[]) => {
-                		let connectionRefs = [];
-                    data.forEach(connection => {
-                        for (let setting of connection.settings) {
-							if(setting.name === "name") {
-								connectionRefs.push({
-									"unique_id": WiContributionUtils.getUniqueId(connection),
-									"name": setting.value
-								});
-							}
-                        }
-                    });
-                    observer.next(connectionRefs);
-                		observer.complete();
-                });
-            });
-        } else if (fieldName === "OutputFieldnames") {
-        	    let attrNames: IFieldDefinition = context.getField("OutputFieldnames");
-			console.log(attrNames);
-
-			//[{"parameterName":"","type":"string","repeating":"false","required":"false","isEditable":true,"AttributeName":"aa","XMLPath":"aa","Default":"a","Type":"String","Optional":"yes"}]
-        	    return buildData(this.http, this.selectedConnector, (content : string) => {
-                	if(content) {
-					let data = [];
-					let graphModel = JSON.parse(content);
-					let nodes = graphModel["nodes"];
-					for(let node of nodes) {
-						if(!node["attributes"]) {
-							continue;
-						}
-						let nodeName = node["name"];
-						for(let attr of node["attributes"]) {
-							let attrName = attr["name"];
-							data.push({
-								"parameterName":"",
-								"type":"string",
-								"repeating":"false",
-								"required":"false",
-								"isEditable":true,
-								"AttributeName":"node_"+nodeName+"_"+attrName,
-								"XMLPath":"",
-								"Default":"",
-								"Type":attr["type"],
-								"Optional":"yes"
-							});
-						}
-					}
-					let edges = graphModel["edges"];
-					for(let edge of edges) {
-						if(!edge["attributes"]) {
-							continue;
-						}
-						let edgeName = edge["name"];
-						for(let attr of edge["attributes"]) {
-							let attrName = attr["name"];
-							data.push({
-								"parameterName":"",
-								"type":"string",
-								"repeating":"false",
-								"required":"false",
-								"isEditable":true,
-								"AttributeName":"edge_"+edgeName+"_"+attrName,
-								"XMLPath":"",
-								"Default":"",
-								"Type":"String",
-								"Optional":attr["type"]
-							});
-						}
+			if (fieldName === "GraphModel") {
+            		return Observable.create(observer => {
+            			//Connector Type must match with the category defined in connector.json
+            		    WiContributionUtils.getConnections(this.http, "GraphBuilder").subscribe((data: IConnectorContribution[]) => {
+            		    		let connectionRefs = [];
+            		        data.forEach(connection => {
+            		            for (let setting of connection.settings) {
+								if(setting.name === "name") {
+									connectionRefs.push({
+										"unique_id": WiContributionUtils.getUniqueId(connection),
+										"name": setting.value
+									});
+								}
+            		            }
+            		        });
+            		        observer.next(connectionRefs);
+            		    		observer.complete();
+            		    });
+            		});
+        		} else if (fieldName === "OutputFieldnames") {
+				//[{"parameterName":"","type":"string","repeating":"false","required":"false","isEditable":true,"AttributeName":"aa","XMLPath":"aa","Default":"a","Type":"String","Optional":"yes"}]
+        		    return buildData(this.http, selectedConnector, (content : string) => {
+					console.log('in value >>>>>>>> selectedConnector = ' + selectedConnector + ', previousConnector = ' + previousConnector);
+        		        	if(content && (0===data.length||selectedConnector!=previousConnector)) {
+						data = [];
+						let graphModel = JSON.parse(content);
+						buildAttributeDataForEntity("node", data, graphModel["nodes"])
+						buildAttributeDataForEntity("edge", data, graphModel["edges"])
 					}
 					return data;
-				}
-				return attrNames.value
-			});
-			
-        } else if (fieldName === "Data") {
+				});
+        		} else if (fieldName === "PreviousConnector"){
+				return selectedConnector;
+			}
+		}
+		
+		if (fieldName === "Data") {
             var attrJsonSchema = [{}];
             let attrNames: IFieldDefinition = context.getField("OutputFieldnames");
             if (attrNames.value) {
@@ -143,6 +109,8 @@ export class XMLParserContributionHandler extends WiServiceHandlerContribution {
         		} else {
 				return ValidationResult.newValidationResult().setVisible(false);
 			}
+		} else if (fieldName === "PreviousConnector") {
+			return ValidationResult.newValidationResult().setVisible(false);
 		}
 
 		return null; 
@@ -161,16 +129,42 @@ function buildData(http, selectedConnector, builder) : Observable<any> {
 					}else if (setting.name === "metadata"&&
 						selectedConnector === currentConnector) {
 						content = setting.value;
-						console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-						console.log(content)
-						console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
                 		}
             		}
         		});
+			console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+			console.log(content)
+			console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+			console.log(builder(content))
+			console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
 			observer.next(JSON.stringify(builder(content)));
 			observer.complete();
 		});
 	});			
+}
+
+function buildAttributeDataForEntity(entityType, data, entities) {
+	for(let entity of entities) {
+		let entityName = entity["name"];
+		if(!entity["attributes"]) {
+			continue;
+		}
+		for(let attr of entity["attributes"]) {
+			let attrName = attr["name"];
+			data.push({
+				"parameterName":"",
+				"type":"string",
+				"repeating":"false",
+				"required":"false",
+				"isEditable":true,
+				"AttributeName":entityType+"_"+entityName+"_"+attrName,
+				"XMLPath":"",
+				"Default":"",
+				"Type":attr["type"],
+				"Optional":"yes"
+			});
+		}
+	}
 }
 
 function populateAttribute(attrType) : any {
