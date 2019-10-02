@@ -10,11 +10,7 @@ import {
 	WiContrib, 
 	WiServiceHandlerContribution, 
 	AUTHENTICATION_TYPE,
-//    IValidationResult,
-//    ValidationResult,
-//    IFieldDefinition,
     IActivityContribution,
-//    IConnectorContribution,
     WiContributionUtils
 } from "wi-studio/app/contrib/wi-contrib";
 
@@ -84,10 +80,12 @@ export class TibcoGraphContribution extends WiServiceHandlerContribution {
 		} else if (name === "metadata") {			
 			return ValidationResult.newValidationResult().setVisible(false);
 		} else if(name === "Connect") {
-			if(!metadata.value) {
-				return ValidationResult.newValidationResult().setReadOnly(true);
-			}
-			return ValidationResult.newValidationResult().setReadOnly(false);
+			//setTimeout(()=>{
+			//	if(!metadata.value) {
+			//		return ValidationResult.newValidationResult().setReadOnly(true);
+			//	}
+				return ValidationResult.newValidationResult().setReadOnly(false);
+			//}, 10000)
 		}
  		return null;
 	}
