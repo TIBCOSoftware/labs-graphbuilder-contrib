@@ -6,6 +6,7 @@
 package tgdbupsert
 
 import (
+	"errors"
 	"sync"
 
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"
@@ -42,22 +43,37 @@ func (a *TGDBUpsertActivity) Metadata() *activity.Metadata {
 func (a *TGDBUpsertActivity) Eval(context activity.Context) (done bool, err error) {
 
 	log.Info("(TGDBUpsertActivity) entering ......")
+	defer log.Info("(TGDBUpsertActivity) exit ......")
 
 	tgdbService, err := a.getTGDBService(context)
-
 	if nil != err {
 		return false, err
 	}
 
-	graph, _ := context.GetInput("Graph").(map[string]interface{})["graph"].(map[string]interface{})
+	iInputData := context.GetInput("Graph")
+	if nil == iInputData {
+		return false, errors.New("Illegal nil graph data")
+	}
+
+	inputData, ok := iInputData.(map[string]interface{})
+	if !ok {
+		return false, errors.New("Illegal graph data type, should be map[string]interface{}.")
+	}
+
+	iGraph := inputData["graph"]
+	if nil == iGraph {
+		return false, errors.New("Illegal nil graph content")
+	}
+
+	graph, ok := iGraph.(map[string]interface{})
+	if !ok {
+		return false, errors.New("Illegal graph content, should be map[string]interface{}.")
+	}
 
 	err = tgdbService.UpsertGraph(graph)
-
 	if nil != err {
 		return false, err
 	}
-
-	log.Info("(TGDBUpsertActivity) exit normally ......")
 
 	return true, nil
 }
@@ -72,6 +88,8 @@ func (a *TGDBUpsertActivity) getTGDBService(context activity.Context) (*tgdb.TGD
 		tgdbService = tgdb.GetFactory().GetService(a.activityToConnector[myId])
 		if nil == tgdbService {
 			log.Info("Initializing TGDB Service start ...")
+			defer log.Info("Initializing TGDB Service end, tgdbService = ", tgdbService)
+
 			connection, exist := context.GetSetting(Connection)
 			if !exist {
 				return nil, activity.NewError("TGDB connection is not configured", "TGDB-UPSERT-4001", nil)
@@ -115,9 +133,11 @@ func (a *TGDBUpsertActivity) getTGDBService(context activity.Context) (*tgdb.TGD
 
 			log.Info("(getTGDBService) - properties = ", properties)
 
-			tgdbService, _ = tgdb.GetFactory().CreateService(connectorName, properties)
-
-			log.Info("Initializing TGDB Service end, tgdbService = ", tgdbService)
+			var err error
+			tgdbService, err = tgdb.GetFactory().CreateService(connectorName, properties)
+			if nil != err {
+				return nil, err
+			}
 		}
 	}
 

@@ -57,7 +57,9 @@ func (a *TGDBQueryActivity) Eval(context activity.Context) (done bool, err error
 	tgdbService, err := a.getTGDBService(context)
 
 	if nil != err {
-		return false, err
+		log.Error(err.Error())
+		sendOutput(context, nil, false, 0, err.Error())
+		return true, err
 	}
 
 	a.mux.Lock()
@@ -65,10 +67,15 @@ func (a *TGDBQueryActivity) Eval(context activity.Context) (done bool, err error
 
 	pathParams := context.GetInput(input_PathParams).(*data.ComplexObject).Value.(map[string]interface{})
 	queryType := pathParams[input_QueryType]
-	//	log.Info("query type = ", queryType)
+	log.Info("query type => ", queryType)
 
 	queryResult := make(map[string]interface{})
-	metadata, _ := tgdbService.GetMetadata()
+	metadata, err := tgdbService.GetMetadata()
+	if nil != err {
+		log.Error(err.Error())
+		sendOutput(context, nil, false, 0, err.Error())
+		return true, err
+	}
 
 	switch queryType {
 	case QueryType_Metadata:
@@ -121,15 +128,31 @@ func (a *TGDBQueryActivity) Eval(context activity.Context) (done bool, err error
 
 	}
 
-	queryResult["success"] = true
-
-	//	log.Info("query result = ", queryResult)
-
-	complexdata := &data.ComplexObject{Metadata: output_Data, Value: queryResult}
-	//	log.Info("complexdata = ", complexdata)
-	context.SetOutput(output_Data, complexdata)
+	sendOutput(context, queryResult, true, 0, "")
 
 	return true, nil
+}
+
+func sendOutput(
+	context activity.Context,
+	content interface{},
+	success bool,
+	errorCode int,
+	errorMessage string) {
+	queryResult := make(map[string]interface{})
+	queryResult["success"] = true
+	queryResult["error"] = make(map[string]interface{})
+	queryResult["data"] = content
+	queryResult["success"] = success
+	error := make(map[string]interface{})
+	error["code"] = errorCode
+	error["message"] = errorMessage
+	queryResult["error"] = error
+	complexdata := &data.ComplexObject{
+		Metadata: output_Data,
+		Value:    queryResult,
+	}
+	context.SetOutput(output_Data, complexdata)
 }
 
 func (a *TGDBQueryActivity) getTGDBService(context activity.Context) (*tgdb.TGDBService, error) {
