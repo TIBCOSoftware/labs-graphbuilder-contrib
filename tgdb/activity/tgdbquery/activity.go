@@ -30,7 +30,9 @@ const (
 	QueryType_NodeTypes      = "nodetypes"
 	QueryType_EdgeTypes      = "edgetypes"
 	QueryType_Node           = "node"
-	QueryType_Search         = "search"
+	QueryType_API            = "api"
+	QueryLanguage_TGQL       = "tgql"
+	QueryLanguage_Gremlin    = "gremlin"
 )
 
 var log = logger.GetLogger("tibco-activity-tgdbquery")
@@ -64,21 +66,21 @@ func (a *TGDBQueryActivity) Eval(context activity.Context) (done bool, err error
 	defer a.mux.Unlock()
 
 	pathParams := context.GetInput(input_PathParams).(*data.ComplexObject).Value.(map[string]interface{})
-	queryType := pathParams[input_QueryType]
+	queryType := pathParams[input_QueryType].(string)
 	//	log.Info("query type = ", queryType)
 
-	queryResult := make(map[string]interface{})
+	var queryResult map[string]interface{}
 	metadata, _ := tgdbService.GetMetadata()
 
 	switch queryType {
 	case QueryType_Metadata:
-		queryResult["data"] = tgdb.BuildMetadata(metadata)
+		queryResult = a.buildQueryResult(tgdb.BuildMetadata(metadata), true, nil, nil)
 		break
 	case QueryType_NodeTypes:
-		queryResult["data"] = tgdb.BuildMetadata(metadata)["nodeTypes"]
+		queryResult = a.buildQueryResult(tgdb.BuildMetadata(metadata)["nodeTypes"], true, nil, nil)
 		break
 	case QueryType_EdgeTypes:
-		queryResult["data"] = tgdb.BuildMetadata(metadata)["edgeTypes"]
+		queryResult = a.buildQueryResult(tgdb.BuildMetadata(metadata)["edgeTypes"], true, nil, nil)
 		break
 	case QueryType_Node:
 		entityType := pathParams[input_EntityType].(string)
@@ -101,29 +103,53 @@ func (a *TGDBQueryActivity) Eval(context activity.Context) (done bool, err error
 		pKey["attributes"] = attributes
 		entity, _ := tgdbService.GetNode(entityType, pKey)
 		if nil != entity {
-			queryResult["data"] = tgdb.BuildNode(tgdbService, entity.(types.TGNode))
+			queryResult = a.buildQueryResult(tgdb.BuildNode(tgdbService, entity.(types.TGNode)), true, nil, nil)
+		} else {
+			queryResult = a.buildQueryResult(nil, true, nil, nil)
 		}
 		break
-	case QueryType_Search:
+	case QueryType_API:
 		query := context.GetInput(input_QueryParams).(*data.ComplexObject).Value.(map[string]interface{})
-		resultSet, err := tgdbService.Query(a.buildQueryParams(query))
-		if nil == err {
-			if nil != resultSet {
-				result := resultSet.Next()
-				if nil == result {
-					queryResult["data"] = make(map[string]interface{})
-				}
-				queryResult["data"] = tgdb.BuildNode(tgdbService, result.(types.TGNode))
+		language, parameters := a.buildQueryParams(query)
+		var resultSet types.TGResultSet
+		var tgErr types.TGError
+		switch language {
+		case QueryLanguage_Gremlin:
+			{
+				resultSet, tgErr = tgdbService.GremlinQuery(parameters)
+			}
+		default:
+			{
+				resultSet, tgErr = tgdbService.TGQLQuery(parameters)
 			}
 		}
+
+		log.Info("NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN")
+		log.Info(resultSet)
+		log.Info("NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN")
+
+		if nil == tgErr {
+			if nil != resultSet {
+				result := resultSet.Next()
+				log.Info("====NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN")
+				log.Info(result)
+				log.Info("====NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN")
+				if nil != result {
+					queryResult = a.buildQueryResult(tgdb.BuildNode(tgdbService, result.(types.TGNode)), true, nil, nil)
+				}
+			}
+
+			if nil == queryResult {
+				queryResult = a.buildQueryResult(nil, true, nil, nil)
+			}
+		} else {
+			queryResult = a.buildQueryResult(nil, false, 100, tgErr.GetErrorDetails())
+		}
+
 		break
 	default:
-
+		queryResult = a.buildQueryResult(nil, false, 100, "Illegal query type : "+queryType)
 	}
-
-	queryResult["success"] = true
-
-	//	log.Info("query result = ", queryResult)
 
 	complexdata := &data.ComplexObject{Metadata: output_Data, Value: queryResult}
 	//	log.Info("complexdata = ", complexdata)
@@ -185,10 +211,18 @@ func (a *TGDBQueryActivity) getTGDBService(context activity.Context) (*tgdb.TGDB
 	return tgdbService, nil
 }
 
-func (a *TGDBQueryActivity) buildQueryParams(parameters map[string]interface{}) map[string]interface{} {
+func (a *TGDBQueryActivity) buildQueryParams(
+	parameters map[string]interface{}) (string, map[string]interface{}) {
+
 	queryParams := make(map[string]interface{})
 	query := make(map[string]interface{})
 	queryParams[tgdb.Query] = query
+
+	var language string
+	if nil != parameters[tgdb.Query_Language] {
+		language = parameters[tgdb.Query_Language].(string)
+	}
+
 	if nil != parameters[tgdb.Query_QueryString] {
 		query[tgdb.Query_QueryString] = parameters[tgdb.Query_QueryString]
 	}
@@ -217,5 +251,33 @@ func (a *TGDBQueryActivity) buildQueryParams(parameters map[string]interface{}) 
 		queryParams[tgdb.Query_OPT_EdgeLimit] = int(parameters[tgdb.Query_OPT_EdgeLimit].(float64))
 	}
 
-	return queryParams
+	return language, queryParams
+}
+
+func (a *TGDBQueryActivity) buildQueryResult(
+	data interface{},
+	success bool,
+	errorCode interface{},
+	errorMsg interface{}) map[string]interface{} {
+
+	log.Info("%%%%%%%%%%%%%%%%%%%%%% queryResult %%%%%%%%%%%%%%%%%%%%%%")
+	log.Info("data      : ", data)
+	log.Info("success   : ", success)
+	log.Info("errorCode : ", errorCode)
+	log.Info("errorMsg  : ", errorMsg)
+	log.Info("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+
+	queryResult := make(map[string]interface{})
+
+	if success {
+		queryResult["data"] = data
+		queryResult["success"] = true
+	} else {
+		error := make(map[string]interface{})
+		error["code"] = errorCode
+		error["message"] = errorMsg
+		queryResult["error"] = error
+		queryResult["success"] = false
+	}
+	return queryResult
 }
