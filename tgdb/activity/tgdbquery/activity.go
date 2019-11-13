@@ -108,19 +108,37 @@ func (a *TGDBQueryActivity) Eval(context activity.Context) (done bool, err error
 		pKey["attributes"] = attributes
 		entity, _ := tgdbService.GetNode(entityType, pKey)
 		if nil != entity {
-			queryResult["data"] = tgdb.BuildNode(tgdbService, entity.(types.TGNode))
+			result := make(map[string]interface{})
+			tgdb.BuildNode(tgdbService, entity.(types.TGNode), result)
+			queryResult = a.buildQueryResult(result, true, nil, nil)
+		} else {
+			queryResult = a.buildQueryResult(nil, true, nil, nil)
 		}
 		break
 	case QueryType_Search:
 		query := context.GetInput(input_QueryParams).(*data.ComplexObject).Value.(map[string]interface{})
-		resultSet, err := tgdbService.Query(a.buildQueryParams(query))
-		if nil == err {
+		language, parameters := a.buildQueryParams(query)
+		var resultSet types.TGResultSet
+		var tgErr types.TGError
+		switch language {
+		case QueryLanguage_Gremlin:
+			{
+				resultSet, tgErr = tgdbService.GremlinQuery(parameters)
+			}
+		default:
+			{
+				resultSet, tgErr = tgdbService.TGQLQuery(parameters)
+			}
+		}
+
+		if nil == tgErr {
 			if nil != resultSet {
-				result := resultSet.Next()
-				if nil == result {
-					queryResult["data"] = make(map[string]interface{})
+				result := make(map[string]interface{})
+				for resultSet.HasNext() {
+					entity := resultSet.Next()
+					tgdb.BuildNode(tgdbService, entity.(types.TGNode), result)
 				}
-				queryResult["data"] = tgdb.BuildNode(tgdbService, result.(types.TGNode))
+				queryResult = a.buildQueryResult(result, true, nil, nil)
 			}
 		}
 		break
@@ -240,5 +258,33 @@ func (a *TGDBQueryActivity) buildQueryParams(parameters map[string]interface{}) 
 		queryParams[tgdb.Query_OPT_EdgeLimit] = int(parameters[tgdb.Query_OPT_EdgeLimit].(float64))
 	}
 
-	return queryParams
+	return language, queryParams
+}
+
+func (a *TGDBQueryActivity) buildQueryResult(
+	data interface{},
+	success bool,
+	errorCode interface{},
+	errorMsg interface{}) map[string]interface{} {
+
+	log.Debug("%%%%%%%%%%%%%%%%%%%%%% queryResult %%%%%%%%%%%%%%%%%%%%%%")
+	log.Debug("data      : ", data)
+	log.Debug("success   : ", success)
+	log.Debug("errorCode : ", errorCode)
+	log.Debug("errorMsg  : ", errorMsg)
+	log.Debug("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+
+	queryResult := make(map[string]interface{})
+
+	if success {
+		queryResult["data"] = data
+		queryResult["success"] = true
+	} else {
+		error := make(map[string]interface{})
+		error["code"] = errorCode
+		error["message"] = errorMsg
+		queryResult["error"] = error
+		queryResult["success"] = false
+	}
+	return queryResult
 }
