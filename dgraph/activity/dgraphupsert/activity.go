@@ -14,7 +14,8 @@ import (
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"
 	"github.com/TIBCOSoftware/flogo-lib/core/data"
 	"github.com/TIBCOSoftware/flogo-lib/logger"
-	"github.com/TIBCOSoftware/labs-graphbuilder-lib/dbservice/dgraph"
+	"github.com/TIBCOSoftware/labs-graphbuilder-lib/dbservice"
+	"github.com/TIBCOSoftware/labs-graphbuilder-lib/dbservice/factory"
 	"github.com/TIBCOSoftware/labs-graphbuilder-lib/model"
 	"github.com/TIBCOSoftware/labs-graphbuilder-lib/util"
 )
@@ -66,7 +67,7 @@ func (a *DgraphUpsertActivity) Eval(context activity.Context) (done bool, err er
 		return false, err
 	}
 
-	err = dgraphService.UpsertGraph(graph)
+	err = dgraphService.UpsertGraph(graph, nil)
 
 	if nil != err {
 		log.Error("(DgraphUpsertActivity) exit during upsert, with error = ", err.Error())
@@ -78,79 +79,62 @@ func (a *DgraphUpsertActivity) Eval(context activity.Context) (done bool, err er
 	return true, nil
 }
 
-func (a *DgraphUpsertActivity) getDgraphService(context activity.Context) (*dgraph.DgraphService, error) {
+func (a *DgraphUpsertActivity) getDgraphService(context activity.Context) (dbservice.UpsertService, error) {
 	myId := util.ActivityId(context)
 
 	log.Debug("(getDgraphService) entering - myId = ", myId)
 
-	dgraphService := dgraph.GetFactory().GetService(a.activityToConnector[myId])
+	dgraphService := factory.GetFactory(dbservice.Dgraph).GetUpsertService(a.activityToConnector[myId])
+	//dgraph.GetFactory().GetService(a.activityToConnector[myId])
 	if nil == dgraphService {
 		a.mux.Lock()
 		defer a.mux.Unlock()
 
-		dgraphService = dgraph.GetFactory().GetService(a.activityToConnector[myId])
+		dgraphService = factory.GetFactory(dbservice.Dgraph).GetUpsertService(a.activityToConnector[myId])
 		if nil == dgraphService {
 
 			log.Info("(getDgraphService) Initializing DGraph Service start ...")
 
-			connection, exist := context.GetSetting(Connection)
-			if !exist {
-				return nil, activity.NewError("Dgraph connection is not configured", "Degraph-UPSERT-4001", nil)
-			}
-
-			connectionInfo, _ := data.CoerceToObject(connection)
-			if connectionInfo == nil {
-				return nil, activity.NewError("Dgraph connection not able to be parsed", "Degraph-UPSERT-4002", nil)
+			settingsMap, err := getConnectionSetting(context)
+			if nil != err {
+				return nil, err
 			}
 
 			properties := make(map[string]interface{})
-			connectionSettings, _ := connectionInfo["settings"].([]interface{})
 
-			if nil == connectionSettings {
-				return nil, fmt.Errorf("Unable to get connection setting!")
-			}
-
-			var connectorName string
-			for _, v := range connectionSettings {
-				setting, _ := data.CoerceToObject(v)
-				if setting != nil {
-					if setting["name"] == "url" {
-						properties["url"], _ = data.CoerceToString(setting["value"])
-					} else if setting["name"] == "user" {
-						properties["user"], _ = data.CoerceToString(setting["value"])
-					} else if setting["name"] == "password" {
-						properties["password"], _ = data.CoerceToString(setting["value"])
-					} else if setting["name"] == "name" {
-						connectorName, _ = data.CoerceToString(setting["value"])
-					} else if setting["name"] == "tls" {
-						if nil != setting["value"] {
-							content, err := data.CoerceToObject(setting["value"])
-							if nil != err {
-								break
-							}
-							tlsBytes, err := b64.StdEncoding.DecodeString(strings.Split(content["content"].(string), ",")[1])
-							if nil != err {
-								break
-							}
+			properties["version"], _ = data.CoerceToString(settingsMap["apiVersion"])
+			properties["url"], _ = data.CoerceToString(settingsMap["url"])
+			properties["user"], _ = data.CoerceToString(settingsMap["user"])
+			properties["password"], _ = data.CoerceToString(settingsMap["password"])
+			properties["tlsEnabled"], _ = data.CoerceToBoolean(settingsMap["tlsEnabled"])
+			if properties["tlsEnabled"].(bool) {
+				if nil != settingsMap["tls"] {
+					content, err := data.CoerceToObject(settingsMap["tls"])
+					if nil == err {
+						tlsBytes, err := b64.StdEncoding.DecodeString(strings.Split(content["content"].(string), ",")[1])
+						if nil == err {
 							properties["tls"] = string(tlsBytes)
 						}
-					} else if setting["name"] == "schema" {
-						if nil != setting["value"] {
-							content, err := data.CoerceToObject(setting["value"])
-							if nil != err {
-								break
-							}
-							if nil != content["content"] {
-								schemaBytes, err := b64.StdEncoding.DecodeString(strings.Split(content["content"].(string), ",")[1])
-								if nil != err {
-									break
-								}
+					}
+				}
+			}
+
+			properties["schemaGen"], _ = data.CoerceToString(settingsMap["schemaGen"])
+			if "file" == properties["schemaGen"].(string) {
+				if nil != settingsMap["schema"] {
+					content, err := data.CoerceToObject(settingsMap["schema"])
+					if nil == err {
+						if nil != content["content"] {
+							schemaBytes, err := b64.StdEncoding.DecodeString(strings.Split(content["content"].(string), ",")[1])
+							if nil == err {
 								properties["schema"] = string(schemaBytes)
 							}
 						}
 					}
 				}
 			}
+
+			connectorName, _ := data.CoerceToString(settingsMap["name"])
 
 			cacheSize, exist := context.GetSetting(cacheSize)
 			if exist {
@@ -195,7 +179,8 @@ func (a *DgraphUpsertActivity) getDgraphService(context activity.Context) (*dgra
 
 			log.Debug("properties : ", properties)
 
-			dgraphService, err = dgraph.GetFactory().CreateService(connectorName, properties)
+			dgraphService, err = factory.GetFactory(dbservice.Dgraph).CreateUpsertService(connectorName, properties)
+			//dgraph.GetFactory().CreateService(connectorName, properties)
 
 			if nil != err {
 				return nil, err
@@ -223,4 +208,32 @@ func GetGraph(context activity.Context) (model.Graph, error) {
 	log.Debug("(getDgraph) graph obj = ", graph)
 
 	return graph, nil
+}
+
+func getConnectionSetting(context activity.Context) (map[string]interface{}, error) {
+	connection, exist := context.GetSetting(Connection)
+	if !exist {
+		return nil, activity.NewError("Connection is not configured", "Connection-4001", nil)
+	}
+
+	connectionInfo, _ := data.CoerceToObject(connection)
+	if connectionInfo == nil {
+		return nil, activity.NewError("Connection not able to be parsed", "Connection-4002", nil)
+	}
+
+	settingsMap := make(map[string]interface{})
+	connectionSettings, _ := connectionInfo["settings"].([]interface{})
+
+	if nil == connectionSettings {
+		return nil, fmt.Errorf("Unable to get connection setting!")
+	}
+
+	for _, v := range connectionSettings {
+		setting, _ := data.CoerceToObject(v)
+		if setting != nil {
+			settingsMap[setting["name"].(string)] = setting["value"]
+		}
+	}
+
+	return settingsMap, nil
 }

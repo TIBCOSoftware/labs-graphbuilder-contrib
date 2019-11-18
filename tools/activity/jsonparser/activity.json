@@ -21,6 +21,25 @@
         		}
 		},
 		{
+			"name": "ServeGraphData",
+			"type": "boolean",
+			"display": {
+				"name": "Serve Graph Data",
+				"description": "Serve Graph Data"
+			},
+			"value": false
+		},
+		{
+			"name": "GraphModel",
+			"type": "object",
+			"display": {
+				"name": "Graph Model",
+				"description": "User Graph Model",
+				"type": "connection"
+			},
+			"allowed": []
+		},
+		{
 			"name": "OutputFieldnames",
 			"type": "array",
 			"required": false,
@@ -30,6 +49,10 @@
 				"type": "table",
 				"schema": "{\r\n    \"$schema\": \"http:\/\/json-schema.org\/draft-04\/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http:\/\/example.com\/example.json\",\r\n    \"items\": {\r\n        \"id\": \"\/items\",\r\n        \"properties\": {\r\n            \"AttributeName\": {\r\n                \"id\": \"\/items\/properties\/AttributeName\",\r\n                \"type\": \"string\"\r\n            },\r\n         \"JSONPath\": {\r\n                \"id\": \"\/items\/properties\/JSONPath\",\r\n                \"type\": \"string\"\r\n            },\r\n         \"Default\": {\r\n                \"id\": \"\/items\/properties\/Default\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"\/items\/properties\/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\"]}\r\n            }\r\n,\r\n            \"Optional\": {\r\n                \"id\": \"\/items\/properties\/Optional\",\r\n                \"type\": {\"enum\":[\"yes\", \"no\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
 			}
+		},
+		{
+			"name": "PreviousConnector",
+			"type": "string"
 		}
 	],
 	"input":[

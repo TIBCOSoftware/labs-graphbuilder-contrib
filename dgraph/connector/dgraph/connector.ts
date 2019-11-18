@@ -24,8 +24,39 @@ export class DgraphConnectorContribution extends WiServiceHandlerContribution {
 		console.log('------------- validate --------------');
 		console.log(context);
 		console.log('%%%%%%%%%% name = ' + name);
-		
-		if(name === "Connect") {
+		let schemaGen: IFieldDefinition = context.getField("schemaGen")
+		console.log('========= schemaGen.value = ' + schemaGen.value);
+		let tlsEnabled: IFieldDefinition = context.getField("tlsEnabled")
+		console.log('========= tlsEnabled.value = ' + tlsEnabled.value);
+
+		if (name === "schema") {	
+        		if (schemaGen.value === "file" ) {
+            		return ValidationResult.newValidationResult().setVisible(true);
+        		} else {
+				return ValidationResult.newValidationResult().setVisible(false);
+			}
+		} else if (name === "user") {
+			console.log('====user===== tlsEnabled.value = ' + tlsEnabled.value);
+        		if (!tlsEnabled.value) {
+            		return ValidationResult.newValidationResult().setVisible(true);
+        		} else {
+				return ValidationResult.newValidationResult().setVisible(false);
+			}
+		} else if (name === "password") {			
+			console.log('=====password==== tlsEnabled.value = ' + tlsEnabled.value);
+        		if (!tlsEnabled.value) {
+            		return ValidationResult.newValidationResult().setVisible(true);
+        		} else {
+				return ValidationResult.newValidationResult().setVisible(false);
+			}
+		} else if (name === "tls") {			
+			console.log('====tls===== tlsEnabled.value = ' + tlsEnabled.value);
+        		if (tlsEnabled.value) {
+            		return ValidationResult.newValidationResult().setVisible(true);
+        		} else {
+				return ValidationResult.newValidationResult().setVisible(false);
+			}
+		} else if(name === "Connect") {
 			let url: string;
 			let username: string; 
 			let password: string; 
@@ -68,7 +99,7 @@ export class DgraphConnectorContribution extends WiServiceHandlerContribution {
 				}
 			}
 
-			if( url && password ) {
+			if( url ) {
 				return ValidationResult.newValidationResult().setReadOnly(false);
 			} else {
 				return ValidationResult.newValidationResult().setReadOnly(true);
