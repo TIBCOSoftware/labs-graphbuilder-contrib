@@ -28,15 +28,11 @@
     ],
     "inputs": [
 		{
-			"name": "pathParams",
-			"type": "complex_object"
+			"name": "queryType",
+			"type": "string"
 		},
 		{
-			"name": "queryParams",
-			"type": "complex_object"
-		},
-		{
-			"name": "searchParams",
+			"name": "params",
 			"type": "complex_object"
 		}
     ],

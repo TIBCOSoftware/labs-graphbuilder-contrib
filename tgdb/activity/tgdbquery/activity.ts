@@ -56,7 +56,7 @@ export class TGDBQueryContributionHandler extends WiServiceHandlerContribution {
             });
         } else if (fieldName === "queryResult") {
 			var queryResult = {
-    				"data" : {},
+    				"content" : {},
     				"success": true,
     				"error": {
         				"code" : 101,
@@ -64,14 +64,13 @@ export class TGDBQueryContributionHandler extends WiServiceHandlerContribution {
     				}
 			};
 			return JSON.stringify(queryResult);
-        } else if (fieldName === "pathParams") {
-        		var pathParams = {
-				"queryType" : "queryType",
-				"entityType" :"entityType"	
-			};
-			return JSON.stringify(pathParams);
-        } else if (fieldName === "queryParams") {
+        } else if (fieldName === "params") {
         		var queryParams = {
+				"language" : "language",
+				"queryString" :"queryString",
+				"traversalCondition" : "traversalCondition",
+				"endCondition" : "endCondition",
+				"traversalDepth" : 1
 			};
 			return JSON.stringify(queryParams);
         }
