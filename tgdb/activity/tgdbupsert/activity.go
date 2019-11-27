@@ -12,7 +12,8 @@ import (
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"
 	"github.com/TIBCOSoftware/flogo-lib/core/data"
 	"github.com/TIBCOSoftware/flogo-lib/logger"
-	"github.com/TIBCOSoftware/labs-graphbuilder-lib/dbservice/tgdb"
+	"github.com/TIBCOSoftware/labs-graphbuilder-lib/dbservice"
+	"github.com/TIBCOSoftware/labs-graphbuilder-lib/dbservice/factory"
 	"github.com/TIBCOSoftware/labs-graphbuilder-lib/util"
 )
 
@@ -70,7 +71,7 @@ func (a *TGDBUpsertActivity) Eval(context activity.Context) (done bool, err erro
 		return false, errors.New("Illegal graph content, should be map[string]interface{}.")
 	}
 
-	err = tgdbService.UpsertGraph(graph)
+	err = tgdbService.UpsertGraph(nil, graph)
 	if nil != err {
 		return false, err
 	}
@@ -78,14 +79,16 @@ func (a *TGDBUpsertActivity) Eval(context activity.Context) (done bool, err erro
 	return true, nil
 }
 
-func (a *TGDBUpsertActivity) getTGDBService(context activity.Context) (*tgdb.TGDBService, error) {
+func (a *TGDBUpsertActivity) getTGDBService(context activity.Context) (dbservice.UpsertService, error) {
 	myId := util.ActivityId(context)
 
-	tgdbService := tgdb.GetFactory().GetService(a.activityToConnector[myId])
+	tgdbService := factory.GetFactory(dbservice.TGDB).GetUpsertService(a.activityToConnector[myId])
+	//tgdb.GetFactory().GetService(a.activityToConnector[myId])
 	if nil == tgdbService {
 		a.mux.Lock()
 		defer a.mux.Unlock()
-		tgdbService = tgdb.GetFactory().GetService(a.activityToConnector[myId])
+		tgdbService = factory.GetFactory(dbservice.TGDB).GetUpsertService(a.activityToConnector[myId])
+		//tgdb.GetFactory().GetService(a.activityToConnector[myId])
 		if nil == tgdbService {
 			log.Info("Initializing TGDB Service start ...")
 			defer log.Info("Initializing TGDB Service end, tgdbService = ", tgdbService)
@@ -134,7 +137,8 @@ func (a *TGDBUpsertActivity) getTGDBService(context activity.Context) (*tgdb.TGD
 			log.Info("(getTGDBService) - properties = ", properties)
 
 			var err error
-			tgdbService, err = tgdb.GetFactory().CreateService(connectorName, properties)
+			tgdbService, err = factory.GetFactory(dbservice.TGDB).CreateUpsertService(connectorName, properties)
+			//tgdb.GetFactory().CreateService(connectorName, properties)
 			if nil != err {
 				return nil, err
 			}

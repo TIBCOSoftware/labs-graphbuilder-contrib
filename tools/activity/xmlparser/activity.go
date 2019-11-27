@@ -73,8 +73,8 @@ func (a *XMLParserActivity) getParser(ctx activity.Context) (*xml.XMLParser, err
 			attributeMap := make(map[string]string)
 			for _, outputFieldname := range outputFieldnames.([]interface{}) {
 				outputFieldnameInfo := outputFieldname.(map[string]interface{})
-				attributeMap[outputFieldnameInfo["JSONPath"].(string)] = outputFieldnameInfo["AttributeName"].(string)
-				log.Info("Processing handlers : ", outputFieldnameInfo["JSONPath"].(string), " -> ", outputFieldnameInfo["AttributeName"].(string))
+				attributeMap[outputFieldnameInfo["XMLPath"].(string)] = outputFieldnameInfo["AttributeName"].(string)
+				log.Info("Processing handlers : ", outputFieldnameInfo["XMLPath"].(string), " -> ", outputFieldnameInfo["AttributeName"].(string))
 			}
 
 			parser = xml.NewXMLParser(attributeMap)

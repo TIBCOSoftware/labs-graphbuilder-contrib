@@ -31,6 +31,17 @@
       }
     },
     {
+      "name": "apiVersion",
+      "type": "string",
+      "required": true,
+    	  "allowed" : ["v1", "v2"],
+      "display": {
+        "name": "API Version",
+        "description": "Dgraph dgo API Version",
+        "type": "string"
+      }
+    },
+    {
       "name": "url",
       "type": "string",
       "required": true,
@@ -40,6 +51,16 @@
         "type": "string"
       }
     },
+	{
+		"name": "tlsEnabled",
+		"type": "boolean",
+		"display": {
+			"name": "TLS Enabled",
+			"description": "Will use tls connection"
+		},
+		"value": false,
+		"required": true
+	},
     {
       "name": "user",
       "type": "string",
@@ -52,7 +73,7 @@
     {
       "name": "password",
       "type": "string",
-      "required": true,
+      "required": false,
       "display": {
         "name": "Password",
         "description": "Password for login to Dgraph server",
@@ -71,13 +92,14 @@
 		} 
 	},
 	{
-		"name": "useSchemaDesigner",
-		"type": "boolean",
+		"name": "schemaGen",
+		"type": "string",
 		"display": {
-			"name": "Use Schema Designer",
-			"description": "Will use schema designer to build schema"
+			"name": "Schema Generation",
+			"description": "How to generate schema"
 		},
-		"value": false,
+		"value": "default",
+		"allowed": ["default", "file", "no"],
 		"required": true
 	},
 	{ 

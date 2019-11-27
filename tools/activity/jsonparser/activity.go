@@ -6,6 +6,7 @@
 package jsonparser
 
 import (
+	"errors"
 	"sync"
 
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"
@@ -61,8 +62,8 @@ func (a *JSONParserActivity) Eval(ctx activity.Context) (done bool, err error) {
 	tupleArray := parser.Parse([]byte(in))
 
 	if nil == tupleArray {
-		log.Info("No valid data !!!! Incoming data : ", in)
-		return false, nil
+		log.Warn("No valid data !!!! Incoming data : ", in)
+		return false, errors.New("Invalid data !!!!!! ")
 	}
 
 	log.Info("Valid data : ", tupleArray)
