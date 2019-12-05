@@ -10,15 +10,15 @@ As discussed above this implementation is written with Golang within the Flogo e
 
 ### Create Flow for querying Metadata 
 
-1) Configure flow inputs and outputs
+#### Configure flow inputs and outputs
 
-input sample
+1) input sample
 
 {
     "queryType" : ""
 }
 
-output sample
+2) output sample
 
 {
     "queryResult": {
@@ -31,23 +31,23 @@ output sample
     }
 }
 
-2) Add activities
+#### Add activities
 
-GraphBuilder_TGDB -> TGDBQuery
+1) GraphBuilder_TGDB -> TGDBQuery
 
-Default -> Return
+2) Default -> Return
 
-3) Add a trigger (Receive HTTP Message)
+#### Add a trigger (Receive HTTP Message)
 
-output : 
+1) output
 
 $trigger.pathParams.queryType
 
-reply : 
+2) reply
 
 $flow.queryResult
 
-reply sample : 
+sample : 
 
 {
     "queryResult": {
@@ -62,9 +62,9 @@ reply sample :
 
 ### Create Flow for Querying Data 
 
-1) Configure flow inputs and outputs
+#### Configure flow inputs and outputs
 
-input sample
+1) input sample
 
 {
     "queryType" : "",
@@ -75,7 +75,7 @@ input sample
     "traversalDepth": 1
 }
 
-output sample
+2) output sample
 
 {
     "queryResult": {
@@ -88,20 +88,21 @@ output sample
     }
 }
 
-2) Add activities
+#### Add activities
 
-GraphBuilder_TGDB -> TGDBQuery
+1) GraphBuilder_TGDB -> TGDBQuery
 
-Default -> Return
+2) Default -> Return
 
-3) Add a trigger (Receive HTTP Message)
+#### Add a trigger (Receive HTTP Message)
 
-output : 
+1) output
 
 $trigger.pathParams.queryType
+ and 
+$trigger.body.query
 
-and 
-
+sample :
 {
   "query": {
   	"language" : "tgql",
@@ -112,11 +113,11 @@ and
   }
 }
 
-reply : 
+2) reply
 
 $flow.queryResult
 
-reply sample : 
+sample : 
 
 {
     "queryResult": {
