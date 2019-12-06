@@ -10,6 +10,7 @@ This example is created in TIBCO Flogo® Enterprise 2.8.0 studio.
 
 ## Create Application
 
+![create_application](create_application.jpg)
 
 ### Create Flow for querying Metadata 
 
