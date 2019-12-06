@@ -37,10 +37,10 @@ This example is created in TIBCO Flogo® Enterprise 2.8.0 studio.
 ```
 #### Add activities
 
-- **Activity 1**
+- **Activity 1 : **
 GraphBuilder_TGDB -> TGDBQuery
 
-- **Activity 2**
+- **Activity 2 : **
 Default -> Return
 
 #### Add a trigger (Receive HTTP Message)
@@ -96,10 +96,10 @@ sample :
 ```
 #### Add activities
 
-- **Activity 1**
+- **Activity 1 : **
 GraphBuilder_TGDB -> TGDBQuery
 
-- **Activity 2**
+- **Activity 2 : **
 Default -> Return
 
 #### Add a trigger (Receive HTTP Message)
