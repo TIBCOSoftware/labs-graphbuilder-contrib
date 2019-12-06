@@ -17,4 +17,4 @@
 ## TGDB_RESTful_Tools
 
 ## Sample Applications
-[Here](./sample-applications/README.md)
+[Here](./sample-applications/)
