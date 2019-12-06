@@ -16,13 +16,13 @@ This example is created in TIBCO Flogo® Enterprise 2.8.0 studio.
 
 #### Configure flow inputs and outputs
 
-1) input sample
+- **input sample** 
 ```
 {
     "queryType" : ""
 }
 ```
-2) output sample
+- **output sample**
 ```
 {
     "queryResult": {
@@ -37,17 +37,19 @@ This example is created in TIBCO Flogo® Enterprise 2.8.0 studio.
 ```
 #### Add activities
 
-1) GraphBuilder_TGDB -> TGDBQuery
+- **Activity 1**
+GraphBuilder_TGDB -> TGDBQuery
 
-2) Default -> Return
+- **Activity 2**
+Default -> Return
 
 #### Add a trigger (Receive HTTP Message)
 
-1) output
+- **output**
 
 $trigger.pathParams.queryType
 
-2) reply
+- **reply**
 
 $flow.queryResult
 
@@ -68,7 +70,7 @@ sample :
 
 #### Configure flow inputs and outputs
 
-1) input sample
+- **input sample**
 ```
 {
     "queryType" : "",
@@ -79,7 +81,7 @@ sample :
     "traversalDepth": 1
 }
 ```
-2) output sample
+- **output sample**
 ```
 {
     "queryResult": {
@@ -94,13 +96,15 @@ sample :
 ```
 #### Add activities
 
-1) GraphBuilder_TGDB -> TGDBQuery
+- **Activity 1**
+GraphBuilder_TGDB -> TGDBQuery
 
-2) Default -> Return
+- **Activity 2**
+Default -> Return
 
 #### Add a trigger (Receive HTTP Message)
 
-1) output
+- **output**
 
 $trigger.pathParams.queryType
  and 
@@ -118,7 +122,7 @@ sample :
   }
 }
 ```
-2) reply
+- **reply**
 
 $flow.queryResult
 
