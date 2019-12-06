@@ -2,24 +2,27 @@
 
 ## Overview
 
+This example is created in TIBCO Flogo® Enterprise 2.8.0 studio. 
+
 ## Create TGDB Connection
+
+
 
 ## Create Application
 
-As discussed above this implementation is written with Golang within the Flogo ecosystem.  As such CatalystML can be used with the flogo command line interface (with a flogo.json) or the Golang Flogo API (library).  Two examples for each of the CLI or the API are discussed below.
 
 ### Create Flow for querying Metadata 
 
 #### Configure flow inputs and outputs
 
 1) input sample
-
+```
 {
     "queryType" : ""
 }
-
+```
 2) output sample
-
+```
 {
     "queryResult": {
         "content": {},
@@ -30,7 +33,7 @@ As discussed above this implementation is written with Golang within the Flogo e
         }
     }
 }
-
+```
 #### Add activities
 
 1) GraphBuilder_TGDB -> TGDBQuery
@@ -48,7 +51,7 @@ $trigger.pathParams.queryType
 $flow.queryResult
 
 sample : 
-
+```
 {
     "queryResult": {
         "content": {},
@@ -59,13 +62,13 @@ sample :
         }
     }
 }
-
+```
 ### Create Flow for Querying Data 
 
 #### Configure flow inputs and outputs
 
 1) input sample
-
+```
 {
     "queryType" : "",
     "language": "",
@@ -74,9 +77,9 @@ sample :
     "endCondition": "",
     "traversalDepth": 1
 }
-
+```
 2) output sample
-
+```
 {
     "queryResult": {
         "content": {},
@@ -87,7 +90,7 @@ sample :
         }
     }
 }
-
+```
 #### Add activities
 
 1) GraphBuilder_TGDB -> TGDBQuery
@@ -100,9 +103,10 @@ sample :
 
 $trigger.pathParams.queryType
  and 
-$trigger.body.query
+$trigger.body
 
 sample :
+```
 {
   "query": {
   	"language" : "tgql",
@@ -112,13 +116,13 @@ sample :
 	"traversalDepth" : 1
   }
 }
-
+```
 2) reply
 
 $flow.queryResult
 
 sample : 
-
+```
 {
     "queryResult": {
         "content": {},
@@ -129,3 +133,4 @@ sample :
         }
     }
 }
+```
