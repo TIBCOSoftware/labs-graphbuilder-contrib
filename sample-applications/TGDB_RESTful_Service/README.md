@@ -6,7 +6,7 @@ This example is created in TIBCO Flogo® Enterprise 2.8.0 studio.
 
 ## Create TGDB Connection
 
-
+![create_connection](create_connection.jpg)
 
 ## Create Application
 
