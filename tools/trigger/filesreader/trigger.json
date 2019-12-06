@@ -28,6 +28,10 @@
 		{
 			"name": "LineNumber",
 			"type": "integer"
+		},
+		{
+			"name": "EndOfFile",
+			"type": "boolean"
 		}
 	],
 	"handler": {
