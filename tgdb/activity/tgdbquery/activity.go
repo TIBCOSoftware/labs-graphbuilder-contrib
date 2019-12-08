@@ -32,14 +32,19 @@ const (
 	QueryType_Node      = "node"
 	QueryType_Search    = "search"
 
-	input_QueryParams = "params"
-	input_QueryType   = "queryType"
-	output_Data       = "queryResult"
+	input_QueryParams    = "params"
+	input_QueryType      = "queryType"
+	output_Data          = "queryResult"
+	output_DataContent   = "content"
+	output_DataSuccess   = "success"
+	output_DataError     = "error"
+	output_DataErrorCode = "code"
+	output_DataErrorMsg  = "message"
 
-	ErrorLoadDBService = 0
-	ErrorConnectServer = 1
-	ErrorFindQueryType = 2
-	ErrorExecuteQuery  = 3
+	Error_LoadDBService = 0
+	Error_ConnectServer = 1
+	Error_FindQueryType = 2
+	Error_ExecuteQuery  = 3
 )
 
 var log = logger.GetLogger("tibco-activity-tgdbquery")
@@ -67,7 +72,7 @@ func (a *TGDBQueryActivity) Eval(context activity.Context) (done bool, err error
 
 	if nil != err {
 		log.Error(err.Error())
-		sendOutput(context, a.buildQueryResult(nil, false, ErrorLoadDBService, err.Error()))
+		sendOutput(context, a.buildQueryResult(nil, false, Error_LoadDBService, err.Error()))
 		return true, err
 	}
 
@@ -75,25 +80,24 @@ func (a *TGDBQueryActivity) Eval(context activity.Context) (done bool, err error
 	defer a.mux.Unlock()
 
 	queryType := context.GetInput(input_QueryType).(string)
-	//log.Info("query type => ", queryType)
 
 	queryResult := make(map[string]interface{})
 	metadata, err := tgdbService.GetMetadata()
 	if nil != err {
 		log.Error(err.Error())
-		sendOutput(context, a.buildQueryResult(nil, false, ErrorConnectServer, err.Error()))
+		sendOutput(context, a.buildQueryResult(nil, false, Error_ConnectServer, err.Error()))
 		return true, err
 	}
 
 	switch queryType {
 	case QueryType_Metadata:
-		queryResult["data"] = tgdb.BuildMetadata(metadata)
+		queryResult[output_DataContent] = tgdb.BuildMetadata(metadata)
 		break
 	case QueryType_NodeTypes:
-		queryResult["data"] = tgdb.BuildMetadata(metadata)["nodeTypes"]
+		queryResult[output_DataContent] = tgdb.BuildMetadata(metadata)["nodeTypes"]
 		break
 	case QueryType_EdgeTypes:
-		queryResult["data"] = tgdb.BuildMetadata(metadata)["edgeTypes"]
+		queryResult[output_DataContent] = tgdb.BuildMetadata(metadata)["edgeTypes"]
 		break
 	case QueryType_Search:
 		query := context.GetInput(input_QueryParams).(*data.ComplexObject).Value.(map[string]interface{})
@@ -134,11 +138,11 @@ func (a *TGDBQueryActivity) Eval(context activity.Context) (done bool, err error
 			}
 		} else {
 			log.Error(tgErr.Error())
-			queryResult = a.buildQueryResult(nil, false, ErrorExecuteQuery, tgErr.Error())
+			queryResult = a.buildQueryResult(nil, false, Error_ExecuteQuery, tgErr.Error())
 		}
 		break
 	default:
-		queryResult = a.buildQueryResult(nil, false, ErrorFindQueryType, errors.New("Query type not found! "))
+		queryResult = a.buildQueryResult(nil, false, Error_FindQueryType, errors.New("Query type not found! "))
 	}
 
 	sendOutput(context, queryResult)
@@ -249,13 +253,13 @@ func (a *TGDBQueryActivity) buildQueryParams(parameters map[string]interface{}) 
 }
 
 func (a *TGDBQueryActivity) buildQueryResult(
-	data interface{},
+	content interface{},
 	success bool,
 	errorCode interface{},
 	errorMsg interface{}) map[string]interface{} {
 
 	log.Debug("%%%%%%%%%%%%%%%%%%%%%% queryResult %%%%%%%%%%%%%%%%%%%%%%")
-	log.Debug("data      : ", data)
+	log.Debug("content      : ", content)
 	log.Debug("success   : ", success)
 	log.Debug("errorCode : ", errorCode)
 	log.Debug("errorMsg  : ", errorMsg)
@@ -264,14 +268,14 @@ func (a *TGDBQueryActivity) buildQueryResult(
 	queryResult := make(map[string]interface{})
 
 	if success {
-		queryResult["data"] = data
-		queryResult["success"] = true
+		queryResult[output_DataContent] = content
+		queryResult[output_DataSuccess] = true
 	} else {
 		error := make(map[string]interface{})
-		error["code"] = errorCode
-		error["message"] = errorMsg
-		queryResult["error"] = error
-		queryResult["success"] = false
+		error[output_DataErrorCode] = errorCode
+		error[output_DataErrorMsg] = errorMsg
+		queryResult[output_DataError] = error
+		queryResult[output_DataSuccess] = false
 	}
 	return queryResult
 }
