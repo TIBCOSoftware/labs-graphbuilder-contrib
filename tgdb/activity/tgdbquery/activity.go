@@ -35,6 +35,11 @@ const (
 	input_QueryParams = "params"
 	input_QueryType   = "queryType"
 	output_Data       = "queryResult"
+
+	ErrorLoadDBService = 0
+	ErrorConnectServer = 1
+	ErrorFindQueryType = 2
+	ErrorExecuteQuery  = 3
 )
 
 var log = logger.GetLogger("tibco-activity-tgdbquery")
@@ -62,7 +67,7 @@ func (a *TGDBQueryActivity) Eval(context activity.Context) (done bool, err error
 
 	if nil != err {
 		log.Error(err.Error())
-		sendOutput(context, nil, false, 0, err.Error())
+		sendOutput(context, a.buildQueryResult(nil, false, ErrorLoadDBService, err.Error()))
 		return true, err
 	}
 
@@ -76,7 +81,7 @@ func (a *TGDBQueryActivity) Eval(context activity.Context) (done bool, err error
 	metadata, err := tgdbService.GetMetadata()
 	if nil != err {
 		log.Error(err.Error())
-		sendOutput(context, nil, false, 0, err.Error())
+		sendOutput(context, a.buildQueryResult(nil, false, ErrorConnectServer, err.Error()))
 		return true, err
 	}
 
@@ -117,7 +122,6 @@ func (a *TGDBQueryActivity) Eval(context activity.Context) (done bool, err error
 				tgResult["edges"] = make(map[int64]types.TGEntity)
 				for resultSet.HasNext() {
 					entity := resultSet.Next().(types.TGEntity)
-					//log.Info("------------>", entity)
 					switch entity.GetEntityKind() {
 					case types.EntityKindEdge:
 						tgResult["edges"][entity.GetVirtualId()] = entity
@@ -128,32 +132,24 @@ func (a *TGDBQueryActivity) Eval(context activity.Context) (done bool, err error
 
 				queryResult = a.buildQueryResult(tgdb.BuildResult(tgdbService, tgResult), true, nil, nil)
 			}
+		} else {
+			log.Error(tgErr.Error())
+			queryResult = a.buildQueryResult(nil, false, ErrorExecuteQuery, tgErr.Error())
 		}
 		break
 	default:
-
+		queryResult = a.buildQueryResult(nil, false, ErrorFindQueryType, errors.New("Query type not found! "))
 	}
 
-	sendOutput(context, queryResult, true, 0, "")
+	sendOutput(context, queryResult)
 
 	return true, nil
 }
 
 func sendOutput(
 	context activity.Context,
-	content interface{},
-	success bool,
-	errorCode int,
-	errorMessage string) {
-	queryResult := make(map[string]interface{})
-	queryResult["success"] = true
-	queryResult["error"] = make(map[string]interface{})
-	queryResult["content"] = content
-	queryResult["success"] = success
-	error := make(map[string]interface{})
-	error["code"] = errorCode
-	error["message"] = errorMessage
-	queryResult["error"] = error
+	queryResult interface{}) {
+
 	complexdata := &data.ComplexObject{
 		Metadata: output_Data,
 		Value:    queryResult,
@@ -173,12 +169,12 @@ func (a *TGDBQueryActivity) getTGDBService(context activity.Context) (*tgdb.TGDB
 			log.Info("Initializing TGDB Service start ...")
 			connection, exist := context.GetSetting(Setting_Connection)
 			if !exist {
-				return nil, activity.NewError("TGDB connection is not configured", "TGDB-UPSERT-4001", nil)
+				return nil, activity.NewError("TGDB connection is not configured", "TGDB-QUERY-4001", nil)
 			}
 
 			connectionInfo, _ := data.CoerceToObject(connection)
 			if connectionInfo == nil {
-				return nil, activity.NewError("TGDB connection not able to be parsed", "TGDB-UPSERT-4002", nil)
+				return nil, activity.NewError("TGDB connection not able to be parsed", "TGDB-QUERY-4002", nil)
 			}
 
 			var connectorName string
@@ -189,7 +185,8 @@ func (a *TGDBQueryActivity) getTGDBService(context activity.Context) (*tgdb.TGDB
 					setting, _ := data.CoerceToObject(v)
 					if setting != nil {
 						if setting["name"] == "url" {
-							properties["url"], _ = data.CoerceToString(setting["value"])
+							url, _ := data.CoerceToString(setting["value"])
+							properties["url"] = util.GetValue(url)
 						} else if setting["name"] == "user" {
 							properties["user"], _ = data.CoerceToString(setting["value"])
 						} else if setting["name"] == "password" {
@@ -199,7 +196,7 @@ func (a *TGDBQueryActivity) getTGDBService(context activity.Context) (*tgdb.TGDB
 						}
 					}
 				}
-				log.Debug(properties)
+				log.Info(properties)
 
 				tgdbService, _ = factory.GetFactory(dbservice.TGDB).CreateUpsertService(connectorName, properties)
 				a.activityToConnector[myId] = connectorName
