@@ -31,6 +31,7 @@ const (
 	QueryType_EdgeTypes = "edgetypes"
 	QueryType_Node      = "node"
 	QueryType_Search    = "search"
+	QueryType_Match     = "match"
 
 	input_QueryParams    = "params"
 	input_QueryType      = "queryType"
@@ -99,7 +100,7 @@ func (a *TGDBQueryActivity) Eval(context activity.Context) (done bool, err error
 	case QueryType_EdgeTypes:
 		queryResult[output_DataContent] = tgdb.BuildMetadata(metadata)["edgeTypes"]
 		break
-	case QueryType_Search:
+	case QueryType_Search, QueryType_Match:
 		query := context.GetInput(input_QueryParams).(*data.ComplexObject).Value.(map[string]interface{})
 		_, language, parameters := a.buildQueryParams(query)
 		var resultSet types.TGResultSet
