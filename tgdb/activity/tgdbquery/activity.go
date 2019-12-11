@@ -141,6 +141,7 @@ func (a *TGDBQueryActivity) Eval(context activity.Context) (done bool, err error
 			log.Error(tgErr.Error())
 			queryResult = a.buildQueryResult(nil, false, Error_ExecuteQuery, tgErr.Error())
 		}
+
 		break
 	default:
 		queryResult = a.buildQueryResult(nil, false, Error_FindQueryType, errors.New("Query type not found! "))
@@ -217,6 +218,12 @@ func (a *TGDBQueryActivity) buildQueryParams(parameters map[string]interface{}) 
 	queryParams := make(map[string]interface{})
 	query := make(map[string]interface{})
 	queryParams[tgdb.Query] = query
+
+	var language string
+	if nil != parameters[tgdb.Query_Language] {
+		language = parameters[tgdb.Query_Language].(string)
+	}
+
 	if nil != parameters[tgdb.Query_QueryString] {
 		query[tgdb.Query_QueryString] = parameters[tgdb.Query_QueryString]
 	}
