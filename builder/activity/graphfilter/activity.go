@@ -60,7 +60,7 @@ func (a *GraphFilterActivity) Eval(context activity.Context) (done bool, err err
 	log.Info("(GraphFilterActivity::Eval) graphId = ", graphId)
 
 	/* UpsertGraph */
-	graph := model.GetGraphManager().GetGraph(graphId, graphId)
+	graph := model.GetGraphManager().GetGraph(model.TGRAPH, graphId, graphId).(*model.TraversalGraph)
 	(*graph).UpsertGraph(deltaGraph)
 	//	log.Info("(GraphFilterActivity::Eval) After upsert graph = ", graph)
 	//	log.Info("(GraphFilterActivity::Eval) After upsert deltaGraph = ", deltaGraph)

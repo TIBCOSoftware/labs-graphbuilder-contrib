@@ -60,7 +60,7 @@ func (a *BuilderActivity) Eval(context activity.Context) (done bool, err error) 
 
 	log.Info("[BuilderActivity:Eval] entering ........ ")
 
-	graph, graphModel, err := a.getGraphModel(context)
+	tempGraph, graphModel, err := a.getGraphModel(context)
 
 	if nil != err {
 		return false, err
@@ -68,7 +68,8 @@ func (a *BuilderActivity) Eval(context activity.Context) (done bool, err error) 
 
 	log.Info("[BuilderActivity:Eval] BatchEnd : ", context.GetInput(BatchEnd))
 
-	deltaGraph := a.graphBuilder.CreateGraph(graphModel.GetId(), graphModel)
+	graphId := graphModel.GetId()
+	deltaGraph := a.graphBuilder.CreateGraph(graphId, graphModel)
 	a.graphBuilder.BuildGraph(
 		&deltaGraph,
 		graphModel,
@@ -76,17 +77,22 @@ func (a *BuilderActivity) Eval(context activity.Context) (done bool, err error) 
 		context.GetInput(Edges).(*data.ComplexObject).Value,
 	)
 
-	(*graph).Merge(deltaGraph)
+	if a.inMemoryGraph {
+		theGraph := model.GetGraphManager().GetGraph(model.GRAPH, graphId, graphId).(*model.Graph)
+		(*theGraph).Merge(deltaGraph)
+	}
+
+	(*tempGraph).Merge(deltaGraph)
 	if nil == context.GetInput(BatchEnd) || context.GetInput(BatchEnd).(bool) {
 		data := make(map[string]interface{})
-		data["graph"] = a.graphBuilder.Export(graph, graphModel)
+		data["graph"] = a.graphBuilder.Export(tempGraph, graphModel)
 
-		log.Debug("[BuilderActivity:Eval] Graph : ", data)
+		log.Info("[BuilderActivity:Eval] Graph : ", data)
 
 		context.SetOutput("Graph", data)
 
 		/* clear graph data */
-		(*graph).Clear()
+		(*tempGraph).Clear()
 	}
 
 	log.Info("[BuilderActivity:Eval] Exit ........ ")

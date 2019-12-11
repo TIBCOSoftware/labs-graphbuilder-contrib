@@ -18,6 +18,7 @@ type Output struct {
 	FileContent  string `md:"FileContent"`
 	ModifiedTime int64  `md:"ModifiedTime"`
 	LineNumber   int    `md:"LineNumber"`
+	EndOfFile    bool   `md:"EndOfFile"`
 }
 
 func (this *Output) ToMap() map[string]interface{} {
@@ -26,6 +27,7 @@ func (this *Output) ToMap() map[string]interface{} {
 		"FileContent":  this.FileContent,
 		"ModifiedTime": this.ModifiedTime,
 		"LineNumber":   this.LineNumber,
+		"EndOfFile":    this.EndOfFile,
 	}
 }
 
@@ -36,6 +38,7 @@ func (this *Output) FromMap(values map[string]interface{}) error {
 	this.FileContent, err = coerce.ToString(values["FileContent"])
 	this.ModifiedTime, err = coerce.ToInt64(values["ModifiedTime"])
 	this.LineNumber, err = coerce.ToInt(values["LineNumber"])
+	this.EndOfFile, err = coerce.ToBool(values["EndOfFile"])
 	if err != nil {
 		return err
 	}

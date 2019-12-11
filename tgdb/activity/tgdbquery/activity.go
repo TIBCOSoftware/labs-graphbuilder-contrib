@@ -6,33 +6,46 @@
 package tgdbquery
 
 import (
+	"errors"
 	"sync"
 
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"
 	"github.com/TIBCOSoftware/flogo-lib/core/data"
 	"github.com/TIBCOSoftware/flogo-lib/logger"
+	"github.com/TIBCOSoftware/labs-graphbuilder-lib/dbservice"
+	"github.com/TIBCOSoftware/labs-graphbuilder-lib/dbservice/factory"
 	"github.com/TIBCOSoftware/labs-graphbuilder-lib/dbservice/tgdb"
 	"github.com/TIBCOSoftware/labs-graphbuilder-lib/util"
 	"github.com/TIBCOSoftware/tgdb-client/client/goAPI/types"
 )
 
 const (
-	Setting_Connection       = "tgdbConnection"
-	Setting_QueryServiceType = "queryServiceType"
-	input_QueryParams        = "queryParams"
-	input_Get_KeyAttrNames   = "keyAttrNames"
-	input_Get_KeyAttrValues  = "keyAttrValues"
-	input_PathParams         = "pathParams"
-	input_QueryType          = "queryType"
-	input_EntityType         = "entityType"
-	output_Data              = "queryResult"
-	QueryType_Metadata       = "metadata"
-	QueryType_NodeTypes      = "nodetypes"
-	QueryType_EdgeTypes      = "edgetypes"
-	QueryType_Node           = "node"
-	QueryType_API            = "api"
-	QueryLanguage_TGQL       = "tgql"
-	QueryLanguage_Gremlin    = "gremlin"
+	Setting_Connection = "tgdbConnection"
+
+	QueryLanguage         = "language"
+	QueryLanguage_Gremlin = "gremlin"
+	QueryLanguage_TGQL    = "tgql"
+
+	QueryType_Metadata  = "metadata"
+	QueryType_NodeTypes = "nodetypes"
+	QueryType_EdgeTypes = "edgetypes"
+	QueryType_Node      = "node"
+	QueryType_Search    = "search"
+	QueryType_Match     = "match"
+
+	input_QueryParams    = "params"
+	input_QueryType      = "queryType"
+	output_Data          = "queryResult"
+	output_DataContent   = "content"
+	output_DataSuccess   = "success"
+	output_DataError     = "error"
+	output_DataErrorCode = "code"
+	output_DataErrorMsg  = "message"
+
+	Error_LoadDBService = 0
+	Error_ConnectServer = 1
+	Error_FindQueryType = 2
+	Error_ExecuteQuery  = 3
 )
 
 var log = logger.GetLogger("tibco-activity-tgdbquery")
@@ -59,58 +72,37 @@ func (a *TGDBQueryActivity) Eval(context activity.Context) (done bool, err error
 	tgdbService, err := a.getTGDBService(context)
 
 	if nil != err {
-		return false, err
+		log.Error(err.Error())
+		sendOutput(context, a.buildQueryResult(nil, false, Error_LoadDBService, err.Error()))
+		return true, err
 	}
 
 	a.mux.Lock()
 	defer a.mux.Unlock()
 
-	pathParams := context.GetInput(input_PathParams).(*data.ComplexObject).Value.(map[string]interface{})
-	queryType := pathParams[input_QueryType].(string)
-	//	log.Info("query type = ", queryType)
+	queryType := context.GetInput(input_QueryType).(string)
 
-	var queryResult map[string]interface{}
-	metadata, _ := tgdbService.GetMetadata()
+	queryResult := make(map[string]interface{})
+	metadata, err := tgdbService.GetMetadata()
+	if nil != err {
+		log.Error(err.Error())
+		sendOutput(context, a.buildQueryResult(nil, false, Error_ConnectServer, err.Error()))
+		return true, err
+	}
 
 	switch queryType {
 	case QueryType_Metadata:
-		queryResult = a.buildQueryResult(tgdb.BuildMetadata(metadata), true, nil, nil)
+		queryResult[output_DataContent] = tgdb.BuildMetadata(metadata)
 		break
 	case QueryType_NodeTypes:
-		queryResult = a.buildQueryResult(tgdb.BuildMetadata(metadata)["nodeTypes"], true, nil, nil)
+		queryResult[output_DataContent] = tgdb.BuildMetadata(metadata)["nodeTypes"]
 		break
 	case QueryType_EdgeTypes:
-		queryResult = a.buildQueryResult(tgdb.BuildMetadata(metadata)["edgeTypes"], true, nil, nil)
+		queryResult[output_DataContent] = tgdb.BuildMetadata(metadata)["edgeTypes"]
 		break
-	case QueryType_Node:
-		entityType := pathParams[input_EntityType].(string)
-		//		log.Info("entity type = ", entityType)
-		queryParams := context.GetInput(input_QueryParams).(*data.ComplexObject).Value.(map[string]interface{})
-		//		log.Info("queryParams = ", queryParams)
-		keyAttrValues := queryParams[input_Get_KeyAttrValues].([]interface{})
-		keyAttrNames := queryParams[input_Get_KeyAttrNames].([]interface{})
-		attributes := make(map[string]interface{})
-		for index, keyAttrName := range keyAttrNames {
-			log.Info("keyAttrName = ", keyAttrName, "keyAttrValue = ", keyAttrValues[index])
-			attribute := make(map[string]interface{})
-			attribute["name"] = keyAttrName.(string)
-			attribute["value"] = keyAttrValues[index]
-			attribute["type"] = "string"
-			attributes[keyAttrName.(string)] = attribute
-		}
-		//		log.Info("attributes = ", attributes)
-		pKey := make(map[string]interface{})
-		pKey["attributes"] = attributes
-		entity, _ := tgdbService.GetNode(entityType, pKey)
-		if nil != entity {
-			queryResult = a.buildQueryResult(tgdb.BuildNode(tgdbService, entity.(types.TGNode)), true, nil, nil)
-		} else {
-			queryResult = a.buildQueryResult(nil, true, nil, nil)
-		}
-		break
-	case QueryType_API:
+	case QueryType_Search, QueryType_Match:
 		query := context.GetInput(input_QueryParams).(*data.ComplexObject).Value.(map[string]interface{})
-		language, parameters := a.buildQueryParams(query)
+		_, language, parameters := a.buildQueryParams(query)
 		var resultSet types.TGResultSet
 		var tgErr types.TGError
 		switch language {
@@ -118,68 +110,78 @@ func (a *TGDBQueryActivity) Eval(context activity.Context) (done bool, err error
 			{
 				resultSet, tgErr = tgdbService.GremlinQuery(parameters)
 			}
+		case QueryLanguage_TGQL:
+			{
+				resultSet, tgErr = tgdbService.TGQLQuery(parameters)
+			}
 		default:
 			{
 				resultSet, tgErr = tgdbService.TGQLQuery(parameters)
 			}
 		}
 
-		log.Info("NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN")
-		log.Info(resultSet)
-		log.Info("NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN")
-
 		if nil == tgErr {
 			if nil != resultSet {
-				result := resultSet.Next()
-				log.Info("====NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN")
-				log.Info(result)
-				log.Info("====NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN")
-				if nil != result {
-					queryResult = a.buildQueryResult(tgdb.BuildNode(tgdbService, result.(types.TGNode)), true, nil, nil)
+				tgResult := make(map[string]map[int64]types.TGEntity)
+				tgResult["nodes"] = make(map[int64]types.TGEntity)
+				tgResult["edges"] = make(map[int64]types.TGEntity)
+				for resultSet.HasNext() {
+					entity := resultSet.Next().(types.TGEntity)
+					switch entity.GetEntityKind() {
+					case types.EntityKindEdge:
+						tgResult["edges"][entity.GetVirtualId()] = entity
+					case types.EntityKindNode:
+						tgResult["nodes"][entity.GetVirtualId()] = entity
+					}
 				}
-			}
 
-			if nil == queryResult {
-				queryResult = a.buildQueryResult(nil, true, nil, nil)
+				queryResult = a.buildQueryResult(tgdb.BuildResult(tgdbService, tgResult), true, nil, nil)
 			}
 		} else {
-			queryResult = a.buildQueryResult(nil, false, 100, tgErr.GetErrorDetails())
+			log.Error(tgErr.Error())
+			queryResult = a.buildQueryResult(nil, false, Error_ExecuteQuery, tgErr.Error())
 		}
 
 		break
 	default:
-		queryResult = a.buildQueryResult(nil, false, 100, "Illegal query type : "+queryType)
+		queryResult = a.buildQueryResult(nil, false, Error_FindQueryType, errors.New("Query type not found! "))
 	}
 
-	complexdata := &data.ComplexObject{Metadata: output_Data, Value: queryResult}
-	//	log.Info("complexdata = ", complexdata)
-	context.SetOutput(output_Data, complexdata)
+	sendOutput(context, queryResult)
 
 	return true, nil
+}
+
+func sendOutput(
+	context activity.Context,
+	queryResult interface{}) {
+
+	complexdata := &data.ComplexObject{
+		Metadata: output_Data,
+		Value:    queryResult,
+	}
+	context.SetOutput(output_Data, complexdata)
 }
 
 func (a *TGDBQueryActivity) getTGDBService(context activity.Context) (*tgdb.TGDBService, error) {
 	myId := util.ActivityId(context)
 
-	tgdbService := tgdb.GetFactory().GetService(a.activityToConnector[myId])
+	tgdbService := factory.GetFactory(dbservice.TGDB).GetUpsertService(a.activityToConnector[myId])
 	if nil == tgdbService {
 		a.mux.Lock()
 		defer a.mux.Unlock()
-		tgdbService = tgdb.GetFactory().GetService(a.activityToConnector[myId])
+		tgdbService = factory.GetFactory(dbservice.TGDB).GetUpsertService(a.activityToConnector[myId])
 		if nil == tgdbService {
 			log.Info("Initializing TGDB Service start ...")
 			connection, exist := context.GetSetting(Setting_Connection)
 			if !exist {
-				return nil, activity.NewError("TGDB connection is not configured", "TGDB-UPSERT-4001", nil)
+				return nil, activity.NewError("TGDB connection is not configured", "TGDB-QUERY-4001", nil)
 			}
 
 			connectionInfo, _ := data.CoerceToObject(connection)
 			if connectionInfo == nil {
-				return nil, activity.NewError("TGDB connection not able to be parsed", "TGDB-UPSERT-4002", nil)
+				return nil, activity.NewError("TGDB connection not able to be parsed", "TGDB-QUERY-4002", nil)
 			}
-
-			//			queryType, exist := context.GetSetting(Setting_QueryServiceType)
-			//			a.queryType = queryType.(string)
 
 			var connectorName string
 			properties := make(map[string]interface{})
@@ -189,7 +191,8 @@ func (a *TGDBQueryActivity) getTGDBService(context activity.Context) (*tgdb.TGDB
 					setting, _ := data.CoerceToObject(v)
 					if setting != nil {
 						if setting["name"] == "url" {
-							properties["url"], _ = data.CoerceToString(setting["value"])
+							url, _ := data.CoerceToString(setting["value"])
+							properties["url"] = util.GetValue(url)
 						} else if setting["name"] == "user" {
 							properties["user"], _ = data.CoerceToString(setting["value"])
 						} else if setting["name"] == "password" {
@@ -201,19 +204,17 @@ func (a *TGDBQueryActivity) getTGDBService(context activity.Context) (*tgdb.TGDB
 				}
 				log.Info(properties)
 
-				tgdbService, _ = tgdb.GetFactory().CreateService(connectorName, properties)
+				tgdbService, _ = factory.GetFactory(dbservice.TGDB).CreateUpsertService(connectorName, properties)
 				a.activityToConnector[myId] = connectorName
 			}
 			log.Info("Initializing TGDB Service end ...")
 		}
 	}
 
-	return tgdbService, nil
+	return tgdbService.(*tgdb.TGDBService), nil
 }
 
-func (a *TGDBQueryActivity) buildQueryParams(
-	parameters map[string]interface{}) (string, map[string]interface{}) {
-
+func (a *TGDBQueryActivity) buildQueryParams(parameters map[string]interface{}) (error, string, map[string]interface{}) {
 	queryParams := make(map[string]interface{})
 	query := make(map[string]interface{})
 	queryParams[tgdb.Query] = query
@@ -251,33 +252,38 @@ func (a *TGDBQueryActivity) buildQueryParams(
 		queryParams[tgdb.Query_OPT_EdgeLimit] = int(parameters[tgdb.Query_OPT_EdgeLimit].(float64))
 	}
 
-	return language, queryParams
+	var err error
+	language, ok := parameters[QueryLanguage].(string)
+	if !ok {
+		err = errors.New("Language not defined")
+	}
+	return err, language, queryParams
 }
 
 func (a *TGDBQueryActivity) buildQueryResult(
-	data interface{},
+	content interface{},
 	success bool,
 	errorCode interface{},
 	errorMsg interface{}) map[string]interface{} {
 
-	log.Info("%%%%%%%%%%%%%%%%%%%%%% queryResult %%%%%%%%%%%%%%%%%%%%%%")
-	log.Info("data      : ", data)
-	log.Info("success   : ", success)
-	log.Info("errorCode : ", errorCode)
-	log.Info("errorMsg  : ", errorMsg)
-	log.Info("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+	log.Debug("%%%%%%%%%%%%%%%%%%%%%% queryResult %%%%%%%%%%%%%%%%%%%%%%")
+	log.Debug("content      : ", content)
+	log.Debug("success   : ", success)
+	log.Debug("errorCode : ", errorCode)
+	log.Debug("errorMsg  : ", errorMsg)
+	log.Debug("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
 
 	queryResult := make(map[string]interface{})
 
 	if success {
-		queryResult["data"] = data
-		queryResult["success"] = true
+		queryResult[output_DataContent] = content
+		queryResult[output_DataSuccess] = true
 	} else {
 		error := make(map[string]interface{})
-		error["code"] = errorCode
-		error["message"] = errorMsg
-		queryResult["error"] = error
-		queryResult["success"] = false
+		error[output_DataErrorCode] = errorCode
+		error[output_DataErrorMsg] = errorMsg
+		queryResult[output_DataError] = error
+		queryResult[output_DataSuccess] = false
 	}
 	return queryResult
 }

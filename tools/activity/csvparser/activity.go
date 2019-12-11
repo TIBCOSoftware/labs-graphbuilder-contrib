@@ -86,7 +86,7 @@ func (a *CSVParserActivity) Eval(ctx activity.Context) (done bool, err error) {
 			}
 		}
 
-		log.Debug(csvdata)
+		log.Info("(CSVParserActivity.Eval) - csvdata : ", csvdata)
 		csvdataArray = append(csvdataArray, csvdata)
 	}
 
@@ -106,6 +106,7 @@ type CSVParserWorkingData struct {
 func (a *CSVParserActivity) getWorkingData(ctx activity.Context) (*CSVParserWorkingData, error) {
 	myId := util.ActivityId(ctx)
 	workingData := a.workingDatas[myId]
+	log.Info("workingDatas : ", a.workingDatas, ", myId : ", myId)
 	if nil == workingData {
 		a.mux.Lock()
 		defer a.mux.Unlock()
@@ -122,12 +123,13 @@ func (a *CSVParserActivity) getWorkingData(ctx activity.Context) (*CSVParserWork
 			workingData.firstRowIsHeader = firstRowIsHeader.(bool)
 			workingData.indexToFieldname = make(map[int]string)
 			workingData.indexToFieldtype = make(map[int]string)
-			for _, outputFieldname := range outputFieldnames.([]interface{}) {
+			for i, outputFieldname := range outputFieldnames.([]interface{}) {
 				outputFieldnameInfo := outputFieldname.(map[string]interface{})
-				i, _ := strconv.Atoi(outputFieldnameInfo["CSVFieldName"].(string))
-				workingData.indexToFieldname[i-1] = outputFieldnameInfo["AttributeName"].(string)
-				workingData.indexToFieldtype[i-1] = outputFieldnameInfo["Type"].(string)
-				log.Info("Processing handlers : parameter.Column-1 = ", strconv.Itoa(i-1), ", parameter.Name = ", outputFieldnameInfo["AttributeName"])
+				log.Info(">>>>>>>>>>>> outputFieldnameInfo : ", outputFieldnameInfo)
+				//i, _ := strconv.Atoi(outputFieldnameInfo["CSVFieldName"].(string))
+				workingData.indexToFieldname[i] = outputFieldnameInfo["AttributeName"].(string)
+				workingData.indexToFieldtype[i] = outputFieldnameInfo["Type"].(string)
+				log.Info("Processing handlers : parameter.Column-1 = ", strconv.Itoa(i), ", parameter.Name = ", outputFieldnameInfo["AttributeName"])
 			}
 			a.workingDatas[myId] = workingData
 

@@ -111,7 +111,7 @@ func (t *Trigger) Stop() error {
 	return nil
 }
 
-func (t *Trigger) HandleContent(handlerId int, id string, content string, modifiedTime int64, lineNumber int) {
+func (t *Trigger) HandleContent(handlerId int, id string, content string, modifiedTime int64, lineNumber int, endOfFile bool) {
 	t.mux.Lock()
 	defer t.mux.Unlock()
 	outputData := &Output{}
@@ -119,6 +119,7 @@ func (t *Trigger) HandleContent(handlerId int, id string, content string, modifi
 	outputData.FileContent = content
 	outputData.ModifiedTime = modifiedTime
 	outputData.LineNumber = lineNumber
+	outputData.EndOfFile = endOfFile
 
 	logger.Info("(FileContentHandler.HandleContent) - Trigger sends MessageId : ", id, ", handlerId : ", handlerId, ", lineNumber : ", lineNumber, ", modifiedTime : ", modifiedTime)
 	logger.Debug("(FileContentHandler.HandleContent) - content : ", content)
