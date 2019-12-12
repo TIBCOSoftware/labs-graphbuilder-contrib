@@ -6,7 +6,6 @@
 package jsonparser
 
 import (
-	"errors"
 	"sync"
 
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"
