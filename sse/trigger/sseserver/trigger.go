@@ -85,10 +85,10 @@ func (this *SSEServer) Initialize(ctx trigger.InitContext) error {
 // implements ext.Trigger.Start
 func (this *SSEServer) Start() error {
 
-	logger.Debug("Start")
+	logger.Info("Start")
 	handlers := this.handlers
 
-	logger.Debug("Processing handlers")
+	logger.Info("Processing handlers")
 
 	connection, exist := handlers[0].Settings()[cConnection]
 	if !exist {
@@ -105,8 +105,12 @@ func (this *SSEServer) Start() error {
 	connectionSettings, _ := connectionInfo["settings"].([]interface{})
 	if connectionSettings != nil {
 		for _, v := range connectionSettings {
-			setting, _ := data.CoerceToObject(v)
-			if setting != nil {
+			setting, err := data.CoerceToObject(v)
+			if nil != err {
+				continue
+			}
+
+			if nil != setting {
 				if setting["name"] == sseserver.ServerPort {
 					properties[sseserver.ServerPort], _ = data.CoerceToString(setting["value"])
 				} else if setting["name"] == cConnectionName {
@@ -116,23 +120,31 @@ func (this *SSEServer) Start() error {
 				} else if setting["name"] == sseserver.ConnectionTlsEnabled {
 					properties[sseserver.ConnectionTlsEnabled], _ = data.CoerceToBoolean(setting["value"])
 				} else if setting["name"] == sseserver.ConnectionTlsCRT {
-					tlsCRT, _ := data.CoerceToObject(setting["value"])
-					properties[sseserver.ConnectionTlsCRT], _ = b64.StdEncoding.DecodeString(strings.Split(tlsCRT["content"].(string), ",")[1])
-					properties[sseserver.ConnectionTlsCRTPath], _ = tlsCRT["filename"].(string)
+					tlsCRT, err := data.CoerceToObject(setting["value"])
+					if nil != err {
+						properties[sseserver.ConnectionTlsCRT], _ = b64.StdEncoding.DecodeString(strings.Split(tlsCRT["content"].(string), ",")[1])
+						properties[sseserver.ConnectionTlsCRTPath], _ = tlsCRT["filename"].(string)
+					}
 				} else if setting["name"] == sseserver.ConnectionTlsKey {
-					tlsKey, _ := data.CoerceToObject(setting["value"])
-					properties[sseserver.ConnectionTlsKey], _ = b64.StdEncoding.DecodeString(strings.Split(tlsKey["content"].(string), ",")[1])
-					properties[sseserver.ConnectionTlsKeyPath], _ = tlsKey["filename"].(string)
-					//} else if setting["name"] == sseserver.ConnectionTlsCRTPath {
-					//	properties[sseserver.ConnectionTlsCRTPath], _ = data.CoerceToString(setting["value"])
-					//} else if setting["name"] == sseserver.ConnectionTlsKeyPath {
-					//	properties[sseserver.ConnectionTlsKeyPath], _ = data.CoerceToString(setting["value"])
+					tlsKey, err := data.CoerceToObject(setting["value"])
+					if nil != err {
+						properties[sseserver.ConnectionTlsKey], _ = b64.StdEncoding.DecodeString(strings.Split(tlsKey["content"].(string), ",")[1])
+						properties[sseserver.ConnectionTlsKeyPath], _ = tlsKey["filename"].(string)
+					}
 				}
+				// else if setting["name"] == sseserver.ConnectionTlsCRTPath {
+				//	properties[sseserver.ConnectionTlsCRTPath], _ = data.CoerceToString(setting["value"])
+				//} else if setting["name"] == sseserver.ConnectionTlsKeyPath {
+				//	properties[sseserver.ConnectionTlsKeyPath], _ = data.CoerceToString(setting["value"])
 			}
 		}
 		logger.Info(properties)
 
-		this.server, _ = sseserver.GetFactory().CreateServer(serverId, properties, this)
+		var err error
+		this.server, err = sseserver.GetFactory().CreateServer(serverId, properties, this)
+		if nil != err {
+			return err
+		}
 		go this.server.Start()
 	}
 

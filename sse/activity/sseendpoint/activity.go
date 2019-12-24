@@ -50,23 +50,46 @@ func (a *SSEEndPoint) Eval(ctx activity.Context) (done bool, err error) {
 		return false, err
 	}
 
-	queryResults := ctx.GetInput("Data").(map[string]interface{})
-
-	log.Info("queryResults : ", queryResults)
-
-	if nil != queryResults {
-		for queryId, result := range queryResults {
-			log.Info("queryResult id = ", queryId, ", result = ", result)
-			bytes, err := json.Marshal(result.(map[string]interface{}))
-			if err != nil {
-				log.Info("Unable to serialize : ", result)
-			}
-//			log.Info("Serialized data : ", bytes)
-
-			broker.SendData(queryId, bytes)
-		}
+	streamId, validId := ctx.GetInput("StreamId").(string)
+	if !validId {
+		log.Warn("Invalid stream id, expecting string type but get : ", ctx.GetInput("StreamId"))
+		streamId = "*"
 	}
 
+	data, ok := ctx.GetInput("Data").(map[string]interface{})
+	if !ok {
+		log.Warn("Invalid data, expecting map[string]interface{} but get : ", ctx.GetInput("Data"))
+	}
+
+	if nil != data {
+		bytes, err := json.Marshal(data)
+		if err != nil {
+			log.Warn("Unable to serialize data : ", data)
+		}
+		log.Debug("Serialized data : ", bytes)
+
+		broker.SendData(streamId, bytes)
+	}
+
+	/*
+		queryResults, ok := ctx.GetInput("Data").(map[string]interface{})
+		if !ok {
+			log.Warn("Invalid data, expecting map[string]interface{} but get : ", queryResults)
+		}
+
+		if nil != queryResults {
+			for queryId, result := range queryResults {
+				log.Info("queryResult id = ", queryId, ", result = ", result)
+				bytes, err := json.Marshal(result.(map[string]interface{}))
+				if err != nil {
+					log.Warn("Unable to serialize data : ", result)
+				}
+				log.Debug("Serialized data : ", bytes)
+
+				broker.SendData(queryId, bytes)
+			}
+		}
+	*/
 	return true, nil
 }
 
