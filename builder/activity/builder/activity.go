@@ -6,8 +6,8 @@
 package builder
 
 import (
-	b64 "encoding/base64"
-	"strings"
+	//b64 "encoding/base64"
+	//"strings"
 	"sync"
 
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"
@@ -122,17 +122,18 @@ func (a *BuilderActivity) getGraphModel(context activity.Context) (*model.Graph,
 				return nil, nil, activity.NewError("Unable extract model", "GRAPHBUILDER-4001", nil)
 			}
 
-			var jsonmodel []byte
+			var jsonmodel string
 			var modelName string
 			connectionSettings, _ := connectionInfo["settings"].([]interface{})
 			if connectionSettings != nil {
 				for _, v := range connectionSettings {
 					setting, _ := data.CoerceToObject(v)
-
 					if nil != setting {
 						if setting["name"] == "model" {
-							modelcontent, _ := data.CoerceToObject(setting["value"])
-							jsonmodel, _ = b64.StdEncoding.DecodeString(strings.Split(modelcontent["content"].(string), ",")[1])
+							//modelcontent, _ := data.CoerceToObject(setting["value"])
+							//jsonmodel, _ = b64.StdEncoding.DecodeString(strings.Split(modelcontent["content"].(string), ",")[1])
+						} else if setting["name"] == "metadata" {
+							jsonmodel = setting["value"].(string)
 						} else if setting["name"] == "inMemory" {
 							a.inMemoryGraph = setting["value"].(bool)
 						} else if setting["name"] == "name" {
@@ -146,11 +147,18 @@ func (a *BuilderActivity) getGraphModel(context activity.Context) (*model.Graph,
 				return nil, nil, activity.NewError("Unable to get builder name", "GRAPHBUILDER-4003", nil)
 			}
 
-			if nil == jsonmodel {
+			if "" == jsonmodel {
 				return nil, nil, activity.NewError("Unable to get model string", "GRAPHBUILDER-4004", nil)
 			}
 
-			graphModel = model.NewGraphModel(modelName, string(jsonmodel))
+			log.Info("Model = ", jsonmodel)
+
+			var err error
+			graphModel, err = model.NewGraphModel(modelName, jsonmodel)
+			if nil != err {
+				return nil, nil, err
+			}
+
 			a.models[modelName] = graphModel
 			a.activityToModel[myId] = modelName
 

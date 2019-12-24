@@ -1,4 +1,4 @@
-module github.com/TIBCOSoftware/GraphBuilder_SSE/trigger/ssesub
+module github.com/TIBCOSoftware/GraphBuilder_SSE/trigger/sseserver
 
 require (
 	github.com/TIBCOSoftware/flogo-lib v0.5.8

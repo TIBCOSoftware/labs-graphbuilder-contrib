@@ -1,0 +1,185 @@
+{  
+	"nodes":[  
+		{  
+            "name":"flight",
+            "key":["uuid"],
+            "attributes":[  
+               { "name":"type", "type":"String" },
+               { "name":"typeflight", "type":"String" },
+               { "name":"carrierCode", "type":"String" },
+               { "name":"flightNumber", "type":"String" },
+               { "name":"originLocalDate", "type":"String" },
+               { "name":"uuid", "type":"String" },
+               { "name":"label","type":"String" }
+            ]
+         },
+         {  
+            "name":"pnr",
+            "key":["uuid"],
+            "attributes":[  
+				{ "name":"type", "type":"String" },
+				{ "name":"typepnr", "type":"String" },
+				{ "name":"uuid", "type":"String" },
+				{ "name":"label", "type":"String" },
+				{ "name":"value", "type":"String" },
+				{ "name":"recordLocator", "type":"String" },
+				{ "name":"numberInParty", "type":"String" },
+				{ "name":"numberOfInfants", "type":"String" },
+				{ "name":"phoneNumber", "type":"String" },
+				{ "name":"email", "type":"String" },
+				{ "name":"addrLine", "type":"String" },
+				{ "name":"cityState", "type":"String" },
+				{ "name":"zipCode", "type":"String" }
+            ]
+         },
+         {  
+            "name":"passenger",
+            "key":["uuid"],
+            "attributes":[
+            		{ "name":"type", "type":"String" },
+            		{ "name":"typepassenger", "type":"String" },
+            		{ "name":"uuid", "type":"String" },
+            		{ "name":"label", "type":"String" },
+            		{ "name":"firstname", "type":"String" },
+            		{ "name":"lastname", "type":"String" }
+            ]
+		},
+        {  
+            "name":"route",
+            "key":["uuid"],
+            "attributes":[
+            		{ "name":"type", "type":"String" },
+            		{ "name":"typeroute", "type":"String" },
+            		{ "name":"uuid", "type":"String" },
+            		{ "name":"origin", "type":"String" },
+            		{ "name":"destination", "type":"String" },
+            		{ "name":"label", "type":"String" }
+            ]
+        },
+        {  
+            "name":"leg",
+            "key":["uuid"],
+            "attributes":[
+            		{ "name":"type", "type":"String" },
+            		{ "name":"typeleg", "type":"String" },
+            		{ "name":"uuid", "type":"String" },
+            		{ "name":"label", "type":"String" }
+            ]
+        },
+		{
+            "name":"Day",
+            "key":["label"],
+            "attributes":[
+               { "name":"type",  "type":"String" },
+               { "name":"label", "type":"String" }
+           ]
+        },
+        {  
+            "name":"airport",
+            "key":["uuid"],
+            "attributes":[
+            		{ "name":"type", "type":"String" },
+            		{ "name":"typeairport", "type":"String" },
+            		{ "name":"uuid", "type":"String" },
+            		{ "name":"label", "type":"String" }
+            ]
+        }
+    ],
+    "edges":[  
+        {  
+            "to":"passenger",
+            "name":"pnr_passenger",
+            "from":"pnr",
+            "attributes":[
+            		{ "name":"relation", "type":"String" }
+            ]
+        },
+        {  
+            "to":"flight",
+            "name":"pnr_flight",
+            "from":"pnr",
+            "attributes":[
+            		{ "name":"relation", "type":"String" }
+            ]
+        },
+       {  
+            "to":"route",
+            "name":"flight_route",
+            "from":"flight",
+            "attributes":[ 
+            		{"name":"relation", "type":"String" }
+            ]
+        },
+        {  
+            "to":"leg",
+            "name":"flight_leg",
+            "from":"flight",
+            "attributes":[
+            		{ "name":"relation", "type":"String" }
+            ]
+        },
+        {  
+            "to":"airport",
+            "name":"leg_destination",
+            "from":"leg",
+            "attributes":[
+            		{   "name":"relation", "type":"String" }
+            ]
+        },
+        {  
+            "to":"airport",
+            "name":"leg_origin",
+            "from":"leg",
+            "direction" : 1,
+            "attributes":[
+            		{ "name":"relation", "type":"String" }
+            ]
+        },
+        {  
+            "to":"airport",
+            "name":"route_origin",
+            "from":"route",
+            "attributes":[
+            		{ "name":"relation", "type":"String" }
+            ]
+        },
+        {  
+            "to":"airport",
+            "name":"route_destination",
+            "from":"route",
+            "attributes":[
+            		{ "name":"relation", "type":"String" }
+            ]
+        },
+        {  
+            "to":"flight",
+            "name":"flight_event",
+            "from":"Day",
+            "attributes":[
+            		{ "name":"relation", "type":"String" },
+            		{ "name":"eventname", "type":"String" },
+            		{ "name":"time", "type":"String" }
+            ]
+        },
+         {  
+            "to":"leg",
+            "name":"leg_event",
+            "from":"Day",
+            "attributes":[
+            		{ "name":"relation", "type":"String" },
+            		{ "name":"eventname", "type":"String" },
+            		{ "name":"time", "type":"String" }
+            ]
+        },
+        {  
+            "to":"pnr",
+            "name":"pnr_event",
+            "from":"Day",
+            "attributes":[
+            		{ "name":"relation", "type":"String" },
+            		{ "name":"eventname", "type":"String" },
+            		{ "name":"time", "type":"String" }
+            ]
+        }
+    ]
+}

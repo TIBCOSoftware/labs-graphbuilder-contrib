@@ -61,6 +61,10 @@
 			"type": "fileselector", 
 			"fileExtensions": [".tgbm",".json"] 
 		} 
+	},
+	{ 
+		"name": "metadata",
+		"type": "string"
 	}
   ],
   "actions": [
