@@ -50,7 +50,7 @@ func (a *GraphQuerierActivity) Eval(context activity.Context) (done bool, err er
 		return false, fmt.Errorf("Unable to get graphId from input!!")
 	}
 	/* UpsertGraph */
-	graph := model.GetGraphManager().GetGraph(graphId.(string), graphId.(string))
+	graph := model.GetGraphManager().GetGraph(model.TGRAPH, graphId.(string), graphId.(string))
 
 	queryId := context.GetInput("queryId")
 	if nil == queryId {
@@ -75,7 +75,7 @@ func (a *GraphQuerierActivity) Eval(context activity.Context) (done bool, err er
 	log.Info("(GraphQuerierActivity::Eval) queryId = ", queryId, ", graphId = ", graphId)
 
 	matchedData := make(map[string]interface{})
-	matchedData[queryId.(string)] = query.Search(graph)
+	matchedData[queryId.(string)] = query.Search(graph.(*model.TraversalGraph))
 
 	context.SetOutput("MatchedData", matchedData)
 
