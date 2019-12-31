@@ -23,17 +23,11 @@ export class SSEConnectorContribution extends WiServiceHandlerContribution {
     validate = (name: string, context: IConnectorContribution): Observable<IValidationResult> | IValidationResult => {
 		console.log('------------- SSEConnectorContribution validate --------------');
 		console.log(context);
-		console.log('%%%%%%%%%% name = ' + name);
 		let outbound: IFieldDefinition = context.getField("outbound")
 		let tlsEnabled: IFieldDefinition = context.getField("tlsEnabled")
-		console.log('  %%%%%%%%%% outbound = ' + outbound.value);
+		let uploadCRT: IFieldDefinition = context.getField("uploadCRT")
 
 		if(name === "Connect") {
-			//let url: IFieldDefinition = context.getField("url")
-			//if((tlsEnabled.value&&url)||
-			//	(!tlsEnabled.value&&)) {
-			//	return ValidationResult.newValidationResult().setReadOnly(true);
-			//}
 			return ValidationResult.newValidationResult().setReadOnly(false);
 		} else if( name === "url"||name === "resource"||name === "accessToken") {
         		if (outbound.value === true) {
@@ -47,15 +41,24 @@ export class SSEConnectorContribution extends WiServiceHandlerContribution {
         		} else {
 				return ValidationResult.newValidationResult().setVisible(false);
 			}
+		} else if( name === "uploadCRT") {
+        		if (outbound.value === false&&tlsEnabled.value === true) {
+            		return ValidationResult.newValidationResult().setVisible(true);
+        		} else {
+				return ValidationResult.newValidationResult().setVisible(false);
+			}
 		} else if( name === "tlsCRT"||name === "tlsKey") {
-        		if (outbound.value === false&&tlsEnabled.value == true) {
+        		if (outbound.value === false&&tlsEnabled.value === true&&uploadCRT.value === true) {
             		return ValidationResult.newValidationResult().setVisible(true);
         		} else {
 				return ValidationResult.newValidationResult().setVisible(false);
 			}
 		} else if( name === "tlsCRTPath"||name === "tlsKeyPath") {
-			return ValidationResult.newValidationResult().setVisible(false);
-		} else if( name === "outbound") {
+        		if (outbound.value === false&&tlsEnabled.value === true) {
+            		return ValidationResult.newValidationResult().setVisible(true);
+        		} else {
+				return ValidationResult.newValidationResult().setVisible(false);
+			}
 		}
  		return null;
     }

@@ -7,6 +7,7 @@ package sseendpoint
 
 import (
 	"encoding/json"
+	"errors"
 	"sync"
 
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"
@@ -120,8 +121,11 @@ func (a *SSEEndPoint) getSSEBroker(context activity.Context) (*sseserver.Server,
 					}
 				}
 			}
+			sseBroker = sseserver.GetFactory().GetServer(connectorName)
+			if nil == sseBroker {
+				return nil, errors.New("Broker not found, connection id = " + connectorName)
+			}
 			a.activityToConnector[myId] = connectorName
-			sseBroker = sseserver.GetFactory().GetServer(a.activityToConnector[myId])
 		}
 		log.Info("Look up SSE data broker end ...")
 	}
