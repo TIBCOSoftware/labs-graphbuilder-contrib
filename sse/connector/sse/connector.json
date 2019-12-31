@@ -100,6 +100,16 @@
 			"value": false,
 			"required": true
 		},
+		{
+			"name": "uploadCRT",
+			"type": "boolean",
+			"display": {
+				"name": "Upload TLS certificate",
+				"description": "Upload TLS certificate from local file"
+			},
+			"value": true,
+			"required": false
+		},
 		{ 
 			"name": "tlsCRT",
 			"type": "string", 

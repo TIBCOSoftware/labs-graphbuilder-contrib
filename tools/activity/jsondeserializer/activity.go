@@ -7,14 +7,16 @@ package jsondeserializer
 
 import (
 	"encoding/json"
+	"strings"
 
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"
 	"github.com/TIBCOSoftware/flogo-lib/core/data"
 	"github.com/TIBCOSoftware/flogo-lib/logger"
+	"github.com/TIBCOSoftware/labs-graphbuilder-lib/util"
 )
 
 // activityLogger is the default logger for the Filter Activity
-var log = logger.GetLogger("activity-jsonparser")
+var log = logger.GetLogger("activity-jsondeserializer")
 
 const (
 	setting_DateFormat = "DateFormat"
@@ -49,11 +51,57 @@ func (a *JSONDeserializerActivity) Eval(ctx activity.Context) (done bool, err er
 
 	err = json.Unmarshal([]byte(in), &rootObject)
 	if nil != err {
-		return false, err
+		logger.Warn("Unable to parse json data, reason : ", err.Error())
+		return false, nil
+	}
+
+	if nil != rootObject {
+		rootMap, ok := rootObject.(map[string]interface{})
+		if !ok {
+			logger.Warn("Unable to parse json data, reason : root object should be a map[string]interface{}")
+			return false, nil
+		}
+		a.validate(ctx, rootMap)
 	}
 
 	jsondata := &data.ComplexObject{Metadata: "Data", Value: rootObject}
 
 	ctx.SetOutput(output, jsondata)
+
 	return true, nil
+}
+
+func (a *JSONDeserializerActivity) validate(ctx activity.Context, rootMap map[string]interface{}) {
+	myId := util.ActivityId(ctx)
+	defaultValues, ok := ctx.GetSetting("defaultValue")
+	if !ok || nil == defaultValues {
+		log.Info("No default values set!!")
+	}
+
+	for _, defaultValue := range defaultValues.([]interface{}) {
+		defaultValueMap := defaultValue.(map[string]interface{})
+		log.Debug("myId = ", myId, ", AttributePath = ", defaultValueMap["AttributePath"], ", Type = ", defaultValueMap["Type"], ", Default = ", defaultValueMap["Default"])
+		attributePathElements := strings.Split(defaultValueMap["AttributePath"].(string), ".")
+		currentMap := rootMap
+
+		log.Debug("rootMap[] = ", rootMap)
+		for index, attributePathElement := range attributePathElements {
+			if index == (len(attributePathElements) - 1) {
+				/* the last element (attribute key) */
+				if nil == currentMap[attributePathElement] {
+					/* not exist then set to default */
+					currentMap[attributePathElement] = defaultValueMap["Default"]
+				}
+				log.Debug("currentMap[", attributePathElement, "] = ", currentMap[attributePathElement])
+			} else {
+				/* is a node not a leaf */
+				if nil == currentMap[attributePathElement] {
+					/* submap is not exist then create a new one */
+					currentMap[attributePathElement] = make(map[string]interface{})
+				}
+				currentMap = currentMap[attributePathElement].(map[string]interface{})
+				log.Debug("currentMap[", attributePathElement, "] = ", currentMap)
+			}
+		}
+	}
 }

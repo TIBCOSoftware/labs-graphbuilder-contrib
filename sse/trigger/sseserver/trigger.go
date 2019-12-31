@@ -111,14 +111,29 @@ func (this *SSEServer) Start() error {
 			}
 
 			if nil != setting {
+				var err error
 				if setting["name"] == sseserver.ServerPort {
-					properties[sseserver.ServerPort], _ = data.CoerceToString(setting["value"])
+					properties[sseserver.ServerPort], err = data.CoerceToString(setting["value"])
+					if nil != err {
+						return err
+					}
 				} else if setting["name"] == cConnectionName {
 					serverId = setting["value"].(string)
 				} else if setting["name"] == sseserver.ConnectionPath {
-					properties[sseserver.ConnectionPath], _ = data.CoerceToString(setting["value"])
+					properties[sseserver.ConnectionPath], err = data.CoerceToString(setting["value"])
+					if nil != err {
+						return err
+					}
 				} else if setting["name"] == sseserver.ConnectionTlsEnabled {
-					properties[sseserver.ConnectionTlsEnabled], _ = data.CoerceToBoolean(setting["value"])
+					properties[sseserver.ConnectionTlsEnabled], err = data.CoerceToBoolean(setting["value"])
+					if nil != err {
+						return err
+					}
+				} else if setting["name"] == sseserver.ConnectionUploadCRT {
+					properties[sseserver.ConnectionUploadCRT], err = data.CoerceToBoolean(setting["value"])
+					if nil != err {
+						return err
+					}
 				} else if setting["name"] == sseserver.ConnectionTlsCRT {
 					tlsCRT, err := data.CoerceToObject(setting["value"])
 					if nil != err {
@@ -131,20 +146,26 @@ func (this *SSEServer) Start() error {
 						properties[sseserver.ConnectionTlsKey], _ = b64.StdEncoding.DecodeString(strings.Split(tlsKey["content"].(string), ",")[1])
 						properties[sseserver.ConnectionTlsKeyPath], _ = tlsKey["filename"].(string)
 					}
+				} else if setting["name"] == sseserver.ConnectionTlsCRTPath {
+					if nil != err {
+						properties[sseserver.ConnectionTlsCRTPath], err = data.CoerceToString(setting["value"])
+					}
+				} else if setting["name"] == sseserver.ConnectionTlsKeyPath {
+					if nil != err {
+						properties[sseserver.ConnectionTlsKeyPath], err = data.CoerceToString(setting["value"])
+					}
 				}
-				// else if setting["name"] == sseserver.ConnectionTlsCRTPath {
-				//	properties[sseserver.ConnectionTlsCRTPath], _ = data.CoerceToString(setting["value"])
-				//} else if setting["name"] == sseserver.ConnectionTlsKeyPath {
-				//	properties[sseserver.ConnectionTlsKeyPath], _ = data.CoerceToString(setting["value"])
 			}
+
 		}
-		logger.Info(properties)
+		logger.Debug(properties)
 
 		var err error
 		this.server, err = sseserver.GetFactory().CreateServer(serverId, properties, this)
 		if nil != err {
 			return err
 		}
+		logger.Info("Server = ", *this.server)
 		go this.server.Start()
 	}
 

@@ -66,7 +66,7 @@ func (a *BuilderActivity) Eval(context activity.Context) (done bool, err error) 
 		return false, err
 	}
 
-	log.Info("[BuilderActivity:Eval] BatchEnd : ", context.GetInput(BatchEnd))
+	log.Debug("[BuilderActivity:Eval] BatchEnd : ", context.GetInput(BatchEnd))
 
 	graphId := graphModel.GetId()
 	deltaGraph := a.graphBuilder.CreateGraph(graphId, graphModel)
@@ -87,7 +87,7 @@ func (a *BuilderActivity) Eval(context activity.Context) (done bool, err error) 
 		data := make(map[string]interface{})
 		data["graph"] = a.graphBuilder.Export(tempGraph, graphModel)
 
-		log.Info("[BuilderActivity:Eval] Graph : ", data)
+		log.Debug("[BuilderActivity:Eval] Graph : ", data)
 
 		context.SetOutput("Graph", data)
 
@@ -151,7 +151,7 @@ func (a *BuilderActivity) getGraphModel(context activity.Context) (*model.Graph,
 				return nil, nil, activity.NewError("Unable to get model string", "GRAPHBUILDER-4004", nil)
 			}
 
-			log.Info("Model = ", jsonmodel)
+			log.Debug("Model = ", jsonmodel)
 
 			var err error
 			graphModel, err = model.NewGraphModel(modelName, jsonmodel)
