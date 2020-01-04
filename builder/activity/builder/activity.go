@@ -22,11 +22,11 @@ var log = logger.GetLogger("tibco-activity-graphbuilder")
 var initialized bool = false
 
 const (
-	GraphModel = "GraphModel"
-	BatchMode  = "BatchMode"
-	Nodes      = "Nodes"
-	Edges      = "Edges"
-	BatchEnd   = "BatchEnd"
+	GraphModel   = "GraphModel"
+	AllowNullKey = "AllowNullKey"
+	Nodes        = "Nodes"
+	Edges        = "Edges"
+	BatchEnd     = "BatchEnd"
 )
 
 type BuilderActivity struct {
@@ -66,6 +66,11 @@ func (a *BuilderActivity) Eval(context activity.Context) (done bool, err error) 
 		return false, err
 	}
 
+	allowNullKey, exists := context.GetSetting(AllowNullKey)
+	if !exists {
+		allowNullKey = false
+	}
+
 	log.Debug("[BuilderActivity:Eval] BatchEnd : ", context.GetInput(BatchEnd))
 
 	graphId := graphModel.GetId()
@@ -75,6 +80,7 @@ func (a *BuilderActivity) Eval(context activity.Context) (done bool, err error) 
 		graphModel,
 		context.GetInput(Nodes).(*data.ComplexObject).Value,
 		context.GetInput(Edges).(*data.ComplexObject).Value,
+		allowNullKey.(bool),
 	)
 
 	if a.inMemoryGraph {

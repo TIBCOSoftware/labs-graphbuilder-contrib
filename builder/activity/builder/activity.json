@@ -26,6 +26,15 @@
 			"allowed": []
 		},
 		{
+			"name": "AllowNullKey",
+			"type": "boolean",
+			"display": {
+				"name": "Allow Null Key",
+				"description": "Select false will drop the nodes with any null key element"
+			},
+			"value": false
+		},
+		{
 			"name": "BatchMode",
 			"type": "boolean",
 			"display": {
