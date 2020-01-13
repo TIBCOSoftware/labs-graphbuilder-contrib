@@ -169,10 +169,25 @@ Select GraphBuilder_SSE -> SSEEndPoint
 - **Avtivity Input 1:** set StreamId to "GeographyInfo" (the resource name for client to subscribe)
 - **Avtivity Input 2:** map required Data object to $activity[BuildGraph].Graph (output of BuildGraph activity)
 
-#### Add a trigger 
-Select GraphBuilder_SSE -> SSESubscriber
-- **SSE Connection(outbound request):** -> Select "Meetup_Event" for consuming open event from Meetup web site
-- **Flow Input:** -> Map EventString to $trigger.Event (This is the output of SSESubscriber)
+#### Add a trigger (Receive HTTP Message)
 
-$trigger.Event map to flow input
+- **Setting1:** Set Port to any available one (in this sample 9998)
+- **Setting2:** Set Method to "POST"
+- **Setting3:** Set Path to "/geography/{Continent}"
 
+- **Output Setting**
+
+$trigger.pathParams.Continent
+ and 
+$trigger.body
+
+sample :
+```
+{
+    "Countries": [
+        "us"
+    ]
+}
+```
+- **Flow Input1:** Continent.Name map to $trigger.pathParams.Continent
+- **Flow Input2:** Continent.Countries map to $trigger.body.Countries
