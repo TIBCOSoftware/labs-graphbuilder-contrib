@@ -14,7 +14,7 @@ This example is created in TIBCO Flogo® Enterprise 2.8.0 studio.
 
 ### Create Flow for MeetUp Event 
 
-![create_application](create_application1.png)
+![create_application2](create_application2.png)
 
 #### Configure flow inputs and outputs
 
@@ -46,7 +46,7 @@ $trigger.Event map to flow input
 
 ### Create Flow for Serving Streaming Graph Data 
 
-![create_application](create_application2.png)
+![create_application3](create_application3.png)
 
 #### Configure flow inputs and outputs
 
