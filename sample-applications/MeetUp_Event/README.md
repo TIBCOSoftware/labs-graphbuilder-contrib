@@ -1,4 +1,4 @@
-# Meet Up Event
+# Meetup Event
 
 ## Overview
 
