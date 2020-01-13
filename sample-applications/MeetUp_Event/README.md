@@ -37,7 +37,7 @@
 
 ![create_application](create_application.png)
 
-### Create Flow for subscribing Meetup open event 
+### Create Flow for consuming Meetup open event 
 
 ![create_application2](create_application2.png)
 
