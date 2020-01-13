@@ -8,6 +8,14 @@ This example is created in TIBCO Flogo® Enterprise 2.8.0 studio.
 
 ![create_connection](create_connection.png)
 
+## Create Connection to subscribe MeetUp event 
+
+![create_connection2](create_connection2.png)
+
+## Create Connection to serve streaming graph data
+
+![create_connection3](create_connection3.png)
+
 ## Create Application
 
 ![create_application](create_application.png)
