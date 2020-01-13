@@ -10,9 +10,9 @@
 
 ![create_connection](create_connection.png)
 ### Setting
-Graph Name -> Meetup
-Model Source -> Select Local File
-Graph Model -> Select sample-applications/Meetup_Event/Model_Meetup.json
+- **Graph Name:** -> Meetup
+- **Model Source:** -> Select Local File
+- **Graph Model:** -> Select sample-applications/Meetup_Event/Model_Meetup.json
 
 ## Create Connection to subscribe MeetUp event 
 
@@ -49,23 +49,31 @@ Graph Model -> Select sample-applications/Meetup_Event/Model_Meetup.json
     "EventString" : ""
 }
 ```
-#### Add activities
+### Add Activity 1
+Select GraphBuilder_Tools -> JSONDeserializer
+- **JSON Data Sample:** -> Select sample-applications/Meetup_Event/.json
+- **Default Values:** -> Set "na" as default for venue.address_1, category.name
 
-- **Activity 1 :**
-GraphBuilder_Tools -> JSONDeserializer
+### Add Activity 2
+Select GraphBuilder_Builder -> BuildGraph
+- **Graph Model:** -> Select "Meetup" (the connection we created previously)
+- **Configure Model:** -> Map attributes to input data fields (for nodes and edges) 
 
-- **Activity 2 :**
-GraphBuilder_Builder -> BuildGraph
+### Add Activity 3-1
+Select GraphBuilder_SSE -> SSEEndPoint
+- **SSE Connection:** -> Select "EventServer" for serving streaming data(the connection we created previously)
+- **Avtivity Input 1:** set StreamId to "meetup" (the resource name for client to subscribe)
+- **Avtivity Input 2:** map required Data object to $activity[BuildGraph].Graph (output of BuildGraph activity)
 
-- **Activity 3-1 :**
-GraphBuilder_SSE -> SSEEndPoint
+### Add Activity 3-2
+Select GraphBuilder_TGDB -> TGDBUpsert
+- **TGDB Connection:** -> Select "TGDB" for upserting streaming data to TGDB(the connection we created in TGDB_RESTful_Service sample application)
+- **Avtivity Input 1:** set required Graph object to $activity[BuildGraph].Graph
 
-- **Activity 3-2 :**
-GraphBuilder_TGDB -> TGDBUpsert
-
-#### Add a trigger (GraphBuilder_SSE -> SSESubscriber)
-
-- **output**
+#### Add a trigger 
+Select GraphBuilder_SSE -> SSESubscriber
+- **SSE Connection(outbound request):** -> Select "Meetup_Event" for consuming open event from Meetup web site
+- **Flow Input:** -> Map EventString to $trigger.Event (This is the output of SSESubscriber)
 
 $trigger.Event map to flow input
 
@@ -75,9 +83,12 @@ $trigger.Event map to flow input
 
 #### Configure flow inputs and outputs
 
-Data Flow Comes from SSEEndPoint (MeetUp Event Flow) 
+No configuration is required here since the data flow comes from SSEEndPoint of Meetup Event Flow directly
 
-#### Add a trigger (Receive HTTP Message)
+#### Add a trigger 
+ GraphBuilder_SSE -> SSESubscriber
+- **SSE Connection(inbound requests):** -> Select "EventServer" for serving streaming data(so now SSEEndPoint connected)
+- **Flow Input:** -> Map EventString to $trigger.Event (This is the output of SSESubscriber)
 
 - **Incoming Query**
 
