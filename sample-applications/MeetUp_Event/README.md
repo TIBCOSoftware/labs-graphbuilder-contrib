@@ -14,7 +14,7 @@
 - **Model Source:** -> Select Local File
 - **Graph Model:** -> Select sample-applications/Meetup_Event/Model_Meetup.json
 
-## Create Connection to subscribe MeetUp event 
+## Create Connection for subscribing Meetup open event 
 
 ![create_connection2](create_connection2.png)
 ### Setting
@@ -24,7 +24,7 @@
 - **Resource Name:** -> 2/open_events
 - **Access Token:** -> not required for accessing open event
 
-## Create Connection to serve streaming graph data
+## Create Connection for serving streaming graph data
 
 ![create_connection3](create_connection3.png)
 ### Setting
@@ -37,7 +37,7 @@
 
 ![create_application](create_application.png)
 
-### Create Flow for MeetUp Event 
+### Create Flow for subscribing Meetup open event 
 
 ![create_application2](create_application2.png)
 
