@@ -33,6 +33,14 @@
 - **Server port:** -> any available port (8888 for this example)
 - **Path:** -> /sse/ (client connect http://[host]:[port]/sse/meetup to subscribe "meetup" graph stream)
 
+## Create GraphModel for Enriching Meetup Graph
+
+![create_connection4](create_connection4.png)
+### Setting
+- **Graph Name:** -> GeographyInfo
+- **Model Source:** -> Select Local File
+- **Graph Model:** -> Select sample-applications/Meetup_Event/Model_GeographyInfo.json
+
 ## Create Application
 
 ![create_application](create_application.png)
@@ -74,8 +82,6 @@ Select GraphBuilder_TGDB -> TGDBUpsert
 Select GraphBuilder_SSE -> SSESubscriber
 - **SSE Connection(outbound request):** -> Select "Meetup_Event" for consuming open event from Meetup web site
 - **Flow Input:** -> Map EventString to $trigger.Event (This is the output of SSESubscriber)
-
-$trigger.Event map to flow input
 
 ### Create Flow for Serving Streaming Graph Data 
 
@@ -135,3 +141,38 @@ sample :
  }
 }
 ```
+### Create Flow for Enriching Meetup Graph 
+
+![create_application4](create_application4.png)
+
+#### Configure flow inputs and outputs
+
+- **input sample** 
+```
+{
+  "Continent": {
+    "Name": "North_America",
+    "Countries": [
+      "us"
+    ]
+  }
+}
+```
+### Add Activity 1
+Select GraphBuilder_Builder -> BuildGraph
+- **Graph Model:** -> Select "GeographyInfo" (the connection we created previously)
+- **Configure Model:** -> Map attributes to input data fields (for nodes and edges) 
+
+### Add Activity 2
+Select GraphBuilder_SSE -> SSEEndPoint
+- **SSE Connection:** -> Select "EventServer" for serving streaming data(the connection we created previously)
+- **Avtivity Input 1:** set StreamId to "GeographyInfo" (the resource name for client to subscribe)
+- **Avtivity Input 2:** map required Data object to $activity[BuildGraph].Graph (output of BuildGraph activity)
+
+#### Add a trigger 
+Select GraphBuilder_SSE -> SSESubscriber
+- **SSE Connection(outbound request):** -> Select "Meetup_Event" for consuming open event from Meetup web site
+- **Flow Input:** -> Map EventString to $trigger.Event (This is the output of SSESubscriber)
+
+$trigger.Event map to flow input
+
