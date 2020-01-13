@@ -46,22 +46,7 @@ $trigger.Event map to flow input
 
 #### Configure flow inputs and outputs
 
-- **output sample**
-```
-{
-    "queryResult": {
-        "content": {},
-        "success": true,
-        "error": {
-            "code": 101,
-            "message": "Not found"
-        }
-    }
-}
-```
-#### Add activities
-
-Data Comes from SSEEndPoint (MeetUp Event Flow) 
+Data Flow Comes from SSEEndPoint (MeetUp Event Flow) 
 
 #### Add a trigger (Receive HTTP Message)
 
