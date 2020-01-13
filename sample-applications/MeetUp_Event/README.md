@@ -2,19 +2,35 @@
 
 ## Overview
 
-This example is created in TIBCO Flogo® Enterprise 2.8.0 studio. 
+### This example is created in TIBCO Flogo® Enterprise 2.8.0 studio. 
+### This example uses Meetup open event through Meetup API see https://www.meetup.com/meetup_api/
 
 ## Create Graph Model
 
 ![create_connection](create_connection.png)
+### Setting
+Graph Name -> Meetup
+Model Source -> Select Local File
+Graph Model -> Select sample-applications/Meetup_Event/Model_Meetup.json
 
 ## Create Connection to subscribe MeetUp event 
 
 ![create_connection2](create_connection2.png)
+### Setting
+Connection Name -> Meetup_Event
+Outbound -> Sellect "true" for connecting to Meetup service
+Server URL -> http://stream.meetup.com/
+Resource Name -> 2/open_events
+Access Token -> not required for accessing open event
 
 ## Create Connection to serve streaming graph data
 
 ![create_connection3](create_connection3.png)
+### Setting
+Connection Name -> EventServer
+Outbound -> select "false" since it's a server
+Server port -> any available port (8888 for this example)
+Path -> /sse/ (client connect http://[host]:[port]/sse/meetup to subscribe "meetup" graph stream)
 
 ## Create Application
 
