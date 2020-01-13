@@ -2,8 +2,9 @@
 
 ## Overview
 
-### This example is created in TIBCO Flogo® Enterprise 2.8.0 studio. 
-### This example uses Meetup open event through Meetup API see https://www.meetup.com/meetup_api/
+- **1:** This example is created in TIBCO Flogo® Enterprise 2.8.0 studio. 
+
+- **2:** This example uses Meetup open event through Meetup API see https://www.meetup.com/meetup_api/
 
 ## Create Graph Model
 
