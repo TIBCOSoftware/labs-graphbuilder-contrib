@@ -62,6 +62,9 @@ func (a *JSONDeserializerActivity) Eval(ctx activity.Context) (done bool, err er
 			return false, nil
 		}
 		a.validate(ctx, rootMap)
+	} else {
+		logger.Warn("Unable to parse json data, reason : root object is nil")
+		return false, nil
 	}
 
 	jsondata := &data.ComplexObject{Metadata: "Data", Value: rootObject}
