@@ -6,11 +6,11 @@ This example is created in TIBCO Flogo® Enterprise 2.8.0 studio.
 
 ## Create Graph Model
 
-![create_connection](create_connection.jpg)
+![create_connection](create_connection.png)
 
 ## Create Application
 
-![create_application](create_application.jpg)
+![create_application](create_application.png)
 
 ### Create Flow for MeetUp Event 
 
