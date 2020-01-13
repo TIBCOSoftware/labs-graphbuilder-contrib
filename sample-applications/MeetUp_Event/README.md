@@ -14,6 +14,8 @@ This example is created in TIBCO Flogo® Enterprise 2.8.0 studio.
 
 ### Create Flow for MeetUp Event 
 
+![create_application](create_application1.png)
+
 #### Configure flow inputs and outputs
 
 - **input sample** 
@@ -43,6 +45,8 @@ GraphBuilder_TGDB -> TGDBUpsert
 $trigger.Event map to flow input
 
 ### Create Flow for Serving Streaming Graph Data 
+
+![create_application](create_application2.png)
 
 #### Configure flow inputs and outputs
 
