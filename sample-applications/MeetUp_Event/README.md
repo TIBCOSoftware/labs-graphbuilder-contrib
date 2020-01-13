@@ -143,7 +143,8 @@ sample :
 ```
 ### Create Flow for Enriching Meetup Graph 
 
-![create_application4](create_application4.png)
+![create_application4.1](create_application4.1.png)
+![create_application4.2](create_application4.2.png)
 
 #### Configure flow inputs and outputs
 
@@ -181,7 +182,7 @@ $trigger.pathParams.Continent
  and 
 $trigger.body
 
-sample :
+body sample :
 ```
 {
     "Countries": [
