@@ -1,0 +1,43 @@
+{
+   "utc_offset":-18000000,
+   "venue":{
+      "zip":"33444",
+      "country":"us",
+      "city":"Delray Beach",
+      "address_1":"205 NE 5th Terrace #204",
+      "name":"Peaceful Body Massage",
+      "lon":-80.07068,
+      "state":"FL",
+      "lat":26.471807
+   },
+   "rsvp_limit":0,
+   "venue_visibility":"public",
+   "visibility":"public",
+   "maybe_rsvp_count":0,
+   "description":"<p>Come breathe with me  🏹 <\/p> <p>Teaching a small, intimate group Breathwork Class at @peaceful... <br\/>Date<br\/>at time <\/p> <p>My teacher and Breathwork coach who I received my training from in LA @john Paul always likes to say “Change your breathing, change your life.” It sounds so simple and somewhat vague if you’re unfamiliar with Breathwork. If you have any curiosity or are looking to create healing, growth and transformation in your life and you’re ready to take your life to the next level this year, connecting to your breath can support you in whatever you want to create in your life. By breathing in a deep, consciously connected way, it can open new opportunities to re-align your intentions and give you tools to access your deepest truths. <\/p> <p>I am looking forward to connecting with people who are looking to disrupt your life, perhaps change some priorities and wake up! Decide to show up for yourself and see how much abundance shows up in your space. We have an opportunity to get clear on what’s most important, clear out the “cob webs” in the mind and create space for growth. <\/p> <p>Anyone can do Breathwork... whether there is something in your life that you want to shift or transform, or you're just looking to find some relaxation, or release stress, anyone who is willing to show up for themselves can receive so many benefits from this work. I say ‘work’ because it is exactly that. It’s not always comfortable to show up and lay on a mat and breathe with strangers but if you can have an open mind you might just experience a massive shift that could propel you forward and cross over the lines and boundaries you’ve created for yourself and have <\/p> <p>Join us for a profound and deeply moving experience that helps to re-program and restore negative beliefs or thought patterns through circular, conscious, connected breathing. <\/p> <p>If you can have an open mind, you just might experience a massive shift in your life. Come experience the many benefits of utilizing full, deep, connected breathing. Eliminate restrictive breathing patterns and release negative beliefs or behaviors, replacing them with new feelings of hope, passion and profound joy. I hope to see you there. Share with a friend or anyone who you think might be interested! <\/p> <p>Deep bow. Mad love. ❤<\/p> ",
+   "mtime":1577728698752,
+   "event_url":"https:\/\/www.meetup.com\/Delray-Beach-Spiritual-Growth-Meetup-Group\/events\/267517114\/",
+   "yes_rsvp_count":0,
+   "duration":5400000,
+   "payment_required":"0",
+   "name":"Breathwork ",
+   "id":"267517114",
+   "time":1580344200000,
+   "group":{
+      "join_mode":"open",
+      "country":"us",
+      "city":"Delray Beach",
+      "name":"Delray Beach Spiritual Growth Meetup Group",
+      "group_lon":-80.08,
+      "id":33141987,
+      "state":"FL",
+      "urlname":"Delray-Beach-Spiritual-Growth-Meetup-Group",
+      "category":{
+         "name":"health\/wellbeing",
+         "id":14,
+         "shortname":"health-wellbeing"
+      },
+      "group_lat":26.46
+   },
+   "status":"upcoming"
+}
