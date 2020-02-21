@@ -27,6 +27,10 @@
 	],
 	"input":[
 		{
+			"name": "StreamId",
+			"type": "string"
+		},
+		{
 			"name": "Data",
 			"type": "object"
 		}

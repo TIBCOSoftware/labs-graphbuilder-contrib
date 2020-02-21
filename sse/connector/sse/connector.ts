@@ -21,36 +21,44 @@ export class SSEConnectorContribution extends WiServiceHandlerContribution {
     }
 
     validate = (name: string, context: IConnectorContribution): Observable<IValidationResult> | IValidationResult => {
-		console.log('------------- validate --------------');
+		console.log('------------- SSEConnectorContribution validate --------------');
 		console.log(context);
-		console.log('%%%%%%%%%% name = ' + name);
-		
+		let outbound: IFieldDefinition = context.getField("outbound")
+		let tlsEnabled: IFieldDefinition = context.getField("tlsEnabled")
+		let uploadCRT: IFieldDefinition = context.getField("uploadCRT")
+
 		if(name === "Connect") {
-			let url: string;
-			let port: string;
-			let outbound: string; 
-			let resource: string; 
-			let accessKey: string; 
-
-			for (let configuration of context.settings) {
-				if( configuration.name === "url") {
-					url = configuration.value	
-				} else if( configuration.name === "port") {
-					port = configuration.value
-				} else if( configuration.name === "outbound") {
-					outbound = configuration.value
-				} else if( configuration.name === "resource") {
-					resource = configuration.value
-				} else if( configuration.name === "accessKey") {
-					accessKey = configuration.value
-				}
+			return ValidationResult.newValidationResult().setReadOnly(false);
+		} else if( name === "url"||name === "resource"||name === "accessToken") {
+        		if (outbound.value === true) {
+            		return ValidationResult.newValidationResult().setVisible(true);
+        		} else {
+				return ValidationResult.newValidationResult().setVisible(false);
 			}
-
-			//if( url && resource ) {
-				return ValidationResult.newValidationResult().setReadOnly(false);
-			//} else {
-			//	return ValidationResult.newValidationResult().setReadOnly(true);
-			//}
+		} else if( name === "port"||name === "path"||name === "tlsEnabled") {
+        		if (outbound.value === false) {
+            		return ValidationResult.newValidationResult().setVisible(true);
+        		} else {
+				return ValidationResult.newValidationResult().setVisible(false);
+			}
+		} else if( name === "uploadCRT") {
+        		if (outbound.value === false&&tlsEnabled.value === true) {
+            		return ValidationResult.newValidationResult().setVisible(true);
+        		} else {
+				return ValidationResult.newValidationResult().setVisible(false);
+			}
+		} else if( name === "tlsCRT"||name === "tlsKey") {
+        		if (outbound.value === false&&tlsEnabled.value === true&&uploadCRT.value === true) {
+            		return ValidationResult.newValidationResult().setVisible(true);
+        		} else {
+				return ValidationResult.newValidationResult().setVisible(false);
+			}
+		} else if( name === "tlsCRTPath"||name === "tlsKeyPath") {
+        		if (outbound.value === false&&tlsEnabled.value === true) {
+            		return ValidationResult.newValidationResult().setVisible(true);
+        		} else {
+				return ValidationResult.newValidationResult().setVisible(false);
+			}
 		}
  		return null;
     }

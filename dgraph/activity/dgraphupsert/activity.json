@@ -26,6 +26,16 @@
             "allowed":[]
 		},
 		{
+			"name": "cacheSize",
+			"type": "integer",
+			"display": {
+				"name": "Cache Size",
+				"description": "Maximum number of cache entries (turn off cache: cacheSize<1)"
+			},
+			"value": 1,
+			"required": true
+		},
+		{
 			"name": "readableExternalId",
 			"type": "boolean",
 			"display": {

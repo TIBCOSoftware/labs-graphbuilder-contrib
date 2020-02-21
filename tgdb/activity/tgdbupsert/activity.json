@@ -24,6 +24,15 @@
               "type": "connection"
             },
             "allowed":[]
+		},
+		{
+			"name": "allowEmptyStringKey",
+			"type": "boolean",
+			"display": {
+				"name": "Allow Empty String Key",
+				"description": "Allow Empty String Key"
+			},
+			"value": true
 		}
     ],
     "inputs": [

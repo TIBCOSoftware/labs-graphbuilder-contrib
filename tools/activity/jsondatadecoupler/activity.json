@@ -1,0 +1,47 @@
+{
+	"name": "flogo-jsondatadecoupler",
+	"type": "flogo:activity",
+	"ref": "github.com/TIBCOSoftware/GraphBuilder_Tools/activity/jsondatadecoupler",
+	"version": "0.0.1",
+	"title": "JSON Data Decoupler",
+	"display": {
+    		"category": "GraphBuilder_Tools",
+    		"visible": true,
+    		"smallIcon": "jsondatadecoupler.png",
+  		"description": "JSON Data Decoupler Activity"
+	},
+	"settings": [
+		{ 
+			"name": "sample",
+			"type": "string", 
+			"required": true,
+			"display": { 
+				"name": "JSON Data Sample",
+				"description": "Define JSON schema for input data", 
+				"type": "fileselector", 
+				"fileExtensions": [".json"] 
+			} 
+		},
+		{ 
+			"name": "decoupleTarget",
+			"type": "string", 
+			"required": true,
+			"display": { 
+				"name": "Decouple Target",
+				"description": "The array field which will be decoupled."
+			} 
+		}
+	],
+	"input":[
+		{
+			"name": "JSONObject",
+			"type": "complex_object"
+		}
+	],
+	"output": [
+		{
+			"name": "Data",
+			"type": "complex_object"
+		}
+	]
+}

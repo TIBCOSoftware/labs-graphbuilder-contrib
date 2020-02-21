@@ -6,15 +6,14 @@
 package neo4jupsert
 
 import (
-	//	b64 "encoding/base64"
 	"fmt"
-	//	"strings"
 	"sync"
 
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"
 	"github.com/TIBCOSoftware/flogo-lib/core/data"
 	"github.com/TIBCOSoftware/flogo-lib/logger"
-	"github.com/TIBCOSoftware/labs-graphbuilder-lib/dbservice/neo4j"
+	"github.com/TIBCOSoftware/labs-graphbuilder-lib/dbservice"
+	"github.com/TIBCOSoftware/labs-graphbuilder-lib/dbservice/factory"
 	"github.com/TIBCOSoftware/labs-graphbuilder-lib/model"
 	"github.com/TIBCOSoftware/labs-graphbuilder-lib/util"
 )
@@ -28,7 +27,6 @@ var log = logger.GetLogger("tibco-activity-neo4jupsert")
 
 type Neo4jUpsertActivity struct {
 	metadata            *activity.Metadata
-	neo4jServices       map[string]*neo4j.Neo4jService
 	activityToConnector map[string]string
 	mux                 sync.Mutex
 }
@@ -36,7 +34,6 @@ type Neo4jUpsertActivity struct {
 func NewActivity(metadata *activity.Metadata) activity.Activity {
 	return &Neo4jUpsertActivity{
 		metadata:            metadata,
-		neo4jServices:       make(map[string]*neo4j.Neo4jService),
 		activityToConnector: make(map[string]string),
 	}
 }
@@ -63,7 +60,7 @@ func (a *Neo4jUpsertActivity) Eval(context activity.Context) (done bool, err err
 		return false, err
 	}
 
-	err = neo4jService.UpsertGraph(graph)
+	err = neo4jService.UpsertGraph(graph, nil)
 
 	if nil != err {
 		return false, err
@@ -72,17 +69,17 @@ func (a *Neo4jUpsertActivity) Eval(context activity.Context) (done bool, err err
 	return true, nil
 }
 
-func (a *Neo4jUpsertActivity) getNeo4jService(context activity.Context) (*neo4j.Neo4jService, error) {
+func (a *Neo4jUpsertActivity) getNeo4jService(context activity.Context) (dbservice.UpsertService, error) {
 	myId := util.ActivityId(context)
 
 	log.Info("(getNeo4jService) entering - myId = ", myId)
 
-	neo4jService := a.neo4jServices[a.activityToConnector[myId]]
+	neo4jService := factory.GetFactory(dbservice.Neo4j).GetUpsertService(a.activityToConnector[myId])
 	if nil == neo4jService {
 		a.mux.Lock()
 		defer a.mux.Unlock()
 
-		neo4jService = a.neo4jServices[a.activityToConnector[myId]]
+		neo4jService = factory.GetFactory(dbservice.Neo4j).GetUpsertService(a.activityToConnector[myId])
 		if nil == neo4jService {
 
 			log.Info("(getNeo4jService) Initializing Neo4j Service start ...")
@@ -147,12 +144,11 @@ func (a *Neo4jUpsertActivity) getNeo4jService(context activity.Context) (*neo4j.
 
 			log.Info("properties : ", properties)
 
-			neo4jService, err = neo4j.NewNeo4jServiceFactory().GetService(properties)
+			neo4jService, err = factory.GetFactory(dbservice.Neo4j).CreateUpsertService(connectorName, properties)
 
 			if nil != err {
 				return nil, err
 			}
-			a.neo4jServices[connectorName] = neo4jService
 			a.activityToConnector[myId] = connectorName
 
 			log.Info("(getNeo4jService) Initializing Dgraph Service end ...")

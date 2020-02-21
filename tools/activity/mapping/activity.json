@@ -12,16 +12,6 @@
 	},
 	"settings": [
 		{
-			"name": "IncludeUpstreamData",
-			"type": "boolean",
-			"display": {
-				"name": "Include Upstream Data",
-				"description": "Will include all upstream data as well"
-			},
-			"value": false,
-			"required": true
-		},
-		{
 			"name": "MappingFields",
 			"type": "array",
 			"required": true,

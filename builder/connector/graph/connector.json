@@ -30,16 +30,27 @@
 			"description": "Graph description"
 		}
     },
-	{
-		"name": "inMemory",
-		"type": "boolean",
+    {
+		"name": "modelSource",
+		"type": "string",
+		"required": true,
 		"display": {
-			"name": "In Memory",
-			"description": "Will keep graph in memory"
+			"name": "Model Source",
+			"description": "Where the model stored",
+			"type": "string"
 		},
-		"value": false,
-		"required": true
-	},
+		"allowed": ["Local File", "TGDB"]
+    },
+    {
+		"name": "url",
+		"type": "string",
+		"required": true,
+		"display": {
+			"name": "Model Server URL",
+			"description": "URL to the model server, ex. http://localhost:9999/tgdb/metadata",
+			"type": "string"
+		}
+    },
 	{ 
 		"name": "model",
 		"type": "string", 
@@ -50,6 +61,10 @@
 			"type": "fileselector", 
 			"fileExtensions": [".tgbm",".json"] 
 		} 
+	},
+	{ 
+		"name": "metadata",
+		"type": "string"
 	}
   ],
   "actions": [

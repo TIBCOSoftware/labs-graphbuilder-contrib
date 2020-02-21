@@ -1,1 +1,4 @@
 *.zip
+*-lib
+*.mod
+*.sum

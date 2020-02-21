@@ -50,6 +50,7 @@ func (a *Clock) Metadata() *activity.Metadata {
 
 // Eval implements api.Activity.Eval - Filters the Message
 func (a *Clock) Eval(ctx activity.Context) (done bool, err error) {
+	log.Info("(Clock.eval) Entering .........")
 
 	err = a.init(ctx)
 
@@ -57,43 +58,47 @@ func (a *Clock) Eval(ctx activity.Context) (done bool, err error) {
 		return false, err
 	}
 
+	a.mux.Lock()
+	defer a.mux.Unlock()
+
 	inputTuple := ctx.GetInput(input).(*data.ComplexObject)
 
-	//log.Info("input datetime = ", inputTuple.Value)
 	iCurrentTime := inputTuple.Value.(map[string]interface{})[time_field]
 	log.Info("iCurrentTime = ", iCurrentTime, ", type = ", reflect.TypeOf(iCurrentTime).String())
 
 	var currentTime time.Time
 	if "String" == a.InputDatetimeType {
-		//log.Info("String type input .........")
+		log.Info("String type input .........")
 		currentTime, err = time.Parse(a.InputDatetimeFormat, iCurrentTime.(string))
 		if nil != err {
 			return false, err
 		}
 	} else {
-		//log.Info("Date type input .........")
+		log.Info("Date type input .........")
 		longCurrentLong, err := util.ConvertToLong(iCurrentTime)
+		//	iCurrentTime, err := coerce.ToInt64(inputTuple.Value.(map[string]interface{})[time_field])
 		if nil != err {
 			return false, err
 		}
 		currentTime = time.Unix(longCurrentLong.(int64), 0)
 	}
 
-	//log.Info("currentTime = ", currentTime)
+	log.Info("currentTime = ", currentTime)
 
 	tools.GetClock().SetCurrentTime(currentTime.Unix())
 
 	var oCurrentTime interface{}
 	if "String" == a.OutputDatetimeType {
-		//log.Info("String type output .........")
+		log.Info("String type output .........")
 		oCurrentTime = currentTime.Format(a.OutputDatetimeFormat)
 	} else {
-		//log.Info("Date type output .........")
+		log.Info("Date type output .........")
 		oCurrentTime = currentTime.Unix()
 	}
 
 	outputTupple := make(map[string]interface{})
 	outputTupple[time_field] = oCurrentTime
+
 	complexdata := &data.ComplexObject{Metadata: output, Value: outputTupple}
 	ctx.SetOutput(output, complexdata)
 

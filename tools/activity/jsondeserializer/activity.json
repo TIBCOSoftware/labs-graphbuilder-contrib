@@ -1,0 +1,49 @@
+{
+	"name": "flogo-jsondeserializer",
+	"type": "flogo:activity",
+	"ref": "github.com/TIBCOSoftware/GraphBuilder_Tools/activity/jsondeserializer",
+	"version": "0.0.1",
+	"title": "JSON Deserializer",
+	"display": {
+    		"category": "GraphBuilder_Tools",
+    		"visible": true,
+    		"smallIcon": "jsondeserializer.png",
+  		"description": "JSON Deserializer Activity"
+	},
+	"settings": [
+		{ 
+			"name": "sample",
+			"type": "string", 
+			"required": true,
+			"display": { 
+				"name": "JSON Data Sample",
+				"description": "Define JSON schema for input data", 
+				"type": "fileselector", 
+				"fileExtensions": [".json"] 
+			} 
+		},
+		{
+			"name": "defaultValue",
+			"type": "array",
+			"required": false,
+			"display": {
+				"name": "Default Values",
+				"description": "Default value for JSON attributes",
+				"type": "table",
+				"schema": "{\r\n    \"$schema\": \"http:\/\/json-schema.org\/draft-04\/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http:\/\/example.com\/example.json\",\r\n    \"items\": {\r\n        \"id\": \"\/items\",\r\n        \"properties\": {\r\n            \"AttributePath\": {\r\n                \"id\": \"\/items\/properties\/AttributePath\",\r\n                \"type\": \"string\"\r\n            },\r\n         \"Default\": {\r\n                \"id\": \"\/items\/properties\/Default\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"\/items\/properties\/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
+			}
+		}
+	],
+	"input":[
+		{
+			"name": "JSONString",
+			"type": "string"
+		}
+	],
+	"output": [
+		{
+			"name": "Data",
+			"type": "complex_object"
+		}
+	]
+}

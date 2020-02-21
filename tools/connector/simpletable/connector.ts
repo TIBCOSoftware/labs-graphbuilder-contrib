@@ -20,45 +20,28 @@ export class TibcoGraphBuilderContribution extends WiServiceHandlerContribution 
 		console.log('------------- value --------------');
 		console.log(context);
 		console.log('%%%%%%%%%% fieldName = ' + fieldName);
-		if (fieldName === "key") {
-			let allowedKeys = [];
-			let columnNames: IFieldDefinition = context.getField("schema");
-			if (columnNames.value) {
-                let data = JSON.parse(columnNames.value);
-                for (var i = 0; i < data.length; i++) {
-					allowedKeys.push({
-						"unique_id": data[i].Name,
-						"name": data[i].Name
-					});
-                }
-            }
-			return allowedKeys;
-        }
+
         return null;
     }
  
 	validate = (name: string, context: IConnectorContribution): Observable<IValidationResult> | IValidationResult => {
 		console.log('------------- validate --------------');
 		console.log(context);
-		console.log('%%%%%%%%%% name = ' + name);
-		
+		console.log('$$$$$$$$$$$ name = ' + name);
+
 		if(name === "create") {
-			let key: IFieldDefinition;
-
 			for (let configuration of context.settings) {
-				if( configuration.name === "key") {
-					key = configuration
+				if( configuration.name === "schema") {
 					if(configuration.value) {
-						console.log('key = ', configuration.value);
-					}			
+                			let data = JSON.parse(configuration.value);
+                			for (var i = 0; i < data.length; i++) {
+                	    			if("yes" === data[i].IsKey) {
+								return ValidationResult.newValidationResult().setReadOnly(false);
+							}
+                			}
+					}
+					return ValidationResult.newValidationResult().setReadOnly(true);
 				}
-			}
-
-			if( key.value) {
-				return ValidationResult.newValidationResult().setReadOnly(false);
-			} else {
-				return ValidationResult.newValidationResult().setReadOnly(true);
-
 			}
 		}
  		return null;
@@ -71,17 +54,9 @@ export class TibcoGraphBuilderContribution extends WiServiceHandlerContribution 
             return Observable.create(observer => {
 			console.log('------------- action callback --------------');
                 /**
-                 * These are the two fields that need to be checked whether they're filled in or not
+                 * These are the fields that need to be checked whether they're filled in or not
                  */
-                let key: IFieldDefinition;
- 
-                for (let configuration of context.settings) {
-                    if (configuration.name === "key") {
-                        key = configuration
-						console.log(key.value);
-                    }
-                }
-
+                
                 /**
                  * Set the action result to save the configuration data
                  */

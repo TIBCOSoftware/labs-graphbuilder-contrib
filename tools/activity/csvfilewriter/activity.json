@@ -1,0 +1,57 @@
+{
+	"name": "flogo-csvfilewriter",
+	"type": "flogo:activity",
+	"ref": "github.com/TIBCOSoftware/GraphBuilder_Tools/activity/csvfilewriter",
+	"version": "0.0.1",
+	"title": "CSV File Writer",
+	"display": {
+    		"category": "GraphBuilder_Tools",
+    		"visible": true,
+    		"smallIcon": "csvfilewriter.png",
+  		"description": "CSV File Writer Activity"
+	},
+	"settings": [
+		{
+			"name": "CSVFilename",
+			"type": "string",
+			"display": {
+				"name": "CSV Filename",
+				"description": "CSV Filename"
+			},
+			"required" : true
+		},
+		{
+			"name": "WithHeader",
+			"type": "boolean",
+			"display": {
+				"name": "With Header",
+				"description": "Will skip the first line of this csv file"
+			},
+			"value": false,
+			"required": true
+		},
+		{
+			"name": "CSVFieldnames",
+			"type": "array",
+			"required": true,
+			"display": {
+				"name": "CSV Field Names",
+				"description": "Name and type of fields in CSV file",
+				"type": "table",
+				"schema": "{\r\n    \"$schema\": \"http:\/\/json-schema.org\/draft-04\/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http:\/\/example.com\/example.json\",\r\n    \"items\": {\r\n        \"id\": \"\/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"\/items\/properties\/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"\/items\/properties\/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
+			}
+		}
+	],
+	"input":[
+		{
+			"name": "CSVFields",
+			"type": "complex_object"
+		}
+	],
+	"output": [
+		{
+            "name": "MessageId",
+            "type": "string"
+		}
+	]
+}

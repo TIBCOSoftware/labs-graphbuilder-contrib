@@ -60,10 +60,10 @@ func (a *GraphFilterActivity) Eval(context activity.Context) (done bool, err err
 	log.Info("(GraphFilterActivity::Eval) graphId = ", graphId)
 
 	/* UpsertGraph */
-	graph := model.GetGraphManager().GetGraph(graphId, graphId)
+	graph := model.GetGraphManager().GetGraph(model.TGRAPH, graphId, graphId).(*model.TraversalGraph)
 	(*graph).UpsertGraph(deltaGraph)
-//	log.Info("(GraphFilterActivity::Eval) After upsert graph = ", graph)
-//	log.Info("(GraphFilterActivity::Eval) After upsert deltaGraph = ", deltaGraph)
+	//	log.Info("(GraphFilterActivity::Eval) After upsert graph = ", graph)
+	//	log.Info("(GraphFilterActivity::Eval) After upsert deltaGraph = ", deltaGraph)
 
 	/* GetQuery */
 	queries := query.GetQueryManager().GetQueries(graphId)
@@ -73,20 +73,21 @@ func (a *GraphFilterActivity) Eval(context activity.Context) (done bool, err err
 		for queryId, query := range queries {
 			log.Info("(GraphFilterActivity::Eval) graphId = ", graphId, ", queryId = ", queryId)
 			matchedData := query.Match(util.ActivityId(context), graph, deltaGraph)
-			if 0!=len(matchedData) {
+			if 0 != len(matchedData) {
 				matchedDatas[queryId] = matchedData
 			}
 		}
-		
+
 		log.Info("(GraphFilterActivity::Eval) matchedData = ", matchedDatas)
 
 		if 0 != len(matchedDatas) {
 			context.SetOutput("MatchedData", matchedDatas)
+			return true, nil
 		}
 	}
 
-	log.Info("(Eval) GraphFilter exit ......... ")
-	return true, nil
+	log.Info("(Eval) GraphFilter exit ... No matched data!!!")
+	return false, nil
 }
 
 func (a *GraphFilterActivity) init(graphId string, context activity.Context) {

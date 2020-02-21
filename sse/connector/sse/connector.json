@@ -35,7 +35,7 @@
 			"type": "boolean",
 			"display": {
 				"name": "Outbound",
-				"description": "Inbound : Local SSE Server, Outbound : Remote SSE Service"
+				"description": "false : for SSE Server trigger, true : for SSE Subscriber trigger"
 			},
 			"value": true,
 			"required": true
@@ -47,16 +47,6 @@
 			"display": {
 				"name": "Server URL",
 				"description": "SSE server URL ex. http://[domain name/IP]",
-				"type": "string"
-			}
-		},
-		{
-			"name": "port",
-			"type": "string",
-			"required": false,
-			"display": {
-				"name": "Server port",
-				"description": "SSE server port",
 				"type": "string"
 			}
 		},
@@ -78,6 +68,84 @@
 				"name": "Access Token",
 				"description": "Access token for authentication",
 				"type": "password"
+			}
+		},
+		{
+			"name": "port",
+			"type": "string",
+			"required": false,
+			"display": {
+				"name": "Server port",
+				"description": "SSE server port",
+				"type": "string"
+			}
+		},
+		{
+			"name": "path",
+			"type": "string",
+			"required": false,
+			"display": {
+				"name": "Path",
+				"description": "Path of the resource which is requested",
+				"type": "string"
+			}
+		},
+		{
+			"name": "tlsEnabled",
+			"type": "boolean",
+			"display": {
+				"name": "TLS enabled",
+				"description": "TLS enabled"
+			},
+			"value": false,
+			"required": true
+		},
+		{
+			"name": "uploadCRT",
+			"type": "boolean",
+			"display": {
+				"name": "Upload TLS certificate",
+				"description": "Upload TLS certificate from local file"
+			},
+			"value": true,
+			"required": false
+		},
+		{ 
+			"name": "tlsCRT",
+			"type": "string", 
+			"display": { 
+				"name": "TLS certificate",
+				"description": "TLS certificate", 
+				"type": "fileselector", 
+				"fileExtensions": [".pem",".crt"] 
+			} 
+		},
+		{ 
+			"name": "tlsKey",
+			"type": "string", 
+			"display": { 
+				"name": "TLS key",
+				"description": "TLS key", 
+				"type": "fileselector", 
+				"fileExtensions": [".pem",".key"] 
+			} 
+		},
+		{
+			"name": "tlsCRTPath",
+			"type": "string",
+			"display": {
+				"name": "TLS certificate location",
+				"description": "TLS certificate location",
+				"type": "string"
+			}
+		},
+		{
+			"name": "tlsKeyPath",
+			"type": "string",
+			"display": {
+				"name": "TLS key location",
+				"description": "TLS key location",
+				"type": "string"
 			}
 		}
 	],
