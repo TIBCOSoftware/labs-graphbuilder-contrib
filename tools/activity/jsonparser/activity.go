@@ -6,6 +6,8 @@
 package jsonparser
 
 import (
+	"fmt"
+	"strings"
 	"sync"
 
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"
@@ -92,6 +94,7 @@ func (a *JSONParserActivity) getParser(ctx activity.Context) (*json.JSONParser, 
 			outputFieldnames, _ := ctx.GetSetting("OutputFieldnames")
 			log.Info("Processing handlers : outputFieldnames = ", outputFieldnames)
 
+			var multiInstancePathPrefix string
 			for _, outputFieldname := range outputFieldnames.([]interface{}) {
 				outputFieldnameInfo := outputFieldname.(map[string]interface{})
 				attribute := &json.Attribute{}
@@ -107,11 +110,26 @@ func (a *JSONParserActivity) getParser(ctx activity.Context) (*json.JSONParser, 
 					//attribute.SetDValue()
 				}
 
-				attributeMap[outputFieldnameInfo["JSONPath"].(string)] = attribute
+				jsonPath := outputFieldnameInfo["JSONPath"].(string)
+				pos := strings.Index(jsonPath, "[]")
+				log.Debug("[JSONParserActivity::Eval] jsonPath : ", jsonPath, " ,pos : ", pos)
+				if 0 <= pos {
+					log.Debug("[JSONParserActivity::Eval] jsonPath[0:pos+1] : ", jsonPath[0:pos+1])
+					if "" != multiInstancePathPrefix {
+						if jsonPath[0:pos+1] != multiInstancePathPrefix {
+							return nil, fmt.Errorf("multiInstancePathPrefix confixt !!")
+						}
+					} else {
+						multiInstancePathPrefix = jsonPath[0 : pos+1]
+					}
+					attribute.SetMultiInstance(true)
+				}
+
+				attributeMap[jsonPath] = attribute
 				log.Info("[JSONParserActivity::Eval] Mapping : ", outputFieldnameInfo["JSONPath"].(string), " -> ", outputFieldnameInfo["AttributeName"].(string))
 			}
 
-			parser = json.NewJSONParser(attributeMap, mandatoryAttrs)
+			parser = json.NewJSONParser(attributeMap, mandatoryAttrs, multiInstancePathPrefix)
 			dateFormat, _ := ctx.GetSetting(setting_DateFormat)
 			if nil != dateFormat {
 				parser.SetDateFromatString(dateFormat.(string))
