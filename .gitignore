@@ -2,3 +2,6 @@
 *-lib
 *.mod
 *.sum
+builder/vendor/*
+tgdb/vendor/*
+tools/vendor/*
