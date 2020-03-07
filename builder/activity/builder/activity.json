@@ -43,6 +43,17 @@
 			},
 			"value": false
 		},
+		{
+			"name": "PassThrough",
+			"type": "array",
+			"required": false,
+			"display": {
+				"name": "Pass Through Fields",
+				"description": "Pass Through Field Names",
+				"type": "table",
+				"schema": "{\r\n    \"$schema\": \"http:\/\/json-schema.org\/draft-04\/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http:\/\/example.com\/example.json\",\r\n    \"items\": {\r\n        \"id\": \"\/items\",\r\n        \"properties\": {\r\n            \"FieldName\": {\r\n                \"id\": \"\/items\/properties\/FieldName\",\r\n                \"type\": \"string\"\r\n            },\r\n         \"Default\": {\r\n                \"id\": \"\/items\/properties\/Default\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"\/items\/properties\/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\"]}\r\n            }\r\n,\r\n            \"Optional\": {\r\n                \"id\": \"\/items\/properties\/Optional\",\r\n                \"type\": {\"enum\":[\"yes\", \"no\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
+			}
+		},
  		{
 			"name": "Multiinstances",
 			"type": "array",
@@ -63,6 +74,10 @@
 			"type": "complex_object"
 		},
 		{
+			"name": "PassThroughData",
+			"type": "complex_object"
+		},
+		{
 			"name": "BatchEnd",
 			"type": "boolean",
 			"required": true
@@ -72,6 +87,10 @@
 		{
 			"name": "Graph",
 			"type": "object"
+		},
+		{
+			"name": "PassThroughDataOut",
+			"type": "complex_object"
 		}
 	]
 }
