@@ -91,7 +91,7 @@ func (a *TGDBUpsertActivity) getTGDBService(context activity.Context) (dbservice
 		//tgdb.GetFactory().GetService(a.activityToConnector[myId])
 		if nil == tgdbService {
 			log.Info("Initializing TGDB Service start ...")
-			defer log.Info("Initializing TGDB Service end, tgdbService = ", tgdbService)
+			defer log.Info("Initializing TGDB Service done ...")
 
 			connection, exist := context.GetSetting(Connection)
 			if !exist {
