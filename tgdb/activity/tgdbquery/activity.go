@@ -7,6 +7,7 @@ package tgdbquery
 
 import (
 	"errors"
+	"reflect"
 	"sync"
 
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"
@@ -93,56 +94,24 @@ func (a *TGDBQueryActivity) Eval(context activity.Context) (done bool, err error
 	switch queryType {
 	case QueryType_Metadata:
 		queryResult[output_DataContent] = tgdb.BuildMetadata(metadata)
-		break
 	case QueryType_NodeTypes:
 		queryResult[output_DataContent] = tgdb.BuildMetadata(metadata)["nodeTypes"]
-		break
 	case QueryType_EdgeTypes:
 		queryResult[output_DataContent] = tgdb.BuildMetadata(metadata)["edgeTypes"]
-		break
 	case QueryType_Search, QueryType_Match:
 		query := context.GetInput(input_QueryParams).(*data.ComplexObject).Value.(map[string]interface{})
 		_, language, parameters := a.buildQueryParams(query)
-		var resultSet types.TGResultSet
-		var tgErr types.TGError
 		switch language {
 		case QueryLanguage_Gremlin:
-			{
-				resultSet, tgErr = tgdbService.GremlinQuery(parameters)
-			}
-		case QueryLanguage_TGQL:
-			{
-				resultSet, tgErr = tgdbService.TGQLQuery(parameters)
-			}
+			queryResult, err = a.handleGremlin(tgdbService, parameters)
 		default:
-			{
-				resultSet, tgErr = tgdbService.TGQLQuery(parameters)
-			}
+			queryResult, err = a.handleTGQL(tgdbService, parameters)
 		}
 
-		if nil == tgErr {
-			if nil != resultSet {
-				tgResult := make(map[string]map[int64]types.TGEntity)
-				tgResult["nodes"] = make(map[int64]types.TGEntity)
-				tgResult["edges"] = make(map[int64]types.TGEntity)
-				for resultSet.HasNext() {
-					entity := resultSet.Next().(types.TGEntity)
-					switch entity.GetEntityKind() {
-					case types.EntityKindEdge:
-						tgResult["edges"][entity.GetVirtualId()] = entity
-					case types.EntityKindNode:
-						tgResult["nodes"][entity.GetVirtualId()] = entity
-					}
-				}
-
-				queryResult = a.buildQueryResult(tgdb.BuildResult(tgdbService, tgResult), true, nil, nil)
-			}
-		} else {
-			log.Error(tgErr.Error())
-			queryResult = a.buildQueryResult(nil, false, Error_ExecuteQuery, tgErr.Error())
+		if nil != err {
+			log.Error(err.Error())
+			queryResult = a.buildQueryResult(nil, false, Error_ExecuteQuery, err.Error())
 		}
-
-		break
 	default:
 		queryResult = a.buildQueryResult(nil, false, Error_FindQueryType, errors.New("Query type not found! "))
 	}
@@ -260,18 +229,95 @@ func (a *TGDBQueryActivity) buildQueryParams(parameters map[string]interface{}) 
 	return err, language, queryParams
 }
 
+func (a *TGDBQueryActivity) handleGremlin(
+	tgdbService *tgdb.TGDBService,
+	parameters map[string]interface{}) (map[string]interface{}, error) {
+	resultSet, tgErr := tgdbService.GremlinQuery(parameters)
+	if nil == tgErr {
+		content := make(map[string]interface{})
+		if nil != resultSet {
+			content["nodes"] = make([]interface{}, 0)
+			for resultSet.HasNext() {
+				result := resultSet.Next()
+				log.Info("######################## handleGremlin #########################")
+				log.Info(reflect.TypeOf(result).String())
+				log.Info("################################################################")
+				switch reflect.TypeOf(result).String() {
+				case "*model.Node":
+					node := result.(types.TGNode)
+					content["nodes"] = append(content["nodes"].([]interface{}), tgdb.BuildNode(tgdbService, node))
+				case "[]interface {}":
+					nodes := make([]interface{}, 0)
+					for _, value := range result.([]interface{}) {
+						log.Info("+++++++++++++++++++++++++++++++++++++++++++++++++")
+						log.Info(reflect.TypeOf(value).String())
+						log.Info("+++++++++++++++++++++++++++++++++++++++++++++++++")
+						node := value.(types.TGNode)
+						nodes = append(nodes, tgdb.BuildNode(tgdbService, node))
+					}
+					content["nodes"] = append(content["nodes"].([]interface{}), nodes)
+				default:
+					content["result"] = result
+				}
+			}
+			if 0 == len(content["nodes"].([]interface{})) {
+				delete(content, "nodes")
+			}
+		}
+		return a.buildQueryResult(content, true, nil, nil), nil
+	}
+	return nil, tgErr
+}
+
+func (a *TGDBQueryActivity) handleTGQL(
+	tgdbService *tgdb.TGDBService,
+	parameters map[string]interface{}) (map[string]interface{}, error) {
+
+	resultSet, tgErr := tgdbService.TGQLQuery(parameters)
+	if nil == tgErr {
+		if nil != resultSet {
+			tgResult := make(map[string]interface{})
+			nodes := make(map[int64]types.TGEntity)
+			tgResult["nodes"] = nodes
+			edges := make(map[int64]types.TGEntity)
+			tgResult["edges"] = edges
+			for resultSet.HasNext() {
+				result := resultSet.Next()
+				log.Info("######################## handleTGQL #########################")
+				log.Info(reflect.TypeOf(result).String())
+				log.Info("#############################################################")
+				entity, ok := result.(types.TGEntity)
+				if ok {
+					switch entity.GetEntityKind() {
+					case types.EntityKindEdge:
+						edges[entity.GetVirtualId()] = entity
+					case types.EntityKindNode:
+						nodes[entity.GetVirtualId()] = entity
+					}
+				} else {
+					return nil, errors.New("Unexpected result type : " + reflect.TypeOf(result).String())
+				}
+			}
+			return a.buildQueryResult(tgdb.BuildResult(tgdbService, tgResult), true, nil, nil), nil
+		} else {
+			return a.buildQueryResult(tgdb.BuildResult(tgdbService, nil), true, nil, nil), nil
+		}
+	}
+	return nil, tgErr
+}
+
 func (a *TGDBQueryActivity) buildQueryResult(
 	content interface{},
 	success bool,
 	errorCode interface{},
 	errorMsg interface{}) map[string]interface{} {
 
-	log.Debug("%%%%%%%%%%%%%%%%%%%%%% queryResult %%%%%%%%%%%%%%%%%%%%%%")
-	log.Debug("content      : ", content)
-	log.Debug("success   : ", success)
-	log.Debug("errorCode : ", errorCode)
-	log.Debug("errorMsg  : ", errorMsg)
-	log.Debug("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+	log.Info("%%%%%%%%%%%%%%%%%%%%%% queryResult %%%%%%%%%%%%%%%%%%%%%%")
+	log.Info("content   : ", content)
+	log.Info("success   : ", success)
+	log.Info("errorCode : ", errorCode)
+	log.Info("errorMsg  : ", errorMsg)
+	log.Info("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
 
 	queryResult := make(map[string]interface{})
 
