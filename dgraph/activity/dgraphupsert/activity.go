@@ -18,6 +18,8 @@ import (
 	"github.com/TIBCOSoftware/labs-graphbuilder-lib/dbservice/factory"
 	"github.com/TIBCOSoftware/labs-graphbuilder-lib/model"
 	"github.com/TIBCOSoftware/labs-graphbuilder-lib/util"
+
+	"git.tibco.com/git/product/ipaas/wi-contrib.git/connection/generic"
 )
 
 const (
@@ -216,13 +218,18 @@ func getConnectionSetting(context activity.Context) (map[string]interface{}, err
 		return nil, activity.NewError("Connection is not configured", "Connection-4001", nil)
 	}
 
+	genericConn, err := generic.NewConnection(connection)
+	if err != nil {
+		return nil, err
+	}
+
 	connectionInfo, _ := data.CoerceToObject(connection)
 	if connectionInfo == nil {
 		return nil, activity.NewError("Connection not able to be parsed", "Connection-4002", nil)
 	}
 
 	settingsMap := make(map[string]interface{})
-	connectionSettings, _ := connectionInfo["settings"].([]interface{})
+	connectionSettings := genericConn.Settings()
 
 	if nil == connectionSettings {
 		return nil, fmt.Errorf("Unable to get connection setting!")

@@ -5,3 +5,4 @@
 builder/vendor/*
 tgdb/vendor/*
 tools/vendor/*
+dgraph/vendor/*
