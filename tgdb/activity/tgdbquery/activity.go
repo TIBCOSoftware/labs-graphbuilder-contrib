@@ -237,6 +237,7 @@ func (a *TGDBQueryActivity) handleGremlin(
 		content := make(map[string]interface{})
 		if nil != resultSet {
 			content["nodes"] = make([]interface{}, 0)
+			content["result"] = make([]interface{}, 0)
 			for resultSet.HasNext() {
 				result := resultSet.Next()
 				log.Info("######################## handleGremlin #########################")
@@ -257,7 +258,7 @@ func (a *TGDBQueryActivity) handleGremlin(
 					}
 					content["nodes"] = append(content["nodes"].([]interface{}), nodes)
 				default:
-					content["result"] = result
+					content["result"] = append(content["result"].([]interface{}), result)
 				}
 			}
 			if 0 == len(content["nodes"].([]interface{})) {
