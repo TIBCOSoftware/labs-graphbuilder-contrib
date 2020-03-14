@@ -223,22 +223,10 @@ func getConnectionSetting(context activity.Context) (map[string]interface{}, err
 		return nil, err
 	}
 
-	connectionInfo, _ := data.CoerceToObject(connection)
-	if connectionInfo == nil {
-		return nil, activity.NewError("Connection not able to be parsed", "Connection-4002", nil)
-	}
-
 	settingsMap := make(map[string]interface{})
-	connectionSettings := genericConn.Settings()
-
-	if nil == connectionSettings {
-		return nil, fmt.Errorf("Unable to get connection setting!")
-	}
-
-	for _, v := range connectionSettings {
-		setting, _ := data.CoerceToObject(v)
-		if setting != nil {
-			settingsMap[setting["name"].(string)] = setting["value"]
+	for name, value := range genericConn.Settings() {
+		if "" != name && nil != value {
+			settingsMap[name] = value
 		}
 	}
 
