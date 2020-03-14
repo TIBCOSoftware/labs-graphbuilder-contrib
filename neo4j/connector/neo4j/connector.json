@@ -35,8 +35,8 @@
       "type": "string",
       "required": true,
       "display": {
-        "name": "Dgraph Server URL",
-        "description": "Dgraph server URL ex. localhost:9080",
+        "name": "Neo4j Server URL",
+        "description": "Neo4j server URL",
         "type": "string"
       }
     },
@@ -45,7 +45,7 @@
       "type": "string",
       "display": {
         "name": "Username",
-        "description": "Username for login to Dgraph server",
+        "description": "Username for login to Neo4j server",
         "type": "string"
       }
     },
@@ -55,7 +55,7 @@
       "required": true,
       "display": {
         "name": "Password",
-        "description": "Password for login to Dgraph server",
+        "description": "Password for login to Neo4j server",
         "type": "password"
       }
     }
