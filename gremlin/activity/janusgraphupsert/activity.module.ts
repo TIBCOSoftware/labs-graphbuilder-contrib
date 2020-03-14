@@ -6,7 +6,7 @@
 import { HttpModule } from "@angular/http";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { TGDBDeleteContributionHandler} from "./activity";
+import { JanusgraphContributionHandler} from "./activity";
 import { WiServiceContribution} from "wi-studio/app/contrib/wi-contrib";
 
 
@@ -18,11 +18,11 @@ import { WiServiceContribution} from "wi-studio/app/contrib/wi-contrib";
   providers: [
     {
        provide: WiServiceContribution,
-       useClass: TGDBDeleteContributionHandler
+       useClass: JanusgraphContributionHandler
      }
   ]
 })
 
-export default class TGDBDeleteActivityModule {
+export default class JanusgraphActivityModule {
 
 }

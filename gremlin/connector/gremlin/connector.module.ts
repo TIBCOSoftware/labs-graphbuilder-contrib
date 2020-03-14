@@ -6,23 +6,22 @@
 import { HttpModule } from "@angular/http";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { TGDBDeleteContributionHandler} from "./activity";
-import { WiServiceContribution} from "wi-studio/app/contrib/wi-contrib";
-
+import {GremlinConnectorContribution} from "./connector";
+import {WiServiceContribution} from "wi-studio/app/contrib/wi-contrib";
 
 @NgModule({
   imports: [
-    CommonModule,
-    HttpModule
+  	CommonModule,
+  	HttpModule,
   ],
   providers: [
     {
        provide: WiServiceContribution,
-       useClass: TGDBDeleteContributionHandler
+       useClass: GremlinConnectorContribution
      }
   ]
 })
 
-export default class TGDBDeleteActivityModule {
+export default class GremlinConnectorModule {
 
 }

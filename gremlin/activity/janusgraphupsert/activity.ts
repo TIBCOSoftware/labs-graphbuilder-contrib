@@ -19,7 +19,7 @@ import {
 
 @WiContrib({})
 @Injectable()
-export class TGDBDeleteContributionHandler extends WiServiceHandlerContribution {
+export class JanusgraphContributionHandler extends WiServiceHandlerContribution {
 	url: string;
 	user: string; 
 	passsword: string; 
@@ -32,12 +32,12 @@ export class TGDBDeleteContributionHandler extends WiServiceHandlerContribution 
     	
 		console.log('value >>>>>>>> fieldName = ' + fieldName);
 		
-        if (fieldName === "tgdbConnection") {
+        if (fieldName === "Connection") {
             //Connector Type must match with the category defined in connector.json
             return Observable.create(observer => {
                 let connectionRefs = [];
                 
-                WiContributionUtils.getConnections(this.http, "GraphBuilder_TGDB").subscribe((data: IConnectorContribution[]) => {
+                WiContributionUtils.getConnections(this.http, "GraphBuilder_gremlin").subscribe((data: IConnectorContribution[]) => {
                     data.forEach(connection => {
                         for (let i = 0; i < connection.settings.length; i++) {
                         	 if(connection.settings[i].name === "name") {
@@ -63,10 +63,10 @@ export class TGDBDeleteContributionHandler extends WiServiceHandlerContribution 
 		
 		console.log('validate >>>>>>>> fieldName = ' + fieldName);
 
-        if (fieldName === "tgdbConnection") {
-            let connection: IFieldDefinition = context.getField("tgdbConnection")
+        if (fieldName === "Connection") {
+            let connection: IFieldDefinition = context.getField("Connection")
         	if (connection.value === null) {
-            	return ValidationResult.newValidationResult().setError("TGDBDelete-MSG-1000", "Graph model must be configured");
+            	return ValidationResult.newValidationResult().setError("Janusgraph-MSG-1000", "Connection must be configured");
         	}
         }
 		return null; 
