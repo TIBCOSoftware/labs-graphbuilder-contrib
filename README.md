@@ -9,8 +9,13 @@ Project GraphBuilder is a Flogo based tool set which includes couples of graph d
 
 ![Flogo Studio](graph_builder.jpg)
 
-## Installation
+## Getting Started
 Download user extentions [here](/dist/) and import them to TIBCO Flogo Enterprise studio.
+
+## Tutorials
+* Build an app to populate TIBCO Graph Database with data in csv files
+* Build an app to query against TIBCO Graph Database
+* Build an app to upsert real-time data to TIBCO Graph Database
 
 ## Components
 * [GraphBuilder](./builder/)
