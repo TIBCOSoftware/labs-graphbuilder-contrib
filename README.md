@@ -7,10 +7,9 @@ Project GraphBuilder is a Flogo based tool set which includes couples of graph d
 * Insert graph into many major graph databases in the marcket (include TIBCO Graph Database, Dgraph, Neo4j and Janusgraph).
 * Query and delete graph data against TIBCO Graph Database
 
-## Components
-
 ![Flogo Studio](graph_builder.jpg)
 
+## Components
 * [GraphBuilder](./builder/)
 * [GraphBuilder_TGDB](./tgdb/)
 * [GraphBuilder_Dgraph](./dgraph/)
