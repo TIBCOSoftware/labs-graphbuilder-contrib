@@ -4,17 +4,13 @@
 
 ![graph_builder](graph_builder.jpg)
 
-## GraphBuilder
-
-## GraphBuilder_TGDB
-
-## GraphBuilder_Dgraph
-
-## GraphBuilder_Neo4j
-
-## TGDB_RESTful_SSE
-
-## TGDB_RESTful_Tools
+## Key Components
+* [GraphBuilder](./GraphBuilder/)
+* [GraphBuilder_TGDB](./GraphBuilder_TGDB/)
+* [GraphBuilder_Dgraph](./GraphBuilder_Dgraph/)
+* [GraphBuilder_Neo4j](./GraphBuilder_Neo4j/)
+* [GraphBuilder_SSE](./GraphBuilder_SSE/)
+* [GraphBuilder_Tools](./GraphBuilder_Tools/)
 
 ## Sample Applications
-[Here](./sample-applications/)
+[Please refer to Here](./sample-applications/)
