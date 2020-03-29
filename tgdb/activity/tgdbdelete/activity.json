@@ -1,0 +1,51 @@
+{
+    "name": "tgdbdelete",
+    "version": "1.0.0",
+    "author": "TIBCO Software Inc.",
+    "type": "flogo:activity",
+    "title": "TGDB Delete",
+     
+    "display": {
+       "category": "GraphBuilder_TGDB",
+       "visible": true,
+       "smallIcon": "tgdbdelete.png",
+       "description": "This activity delete entity from tgdb"
+    },
+ 
+    "ref": "github.com/TIBCOSoftware/GraphBuilder_TGDB/activity/tgdbdelete",
+    "settings": [
+		{
+            "name": "tgdbConnection",
+            "type": "object",
+            "required": true,
+            "display":{
+              "name": "TGDB Connection",
+              "description": "Select TGDB Connection",
+              "type": "connection"
+            },
+            "allowed":[]
+		},
+		{
+			"name": "filter",
+			"type": "string",
+			"display": {
+				"name": "Filter",
+				"description": "Entity filter for the deletion"
+			},
+			"value": "Node",
+			"allowed":["Node", "Edge", "Both"]
+		}
+    ],
+    "inputs": [
+ 		{
+			"name": "Graph",
+			"type": "object"
+		}
+    ],
+    "outputs": [
+		{
+            "name": "MessageId",
+            "type": "string"
+		}
+    ]
+}

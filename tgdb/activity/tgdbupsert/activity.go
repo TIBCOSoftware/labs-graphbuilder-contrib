@@ -9,6 +9,7 @@ import (
 	"errors"
 	"sync"
 
+	"git.tibco.com/git/product/ipaas/wi-contrib.git/connection/generic"
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"
 	"github.com/TIBCOSoftware/flogo-lib/core/data"
 	"github.com/TIBCOSoftware/flogo-lib/logger"
@@ -91,42 +92,36 @@ func (a *TGDBUpsertActivity) getTGDBService(context activity.Context) (dbservice
 		//tgdb.GetFactory().GetService(a.activityToConnector[myId])
 		if nil == tgdbService {
 			log.Info("Initializing TGDB Service start ...")
-			defer log.Info("Initializing TGDB Service end, tgdbService = ", tgdbService)
+			defer log.Info("Initializing TGDB Service done ...")
 
 			connection, exist := context.GetSetting(Connection)
 			if !exist {
 				return nil, activity.NewError("TGDB connection is not configured", "TGDB-UPSERT-4001", nil)
 			}
 
-			connectionInfo, _ := data.CoerceToObject(connection)
-			if connectionInfo == nil {
-				return nil, activity.NewError("TGDB connection not able to be parsed", "TGDB-UPSERT-4002", nil)
+			genericConn, err := generic.NewConnection(connection)
+			if err != nil {
+				return nil, err
 			}
 
 			var connectorName string
 			properties := make(map[string]interface{})
-			connectionSettings, _ := connectionInfo["settings"].([]interface{})
-			if connectionSettings != nil {
-				for _, v := range connectionSettings {
-					setting, _ := data.CoerceToObject(v)
-					if setting != nil {
-						if setting["name"] == "url" {
-							properties["url"], _ = data.CoerceToString(setting["value"])
-						} else if setting["name"] == "user" {
-							properties["user"], _ = data.CoerceToString(setting["value"])
-						} else if setting["name"] == "password" {
-							properties["password"], _ = data.CoerceToString(setting["value"])
-						} else if setting["name"] == KeepAlive {
-							properties[KeepAlive], _ = data.CoerceToBoolean(setting["value"])
-						} else if setting["name"] == "name" {
-							connectorName, _ = data.CoerceToString(setting["value"])
-						}
-					}
+			for name, value := range genericConn.Settings() {
+				switch name {
+				case "url":
+					properties["url"], _ = data.CoerceToString(value)
+				case "user":
+					properties["user"], _ = data.CoerceToString(value)
+				case "password":
+					properties["password"], _ = data.CoerceToString(value)
+				case KeepAlive:
+					properties[KeepAlive], _ = data.CoerceToBoolean(value)
+				case "name":
+					connectorName, _ = data.CoerceToString(value)
 				}
-
-				a.activityToConnector[myId] = connectorName
 			}
 
+			a.activityToConnector[myId] = connectorName
 			allowEmptyStringKey, exist := context.GetSetting("allowEmptyStringKey")
 			if exist {
 				properties["allowEmptyStringKey"] = allowEmptyStringKey
@@ -136,7 +131,6 @@ func (a *TGDBUpsertActivity) getTGDBService(context activity.Context) (dbservice
 
 			log.Info("(getTGDBService) - properties = ", properties)
 
-			var err error
 			tgdbService, err = factory.GetFactory(dbservice.TGDB).CreateUpsertService(connectorName, properties)
 			//tgdb.GetFactory().CreateService(connectorName, properties)
 			if nil != err {

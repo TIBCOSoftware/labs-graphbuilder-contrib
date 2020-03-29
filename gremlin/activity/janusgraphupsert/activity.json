@@ -1,0 +1,41 @@
+{
+    "name": "janusgraphupsert",
+    "version": "1.0.0",
+    "author": "TIBCO Software Inc.",
+    "type": "flogo:activity",
+    "title": "Janusgraph Upsert",
+     
+    "display": {
+       "category": "GraphBuilder_gremlin",
+       "visible": true,
+       "smallIcon": "janusgraphupsert.png",
+       "description": "This activity upsert to Janusgraph"
+    },
+ 
+    "ref": "github.com/TIBCOSoftware/GraphBuilder_gremlin/activity/janusgraphupsert",
+    "settings": [
+		{
+            "name": "Connection",
+            "type": "object",
+            "required": true,
+            "display":{
+              "name": "Janusgraph Connection",
+              "description": "Select Janusgraph connection",
+              "type": "connection"
+            },
+            "allowed":[]
+		}
+    ],
+    "inputs": [
+ 		{
+			"name": "Graph",
+			"type": "object"
+		}
+    ],
+    "outputs": [
+		{
+            "name": "MessageId",
+            "type": "string"
+		}
+    ]
+}
