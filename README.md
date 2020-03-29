@@ -1,6 +1,5 @@
 # Project GraphBuilder
-
-(TIBCO Labs.png)
+<img src="file://TIBCO Labs.png" width="100">
 
 ![graph_builder](graph_builder.jpg)
 
