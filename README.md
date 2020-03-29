@@ -1,8 +1,8 @@
 # Project GraphBuilder
-
-## Overview
-
 ![graph_builder](graph_builder.jpg)
+
+---
+## Overview
 
 ## Key Components
 * [GraphBuilder](./GraphBuilder/)
