@@ -1,4 +1,7 @@
 # Project GraphBuilder
+
+(TIBCO Labs.png)
+
 ![graph_builder](graph_builder.jpg)
 
 ---
