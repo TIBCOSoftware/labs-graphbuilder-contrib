@@ -1,6 +1,6 @@
-# Project GraphBuilder
+![graph_builder](TIBCO_Labs.png)
 
-![graph_builder](graph_builder.jpg)
+![Flogo Studio](graph_builder.jpg)
 
 ---
 ## Overview
