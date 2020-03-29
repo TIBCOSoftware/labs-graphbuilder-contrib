@@ -1,10 +1,10 @@
 # Project GraphBuilder
-<img src="file://TIBCO Labs.png" width="100">
 
 ![graph_builder](graph_builder.jpg)
 
 ---
 ## Overview
+Project GraphBuilder is a tool set which includes couples of Flogo User Extensions for alowing you to build an application to transform your data to desirded graph structure then insert into many major graphical databases in the marcket (include TIBCO Graph Database, Dgraph, Neo4j and Janusgraph).
 
 ## Key Components
 * [GraphBuilder](./builder/)
