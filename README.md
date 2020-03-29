@@ -5,12 +5,13 @@
 ## Overview
 
 ## Key Components
-* [GraphBuilder](./GraphBuilder/)
-* [GraphBuilder_TGDB](./GraphBuilder_TGDB/)
-* [GraphBuilder_Dgraph](./GraphBuilder_Dgraph/)
-* [GraphBuilder_Neo4j](./GraphBuilder_Neo4j/)
-* [GraphBuilder_SSE](./GraphBuilder_SSE/)
-* [GraphBuilder_Tools](./GraphBuilder_Tools/)
+* [GraphBuilder](./builder/)
+* [GraphBuilder_TGDB](./tgdb/)
+* [GraphBuilder_Dgraph](./dgraph/)
+* [GraphBuilder_Neo4j](./neo4j/)
+* [GraphBuilder_Gremlin](./gremlin/)
+* [GraphBuilder_SSE](./sse/)
+* [GraphBuilder_Tools](./tools/)
 
 ## Sample Applications
 [Please refer to Here](./sample-applications/)
