@@ -1,0 +1,653 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Project GraphBuilder – Documentation</title>
+    <link>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/</link>
+    <description>Recent content in Documentation on Project GraphBuilder</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	  <atom:link href="https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: Airline</title>
+      <link>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/sample-applications/airline/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/sample-applications/airline/</guid>
+      <description>
+        
+        
+        &lt;h4 id=&#34;details&#34;&gt;Details&lt;/h4&gt;
+&lt;p&gt;coming soon here!&lt;/p&gt;
+&lt;h4 id=&#34;implementation-source&#34;&gt;Implementation Source&lt;/h4&gt;
+&lt;p&gt;stored on GitHub &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/Airline&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;This example is created in TIBCO Flogo® Enterprise 2.8.0 studio.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: GraphBuilder</title>
+      <link>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/components/graphbuilder/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/components/graphbuilder/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Implementation Sources&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/connector/graph&#34;&gt;Connector&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/activity/builder&#34;&gt;BuildGraph&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/activity/graphtofile&#34;&gt;GraphToFile&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Lab1 - CSV</title>
+      <link>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/labs/lab-1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/labs/lab-1/</guid>
+      <description>
+        
+        
+        &lt;p&gt;soon here &amp;hellip;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Overview</title>
+      <link>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/overview/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/overview/</guid>
+      <description>
+        
+        
+        &lt;p&gt;By using GraphBuilder you are able to build your own application to&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Transform your data to desirded graph structure based upon your graph model.&lt;/li&gt;
+&lt;li&gt;Insert graph into many major graph databases in the marcket (include TIBCO Graph Database, Dgraph, Neo4j and Janusgraph).&lt;/li&gt;
+&lt;li&gt;Query and delete graph data against TIBCO Graph Database&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;graph_builder.jpg&#34; alt=&#34;Flogo Studio&#34;&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Getting Started</title>
+      <link>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/getting-started/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/getting-started/</guid>
+      <description>
+        
+        
+        &lt;ol&gt;
+&lt;li&gt;Download latest TIBCO Flogo Enterprise from here &lt;a href=&#34;https://edelivery.tibco.com/storefront/en/eval/tibco-flogo-enterprise/prod11810.html&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Download GraphBuilder user extensions &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/dist&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;import GraphBuilder user extensions to TIBCO Flogo Enterprise studio.&lt;/li&gt;
+&lt;li&gt;Enjoy it!&lt;/li&gt;
+&lt;/ol&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Hierachy</title>
+      <link>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/sample-applications/hierachy/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/sample-applications/hierachy/</guid>
+      <description>
+        
+        
+        &lt;h4 id=&#34;details&#34;&gt;Details&lt;/h4&gt;
+&lt;p&gt;coming soon here!&lt;/p&gt;
+&lt;h4 id=&#34;implementation-source&#34;&gt;Implementation Source&lt;/h4&gt;
+&lt;p&gt;stored on GitHub &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/hierarchy&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;This example is created in TIBCO Flogo® Enterprise 2.8.0 studio.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Lab2 - Query</title>
+      <link>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/labs/lab-2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/labs/lab-2/</guid>
+      <description>
+        
+        
+        &lt;p&gt;soon here &amp;hellip;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: TGDB</title>
+      <link>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/components/graphbuilder-tgdb/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/components/graphbuilder-tgdb/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Implementation Sources&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/tgdb/connector/&#34;&gt;Connector&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/tgdb/activity/tgdbupsert/&#34;&gt;TGDBUpsert&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/tgdb/activity/tgdbquery/&#34;&gt;TGDBQuery&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/tgdb/activity/tgdbdelete/&#34;&gt;TGDBDelete&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Dgraph</title>
+      <link>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/components/graphbuilder-dgraph/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/components/graphbuilder-dgraph/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Implementation Sources&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/dgraph/connector/dgraph/&#34;&gt;Connector&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/dgraph/activity/dgraphupsert/&#34;&gt;DgraphUpsert&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/dgraph/activity/dgraphquery/&#34;&gt;DgraphQuery&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: IoT Data Consumer</title>
+      <link>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/sample-applications/iot-data-consumer/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/sample-applications/iot-data-consumer/</guid>
+      <description>
+        
+        
+        &lt;h4 id=&#34;details&#34;&gt;Details&lt;/h4&gt;
+&lt;p&gt;coming soon here!&lt;/p&gt;
+&lt;h4 id=&#34;implementation-source&#34;&gt;Implementation Source&lt;/h4&gt;
+&lt;p&gt;stored on GitHub &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/IotDataConsumer&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;This example is created in TIBCO Flogo® Enterprise 2.8.0 studio.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Lab3 - real-time</title>
+      <link>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/labs/lab-3/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/labs/lab-3/</guid>
+      <description>
+        
+        
+        &lt;p&gt;soon here &amp;hellip;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Meetup Event</title>
+      <link>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/sample-applications/meetup-event/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/sample-applications/meetup-event/</guid>
+      <description>
+        
+        
+        &lt;p&gt;This example uses Meetup open event through Meetup API see &lt;a href=&#34;https://www.meetup.com/meetup_api/&#34;&gt;https://www.meetup.com/meetup_api/&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;create-graph-model&#34;&gt;Create Graph Model&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;create_connection.png&#34; alt=&#34;create_connection&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;setting&#34;&gt;Setting&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Graph Name:&lt;/strong&gt; -&amp;gt; Meetup&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Model Source:&lt;/strong&gt; -&amp;gt; Select Local File&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Graph Model:&lt;/strong&gt; -&amp;gt; Select sample-applications/Meetup_Event/Model_Meetup.json&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;create-connection-for-subscribing-meetup-open-event&#34;&gt;Create Connection for subscribing Meetup open event&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;create_connection2.png&#34; alt=&#34;create_connection2&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;setting-1&#34;&gt;Setting&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Connection Name:&lt;/strong&gt; -&amp;gt; Meetup_Event&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Outbound:&lt;/strong&gt; -&amp;gt; Sellect &amp;ldquo;true&amp;rdquo; for connecting to Meetup service&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Server URL:&lt;/strong&gt; -&amp;gt; &lt;a href=&#34;http://stream.meetup.com/&#34;&gt;http://stream.meetup.com/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Resource Name:&lt;/strong&gt; -&amp;gt; 2/open_events&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Access Token:&lt;/strong&gt; -&amp;gt; not required for accessing open event&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;create-connection-for-serving-streaming-graph-data&#34;&gt;Create Connection for serving streaming graph data&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;create_connection3.png&#34; alt=&#34;create_connection3&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;setting-2&#34;&gt;Setting&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Connection Name:&lt;/strong&gt; -&amp;gt; EventServer&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Outbound:&lt;/strong&gt; -&amp;gt; select &amp;ldquo;false&amp;rdquo; since it&#39;s a server&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Server port:&lt;/strong&gt; -&amp;gt; any available port (8888 for this example)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Path:&lt;/strong&gt; -&amp;gt; /sse/ (client connect http://[host]:[port]/sse/meetup to subscribe &amp;ldquo;meetup&amp;rdquo; graph stream)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;create-graphmodel-for-enriching-meetup-graph&#34;&gt;Create GraphModel for Enriching Meetup Graph&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;create_connection4.png&#34; alt=&#34;create_connection4&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;setting-3&#34;&gt;Setting&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Graph Name:&lt;/strong&gt; -&amp;gt; GeographyInfo&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Model Source:&lt;/strong&gt; -&amp;gt; Select Local File&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Graph Model:&lt;/strong&gt; -&amp;gt; Select sample-applications/Meetup_Event/Model_GeographyInfo.json&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;create-application&#34;&gt;Create Application&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;create_application.png&#34; alt=&#34;create_application&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;create-flow-for-consuming-meetup-open-event&#34;&gt;Create Flow for consuming Meetup open event&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;create_application2.png&#34; alt=&#34;create_application2&#34;&gt;&lt;/p&gt;
+&lt;h4 id=&#34;configure-flow-inputs-and-outputs&#34;&gt;Configure flow inputs and outputs&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;input sample&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;{
+    &amp;quot;EventString&amp;quot; : &amp;quot;&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;add-activity-1&#34;&gt;Add Activity 1&lt;/h3&gt;
+&lt;p&gt;Select GraphBuilder_Tools -&amp;gt; JSONDeserializer&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;JSON Data Sample:&lt;/strong&gt; -&amp;gt; Select sample-applications/Meetup_Event/.json&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Default Values:&lt;/strong&gt; -&amp;gt; Set &amp;ldquo;na&amp;rdquo; as default for venue.address_1, category.name&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;add-activity-2&#34;&gt;Add Activity 2&lt;/h3&gt;
+&lt;p&gt;Select GraphBuilder_Builder -&amp;gt; BuildGraph&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Graph Model:&lt;/strong&gt; -&amp;gt; Select &amp;ldquo;Meetup&amp;rdquo; (the connection we created previously)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Configure Model:&lt;/strong&gt; -&amp;gt; Map attributes to input data fields (for nodes and edges)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;add-activity-3-1&#34;&gt;Add Activity 3-1&lt;/h3&gt;
+&lt;p&gt;Select GraphBuilder_SSE -&amp;gt; SSEEndPoint&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;SSE Connection:&lt;/strong&gt; -&amp;gt; Select &amp;ldquo;EventServer&amp;rdquo; for serving streaming data(the connection we created previously)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Avtivity Input 1:&lt;/strong&gt; set StreamId to &amp;ldquo;meetup&amp;rdquo; (the resource name for client to subscribe)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Avtivity Input 2:&lt;/strong&gt; map required Data object to $activity[BuildGraph].Graph (output of BuildGraph activity)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;add-activity-3-2&#34;&gt;Add Activity 3-2&lt;/h3&gt;
+&lt;p&gt;Select GraphBuilder_TGDB -&amp;gt; TGDBUpsert&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;TGDB Connection:&lt;/strong&gt; -&amp;gt; Select &amp;ldquo;TGDB&amp;rdquo; for upserting streaming data to TGDB(the connection we created in TGDB_RESTful_Service sample application)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Avtivity Input 1:&lt;/strong&gt; set required Graph object to $activity[BuildGraph].Graph&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;add-a-trigger&#34;&gt;Add a trigger&lt;/h4&gt;
+&lt;p&gt;Select GraphBuilder_SSE -&amp;gt; SSESubscriber&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;SSE Connection(outbound request):&lt;/strong&gt; -&amp;gt; Select &amp;ldquo;Meetup_Event&amp;rdquo; for consuming open event from Meetup web site&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Flow Input:&lt;/strong&gt; -&amp;gt; Map EventString to $trigger.Event (This is the output of SSESubscriber)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;create-flow-for-serving-streaming-graph-data&#34;&gt;Create Flow for Serving Streaming Graph Data&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;create_application3.png&#34; alt=&#34;create_application3&#34;&gt;&lt;/p&gt;
+&lt;h4 id=&#34;configure-flow-inputs-and-outputs-1&#34;&gt;Configure flow inputs and outputs&lt;/h4&gt;
+&lt;p&gt;No configuration is required here since the data flow comes from SSEEndPoint of Meetup Event Flow directly&lt;/p&gt;
+&lt;h4 id=&#34;add-a-trigger-1&#34;&gt;Add a trigger&lt;/h4&gt;
+&lt;p&gt;GraphBuilder_SSE -&amp;gt; SSESubscriber&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;SSE Connection(inbound requests):&lt;/strong&gt; -&amp;gt; Select &amp;ldquo;EventServer&amp;rdquo; for serving streaming data(so now SSEEndPoint connected)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Flow Input:&lt;/strong&gt; -&amp;gt; Map EventString to $trigger.Event (This is the output of SSESubscriber)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Incoming Query&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;HTTP GET with resource path /sse/{streamId}&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;reply&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;$flow.queryResult&lt;/p&gt;
+&lt;p&gt;sample :&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;{
+ &amp;quot;graph&amp;quot;:{
+  &amp;quot;edges&amp;quot;:{},
+  &amp;quot;id&amp;quot;:&amp;quot;GeographyInfo&amp;quot;,
+  &amp;quot;model&amp;quot;:{
+   &amp;quot;edges&amp;quot;:{
+    &amp;quot;attrTypeMap&amp;quot;:{&amp;quot;in_Continent&amp;quot;:{}},
+    &amp;quot;directionMap&amp;quot;:{&amp;quot;in_Continent&amp;quot;:1},
+    &amp;quot;keyMap&amp;quot;:{&amp;quot;in_Continent&amp;quot;:null},
+    &amp;quot;types&amp;quot;:[&amp;quot;in_Continent&amp;quot;],
+    &amp;quot;vertexes&amp;quot;:{&amp;quot;in_Continent&amp;quot;:[&amp;quot;City&amp;quot;,&amp;quot;Continent&amp;quot;]}
+   },
+   &amp;quot;nodes&amp;quot;:{
+    &amp;quot;attrTypeMap&amp;quot;:{&amp;quot;Continent&amp;quot;:{&amp;quot;Name&amp;quot;:&amp;quot;String&amp;quot;},&amp;quot;Country&amp;quot;:{&amp;quot;Country_Code&amp;quot;:&amp;quot;String&amp;quot;}},
+    &amp;quot;keyMap&amp;quot;:{&amp;quot;Continent&amp;quot;:[&amp;quot;Name&amp;quot;],&amp;quot;Country&amp;quot;:[&amp;quot;Country_Code&amp;quot;]},&amp;quot;types&amp;quot;:[&amp;quot;Country&amp;quot;,&amp;quot;Continent&amp;quot;]
+   }
+  },
+  &amp;quot;modelId&amp;quot;:&amp;quot;GeographyInfo&amp;quot;,
+  &amp;quot;nodes&amp;quot;:{
+   &amp;quot;Continent_0ecff3229a1a13980689def44b2c66e1&amp;quot;:{
+    &amp;quot;attributes&amp;quot;:{&amp;quot;Name&amp;quot;:{&amp;quot;name&amp;quot;:&amp;quot;Name&amp;quot;,&amp;quot;type&amp;quot;:&amp;quot;String&amp;quot;,&amp;quot;value&amp;quot;:&amp;quot;North_America&amp;quot;}},
+    &amp;quot;key&amp;quot;:[&amp;quot;North_America&amp;quot;],
+    &amp;quot;keyAttributeName&amp;quot;:[&amp;quot;Name&amp;quot;],
+    &amp;quot;type&amp;quot;:&amp;quot;Continent&amp;quot;
+   },
+   &amp;quot;Country_5181a8acdef7be40dfbf3ec66bee2b20&amp;quot;:{
+    &amp;quot;attributes&amp;quot;:{&amp;quot;Country_Code&amp;quot;:{&amp;quot;name&amp;quot;:&amp;quot;Country_Code&amp;quot;,&amp;quot;type&amp;quot;:&amp;quot;String&amp;quot;,&amp;quot;value&amp;quot;:&amp;quot;us&amp;quot;}},
+    &amp;quot;key&amp;quot;:[&amp;quot;us&amp;quot;],
+    &amp;quot;keyAttributeName&amp;quot;:[&amp;quot;Country_Code&amp;quot;],
+    &amp;quot;type&amp;quot;:&amp;quot;Country&amp;quot;
+   }
+  }
+ }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;create-flow-for-enriching-meetup-graph&#34;&gt;Create Flow for Enriching Meetup Graph&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;create_application4.1.png&#34; alt=&#34;create_application4.1&#34;&gt;
+&lt;img src=&#34;create_application4.2.png&#34; alt=&#34;create_application4.2&#34;&gt;&lt;/p&gt;
+&lt;h4 id=&#34;configure-flow-inputs-and-outputs-2&#34;&gt;Configure flow inputs and outputs&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;input sample&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;{
+  &amp;quot;Continent&amp;quot;: {
+    &amp;quot;Name&amp;quot;: &amp;quot;North_America&amp;quot;,
+    &amp;quot;Countries&amp;quot;: [
+      &amp;quot;us&amp;quot;
+    ]
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;add-activity-1-1&#34;&gt;Add Activity 1&lt;/h3&gt;
+&lt;p&gt;Select GraphBuilder_Builder -&amp;gt; BuildGraph&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Graph Model:&lt;/strong&gt; -&amp;gt; Select &amp;ldquo;GeographyInfo&amp;rdquo; (the connection we created previously)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Configure Model:&lt;/strong&gt; -&amp;gt; Map attributes to input data fields (for nodes and edges)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;add-activity-2-1&#34;&gt;Add Activity 2&lt;/h3&gt;
+&lt;p&gt;Select GraphBuilder_SSE -&amp;gt; SSEEndPoint&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;SSE Connection:&lt;/strong&gt; -&amp;gt; Select &amp;ldquo;EventServer&amp;rdquo; for serving streaming data(the connection we created previously)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Avtivity Input 1:&lt;/strong&gt; set StreamId to &amp;ldquo;GeographyInfo&amp;rdquo; (the resource name for client to subscribe)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Avtivity Input 2:&lt;/strong&gt; map required Data object to $activity[BuildGraph].Graph (output of BuildGraph activity)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;add-a-trigger-receive-http-message&#34;&gt;Add a trigger (Receive HTTP Message)&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Setting1:&lt;/strong&gt; Set Port to any available one (in this sample 9998)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Setting2:&lt;/strong&gt; Set Method to &amp;ldquo;POST&amp;rdquo;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Setting3:&lt;/strong&gt; Set Path to &amp;ldquo;/geography/{Continent}&amp;rdquo;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Output Setting&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;$trigger.pathParams.Continent
+and 
+$trigger.body&lt;/p&gt;
+&lt;p&gt;body sample :&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;{
+    &amp;quot;Countries&amp;quot;: [
+        &amp;quot;us&amp;quot;
+    ]
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Flow Input1:&lt;/strong&gt; Continent.Name map to $trigger.pathParams.Continent&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Flow Input2:&lt;/strong&gt; Continent.Countries map to $trigger.body.Countries&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;implementation-source&#34;&gt;Implementation Source&lt;/h4&gt;
+&lt;p&gt;stored on GitHub &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/Meetup_Event&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;This example is created in TIBCO Flogo® Enterprise 2.8.0 studio.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Neo4j</title>
+      <link>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/components/graphbuilder-neo4j/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/components/graphbuilder-neo4j/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Implementation Sources&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/neo4j/connector/neo4j/&#34;&gt;Connector&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/neo4j/activity/neo4jupsert/&#34;&gt;Neo4jUpsert&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Gremlin</title>
+      <link>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/components/graphbuilder-gremlin/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/components/graphbuilder-gremlin/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Implementation Sources&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/gremlin/connector/gremlin/&#34;&gt;Connector&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/gremlin/activity/janusgraphupsert/&#34;&gt;JanusgraphUpsert&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: RESTful Service</title>
+      <link>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/sample-applications/restful-service/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/sample-applications/restful-service/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;create-tgdb-connection&#34;&gt;Create TGDB Connection&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;create_connection.jpg&#34; alt=&#34;create_connection&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;create-application&#34;&gt;Create Application&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;create_application.jpg&#34; alt=&#34;create_application&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;create-flow-for-querying-metadata&#34;&gt;Create Flow for querying Metadata&lt;/h3&gt;
+&lt;h4 id=&#34;configure-flow-inputs-and-outputs&#34;&gt;Configure flow inputs and outputs&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;input sample&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;{
+    &amp;quot;queryType&amp;quot; : &amp;quot;&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;output sample&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;{
+    &amp;quot;queryResult&amp;quot;: {
+        &amp;quot;content&amp;quot;: {},
+        &amp;quot;success&amp;quot;: true,
+        &amp;quot;error&amp;quot;: {
+            &amp;quot;code&amp;quot;: 101,
+            &amp;quot;message&amp;quot;: &amp;quot;Not found&amp;quot;
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;add-activities&#34;&gt;Add activities&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Activity 1 :&lt;/strong&gt;
+GraphBuilder_TGDB -&amp;gt; TGDBQuery&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Activity 2 :&lt;/strong&gt;
+Default -&amp;gt; Return&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;add-a-trigger-receive-http-message&#34;&gt;Add a trigger (Receive HTTP Message)&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;output&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;$trigger.pathParams.queryType&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;reply&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;$flow.queryResult&lt;/p&gt;
+&lt;p&gt;sample :&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;{
+    &amp;quot;queryResult&amp;quot;: {
+        &amp;quot;content&amp;quot;: {},
+        &amp;quot;success&amp;quot;: true,
+        &amp;quot;error&amp;quot;: {
+            &amp;quot;code&amp;quot;: 101,
+            &amp;quot;message&amp;quot;: &amp;quot;Not found&amp;quot;
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;create-flow-for-querying-data&#34;&gt;Create Flow for Querying Data&lt;/h3&gt;
+&lt;h4 id=&#34;configure-flow-inputs-and-outputs-1&#34;&gt;Configure flow inputs and outputs&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;input sample&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;{
+    &amp;quot;queryType&amp;quot; : &amp;quot;&amp;quot;,
+    &amp;quot;language&amp;quot;: &amp;quot;&amp;quot;,
+    &amp;quot;queryString&amp;quot;: &amp;quot;&amp;quot;,
+    &amp;quot;traversalCondition&amp;quot;: &amp;quot;&amp;quot;,
+    &amp;quot;endCondition&amp;quot;: &amp;quot;&amp;quot;,
+    &amp;quot;traversalDepth&amp;quot;: 1
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;output sample&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;{
+    &amp;quot;queryResult&amp;quot;: {
+        &amp;quot;content&amp;quot;: {},
+        &amp;quot;success&amp;quot;: true,
+        &amp;quot;error&amp;quot;: {
+            &amp;quot;code&amp;quot;: 101,
+            &amp;quot;message&amp;quot;: &amp;quot;Not found&amp;quot;
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;add-activities-1&#34;&gt;Add activities&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Activity 1 :&lt;/strong&gt;
+GraphBuilder_TGDB -&amp;gt; TGDBQuery&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Activity 2 :&lt;/strong&gt;
+Default -&amp;gt; Return&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;add-a-trigger-receive-http-message-1&#34;&gt;Add a trigger (Receive HTTP Message)&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;output&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;$trigger.pathParams.queryType
+and 
+$trigger.body&lt;/p&gt;
+&lt;p&gt;sample :&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;{
+  &amp;quot;query&amp;quot;: {
+  	&amp;quot;language&amp;quot; : &amp;quot;tgql&amp;quot;,
+    &amp;quot;queryString&amp;quot; : &amp;quot;@nodetype = &#39;houseMemberType&#39; and memberName = &#39;Napoleon Bonaparte&#39;;&amp;quot;,
+    &amp;quot;traversalCondition&amp;quot; : &amp;quot;@edgetype = &#39;relation&#39; and relation = &#39;spouse&#39; and @isfromedge = 1 and @degree = 1;&amp;quot;,
+    &amp;quot;endCondition&amp;quot; : &amp;quot;&amp;quot;,
+	&amp;quot;traversalDepth&amp;quot; : 1
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;reply&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;$flow.queryResult&lt;/p&gt;
+&lt;p&gt;sample :&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;{
+    &amp;quot;queryResult&amp;quot;: {
+        &amp;quot;content&amp;quot;: {},
+        &amp;quot;success&amp;quot;: true,
+        &amp;quot;error&amp;quot;: {
+            &amp;quot;code&amp;quot;: 101,
+            &amp;quot;message&amp;quot;: &amp;quot;Not found&amp;quot;
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;implementation-source&#34;&gt;Implementation Source&lt;/h4&gt;
+&lt;p&gt;stored on GitHub &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/TGDB_RESTful_Service&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;This example is created in TIBCO Flogo® Enterprise 2.8.0 studio.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: SSE</title>
+      <link>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/components/graphbuilder-sse/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/components/graphbuilder-sse/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Implementation Sources&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sse/connector/sse/&#34;&gt;Connector&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sse/activity/sseendpoint/&#34;&gt;SSEEndpoint&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sse/trigger/sseserver/&#34;&gt;SSEServer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sse/trigger/ssesub/&#34;&gt;SSESubscriber&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Tools</title>
+      <link>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/components/graphbuilder-tools/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/components/graphbuilder-tools/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Implementation Sources&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/connector/simpletable/&#34;&gt;Connector&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/trigger/filereader/&#34;&gt;FileReader&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/accumulator/&#34;&gt;Accumulator&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/csvfilewriter/&#34;&gt;CSVFileWriter&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/csvparser/&#34;&gt;CSVParser&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/jsondatadecoupler/&#34;&gt;JsonDataDecoupler&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/jsondeserializer/&#34;&gt;JsonDeserializer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/jsonparser/&#34;&gt;JsonParser&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/csvparser/&#34;&gt;CSVParser&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/jsondatadecoupler/&#34;&gt;JsonDataDecoupler&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/jsondeserializer/&#34;&gt;JsonDeserializer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/tablequery/&#34;&gt;TableQuery&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/tableupsert/&#34;&gt;TableUpsert&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>
