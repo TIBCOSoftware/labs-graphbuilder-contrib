@@ -1,0 +1,38 @@
+{
+	"name": "flogo-jsonserializer",
+	"type": "flogo:activity",
+	"ref": "github.com/TIBCOSoftware/GraphBuilder_Tools/activity/jsonserializer",
+	"version": "0.0.1",
+	"title": "JSON Serializer",
+	"display": {
+    		"category": "GraphBuilder_Tools",
+    		"visible": true,
+    		"smallIcon": "jsonserializer.png",
+  		"description": "JSON Serializer Activity"
+	},
+	"settings": [
+		{ 
+			"name": "sample",
+			"type": "string", 
+			"required": true,
+			"display": { 
+				"name": "JSON Data Sample",
+				"description": "Define JSON schema for input data", 
+				"type": "fileselector", 
+				"fileExtensions": [".json"] 
+			} 
+		}
+	],
+	"input":[
+		{
+			"name": "Data",
+			"type": "complex_object"
+		}
+	],
+	"output": [
+		{
+			"name": "JSONString",
+			"type": "string"
+		}
+	]
+}
