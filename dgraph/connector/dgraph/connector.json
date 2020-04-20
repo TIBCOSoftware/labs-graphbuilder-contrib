@@ -57,7 +57,7 @@
 		"type": "boolean",
 		"display": {
 			"name": "TLS Enabled",
-			"description": "Will use tls connection",
+			"description": "Will use tls connection"
 		},
 		"value": false,
 		"required": true
