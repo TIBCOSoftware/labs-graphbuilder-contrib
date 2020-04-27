@@ -90,6 +90,10 @@ func (a *CSVParserActivity) Eval(ctx activity.Context) (done bool, err error) {
 		csvdataArray = append(csvdataArray, csvdata)
 	}
 
+	if 0 == len(csvdataArray) {
+		return false, nil
+	}
+
 	complexcsvdata := &data.ComplexObject{Metadata: "Data", Value: csvdataArray}
 	ctx.SetOutput("Data", complexcsvdata)
 	return true, nil
