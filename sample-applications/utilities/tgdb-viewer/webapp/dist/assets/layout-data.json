@@ -1,0 +1,80 @@
+{
+  "nodes": [
+    {"data": {"id": "1", "name": "Model"},
+      "position": {
+        "x": 341.407241025336,
+        "y": 214.74019385309518
+      }},
+    {"data": {"id": "2", "name": "Status"},
+      "position": {
+        "x": 287.0511476827444,
+        "y": 340.1718180979703
+      }},
+    {"data": {"id": "3", "name": "Equipment"},
+      "position": {
+        "x": 473.7698752537407,
+        "y": 310.9519255415828
+      }},
+    {"data": {"id": "4", "name": "Airport"},
+      "position": {
+        "x": 524.9695358040617,
+        "y": 498.2917401188228
+      }},
+    {"data": {"id": "5", "name": "Address"},
+      "position": {
+        "x": 481.69381599607505,
+        "y": 572.74056376446
+      }},
+    {"data": {"id": "6", "name": "Flight"},
+      "position": {
+        "x": 639.6379631967999,
+        "y": 418.15268532493866
+      }},
+    {"data": {"id": "7", "name": "Date"},
+      "position": {
+        "x": 693.4658452747377,
+        "y": 581.666849966429
+      }},
+    {"data": {"id": "8", "name": "Airline"},
+      "position": {
+        "x": 830.7436986776224,
+        "y": 490.2762793710656
+      }},
+    {"data": {"id": "9", "name": "Manifest"},
+      "position": {
+        "x": 703.2891286804006,
+        "y": 278.80851526960936
+      }},
+    {"data": {"id": "10", "name": "Flight Status"},
+      "position": {
+        "x": 883.6437997860833,
+        "y": 344.6843011287755
+      }},
+    {"data": {"id": "11", "name": "Passenger"},
+      "position": {
+        "x": 674.7840804349177,
+        "y": 161.69658951133286
+      }},
+    {"data": {"id": "12", "name": "Crew"},
+      "position": {
+        "x": 812.6932502529315,
+        "y": 229.20319522806324
+      }}
+  ],
+  "edges": [
+    {"data": {"id": "63", "source": "6", "target": "3", "name": "has"}},
+    {"data": {"id": "641", "source": "6", "target": "4", "name": "arrive"}},
+    {"data": {"id": "642", "source": "6", "target": "4", "name": "depart"}},
+    {"data": {"id": "45", "source": "4", "target": "5", "name": "has"}},
+    {"data": {"id": "66", "source": "6", "target": "6", "name": ""}},
+    {"data": {"id": "31", "source": "3", "target": "1", "name": "has"}},
+    {"data": {"id": "32", "source": "3", "target": "2", "name": "has"}},
+    {"data": {"id": "671", "source": "6", "target": "7", "name": "depart"}},
+    {"data": {"id": "672", "source": "6", "target": "7", "name": "arrive"}},
+    {"data": {"id": "86", "source": "8", "target": "6", "name": "operate"}},
+    {"data": {"id": "610", "source": "6", "target": "10", "name": "has"}},
+    {"data": {"id": "69", "source": "6", "target": "9", "name": "connection"}},
+    {"data": {"id": "911", "source": "9", "target": "11", "name": ""}},
+    {"data": {"id": "912", "source": "9", "target": "12", "name": ""}}
+  ]
+}
