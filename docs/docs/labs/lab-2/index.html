@@ -25,12 +25,12 @@
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/labs/lab-2/" />
-<meta property="article:modified_time" content="2020-03-30T14:55:45+02:00" /><meta property="og:site_name" content="Project GraphBuilder" />
+<meta property="article:modified_time" content="2020-04-27T10:04:34-04:00" /><meta property="og:site_name" content="Project GraphBuilder" />
 <meta itemprop="name" content="Lab2 - Query">
 <meta itemprop="description" content="Build an app to query against TIBCO Graph Database
 ">
-<meta itemprop="dateModified" content="2020-03-30T14:55:45&#43;02:00" />
-<meta itemprop="wordCount" content="3">
+<meta itemprop="dateModified" content="2020-04-27T10:04:34-04:00" />
+<meta itemprop="wordCount" content="477">
 
 
 
@@ -416,12 +416,127 @@ if (!doNotTrack) {
 
 
 
-<p class="-text-primary pt-3 h6" >Reading time: 0 minutes and 0 seconds.</p>
+<p class="-text-primary pt-3 h6" >Reading time: 2 minutes and 10 seconds.</p>
 <p>
 <div class="td-content">
 	<h1>Lab2 - Query</h1>
 	<div class="lead">Build an app to query against TIBCO Graph Database</div>
-	<p>soon here &hellip;</p>
+	<p>Create a new flogo application called &ldquo;TGDB_RESTful_Service&rdquo;</p>
+<p><img src="RESTful01.png" alt="Build RESTful"></p>
+<p>Click create to build from scratch</p>
+<p><img src="RESTful02.png" alt="Build RESTful"></p>
+<p>Create first flow to query metadata</p>
+<p><img src="RESTful03.png" alt="Build RESTful"></p>
+<p>Define the data schema for flow input by pasting sample data (queryType in string data type).</p>
+<ul>
+<li>queryType : metadata, edgetypes or nodetypes (for metadata flow)</li>
+</ul>
+<p><img src="RESTful04.png" alt="Build RESTful"></p>
+<p>Save sample data so schema builder can generate schema definition from it</p>
+<p><img src="RESTful05.png" alt="Build RESTful"></p>
+<p>Define flow output schema by sample output data</p>
+<ul>
+<li>Content : contains the data of query result</li>
+<li>Success : true means query go through without error</li>
+<li>Code : error code</li>
+<li>Message : error message</li>
+</ul>
+<p>Click save</p>
+<p><img src="RESTful06.png" alt="Build RESTful"></p>
+<p>Save trigger schema definition generation</p>
+<p><img src="RESTful07.png" alt="Build RESTful"></p>
+<p>Adding trigger to receive HTTP request by clicking &ldquo;+&rdquo; -&gt; &ldquo;ReceiveHTTPMessage&rdquo;</p>
+<p><img src="RESTful07-5.png" alt="Build RESTful"></p>
+<p>Select GET, setup resource path &ldquo;/tgdb/{queryType}&rdquo; then click continue</p>
+<p><img src="RESTful09.png" alt="Build RESTful"></p>
+<p>Click &ldquo;Just add the trigger&rdquo; button</p>
+<p><img src="RESTful09-5.png" alt="Build RESTful"></p>
+<p>We have a trigger with HTTP GET methods and listen on port 9999)</p>
+<p><img src="RESTful08.png" alt="Build RESTful"></p>
+<p>Click trigger to map incoming query data to flow input data</p>
+<p><img src="RESTful10.png" alt="Build RESTful"></p>
+<p>In &ldquo;reply Settings&rdquo; set reply schema make it same as flow output data schema</p>
+<p><img src="RESTful11.png" alt="Build RESTful"></p>
+<p>In &ldquo;Map from flow outputs&rdquo; mapping data.queryResult to  $flow.queryResult</p>
+<p><img src="RESTful12.png" alt="Build RESTful"></p>
+<p>Add query activity by select GraphBuilder_TGDB -&gt; TGDBQuery activity</p>
+<p><img src="RESTful13.png" alt="Build RESTful"></p>
+<p>Select &ldquo;TGDB&rdquo; coinnection we created in lab1 so the TGDBQuery activity is going to query against the server which we've upserted Northwind data to</p>
+<p><img src="RESTful14.png" alt="Build RESTful"></p>
+<p>Map input data for TGDBQuery activity</p>
+<ul>
+<li>QueryType : $flow.queryType</li>
+</ul>
+<p><img src="RESTful15.png" alt="Build RESTful"></p>
+<p>Adding return activity to link the query result back to HTTP trigger</p>
+<p><img src="RESTful16.png" alt="Build RESTful"></p>
+<p>Map outputs for Return activity</p>
+<ul>
+<li>queryResult : $activity[TGDBQuery].queryResult (map entire object)</li>
+</ul>
+<p><img src="RESTful17.png" alt="Build RESTful"></p>
+<p>You've finished creating metadata query flow</p>
+<p><img src="RESTful18.png" alt="Build RESTful"></p>
+<p>Click &ldquo;Create&rdquo; button to create another flow for querying data content</p>
+<p><img src="RESTful19.png" alt="Build RESTful"></p>
+<p>Create name and description for the new flow</p>
+<p><img src="RESTful20.png" alt="Build RESTful"></p>
+<p>Define the flow inputs data schema by sample data (schema detail see TGDB documentation)</p>
+<ul>
+<li>queryType : search (for content flow)</li>
+<li>language : TGQL (TIBCO graph query language) or Gremlin</li>
+<li>queryString : for TGQL and Gremlin</li>
+<li>traversalCondition : TGQL only</li>
+<li>traversalDepth : TGQL only</li>
+</ul>
+<p><img src="RESTful21.png" alt="Build RESTful"></p>
+<p>Click save to generate data schema definition</p>
+<p><img src="RESTful22.png" alt="Build RESTful"></p>
+<p>Flow output data schema same as metadata flow.</p>
+<p><img src="RESTful22-5.png" alt="Build RESTful"></p>
+<p>Add another trigger for receiving content query</p>
+<p><img src="RESTful23.png" alt="Build RESTful"></p>
+<p>POST method for content query</p>
+<p><img src="RESTful24.png" alt="Build RESTful"></p>
+<p>Adding sample query for the output (to the flow) setting. To be noticed that the schema is very similar to flow input schema but grouped under &ldquo;query&rdquo; keyword.</p>
+<p><img src="RESTful25.png" alt="Build RESTful"></p>
+<p>Map to flow input</p>
+<ul>
+<li>queryType : $trigger.pathParams.queryType</li>
+<li>language : $trigger.body.query.language</li>
+<li>queryString : $trigger.body.query.queryString</li>
+<li>traversalCondition : $trigger.body.query.traversalCondition</li>
+<li>endCondition : $trigger.body.query.endCondition</li>
+<li>traversalDepth : $trigger.body.query.traversalDepth</li>
+</ul>
+<p>Click save</p>
+<p><img src="RESTful26.png" alt="Build RESTful"></p>
+<p>Setting the reply data (same as metadata flow)
+<img src="RESTful26-5.png" alt="Build RESTful"></p>
+<p><img src="RESTful26-6.png" alt="Build RESTful"></p>
+<p>Add query activity by select GraphBuilder_TGDB -&gt; TGDBQuery activity</p>
+<p><img src="RESTful13.png" alt="Build RESTful"></p>
+<p>Select &ldquo;TGDB&rdquo; coinnection we created in lab1 so the TGDBQuery activity is going to query against the server which we've upserted Northwind data to</p>
+<p><img src="RESTful14.png" alt="Build RESTful"></p>
+<p>Map input data for TGDBQuery activity</p>
+<ul>
+<li>QueryType : $flow.queryType</li>
+<li>params.language : $flow.language</li>
+<li>params.queryString : $flow.queryString</li>
+<li>params.traversalCondition : $flow.traversalCondition</li>
+<li>params.endCondition : $flow.endCondition</li>
+<li>params.traversalDepth : $flow.traversalDepth</li>
+</ul>
+<p><img src="RESTful27.png" alt="Build RESTful"></p>
+<p>Adding return activity to link the query result back to HTTP trigger</p>
+<p><img src="RESTful16.png" alt="Build RESTful"></p>
+<p>Map outputs for Return activity</p>
+<ul>
+<li>queryResult : $activity[TGDBQuery].queryResult (map entire object)</li>
+</ul>
+<p><img src="RESTful17.png" alt="Build RESTful"></p>
+<p>The TGDB_RESTful_Service is ready for query Nothwind graph</p>
+<p><img src="RESTful28.png" alt="Build RESTful"></p>
 
 	
 		<style>
@@ -485,7 +600,7 @@ if (!doNotTrack) {
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified March 30, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/d4fc2c52480f37f30ee4311a0585d2a0e450f720">initial docs (d4fc2c5)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified April 27, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/752c26445eecc3cee8ecd2864a9be912361706c7">Update documentation and purge project (752c264)</a>
 </div>
 </div>
 

@@ -61,7 +61,175 @@
       <description>
         
         
-        &lt;p&gt;soon here &amp;hellip;&lt;/p&gt;
+        &lt;p&gt;Let&#39;s build a graph model for Northwind data. In connection tab select Graph to host graph model for your flogo application.
+&lt;img src=&#34;createModel01.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;In the diaog box&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Set model name&lt;/li&gt;
+&lt;li&gt;Select &amp;ldquo;Local File&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;select and upload northwind_model.json from your download folder&lt;/li&gt;
+&lt;li&gt;Click connect&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The Northwind model descriptor file has attached to your graph model 
+&lt;img src=&#34;createModel02.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Now let&#39;s select Application table then create to start building an allication
+&lt;img src=&#34;createApp01.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Name the application &amp;ldquo;Northwind&amp;rdquo; then create it
+&lt;img src=&#34;createApp02.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Select create to make it from scratch
+&lt;img src=&#34;createApp03.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Flogo studio brings you to the dialog for creating the first flow. According to Northwind data set we have, we are going to create five flows to process data from customers.csv, suppliers.csv, employees.csv, categories.csv and products.csv respectively. We start from Building the customer data flow. 
+&lt;img src=&#34;createApp04.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;In the empty flow panel click &amp;ldquo;Flow Inputs &amp;amp; Outputs&amp;rdquo; verticle bar to generate data schema for current flow.
+&lt;img src=&#34;createApp05.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The flow processes a CSV data row from file each time. Just set a sample of incoming data. In the sample &amp;ldquo;FileContent&amp;rdquo; is a row of CSV data and &amp;ldquo;LineNumber&amp;rdquo; is current &amp;ldquo;row number&amp;rdquo; of the row.
+&lt;img src=&#34;createApp06.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;After clik &amp;ldquo;Save&amp;rdquo; buttom schema generator converts data sample to schema definition.
+&lt;img src=&#34;createApp07.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Let&#39;s add a trigger (data source) for the flow by clicking &amp;ldquo;+&amp;rdquo; buttom on the left and select GraphBuilder_Tools -&amp;gt; FileReader trigger.
+&lt;img src=&#34;createApp08.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Filling the &amp;ldquo;Trigger Settings&amp;rdquo;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Filename : point to customers.csv in your download folder&lt;/li&gt;
+&lt;li&gt;Asychroous : make it true so all triggers for different data would run simutanously&lt;/li&gt;
+&lt;li&gt;Emit per Line : set true to make sure each time only one row of data sending to flow&lt;/li&gt;
+&lt;li&gt;Max Number of Line : set to negative means no limit.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Click save after you finish it
+&lt;img src=&#34;createApp09.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Now switch to &amp;ldquo;Map to Flow Inputs&amp;rdquo; and make following mapping&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;FileContent (defined in schema) -&amp;gt; $trigger.FileContent&lt;/li&gt;
+&lt;li&gt;LineNumber (defined in schema) -&amp;gt; $trigger.LineNumber&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Then click save button
+&lt;img src=&#34;createApp10.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Back to flow and adding first activities. Select GraphBuilder_Tools -&amp;gt; CSVParser for converting CSV text to system object.
+&lt;img src=&#34;createApp11.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Filling Settings&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Date Format Sample : 2006-01-02 (GOLang data format)&lt;/li&gt;
+&lt;li&gt;Serve Graph Data : set false since we are not using it&lt;/li&gt;
+&lt;li&gt;Output Field Names : One line of setting for each data column. AttributeName is the field name in system object and CSVFieldName is the column name in CSV file. Set optional to &amp;ldquo;false&amp;rdquo; for all key element fields. Click save after set configuring each line.&lt;/li&gt;
+&lt;li&gt;First Row is Heade : Set true since the data file we use has header&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Click save button
+&lt;img src=&#34;createApp12.png&#34; alt=&#34;Import Extension&#34;&gt;
+&lt;img src=&#34;createApp14.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Switch to Inputs and map current input data to upstream output data&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;CSVString -&amp;gt; $flow.FileContent&lt;/li&gt;
+&lt;li&gt;SequenceNumber -&amp;gt; $flow.LineNumber&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Click save when finish it
+&lt;img src=&#34;createApp13.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Now the data has bean transform to the object which could be recognized by the system. The next step is to convert data to graph entities (nodes, edges and attributes). We use the core activity &amp;ldquo;Build Graph&amp;rdquo; to perform this tranformation.
+Let&#39;s select GraphBuilder -&amp;gt; Bruild Graph and configue it.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp15.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Filling setting&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Graph Model : Select &amp;ldquo;Northwind&amp;rdquo; which we just created. The Northwind graph model now associated with this activity. You would see this when we setup Inputs.&lt;/li&gt;
+&lt;li&gt;Allow Null Key : Will Generate node, edge even their primary key will null element.&lt;/li&gt;
+&lt;li&gt;Batch Mode : Set false since we process one data each time.&lt;/li&gt;
+&lt;li&gt;Pass Through Fields : (leave it empty)&lt;/li&gt;
+&lt;li&gt;Modify Size of Instances : (leave it empty, will use it in Employee data setup)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Click save button
+&lt;img src=&#34;createApp16.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Before we can map the input data let&#39;s take look of the output of CSVParser (upstream data of current Build Graph activity). Since CSVParser has ability to handle multiple CSV rows, the output of it is an array not just a single object.
+&lt;img src=&#34;createApp16-9.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;For procees the incoming array type of data, we need to turn on the iterator to iterate through upstream output data. Even there is only one element in the array for the current case. Following screenshot showing how to do it.
+&lt;img src=&#34;createApp17.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;For mapping the input data you may notice that 1. the Northwind graph model has been brought to this activity as input schema, 2. The mapping target is not to CSVParser but the local interation. For the data coming from customers.csv you can populate more than one type of nodes which are deinfed in Northwind graph. Here is the nodes data which will be set.&lt;/p&gt;
+&lt;p&gt;Customer node&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;_skipCondition -&amp;gt; null==$iteration[value].CustomerID&lt;/li&gt;
+&lt;li&gt;CustomerID -&amp;gt; $iteration[value].CustomerID&lt;/li&gt;
+&lt;li&gt;CustomerName -&amp;gt; $iteration[value].CustomerName&lt;/li&gt;
+&lt;li&gt;ContactName -&amp;gt; $iteration[value].ContactName&lt;/li&gt;
+&lt;li&gt;ContactTitle -&amp;gt; $iteration[value].ContactTitle&lt;/li&gt;
+&lt;li&gt;City -&amp;gt; $iteration[value].City&lt;/li&gt;
+&lt;li&gt;RegionName -&amp;gt; $iteration[value].RegionName&lt;/li&gt;
+&lt;li&gt;RegionCode -&amp;gt; $iteration[value].RegionCode&lt;/li&gt;
+&lt;li&gt;Country -&amp;gt; $iteration[value].Country&lt;/li&gt;
+&lt;li&gt;Phone -&amp;gt; $iteration[value].Phone&lt;/li&gt;
+&lt;li&gt;Fax -&amp;gt; $iteration[value].Fax&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Company node&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;_skipCondition -&amp;gt; null==$iteration[value].CompanyID&lt;/li&gt;
+&lt;li&gt;CompanyID -&amp;gt; $iteration[value].CompanyID&lt;/li&gt;
+&lt;li&gt;CompanyName -&amp;gt; $iteration[value].CompanyName&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Region node&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;RegionName -&amp;gt; $iteration[value].RegionName&lt;/li&gt;
+&lt;li&gt;Country -&amp;gt; $iteration[value].Country&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You don&#39;t have to setup mapping for edge if you don&#39;t have attribute need to be setup for them (we don&#39;t configue &amp;ldquo;label&amp;rdquo; since TGDB doesn&#39;t need it). BuildGraph activity is going to use the edge definded in graph model to create edge between nodes automatically.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp18.png&#34; alt=&#34;Import Extension&#34;&gt;
+&lt;img src=&#34;createApp17-5.png&#34; alt=&#34;Import Extension&#34;&gt;
+&lt;img src=&#34;createApp19.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;After we convert data to graph entities we can insert them to TGDB. Let&#39;s create TGDB connection first. In Connections tab select Add Connection -&amp;gt; TGDB Connector
+&lt;img src=&#34;createModel03.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;In the diaog box filling following information&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Connection name (for example &amp;ldquo;TGDB&amp;rdquo;)&lt;/li&gt;
+&lt;li&gt;TGDB Server URL&lt;/li&gt;
+&lt;li&gt;Username&lt;/li&gt;
+&lt;li&gt;Password&lt;/li&gt;
+&lt;li&gt;Keep Connection Alive : select &amp;ldquo;true&amp;rdquo;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Click connect&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createModel04.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Now back to application &amp;ldquo;Customer Data&amp;rdquo; flow to add TGDB activity. Slect GraphBuilder_TGDB -&amp;gt; TGDBUpsert.
+&lt;img src=&#34;createApp20.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Filling Setting for&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;TGDB connection : Select the &amp;ldquo;TGDB&amp;rdquo; Connection we just created&lt;/li&gt;
+&lt;li&gt;Set Allow empty sting key to true (so node with empty string key still get inserted)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Click save&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp21.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Map input data&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Graph{} - $activity[BuildGraph].Graph{}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Since the Graph object is immutable, you are not allow to access the internal structure detail.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp22.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;You can insert built in log activity by following steps:
+Make room for logger activity by shifting activities one position to the right.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp23.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Add log activity by select Default -&amp;gt; Log&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp24.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Setup message for priniting (you can apply built-in fuctions to incoming data fields)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;message : string.concat(string.tostring($flow.LineNumber), &amp;quot; - &amp;ldquo;, $flow.FileContent)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;createApp25.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;You can add write the entities which generate be BuildGraph activity by adding GraphBuilder -&amp;gt; GraphtoFile activity&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp26.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Specify the output folder and filename for writing the graph entities&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp27.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Input data is and only can be Graph. The input setup same as TGDBUpsert&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp28.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Congradulations you have finish the first data flow for the application&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp29.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Now you can follow the same steps to finish all the rest of flows&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp30.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;When you work on employee flow, please pay attention on following steps.&lt;/p&gt;
+&lt;p&gt;In employee data there are two fields EmployeeID and ReportTo which represent one indivisual employee. It implies that by the infomation in the employee data we can populate two employee nodes. One for empoyee himself/herself and one for his/her manager. We have to incresae the employee instance for the data mapping.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Modify size of instances : Select &amp;ldquo;Employee&amp;rdquo; node and make the number of instances to 2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Click save&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp31.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Switch to Inputs you will see two employee nodes appears (Employee0 and Employee1). Let&#39;s make employee0 the employee (not manager) so all data can be populate to this node.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp32.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;We make the emplyee1 node represent the manager of employee0 node so the only information we have for it (in the data) is &amp;ldquo;ReportTo&amp;rdquo; which will populate employee1&#39;s EmployeeID.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp33.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Then we need to tell BuildGrap activity the relation between employee0 and employee1.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp34.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
 
       </description>
     </item>
@@ -134,7 +302,122 @@
       <description>
         
         
-        &lt;p&gt;soon here &amp;hellip;&lt;/p&gt;
+        &lt;p&gt;Create a new flogo application called &amp;ldquo;TGDB_RESTful_Service&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful01.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Click create to build from scratch&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful02.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Create first flow to query metadata&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful03.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Define the data schema for flow input by pasting sample data (queryType in string data type).&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;queryType : metadata, edgetypes or nodetypes (for metadata flow)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful04.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Save sample data so schema builder can generate schema definition from it&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful05.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Define flow output schema by sample output data&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Content : contains the data of query result&lt;/li&gt;
+&lt;li&gt;Success : true means query go through without error&lt;/li&gt;
+&lt;li&gt;Code : error code&lt;/li&gt;
+&lt;li&gt;Message : error message&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Click save&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful06.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Save trigger schema definition generation&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful07.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Adding trigger to receive HTTP request by clicking &amp;ldquo;+&amp;rdquo; -&amp;gt; &amp;ldquo;ReceiveHTTPMessage&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful07-5.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Select GET, setup resource path &amp;ldquo;/tgdb/{queryType}&amp;rdquo; then click continue&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful09.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Click &amp;ldquo;Just add the trigger&amp;rdquo; button&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful09-5.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;We have a trigger with HTTP GET methods and listen on port 9999)&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful08.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Click trigger to map incoming query data to flow input data&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful10.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;In &amp;ldquo;reply Settings&amp;rdquo; set reply schema make it same as flow output data schema&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful11.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;In &amp;ldquo;Map from flow outputs&amp;rdquo; mapping data.queryResult to  $flow.queryResult&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful12.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Add query activity by select GraphBuilder_TGDB -&amp;gt; TGDBQuery activity&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful13.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Select &amp;ldquo;TGDB&amp;rdquo; coinnection we created in lab1 so the TGDBQuery activity is going to query against the server which we&#39;ve upserted Northwind data to&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful14.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Map input data for TGDBQuery activity&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;QueryType : $flow.queryType&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful15.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Adding return activity to link the query result back to HTTP trigger&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful16.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Map outputs for Return activity&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;queryResult : $activity[TGDBQuery].queryResult (map entire object)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful17.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;You&#39;ve finished creating metadata query flow&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful18.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Click &amp;ldquo;Create&amp;rdquo; button to create another flow for querying data content&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful19.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Create name and description for the new flow&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful20.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Define the flow inputs data schema by sample data (schema detail see TGDB documentation)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;queryType : search (for content flow)&lt;/li&gt;
+&lt;li&gt;language : TGQL (TIBCO graph query language) or Gremlin&lt;/li&gt;
+&lt;li&gt;queryString : for TGQL and Gremlin&lt;/li&gt;
+&lt;li&gt;traversalCondition : TGQL only&lt;/li&gt;
+&lt;li&gt;traversalDepth : TGQL only&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful21.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Click save to generate data schema definition&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful22.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Flow output data schema same as metadata flow.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful22-5.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Add another trigger for receiving content query&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful23.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;POST method for content query&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful24.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Adding sample query for the output (to the flow) setting. To be noticed that the schema is very similar to flow input schema but grouped under &amp;ldquo;query&amp;rdquo; keyword.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful25.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Map to flow input&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;queryType : $trigger.pathParams.queryType&lt;/li&gt;
+&lt;li&gt;language : $trigger.body.query.language&lt;/li&gt;
+&lt;li&gt;queryString : $trigger.body.query.queryString&lt;/li&gt;
+&lt;li&gt;traversalCondition : $trigger.body.query.traversalCondition&lt;/li&gt;
+&lt;li&gt;endCondition : $trigger.body.query.endCondition&lt;/li&gt;
+&lt;li&gt;traversalDepth : $trigger.body.query.traversalDepth&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Click save&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful26.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Setting the reply data (same as metadata flow)
+&lt;img src=&#34;RESTful26-5.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful26-6.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Add query activity by select GraphBuilder_TGDB -&amp;gt; TGDBQuery activity&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful13.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Select &amp;ldquo;TGDB&amp;rdquo; coinnection we created in lab1 so the TGDBQuery activity is going to query against the server which we&#39;ve upserted Northwind data to&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful14.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Map input data for TGDBQuery activity&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;QueryType : $flow.queryType&lt;/li&gt;
+&lt;li&gt;params.language : $flow.language&lt;/li&gt;
+&lt;li&gt;params.queryString : $flow.queryString&lt;/li&gt;
+&lt;li&gt;params.traversalCondition : $flow.traversalCondition&lt;/li&gt;
+&lt;li&gt;params.endCondition : $flow.endCondition&lt;/li&gt;
+&lt;li&gt;params.traversalDepth : $flow.traversalDepth&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful27.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Adding return activity to link the query result back to HTTP trigger&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful16.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Map outputs for Return activity&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;queryResult : $activity[TGDBQuery].queryResult (map entire object)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful17.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The TGDB_RESTful_Service is ready for query Nothwind graph&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful28.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
 
       </description>
     </item>
@@ -207,7 +490,136 @@
       <description>
         
         
-        &lt;p&gt;soon here &amp;hellip;&lt;/p&gt;
+        &lt;p&gt;Now let&#39;s create an application which and receive real-time order events from Kafka topic then build graph entities, upsert to TGDB then serve as real-time streaming server.&lt;/p&gt;
+&lt;p&gt;First of all create a &amp;ldquo;Server Sent Event&amp;rdquo; internal connection to bridge the data between order event flow and server (for serving streaming graph entity to client).&lt;/p&gt;
+&lt;p&gt;In &amp;ldquo;Connections&amp;rdquo; tab select GraphBuilder_SSE -&amp;gt; Server-sent Events Connection&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime02.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Connection settings (following settings match the client tool provided for browsing real-time graph entity update)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Connection Name : Set name to &amp;ldquo;EventServer&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;Outbound : Set false as it&#39;s a server&lt;/li&gt;
+&lt;li&gt;Server port : 8888&lt;/li&gt;
+&lt;li&gt;Path : It&#39;s URI path &amp;ldquo;/sse/&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;TLS enabled : false&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Click connect&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime01.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Back to Northwind application to create a new flow called &amp;ldquo;Order Event Server&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime07.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Create a trigger to serve graph entities (generated by order event) for streaming client&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime03.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Settings&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Connection Name : Select the &amp;ldquo;EventServer&amp;rdquo; connection which we just created&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Click save&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime04.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;This simple flow will be serving streaming graph entities&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime04-5.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The last flow in Northwind application is &amp;ldquo;Order Data Flow&amp;rdquo; which listen to Kafla topic to get order event as input data.&lt;/p&gt;
+&lt;p&gt;Before we create the flow, we need to create a &amp;ldquo;Kafka Connection&amp;rdquo;. In connection tab select &amp;ldquo;Appach Kafka Client Configuration&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime06.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Configure Appach Kafka Client as following screenshot then save it&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime05.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Back to application to create new flow called &amp;ldquo;Order Event&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime08.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Click Flow Inputs &amp;amp; Outputs (vertical blue bar) to define schema between flow and trigger. Set following data sample then click save&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime12.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;After click save button schema generator would convert sample data to schema definition&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime13.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Click &amp;ldquo;+&amp;rdquo; to add trigger (Kafka Vonsumer)&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime09.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Select &amp;ldquo;Northwind Orders&amp;rdquo; configuration we just created then click continue.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime10.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Select &amp;ldquo;Just Add Trigger&amp;rdquo; button to add trigger&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime11.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Filling trigger setting as it shown below in screenshot&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime14.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Map OrderString to $trigger.stringValue&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime15.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Add CSVParser to convert incoming CVS string to system object&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime16.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Follow the instruction in lab1 define the mapping between CSV fields and attribute of system object. Use the column field name as attribute name.&lt;/p&gt;
+&lt;p&gt;Make sure &amp;ldquo;First Row Is Header&amp;rdquo; set to false&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime17.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Configure the input&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;CSVString : $flow.OrderString&lt;/li&gt;
+&lt;li&gt;Leave SequenceNumber not mapped&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;realtime18.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;After the data has bean transform to the object which could be recognized by the system. The next step is to convert data to graph entities (nodes, edges and attributes). We use the core activity &amp;ldquo;Build Graph&amp;rdquo; to perform this tranformation.
+Let&#39;s select GraphBuilder -&amp;gt; Bruild Graph and configue it.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime18-5.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Follow lab1&#39;s instruction to turn on the iterator to iterate through upstream output data then map the input data. Here is the mapping&lt;/p&gt;
+&lt;p&gt;Product node&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ProductID -&amp;gt; $iteration[value].ProductID&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Employee node&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;EmployeeID -&amp;gt; $iteration[value].EmployeeID&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Customer node&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;CustomerID -&amp;gt; $iteration[value].CustomerID&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Order node&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;OrderID -&amp;gt; $iteration[value].OrderID&lt;/li&gt;
+&lt;li&gt;CustomerID -&amp;gt; $iteration[value].CustomerID&lt;/li&gt;
+&lt;li&gt;EmployeeID- &amp;gt; $iteration[value].EmployeeID&lt;/li&gt;
+&lt;li&gt;OrderDate -&amp;gt; $iteration[value].OrderDate&lt;/li&gt;
+&lt;li&gt;RequiredDate -&amp;gt; $iteration[value].RequiredDate&lt;/li&gt;
+&lt;li&gt;ShippedDate -&amp;gt; $iteration[value].ShippedDate&lt;/li&gt;
+&lt;li&gt;ShipVia -&amp;gt; $iteration[value].ShipVia&lt;/li&gt;
+&lt;li&gt;Freight -&amp;gt; $iteration[value].Freight&lt;/li&gt;
+&lt;li&gt;ShipName -&amp;gt; $iteration[value].ShipName&lt;/li&gt;
+&lt;li&gt;ShipAddress -&amp;gt; $iteration[value].ShipAddress&lt;/li&gt;
+&lt;li&gt;ShipCity -&amp;gt; $iteration[value].ShipCity&lt;/li&gt;
+&lt;li&gt;ShipRegion -&amp;gt; $iteration[value].ShipRegion&lt;/li&gt;
+&lt;li&gt;ShipPostalCode - &amp;gt; $iteration[value].ShipPostalCode&lt;/li&gt;
+&lt;li&gt;ShipCountry -&amp;gt; $iteration[value].ShipCountry&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Suborder node&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;OrderID -&amp;gt; $iteration[value].OrderID&lt;/li&gt;
+&lt;li&gt;ProductID -&amp;gt; $iteration[value].ProductID&lt;/li&gt;
+&lt;li&gt;UnitPrice -&amp;gt; $iteration[value].UnitPrice&lt;/li&gt;
+&lt;li&gt;Quantity -&amp;gt; $iteration[value].Quantity&lt;/li&gt;
+&lt;li&gt;Discount -&amp;gt; $iteration[value].Discount&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Region node&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;RegionName -&amp;gt; $iteration[value].RegionName&lt;/li&gt;
+&lt;li&gt;Country -&amp;gt; $iteration[value].Country&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Since one order can be splited to multiple order events (with different product sold). We create two types of order nodes 1. Odrer node with OrderID as its primary key and 2. Suborder node with OrderID, ProductID as primary key. All Suborder nodes connect to Order node by OrderID. (See following screenshot)&lt;/p&gt;
+&lt;p&gt;Order :&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime19.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Suborder :&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime20.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Follow lab1&#39;s instruction to add TGDBUpsert activity&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime20-2.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Select Connetion&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime20-3.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Map input data&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime20-4.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Now adding a new type of activity called SSEEndPoint which sends graph entities to SSEServer for serving streaming client.&lt;/p&gt;
+&lt;p&gt;Select SSEEndPoint activity from GraphBuilder_SSE.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime21.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Select &amp;ldquo;SSEConnection&amp;rdquo; we created and used in SSEServer then SSEEndPoint is connected to SSEServer now.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime22.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Setup SessionId to &amp;ldquo;order&amp;rdquo; so the complete URI to access to this event flow would be /sse/order&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime23.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Map input data to Graph object from BuildGraph activity&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime24.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;We can add log and GraphtoFile activities like previous configured flow.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime25.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Now we have finish last flow for Northwind application.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime26.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;This is the final version of flogo Northwind application&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime27.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
 
       </description>
     </item>
