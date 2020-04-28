@@ -179,3 +179,36 @@ Map outputs for Return activity
 The TGDB_RESTful_Service is ready for query Nothwind graph
 
 ![Build RESTful](RESTful28.png)
+
+Now it's time to test out TGDB_RESTful_Service and to "see" Nothwind data by query against TGDB server
+
+For building flogo application
+1. In project click "Build" button
+2. Select the build target OS (in my case Darwin/amd64) then click to build
+
+![Build RESTful](BuildRESTful01.png) 
+
+Once finished you can get your executable in your browser download folder
+
+![Build RESTful](BuildRESTful02.png)
+
+Find your executable and change its permission to executable then run it
+
+![Build RESTful](Launch_RESTfulService.png)
+
+Switch to your local labs -> utilities -> lite folder 
+- Launch UI tool by type "npm start"
+- You need to have npm and lite-server installed before you use this tool
+
+![Build RESTful](Launch_Lite_Server.png)
+
+As soon as you launch the server, your default browser will pop up and show Project GraphBuilder UI utility
+For querying data against TGDB server clicks "TGDB Data" tab
+
+![Build RESTful](Launch_UI_01.png)
+
+You can make query to TGDB using TGQL expression as screenshot bellow 
+
+![Build RESTful](Launch_UI_02.png)
+
+You now can see the Nothwind data in TGDB server life

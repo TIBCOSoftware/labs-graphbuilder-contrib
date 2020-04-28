@@ -1,0 +1,42 @@
+// bootstrap default variables
+@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/variables";
+// app variables and bootstrap overrides
+@import "variables";
+// bootstrap styles
+@import "bootstrap";
+// app styles
+
+
+html {
+  height: 100%;
+  min-height: 800px;
+  padding-top: 42px;
+  min-width: 1200px;
+  body {
+    font-family: "Source Sans Pro", serif;
+    height: 100%;
+    background: $color-white;
+    color: $color-ink;
+    a {
+      color: $color-ink;
+    }
+    overflow: auto;
+  }
+}
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+  background-color: $color-white;
+  -webkit-box-shadow: 0 0 0px 1000px $color-white inset;
+}
+
+.ui-tree{
+  width: 100%;
+  .ui-treenode{
+    .ui-treenode-content .ui-chkbox {
+      display: none;
+    }
+
+    .ui-treenode-children .ui-chkbox {
+      display: inline-block;
+    }
+  }
+}

@@ -196,3 +196,67 @@ Now we have finish last flow for Northwind application.
 This is the final version of flogo Northwind application 
 
 ![Realtime](realtime27.png)
+
+Let's rebuild application for further testing
+
+![Realtime](BuildNorthwind_02.png)
+
+We are going to install Kafka message bus for providing order event. <a href="https://kafka.apache.org/quickstart" target="_blank">Here</a> is the instalation instructions.
+
+After downloading and installing Kafka we can start Kafka
+- Start zoo keeper
+
+![Realtime](StartKafka01.png)
+![Realtime](StartKafka02.png)
+
+- Start server
+
+![Realtime](StartKafka03.png)
+
+- Create "test" topic
+
+![Realtime](StartKafka04.png)
+
+Let's restart Northwind appliction executable. 
+- Switch to the folder which contains Northwind appliction executable (Northwind-darwin_amd64). 
+- Change Northwind-darwin_amd64's permission to executable 
+- Run Northwind-darwin_amd64
+
+This time you'll see two extra information while Northwind application starting
+- Kafka consumer (the trigger of order event flow) is up and listening
+- SSEServer is up and waiting for client (UI utility) to connect 
+
+![Realtime](StartKafka05.png)
+
+Here it the our test (see screenshot)
+- Make sure TGDB, TGDB_RESTful_Service, Kafka (server, zoo keeper, producer) and UI utility are running 
+- On the upper/middle left of screenshot open oerders.csv file 
+- On the lower left of screenshot start Kafka producer and keep it opened
+- On the right follow the instruction to 1. Click "Realtime Data" 2. Click "Connect" to connect to SSE server in Northwind application 3. Copy & paste order to Kafka producer then press enter 4 ~ 6. Each time you send one order you will see the corresponding graph entities showing on the UI.
+
+Send more order as your wish. 
+
+![Realtime](FinalTest.png)
+
+After the streaming testing we also want to see the order in TGDB. Follow the instrctions in lab2
+- Click "TGDB Data" button
+- Use the default query setup but make traversalDepth = 5
+- Click "Make Query" button
+
+You'll see the oder with OrderID = 10248 and its associated graph entities on the UI
+
+![Realtime](QueryGraph.png)
+
+The last test is about traversal query. We are going to find the supplier companies which supplies prodcut which the customer company called 'Vins et alcools Chevalier' purchased. We are going use Postman and TGDB_RESTful_Service to query against TGDB server
+- Open a postman and setup a POST query
+- The gremlin query is "g.V().has('Company', 'CompanyID', 'Vins et alcools Chevalier').in('Customer_Company').in('SoldTo').out('Includes').out('Contains').in('Supplies').out('Supplier_Company');"
+
+You should get "Formaggi Fortini s.r.l.", "Leka Trading" and "Cooperativa de Quesos 'Las Cabras'" in your result
+
+![Realtime](QueryPostMan.png)
+
+Observe the traversal request on the UI utility and verify the correctness ogf the query
+
+![Realtime](QueryPostManOnGraph.png)
+
+Now you've finish all three labs

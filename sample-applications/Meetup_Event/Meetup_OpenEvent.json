@@ -1,0 +1,1247 @@
+{
+    "imports": [
+        "github.com/project-flogo/flow",
+        "github.com/TIBCOSoftware/GraphBuilder_Tools/activity/jsondeserializer",
+        "github.com/TIBCOSoftware/GraphBuilder/activity/builder",
+        "github.com/TIBCOSoftware/GraphBuilder_SSE/activity/sseendpoint",
+        "github.com/TIBCOSoftware/GraphBuilder_TGDB/activity/tgdbupsert",
+        "github.com/TIBCOSoftware/GraphBuilder_SSE/trigger/ssesub",
+        "github.com/TIBCOSoftware/GraphBuilder_SSE/trigger/sseserver",
+        "github.com/project-flogo/contrib/function/array"
+    ],
+    "name": "Meetup_OpenEvent",
+    "description": " ",
+    "version": "1.1.0",
+    "type": "flogo:app",
+    "appModel": "1.1.1",
+    "feVersion": "2.8.1",
+    "triggers": [
+        {
+            "ref": "#ssesub",
+            "name": "sse",
+            "description": "Server-sent Events Subscriber",
+            "settings": {},
+            "id": "SSESubscriber",
+            "handlers": [
+                {
+                    "description": "Flow for consuming Meetup open event",
+                    "settings": {
+                        "sseConnection": {
+                            "id": "b727f4b0-88a2-11ea-aeb3-1bffc5aa8b85",
+                            "type": "flogo:connector",
+                            "version": "1.0.0",
+                            "name": "tibco-sse",
+                            "hashTags": [],
+                            "inputMappings": {},
+                            "outputMappings": {},
+                            "iteratorMappings": {},
+                            "title": "Server-sent Events Connection",
+                            "description": "This is Server-send Events connector",
+                            "ref": "github.com/TIBCOSoftware/GraphBuilder_SSE/connector/sse",
+                            "settings": [
+                                {
+                                    "name": "name",
+                                    "type": "string",
+                                    "required": true,
+                                    "display": {
+                                        "name": "Connection Name",
+                                        "description": "Name of the connection"
+                                    },
+                                    "value": "Meetup_Event"
+                                },
+                                {
+                                    "name": "description",
+                                    "type": "string",
+                                    "display": {
+                                        "name": "Description",
+                                        "description": "Connection description"
+                                    },
+                                    "value": ""
+                                },
+                                {
+                                    "name": "outbound",
+                                    "type": "boolean",
+                                    "display": {
+                                        "name": "Outbound",
+                                        "description": "false : for SSE Server trigger, true : for SSE Subscriber trigger"
+                                    },
+                                    "value": true,
+                                    "required": true
+                                },
+                                {
+                                    "name": "url",
+                                    "type": "string",
+                                    "required": false,
+                                    "display": {
+                                        "name": "Server URL",
+                                        "description": "SSE server URL ex. http://[domain name/IP]",
+                                        "type": "string",
+                                        "readonly": false,
+                                        "valid": true,
+                                        "visible": true
+                                    },
+                                    "value": "http://stream.meetup.com/"
+                                },
+                                {
+                                    "name": "resource",
+                                    "type": "string",
+                                    "required": false,
+                                    "display": {
+                                        "name": "Resource Name",
+                                        "description": "Resource name for the event service",
+                                        "type": "string",
+                                        "readonly": false,
+                                        "valid": true,
+                                        "visible": true
+                                    },
+                                    "value": "2/open_events"
+                                },
+                                {
+                                    "name": "accessToken",
+                                    "type": "string",
+                                    "required": false,
+                                    "display": {
+                                        "name": "Access Token",
+                                        "description": "Access token for authentication",
+                                        "type": "password",
+                                        "readonly": false,
+                                        "valid": true,
+                                        "visible": true
+                                    },
+                                    "value": "SECRET:Z3HXIClJHao4u+efs5ulyg=="
+                                },
+                                {
+                                    "name": "port",
+                                    "type": "string",
+                                    "required": false,
+                                    "display": {
+                                        "name": "Server port",
+                                        "description": "SSE server port",
+                                        "type": "string",
+                                        "readonly": false,
+                                        "valid": true,
+                                        "visible": false
+                                    },
+                                    "value": ""
+                                },
+                                {
+                                    "name": "path",
+                                    "type": "string",
+                                    "required": false,
+                                    "display": {
+                                        "name": "Path",
+                                        "description": "Path of the resource which is requested",
+                                        "type": "string",
+                                        "readonly": false,
+                                        "valid": true,
+                                        "visible": false
+                                    },
+                                    "value": ""
+                                },
+                                {
+                                    "name": "tlsEnabled",
+                                    "type": "boolean",
+                                    "display": {
+                                        "name": "TLS enabled",
+                                        "description": "TLS enabled",
+                                        "readonly": false,
+                                        "valid": true,
+                                        "visible": false
+                                    },
+                                    "value": false,
+                                    "required": true
+                                },
+                                {
+                                    "name": "uploadCRT",
+                                    "type": "boolean",
+                                    "display": {
+                                        "name": "Upload TLS certificate",
+                                        "description": "Upload TLS certificate from local file",
+                                        "readonly": false,
+                                        "valid": true,
+                                        "visible": false
+                                    },
+                                    "value": true,
+                                    "required": false
+                                },
+                                {
+                                    "name": "tlsCRT",
+                                    "type": "string",
+                                    "display": {
+                                        "name": "TLS certificate",
+                                        "description": "TLS certificate",
+                                        "type": "fileselector",
+                                        "fileExtensions": [
+                                            ".pem",
+                                            ".crt"
+                                        ],
+                                        "readonly": false,
+                                        "valid": true,
+                                        "visible": false
+                                    },
+                                    "value": ""
+                                },
+                                {
+                                    "name": "tlsKey",
+                                    "type": "string",
+                                    "display": {
+                                        "name": "TLS key",
+                                        "description": "TLS key",
+                                        "type": "fileselector",
+                                        "fileExtensions": [
+                                            ".pem",
+                                            ".key"
+                                        ],
+                                        "readonly": false,
+                                        "valid": true,
+                                        "visible": false
+                                    },
+                                    "value": ""
+                                },
+                                {
+                                    "name": "tlsCRTPath",
+                                    "type": "string",
+                                    "display": {
+                                        "name": "TLS certificate location",
+                                        "description": "TLS certificate location",
+                                        "type": "string",
+                                        "readonly": false,
+                                        "valid": true,
+                                        "visible": false
+                                    },
+                                    "value": ""
+                                },
+                                {
+                                    "name": "tlsKeyPath",
+                                    "type": "string",
+                                    "display": {
+                                        "name": "TLS key location",
+                                        "description": "TLS key location",
+                                        "type": "string",
+                                        "readonly": false,
+                                        "valid": true,
+                                        "visible": false
+                                    },
+                                    "value": ""
+                                }
+                            ],
+                            "outputs": [],
+                            "inputs": [],
+                            "handler": {
+                                "settings": []
+                            },
+                            "reply": [],
+                            "s3Prefix": "flogo",
+                            "key": "flogo/GraphBuilder_SSE/connector/sse/connector.json",
+                            "display": {
+                                "description": "This is Server-send Events connector",
+                                "category": "GraphBuilder_SSE",
+                                "visible": true,
+                                "smallIcon": "sse.png"
+                            },
+                            "actions": [
+                                {
+                                    "name": "Connect",
+                                    "display": {
+                                        "readonly": false,
+                                        "valid": true,
+                                        "visible": true
+                                    }
+                                }
+                            ],
+                            "feature": {},
+                            "loopType": "none",
+                            "loopSettings": [],
+                            "retrySettings": [],
+                            "propertyMap": {},
+                            "keyfield": "name",
+                            "iteratorAccumulate": false,
+                            "isValid": true,
+                            "lastUpdatedTime": 1588004387890,
+                            "user": "flogo",
+                            "connectorName": "Meetup_Event",
+                            "connectorDescription": " "
+                        }
+                    },
+                    "action": {
+                        "ref": "github.com/project-flogo/flow",
+                        "settings": {
+                            "flowURI": "res://flow:Open_Event"
+                        },
+                        "input": {
+                            "EventString": "=$.Event"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "ref": "#sseserver",
+            "name": "sseserver",
+            "description": "Server-sent Events Server",
+            "settings": {},
+            "id": "SSEServer",
+            "handlers": [
+                {
+                    "description": "Flow for Serving Streaming Graph Data",
+                    "settings": {
+                        "sseConnection": {
+                            "id": "51f8d020-8639-11ea-9fe5-759f8e5f04a0",
+                            "type": "flogo:connector",
+                            "version": "1.0.0",
+                            "name": "tibco-sse",
+                            "hashTags": [],
+                            "inputMappings": {},
+                            "outputMappings": {},
+                            "iteratorMappings": {},
+                            "title": "Server-sent Events Connection",
+                            "description": "This is Server-send Events connector",
+                            "ref": "github.com/TIBCOSoftware/GraphBuilder_SSE/connector/sse",
+                            "settings": [
+                                {
+                                    "name": "name",
+                                    "type": "string",
+                                    "required": true,
+                                    "display": {
+                                        "name": "Connection Name",
+                                        "description": "Name of the connection"
+                                    },
+                                    "value": "EventServer"
+                                },
+                                {
+                                    "name": "description",
+                                    "type": "string",
+                                    "display": {
+                                        "name": "Description",
+                                        "description": "Connection description"
+                                    },
+                                    "value": ""
+                                },
+                                {
+                                    "name": "outbound",
+                                    "type": "boolean",
+                                    "display": {
+                                        "name": "Outbound",
+                                        "description": "false : for SSE Server trigger, true : for SSE Subscriber trigger"
+                                    },
+                                    "value": false,
+                                    "required": true
+                                },
+                                {
+                                    "name": "url",
+                                    "type": "string",
+                                    "required": false,
+                                    "display": {
+                                        "name": "Server URL",
+                                        "description": "SSE server URL ex. http://[domain name/IP]",
+                                        "type": "string",
+                                        "readonly": false,
+                                        "valid": true,
+                                        "visible": false
+                                    },
+                                    "value": ""
+                                },
+                                {
+                                    "name": "resource",
+                                    "type": "string",
+                                    "required": false,
+                                    "display": {
+                                        "name": "Resource Name",
+                                        "description": "Resource name for the event service",
+                                        "type": "string",
+                                        "readonly": false,
+                                        "valid": true,
+                                        "visible": false
+                                    },
+                                    "value": "/sse/"
+                                },
+                                {
+                                    "name": "accessToken",
+                                    "type": "string",
+                                    "required": false,
+                                    "display": {
+                                        "name": "Access Token",
+                                        "description": "Access token for authentication",
+                                        "type": "password",
+                                        "readonly": false,
+                                        "valid": true,
+                                        "visible": false
+                                    },
+                                    "value": "SECRET:0PrlYRRtGloJB/y1zisS9w=="
+                                },
+                                {
+                                    "name": "port",
+                                    "type": "string",
+                                    "required": false,
+                                    "display": {
+                                        "name": "Server port",
+                                        "description": "SSE server port",
+                                        "type": "string",
+                                        "readonly": false,
+                                        "valid": true,
+                                        "visible": true
+                                    },
+                                    "value": "8888"
+                                },
+                                {
+                                    "name": "path",
+                                    "type": "string",
+                                    "required": false,
+                                    "display": {
+                                        "name": "Path",
+                                        "description": "Path of the resource which is requested",
+                                        "type": "string",
+                                        "readonly": false,
+                                        "valid": true,
+                                        "visible": true
+                                    },
+                                    "value": "/sse/"
+                                },
+                                {
+                                    "name": "tlsEnabled",
+                                    "type": "boolean",
+                                    "display": {
+                                        "name": "TLS enabled",
+                                        "description": "TLS enabled",
+                                        "readonly": false,
+                                        "valid": true,
+                                        "visible": true
+                                    },
+                                    "value": false,
+                                    "required": true
+                                },
+                                {
+                                    "name": "uploadCRT",
+                                    "type": "boolean",
+                                    "display": {
+                                        "name": "Upload TLS certificate",
+                                        "description": "Upload TLS certificate from local file",
+                                        "readonly": false,
+                                        "valid": true,
+                                        "visible": false
+                                    },
+                                    "value": true,
+                                    "required": false
+                                },
+                                {
+                                    "name": "tlsCRT",
+                                    "type": "string",
+                                    "display": {
+                                        "name": "TLS certificate",
+                                        "description": "TLS certificate",
+                                        "type": "fileselector",
+                                        "fileExtensions": [
+                                            ".pem",
+                                            ".crt"
+                                        ],
+                                        "readonly": false,
+                                        "valid": true,
+                                        "visible": false
+                                    },
+                                    "value": ""
+                                },
+                                {
+                                    "name": "tlsKey",
+                                    "type": "string",
+                                    "display": {
+                                        "name": "TLS key",
+                                        "description": "TLS key",
+                                        "type": "fileselector",
+                                        "fileExtensions": [
+                                            ".pem",
+                                            ".key"
+                                        ],
+                                        "readonly": false,
+                                        "valid": true,
+                                        "visible": false
+                                    },
+                                    "value": ""
+                                },
+                                {
+                                    "name": "tlsCRTPath",
+                                    "type": "string",
+                                    "display": {
+                                        "name": "TLS certificate location",
+                                        "description": "TLS certificate location",
+                                        "type": "string",
+                                        "readonly": false,
+                                        "valid": true,
+                                        "visible": false
+                                    },
+                                    "value": ""
+                                },
+                                {
+                                    "name": "tlsKeyPath",
+                                    "type": "string",
+                                    "display": {
+                                        "name": "TLS key location",
+                                        "description": "TLS key location",
+                                        "type": "string",
+                                        "readonly": false,
+                                        "valid": true,
+                                        "visible": false
+                                    },
+                                    "value": ""
+                                }
+                            ],
+                            "outputs": [],
+                            "inputs": [],
+                            "handler": {
+                                "settings": []
+                            },
+                            "reply": [],
+                            "s3Prefix": "flogo",
+                            "key": "flogo/GraphBuilder_SSE/connector/sse/connector.json",
+                            "display": {
+                                "description": "This is Server-send Events connector",
+                                "category": "GraphBuilder_SSE",
+                                "visible": true,
+                                "smallIcon": "sse.png"
+                            },
+                            "actions": [
+                                {
+                                    "name": "Connect",
+                                    "display": {
+                                        "readonly": false,
+                                        "valid": true,
+                                        "visible": true
+                                    }
+                                }
+                            ],
+                            "feature": {},
+                            "loopType": "none",
+                            "loopSettings": [],
+                            "retrySettings": [],
+                            "propertyMap": {},
+                            "keyfield": "name",
+                            "iteratorAccumulate": false,
+                            "isValid": true,
+                            "lastUpdatedTime": 1588005086918,
+                            "user": "flogo",
+                            "connectorName": "EventServer",
+                            "connectorDescription": " "
+                        }
+                    },
+                    "action": {
+                        "ref": "github.com/project-flogo/flow",
+                        "settings": {
+                            "flowURI": "res://flow:Streaming_Server"
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "resources": [
+        {
+            "id": "flow:Open_Event",
+            "data": {
+                "name": "Open Event",
+                "description": "Flow for consuming Meetup open event",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "JSONDeserializer",
+                        "to": "BuildGraph",
+                        "type": "default"
+                    },
+                    {
+                        "id": 2,
+                        "from": "BuildGraph",
+                        "to": "SSEEndPoint",
+                        "type": "default"
+                    },
+                    {
+                        "id": 3,
+                        "from": "BuildGraph",
+                        "to": "TGDBUpsert",
+                        "type": "label",
+                        "label": "BuildGraph to TGDBUpsert"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "JSONDeserializer",
+                        "name": "JSONDeserializer",
+                        "description": "JSON Deserializer Activity",
+                        "activity": {
+                            "ref": "#jsondeserializer",
+                            "settings": {
+                                "sample": {
+                                    "filename": "SampleData_Meetup.json",
+                                    "content": "data:application/json;base64,ew0KICAgInV0Y19vZmZzZXQiOi0xODAwMDAwMCwNCiAgICJ2ZW51ZSI6ew0KICAgICAgInppcCI6IjMzNDQ0IiwNCiAgICAgICJjb3VudHJ5IjoidXMiLA0KICAgICAgImNpdHkiOiJEZWxyYXkgQmVhY2giLA0KICAgICAgImFkZHJlc3NfMSI6IjIwNSBORSA1dGggVGVycmFjZSAjMjA0IiwNCiAgICAgICJuYW1lIjoiUGVhY2VmdWwgQm9keSBNYXNzYWdlIiwNCiAgICAgICJsb24iOi04MC4wNzA2OCwNCiAgICAgICJzdGF0ZSI6IkZMIiwNCiAgICAgICJsYXQiOjI2LjQ3MTgwNw0KICAgfSwNCiAgICJyc3ZwX2xpbWl0IjowLA0KICAgInZlbnVlX3Zpc2liaWxpdHkiOiJwdWJsaWMiLA0KICAgInZpc2liaWxpdHkiOiJwdWJsaWMiLA0KICAgIm1heWJlX3JzdnBfY291bnQiOjAsDQogICAiZGVzY3JpcHRpb24iOiI8cD5Db21lIGJyZWF0aGUgd2l0aCBtZSAg8J+PuSA8XC9wPiA8cD5UZWFjaGluZyBhIHNtYWxsLCBpbnRpbWF0ZSBncm91cCBCcmVhdGh3b3JrIENsYXNzIGF0IEBwZWFjZWZ1bC4uLiA8YnJcLz5EYXRlPGJyXC8+YXQgdGltZSA8XC9wPiA8cD5NeSB0ZWFjaGVyIGFuZCBCcmVhdGh3b3JrIGNvYWNoIHdobyBJIHJlY2VpdmVkIG15IHRyYWluaW5nIGZyb20gaW4gTEEgQGpvaG4gUGF1bCBhbHdheXMgbGlrZXMgdG8gc2F5IOKAnENoYW5nZSB5b3VyIGJyZWF0aGluZywgY2hhbmdlIHlvdXIgbGlmZS7igJ0gSXQgc291bmRzIHNvIHNpbXBsZSBhbmQgc29tZXdoYXQgdmFndWUgaWYgeW914oCZcmUgdW5mYW1pbGlhciB3aXRoIEJyZWF0aHdvcmsuIElmIHlvdSBoYXZlIGFueSBjdXJpb3NpdHkgb3IgYXJlIGxvb2tpbmcgdG8gY3JlYXRlIGhlYWxpbmcsIGdyb3d0aCBhbmQgdHJhbnNmb3JtYXRpb24gaW4geW91ciBsaWZlIGFuZCB5b3XigJlyZSByZWFkeSB0byB0YWtlIHlvdXIgbGlmZSB0byB0aGUgbmV4dCBsZXZlbCB0aGlzIHllYXIsIGNvbm5lY3RpbmcgdG8geW91ciBicmVhdGggY2FuIHN1cHBvcnQgeW91IGluIHdoYXRldmVyIHlvdSB3YW50IHRvIGNyZWF0ZSBpbiB5b3VyIGxpZmUuIEJ5IGJyZWF0aGluZyBpbiBhIGRlZXAsIGNvbnNjaW91c2x5IGNvbm5lY3RlZCB3YXksIGl0IGNhbiBvcGVuIG5ldyBvcHBvcnR1bml0aWVzIHRvIHJlLWFsaWduIHlvdXIgaW50ZW50aW9ucyBhbmQgZ2l2ZSB5b3UgdG9vbHMgdG8gYWNjZXNzIHlvdXIgZGVlcGVzdCB0cnV0aHMuIDxcL3A+IDxwPkkgYW0gbG9va2luZyBmb3J3YXJkIHRvIGNvbm5lY3Rpbmcgd2l0aCBwZW9wbGUgd2hvIGFyZSBsb29raW5nIHRvIGRpc3J1cHQgeW91ciBsaWZlLCBwZXJoYXBzIGNoYW5nZSBzb21lIHByaW9yaXRpZXMgYW5kIHdha2UgdXAhIERlY2lkZSB0byBzaG93IHVwIGZvciB5b3Vyc2VsZiBhbmQgc2VlIGhvdyBtdWNoIGFidW5kYW5jZSBzaG93cyB1cCBpbiB5b3VyIHNwYWNlLiBXZSBoYXZlIGFuIG9wcG9ydHVuaXR5IHRvIGdldCBjbGVhciBvbiB3aGF04oCZcyBtb3N0IGltcG9ydGFudCwgY2xlYXIgb3V0IHRoZSDigJxjb2Igd2Vic+KAnSBpbiB0aGUgbWluZCBhbmQgY3JlYXRlIHNwYWNlIGZvciBncm93dGguIDxcL3A+IDxwPkFueW9uZSBjYW4gZG8gQnJlYXRod29yay4uLiB3aGV0aGVyIHRoZXJlIGlzIHNvbWV0aGluZyBpbiB5b3VyIGxpZmUgdGhhdCB5b3Ugd2FudCB0byBzaGlmdCBvciB0cmFuc2Zvcm0sIG9yIHlvdSdyZSBqdXN0IGxvb2tpbmcgdG8gZmluZCBzb21lIHJlbGF4YXRpb24sIG9yIHJlbGVhc2Ugc3RyZXNzLCBhbnlvbmUgd2hvIGlzIHdpbGxpbmcgdG8gc2hvdyB1cCBmb3IgdGhlbXNlbHZlcyBjYW4gcmVjZWl2ZSBzbyBtYW55IGJlbmVmaXRzIGZyb20gdGhpcyB3b3JrLiBJIHNheSDigJh3b3Jr4oCZIGJlY2F1c2UgaXQgaXMgZXhhY3RseSB0aGF0LiBJdOKAmXMgbm90IGFsd2F5cyBjb21mb3J0YWJsZSB0byBzaG93IHVwIGFuZCBsYXkgb24gYSBtYXQgYW5kIGJyZWF0aGUgd2l0aCBzdHJhbmdlcnMgYnV0IGlmIHlvdSBjYW4gaGF2ZSBhbiBvcGVuIG1pbmQgeW91IG1pZ2h0IGp1c3QgZXhwZXJpZW5jZSBhIG1hc3NpdmUgc2hpZnQgdGhhdCBjb3VsZCBwcm9wZWwgeW91IGZvcndhcmQgYW5kIGNyb3NzIG92ZXIgdGhlIGxpbmVzIGFuZCBib3VuZGFyaWVzIHlvdeKAmXZlIGNyZWF0ZWQgZm9yIHlvdXJzZWxmIGFuZCBoYXZlIDxcL3A+IDxwPkpvaW4gdXMgZm9yIGEgcHJvZm91bmQgYW5kIGRlZXBseSBtb3ZpbmcgZXhwZXJpZW5jZSB0aGF0IGhlbHBzIHRvIHJlLXByb2dyYW0gYW5kIHJlc3RvcmUgbmVnYXRpdmUgYmVsaWVmcyBvciB0aG91Z2h0IHBhdHRlcm5zIHRocm91Z2ggY2lyY3VsYXIsIGNvbnNjaW91cywgY29ubmVjdGVkIGJyZWF0aGluZy4gPFwvcD4gPHA+SWYgeW91IGNhbiBoYXZlIGFuIG9wZW4gbWluZCwgeW91IGp1c3QgbWlnaHQgZXhwZXJpZW5jZSBhIG1hc3NpdmUgc2hpZnQgaW4geW91ciBsaWZlLiBDb21lIGV4cGVyaWVuY2UgdGhlIG1hbnkgYmVuZWZpdHMgb2YgdXRpbGl6aW5nIGZ1bGwsIGRlZXAsIGNvbm5lY3RlZCBicmVhdGhpbmcuIEVsaW1pbmF0ZSByZXN0cmljdGl2ZSBicmVhdGhpbmcgcGF0dGVybnMgYW5kIHJlbGVhc2UgbmVnYXRpdmUgYmVsaWVmcyBvciBiZWhhdmlvcnMsIHJlcGxhY2luZyB0aGVtIHdpdGggbmV3IGZlZWxpbmdzIG9mIGhvcGUsIHBhc3Npb24gYW5kIHByb2ZvdW5kIGpveS4gSSBob3BlIHRvIHNlZSB5b3UgdGhlcmUuIFNoYXJlIHdpdGggYSBmcmllbmQgb3IgYW55b25lIHdobyB5b3UgdGhpbmsgbWlnaHQgYmUgaW50ZXJlc3RlZCEgPFwvcD4gPHA+RGVlcCBib3cuIE1hZCBsb3ZlLiDinaQ8XC9wPiAiLA0KICAgIm10aW1lIjoxNTc3NzI4Njk4NzUyLA0KICAgImV2ZW50X3VybCI6Imh0dHBzOlwvXC93d3cubWVldHVwLmNvbVwvRGVscmF5LUJlYWNoLVNwaXJpdHVhbC1Hcm93dGgtTWVldHVwLUdyb3VwXC9ldmVudHNcLzI2NzUxNzExNFwvIiwNCiAgICJ5ZXNfcnN2cF9jb3VudCI6MCwNCiAgICJkdXJhdGlvbiI6NTQwMDAwMCwNCiAgICJwYXltZW50X3JlcXVpcmVkIjoiMCIsDQogICAibmFtZSI6IkJyZWF0aHdvcmsgIiwNCiAgICJpZCI6IjI2NzUxNzExNCIsDQogICAidGltZSI6MTU4MDM0NDIwMDAwMCwNCiAgICJncm91cCI6ew0KICAgICAgImpvaW5fbW9kZSI6Im9wZW4iLA0KICAgICAgImNvdW50cnkiOiJ1cyIsDQogICAgICAiY2l0eSI6IkRlbHJheSBCZWFjaCIsDQogICAgICAibmFtZSI6IkRlbHJheSBCZWFjaCBTcGlyaXR1YWwgR3Jvd3RoIE1lZXR1cCBHcm91cCIsDQogICAgICAiZ3JvdXBfbG9uIjotODAuMDgsDQogICAgICAiaWQiOjMzMTQxOTg3LA0KICAgICAgInN0YXRlIjoiRkwiLA0KICAgICAgInVybG5hbWUiOiJEZWxyYXktQmVhY2gtU3Bpcml0dWFsLUdyb3d0aC1NZWV0dXAtR3JvdXAiLA0KICAgICAgImNhdGVnb3J5Ijp7DQogICAgICAgICAibmFtZSI6ImhlYWx0aFwvd2VsbGJlaW5nIiwNCiAgICAgICAgICJpZCI6MTQsDQogICAgICAgICAic2hvcnRuYW1lIjoiaGVhbHRoLXdlbGxiZWluZyINCiAgICAgIH0sDQogICAgICAiZ3JvdXBfbGF0IjoyNi40Ng0KICAgfSwNCiAgICJzdGF0dXMiOiJ1cGNvbWluZyINCn0="
+                                },
+                                "defaultValue": "[{\"AttributePath\":\"venue.address_1\",\"Default\":\"na\",\"Type\":\"String\"},{\"AttributePath\":\"category.name\",\"Default\":\"na\",\"Type\":\"String\"}]"
+                            },
+                            "input": {
+                                "JSONString": "=$flow.EventString"
+                            },
+                            "schemas": {
+                                "output": {
+                                    "Data": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"utc_offset\":{\"type\":\"number\"},\"venue\":{\"type\":\"object\",\"properties\":{\"zip\":{\"type\":\"string\"},\"country\":{\"type\":\"string\"},\"city\":{\"type\":\"string\"},\"address_1\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"lon\":{\"type\":\"number\"},\"state\":{\"type\":\"string\"},\"lat\":{\"type\":\"number\"}}},\"rsvp_limit\":{\"type\":\"number\"},\"venue_visibility\":{\"type\":\"string\"},\"visibility\":{\"type\":\"string\"},\"maybe_rsvp_count\":{\"type\":\"number\"},\"description\":{\"type\":\"string\"},\"mtime\":{\"type\":\"number\"},\"event_url\":{\"type\":\"string\"},\"yes_rsvp_count\":{\"type\":\"number\"},\"duration\":{\"type\":\"number\"},\"payment_required\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"},\"time\":{\"type\":\"number\"},\"group\":{\"type\":\"object\",\"properties\":{\"join_mode\":{\"type\":\"string\"},\"country\":{\"type\":\"string\"},\"city\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"group_lon\":{\"type\":\"number\"},\"id\":{\"type\":\"number\"},\"state\":{\"type\":\"string\"},\"urlname\":{\"type\":\"string\"},\"category\":{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"},\"id\":{\"type\":\"number\"},\"shortname\":{\"type\":\"string\"}}},\"group_lat\":{\"type\":\"number\"}}},\"status\":{\"type\":\"string\"}}}",
+                                        "fe_metadata": "{\"utc_offset\":-18000000,\"venue\":{\"zip\":\"33444\",\"country\":\"us\",\"city\":\"Delray Beach\",\"address_1\":\"205 NE 5th Terrace #204\",\"name\":\"Peaceful Body Massage\",\"lon\":-80.07068,\"state\":\"FL\",\"lat\":26.471807},\"rsvp_limit\":0,\"venue_visibility\":\"public\",\"visibility\":\"public\",\"maybe_rsvp_count\":0,\"description\":\"<p>Come breathe with me  ð¹ </p> <p>Teaching a small, intimate group Breathwork Class at @peaceful... <br/>Date<br/>at time </p> <p>My teacher and Breathwork coach who I received my training from in LA @john Paul always likes to say âChange your breathing, change your life.â It sounds so simple and somewhat vague if youâre unfamiliar with Breathwork. If you have any curiosity or are looking to create healing, growth and transformation in your life and youâre ready to take your life to the next level this year, connecting to your breath can support you in whatever you want to create in your life. By breathing in a deep, consciously connected way, it can open new opportunities to re-align your intentions and give you tools to access your deepest truths. </p> <p>I am looking forward to connecting with people who are looking to disrupt your life, perhaps change some priorities and wake up! Decide to show up for yourself and see how much abundance shows up in your space. We have an opportunity to get clear on whatâs most important, clear out the âcob websâ in the mind and create space for growth. </p> <p>Anyone can do Breathwork... whether there is something in your life that you want to shift or transform, or you're just looking to find some relaxation, or release stress, anyone who is willing to show up for themselves can receive so many benefits from this work. I say âworkâ because it is exactly that. Itâs not always comfortable to show up and lay on a mat and breathe with strangers but if you can have an open mind you might just experience a massive shift that could propel you forward and cross over the lines and boundaries youâve created for yourself and have </p> <p>Join us for a profound and deeply moving experience that helps to re-program and restore negative beliefs or thought patterns through circular, conscious, connected breathing. </p> <p>If you can have an open mind, you just might experience a massive shift in your life. Come experience the many benefits of utilizing full, deep, connected breathing. Eliminate restrictive breathing patterns and release negative beliefs or behaviors, replacing them with new feelings of hope, passion and profound joy. I hope to see you there. Share with a friend or anyone who you think might be interested! </p> <p>Deep bow. Mad love. â¤</p> \",\"mtime\":1577728698752,\"event_url\":\"https://www.meetup.com/Delray-Beach-Spiritual-Growth-Meetup-Group/events/267517114/\",\"yes_rsvp_count\":0,\"duration\":5400000,\"payment_required\":\"0\",\"name\":\"Breathwork \",\"id\":\"267517114\",\"time\":1580344200000,\"group\":{\"join_mode\":\"open\",\"country\":\"us\",\"city\":\"Delray Beach\",\"name\":\"Delray Beach Spiritual Growth Meetup Group\",\"group_lon\":-80.08,\"id\":33141987,\"state\":\"FL\",\"urlname\":\"Delray-Beach-Spiritual-Growth-Meetup-Group\",\"category\":{\"name\":\"health/wellbeing\",\"id\":14,\"shortname\":\"health-wellbeing\"},\"group_lat\":26.46},\"status\":\"upcoming\"}"
+                                    }
+                                },
+                                "settings": {
+                                    "defaultValue": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"AttributePath\":{\"type\":\"string\"},\"Default\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"AttributePath\",\"Default\",\"Type\"]}}",
+                                        "fe_metadata": "[{\"AttributePath\":\"venue.address_1\",\"Default\":\"na\",\"Type\":\"String\"},{\"AttributePath\":\"category.name\",\"Default\":\"na\",\"Type\":\"String\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "BuildGraph",
+                        "name": "BuildGraph",
+                        "description": "This activity build graph from incoming data",
+                        "activity": {
+                            "ref": "#builder",
+                            "settings": {
+                                "GraphModel": {
+                                    "id": "b72f95d0-88a2-11ea-aeb3-1bffc5aa8b85",
+                                    "type": "flogo:connector",
+                                    "version": "1.0.0",
+                                    "name": "tibco-graph",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "Graph",
+                                    "description": "This is URL file reader",
+                                    "ref": "github.com/TIBCOSoftware/GraphBuilder/connector/graph",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Graph Name",
+                                                "description": "Name of the graph"
+                                            },
+                                            "value": "Meetup"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "description": "Graph description"
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "modelSource",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Model Source",
+                                                "description": "Where the model stored",
+                                                "type": "string"
+                                            },
+                                            "allowed": [
+                                                "Local File",
+                                                "TGDB"
+                                            ],
+                                            "value": "Local File"
+                                        },
+                                        {
+                                            "name": "url",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Model Server URL",
+                                                "description": "URL to the model server, ex. http://localhost:9999/tgdb/metadata",
+                                                "type": "string",
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": false
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "model",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Graph Model",
+                                                "description": "Define nodes and entities for a graph",
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".tgbm",
+                                                    ".json"
+                                                ],
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            },
+                                            "value": {
+                                                "filename": "Model_Meetup.json",
+                                                "content": "data:application/json;base64,ewoJIm5vZGVzIjpbCgkJewoJCQkibmFtZSI6IkNvdW50cnkiLAoJCQkia2V5IjpbIkNvdW50cnlfQ29kZSJdLAoJCQkiYXR0cmlidXRlcyI6WwoJCQkJewoJCQkJCSJuYW1lIiA6ICJDb3VudHJ5X0NvZGUiLAoJCQkJCSJ0eXBlIjoic3RyaW5nIgoJCQkJfQoJCQldCgkJfSwKCQl7CgkJCSJuYW1lIjoiTWVldF9VcCIsCgkJCSJrZXkiOlsiTmFtZSJdLAoJCQkiYXR0cmlidXRlcyI6WwoJCQkJewoJCQkJCSJuYW1lIjoiTmFtZSIsCgkJCQkJInR5cGUiOiJTdHJpbmciCgkJCQl9CgkJCV0KCQl9LAoJCXsKCQkJIm5hbWUiOiJTdGF0ZV9Qcm92aW5jZSIsCgkJCSJrZXkiOlsiU3RhdGVfUHJvdmluY2VfQ29kZSIsICJDb3VudHJ5X0NvZGUiXSwKCQkJImF0dHJpYnV0ZXMiOlsKCQkJCXsKCQkJCQkibmFtZSI6IlN0YXRlX1Byb3ZpbmNlX0NvZGUiLAoJCQkJCSJ0eXBlIjoic3RyaW5nIgoJCQkJfSwKCQkJCXsKCQkJCQkibmFtZSIgOiAiQ291bnRyeV9Db2RlIiwKCQkJCQkidHlwZSI6InN0cmluZyIKCQkJCX0KCQkJXQoJCX0sCgkJewoJCQkibmFtZSI6IkNpdHkiLAoJCQkia2V5IjpbIkNpdHlfTmFtZSIsICJTdGF0ZV9Qcm92aW5jZV9Db2RlIiwgIkNvdW50cnlfQ29kZSJdLAoJCQkiYXR0cmlidXRlcyI6WwoJCQkJewoJCQkJCSJuYW1lIjoiQ2l0eV9OYW1lIiwKCQkJCQkidHlwZSI6InN0cmluZyIKCQkJCX0sCgkJCQl7CgkJCQkJIm5hbWUiOiJTdGF0ZV9Qcm92aW5jZV9Db2RlIiwKCQkJCQkidHlwZSI6InN0cmluZyIKCQkJCX0sCgkJCQl7CgkJCQkJIm5hbWUiIDogIkNvdW50cnlfQ29kZSIsCgkJCQkJInR5cGUiOiJzdHJpbmciCgkJCQl9CgkJCV0KCQl9LAoJCXsKCQkJIm5hbWUiOiJBZGRyZXNzIiwKCQkJImtleSI6WyJTdHJlZXRfQWRkcmVzcyIsICJDaXR5X05hbWUiLCAiU3RhdGVfUHJvdmluY2VfQ29kZSIsICJDb3VudHJ5X0NvZGUiXSwKCQkJImF0dHJpYnV0ZXMiOlsKCQkJCXsKCQkJCQkibmFtZSI6IlN0cmVldF9BZGRyZXNzIiwKCQkJCQkidHlwZSI6InN0cmluZyIKCQkJCX0sCgkJCQl7CgkJCQkJIm5hbWUiOiJDaXR5X05hbWUiLAoJCQkJCSJ0eXBlIjoic3RyaW5nIgoJCQkJfSwKCQkJCXsKCQkJCQkibmFtZSI6IlN0YXRlX1Byb3ZpbmNlX0NvZGUiLAoJCQkJCSJ0eXBlIjoic3RyaW5nIgoJCQkJfSwKCQkJCXsKCQkJCQkibmFtZSIgOiAiQ291bnRyeV9Db2RlIiwKCQkJCQkidHlwZSI6InN0cmluZyIKCQkJCX0KCQkJXQoJCX0sCgkJewoJCQkibmFtZSI6IkxvY2F0aW9uIiwKCQkJImtleSI6WyJVSUQiXSwKCQkJImF0dHJpYnV0ZXMiOlsKCQkJCXsKCQkJCQkibmFtZSI6IlVJRCIsCgkJCQkJInR5cGUiOiJzdHJpbmciCgkJCQl9LAoJCQkJewoJCQkJCSJuYW1lIjoiTmFtZSIsCgkJCQkJInR5cGUiOiJTdHJpbmciCgkJCQl9CgkJCV0KCQl9LAoJCXsKCQkJIm5hbWUiOiJHcm91cCIsCgkJCSJrZXkiOlsiTmFtZSJdLAoJCQkiYXR0cmlidXRlcyI6WwoJCQkJewoJCQkJCSJuYW1lIjoiTmFtZSIsCgkJCQkJInR5cGUiOiJTdHJpbmciCgkJCQl9CgkJCV0KCQl9LAoJCXsKCQkJIm5hbWUiOiJDYXRlZ29yeSIsCgkJCSJrZXkiOlsiTmFtZSJdLAoJCQkiYXR0cmlidXRlcyI6WwoJCQkJewoJCQkJCSJuYW1lIjoiTmFtZSIsCgkJCQkJInR5cGUiOiJTdHJpbmciCgkJCQl9CgkJCV0KCQl9CgldLAoJImVkZ2VzIjpbCgkJewoJCQkidG8iOiJDb3VudHJ5IiwKCQkJIm5hbWUiOiJpbl9Db3VudHJ5IiwKCQkJImZyb20iOiJMb2NhdGlvbiIKCQl9LAoJCXsKCQkJInRvIjoiTG9jYXRpb24iLAoJCQkibmFtZSI6IlRha2VfcGxhY2UiLAoJCQkiZnJvbSI6Ik1lZXRfVXAiCgkJfSwKCQl7CgkJCSJ0byI6IlN0YXRlX1Byb3ZpbmNlIiwKCQkJIm5hbWUiOiJpbl9TdGF0ZV9Qcm92aW5jZSIsCgkJCSJmcm9tIjoiTG9jYXRpb24iCgkJfSwKCQl7CgkJCSJ0byI6IkNpdHkiLAoJCQkibmFtZSI6ImluX0NpdHkiLAoJCQkiZnJvbSI6IkxvY2F0aW9uIgoJCX0sCgkJewoJCQkidG8iOiJBZGRyZXNzIiwKCQkJIm5hbWUiOiJvbiIsCgkJCSJmcm9tIjoiTG9jYXRpb24iCgkJfSwKCQl7CgkJCSJ0byI6Ikdyb3VwIiwKCQkJIm5hbWUiOiJDb250YWluc19Hcm91cCIsCgkJCSJmcm9tIjoiQ2F0ZWdvcnkiCgkJfSwKCQl7CgkJCSJ0byI6Ik1lZXRfVXAiLAoJCQkibmFtZSI6IkNvbnRhaW5zX01lZXRfVXAiLAoJCQkiZnJvbSI6Ikdyb3VwIgoJCX0KCV0KfQo="
+                                            }
+                                        },
+                                        {
+                                            "name": "metadata",
+                                            "type": "string",
+                                            "display": {
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": false
+                                            },
+                                            "value": "{\n\t\"nodes\":[\n\t\t{\n\t\t\t\"name\":\"Country\",\n\t\t\t\"key\":[\"Country_Code\"],\n\t\t\t\"attributes\":[\n\t\t\t\t{\n\t\t\t\t\t\"name\" : \"Country_Code\",\n\t\t\t\t\t\"type\":\"string\"\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"name\":\"Meet_Up\",\n\t\t\t\"key\":[\"Name\"],\n\t\t\t\"attributes\":[\n\t\t\t\t{\n\t\t\t\t\t\"name\":\"Name\",\n\t\t\t\t\t\"type\":\"String\"\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"name\":\"State_Province\",\n\t\t\t\"key\":[\"State_Province_Code\", \"Country_Code\"],\n\t\t\t\"attributes\":[\n\t\t\t\t{\n\t\t\t\t\t\"name\":\"State_Province_Code\",\n\t\t\t\t\t\"type\":\"string\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\" : \"Country_Code\",\n\t\t\t\t\t\"type\":\"string\"\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"name\":\"City\",\n\t\t\t\"key\":[\"City_Name\", \"State_Province_Code\", \"Country_Code\"],\n\t\t\t\"attributes\":[\n\t\t\t\t{\n\t\t\t\t\t\"name\":\"City_Name\",\n\t\t\t\t\t\"type\":\"string\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\":\"State_Province_Code\",\n\t\t\t\t\t\"type\":\"string\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\" : \"Country_Code\",\n\t\t\t\t\t\"type\":\"string\"\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"name\":\"Address\",\n\t\t\t\"key\":[\"Street_Address\", \"City_Name\", \"State_Province_Code\", \"Country_Code\"],\n\t\t\t\"attributes\":[\n\t\t\t\t{\n\t\t\t\t\t\"name\":\"Street_Address\",\n\t\t\t\t\t\"type\":\"string\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\":\"City_Name\",\n\t\t\t\t\t\"type\":\"string\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\":\"State_Province_Code\",\n\t\t\t\t\t\"type\":\"string\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\" : \"Country_Code\",\n\t\t\t\t\t\"type\":\"string\"\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"name\":\"Location\",\n\t\t\t\"key\":[\"UID\"],\n\t\t\t\"attributes\":[\n\t\t\t\t{\n\t\t\t\t\t\"name\":\"UID\",\n\t\t\t\t\t\"type\":\"string\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\":\"Name\",\n\t\t\t\t\t\"type\":\"String\"\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"name\":\"Group\",\n\t\t\t\"key\":[\"Name\"],\n\t\t\t\"attributes\":[\n\t\t\t\t{\n\t\t\t\t\t\"name\":\"Name\",\n\t\t\t\t\t\"type\":\"String\"\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"name\":\"Category\",\n\t\t\t\"key\":[\"Name\"],\n\t\t\t\"attributes\":[\n\t\t\t\t{\n\t\t\t\t\t\"name\":\"Name\",\n\t\t\t\t\t\"type\":\"String\"\n\t\t\t\t}\n\t\t\t]\n\t\t}\n\t],\n\t\"edges\":[\n\t\t{\n\t\t\t\"to\":\"Country\",\n\t\t\t\"name\":\"in_Country\",\n\t\t\t\"from\":\"Location\"\n\t\t},\n\t\t{\n\t\t\t\"to\":\"Location\",\n\t\t\t\"name\":\"Take_place\",\n\t\t\t\"from\":\"Meet_Up\"\n\t\t},\n\t\t{\n\t\t\t\"to\":\"State_Province\",\n\t\t\t\"name\":\"in_State_Province\",\n\t\t\t\"from\":\"Location\"\n\t\t},\n\t\t{\n\t\t\t\"to\":\"City\",\n\t\t\t\"name\":\"in_City\",\n\t\t\t\"from\":\"Location\"\n\t\t},\n\t\t{\n\t\t\t\"to\":\"Address\",\n\t\t\t\"name\":\"on\",\n\t\t\t\"from\":\"Location\"\n\t\t},\n\t\t{\n\t\t\t\"to\":\"Group\",\n\t\t\t\"name\":\"Contains_Group\",\n\t\t\t\"from\":\"Category\"\n\t\t},\n\t\t{\n\t\t\t\"to\":\"Meet_Up\",\n\t\t\t\"name\":\"Contains_Meet_Up\",\n\t\t\t\"from\":\"Group\"\n\t\t}\n\t]\n}\n"
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "flogo",
+                                    "key": "flogo/GraphBuilder/connector/graph/connector.json",
+                                    "display": {
+                                        "description": "This is URL file reader",
+                                        "category": "GraphBuilder",
+                                        "visible": true,
+                                        "smallIcon": "graph.png"
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "Connect",
+                                            "display": {
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            }
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "iteratorAccumulate": false,
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1588004324270,
+                                    "user": "flogo",
+                                    "connectorName": "Meetup",
+                                    "connectorDescription": " "
+                                },
+                                "AllowNullKey": false,
+                                "BatchMode": false,
+                                "PassThrough": "",
+                                "Multiinstances": ""
+                            },
+                            "input": {
+                                "Nodes": {
+                                    "mapping": [
+                                        {
+                                            "Country": [
+                                                {
+                                                    "Country_Code": "=$activity[JSONDeserializer].Data.venue.country"
+                                                }
+                                            ],
+                                            "Meet_Up": [
+                                                {
+                                                    "Name": "=$activity[JSONDeserializer].Data.name"
+                                                }
+                                            ],
+                                            "State_Province": [
+                                                {
+                                                    "State_Province_Code": "=$activity[JSONDeserializer].Data.venue.state",
+                                                    "Country_Code": "=$activity[JSONDeserializer].Data.venue.country"
+                                                }
+                                            ],
+                                            "City": [
+                                                {
+                                                    "City_Name": "=$activity[JSONDeserializer].Data.venue.city",
+                                                    "State_Province_Code": "=$activity[JSONDeserializer].Data.venue.state",
+                                                    "Country_Code": "=$activity[JSONDeserializer].Data.venue.country"
+                                                }
+                                            ],
+                                            "Address": [
+                                                {
+                                                    "Street_Address": "=$activity[JSONDeserializer].Data.venue.address_1",
+                                                    "City_Name": "=$activity[JSONDeserializer].Data.venue.city",
+                                                    "State_Province_Code": "=$activity[JSONDeserializer].Data.venue.state",
+                                                    "Country_Code": "=$activity[JSONDeserializer].Data.venue.country"
+                                                }
+                                            ],
+                                            "Location": [
+                                                {
+                                                    "UID": "=$activity[JSONDeserializer].Data.venue.name",
+                                                    "Name": "=$activity[JSONDeserializer].Data.venue.name"
+                                                }
+                                            ],
+                                            "Group": [
+                                                {
+                                                    "Name": "=$activity[JSONDeserializer].Data.group.name"
+                                                }
+                                            ],
+                                            "Category": [
+                                                {
+                                                    "Name": "=$activity[JSONDeserializer].Data.group.category.name"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                "Edges": {
+                                    "mapping": [
+                                        {
+                                            "in_Country": [],
+                                            "Take_place": [],
+                                            "in_State_Province": [],
+                                            "in_City": [],
+                                            "on": [],
+                                            "Contains_Group": [],
+                                            "Contains_Meet_Up": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Nodes": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Country\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"Country_Code\":{\"type\":\"string\"}}},\"Meet_Up\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"Name\":{\"type\":\"string\"}}},\"State_Province\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"State_Province_Code\":{\"type\":\"string\"},\"Country_Code\":{\"type\":\"string\"}}},\"City\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"City_Name\":{\"type\":\"string\"},\"State_Province_Code\":{\"type\":\"string\"},\"Country_Code\":{\"type\":\"string\"}}},\"Address\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"Street_Address\":{\"type\":\"string\"},\"City_Name\":{\"type\":\"string\"},\"State_Province_Code\":{\"type\":\"string\"},\"Country_Code\":{\"type\":\"string\"}}},\"Location\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"UID\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"}}},\"Group\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"Name\":{\"type\":\"string\"}}},\"Category\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"Name\":{\"type\":\"string\"}}}}}",
+                                        "fe_metadata": "{\"Country\":{\"_skipCondition\":false,\"Country_Code\":\"2\"},\"Meet_Up\":{\"_skipCondition\":false,\"Name\":\"2\"},\"State_Province\":{\"_skipCondition\":false,\"State_Province_Code\":\"2\",\"Country_Code\":\"2\"},\"City\":{\"_skipCondition\":false,\"City_Name\":\"2\",\"State_Province_Code\":\"2\",\"Country_Code\":\"2\"},\"Address\":{\"_skipCondition\":false,\"Street_Address\":\"2\",\"City_Name\":\"2\",\"State_Province_Code\":\"2\",\"Country_Code\":\"2\"},\"Location\":{\"_skipCondition\":false,\"UID\":\"2\",\"Name\":\"2\"},\"Group\":{\"_skipCondition\":false,\"Name\":\"2\"},\"Category\":{\"_skipCondition\":false,\"Name\":\"2\"}}"
+                                    },
+                                    "Edges": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"in_Country\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}},\"Take_place\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}},\"in_State_Province\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}},\"in_City\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}},\"on\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}},\"Contains_Group\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}},\"Contains_Meet_Up\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}}}}",
+                                        "fe_metadata": "{\"in_Country\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"}},\"Take_place\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"}},\"in_State_Province\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"}},\"in_City\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"}},\"on\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"}},\"Contains_Group\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"}},\"Contains_Meet_Up\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"}}}"
+                                    },
+                                    "PassThroughData": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+                                        "fe_metadata": "{}"
+                                    }
+                                },
+                                "output": {
+                                    "PassThroughDataOut": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+                                        "fe_metadata": "{}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "SSEEndPoint",
+                        "name": "SSEEndPoint",
+                        "description": "This activity reply data to sse client",
+                        "activity": {
+                            "ref": "#sseendpoint",
+                            "settings": {
+                                "sseConnection": {
+                                    "id": "51f8d020-8639-11ea-9fe5-759f8e5f04a0",
+                                    "type": "flogo:connector",
+                                    "version": "1.0.0",
+                                    "name": "tibco-sse",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "Server-sent Events Connection",
+                                    "description": "This is Server-send Events connector",
+                                    "ref": "github.com/TIBCOSoftware/GraphBuilder_SSE/connector/sse",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Connection Name",
+                                                "description": "Name of the connection"
+                                            },
+                                            "value": "EventServer"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "description": "Connection description"
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "outbound",
+                                            "type": "boolean",
+                                            "display": {
+                                                "name": "Outbound",
+                                                "description": "false : for SSE Server trigger, true : for SSE Subscriber trigger"
+                                            },
+                                            "value": false,
+                                            "required": true
+                                        },
+                                        {
+                                            "name": "url",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Server URL",
+                                                "description": "SSE server URL ex. http://[domain name/IP]",
+                                                "type": "string",
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": false
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "resource",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Resource Name",
+                                                "description": "Resource name for the event service",
+                                                "type": "string",
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": false
+                                            },
+                                            "value": "/sse/"
+                                        },
+                                        {
+                                            "name": "accessToken",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Access Token",
+                                                "description": "Access token for authentication",
+                                                "type": "password",
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": false
+                                            },
+                                            "value": "SECRET:weSXnax6RcPCOB/yTwOR/Q=="
+                                        },
+                                        {
+                                            "name": "port",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Server port",
+                                                "description": "SSE server port",
+                                                "type": "string",
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            },
+                                            "value": "8888"
+                                        },
+                                        {
+                                            "name": "path",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Path",
+                                                "description": "Path of the resource which is requested",
+                                                "type": "string",
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            },
+                                            "value": "/sse/"
+                                        },
+                                        {
+                                            "name": "tlsEnabled",
+                                            "type": "boolean",
+                                            "display": {
+                                                "name": "TLS enabled",
+                                                "description": "TLS enabled",
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            },
+                                            "value": false,
+                                            "required": true
+                                        },
+                                        {
+                                            "name": "uploadCRT",
+                                            "type": "boolean",
+                                            "display": {
+                                                "name": "Upload TLS certificate",
+                                                "description": "Upload TLS certificate from local file",
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": false
+                                            },
+                                            "value": true,
+                                            "required": false
+                                        },
+                                        {
+                                            "name": "tlsCRT",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "TLS certificate",
+                                                "description": "TLS certificate",
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".pem",
+                                                    ".crt"
+                                                ],
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": false
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "tlsKey",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "TLS key",
+                                                "description": "TLS key",
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".pem",
+                                                    ".key"
+                                                ],
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": false
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "tlsCRTPath",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "TLS certificate location",
+                                                "description": "TLS certificate location",
+                                                "type": "string",
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": false
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "tlsKeyPath",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "TLS key location",
+                                                "description": "TLS key location",
+                                                "type": "string",
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": false
+                                            },
+                                            "value": ""
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "flogo",
+                                    "key": "flogo/GraphBuilder_SSE/connector/sse/connector.json",
+                                    "display": {
+                                        "description": "This is Server-send Events connector",
+                                        "category": "GraphBuilder_SSE",
+                                        "visible": true,
+                                        "smallIcon": "sse.png"
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "Connect",
+                                            "display": {
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            }
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "iteratorAccumulate": false,
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1588005086918,
+                                    "user": "flogo",
+                                    "connectorName": "EventServer",
+                                    "connectorDescription": " "
+                                }
+                            },
+                            "input": {
+                                "StreamId": "meetup",
+                                "Data": "=$activity[BuildGraph].Graph"
+                            }
+                        }
+                    },
+                    {
+                        "id": "TGDBUpsert",
+                        "name": "TGDBUpsert",
+                        "description": "This activity upsert to tgdb",
+                        "activity": {
+                            "ref": "#tgdbupsert",
+                            "settings": {
+                                "tgdbConnection": {
+                                    "type": "flogo:connector",
+                                    "version": "1.0.0",
+                                    "name": "tibco-tgdb",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "TGDB Connector",
+                                    "description": "This is TGDB GraphDatabase connector",
+                                    "ref": "github.com/TIBCOSoftware/GraphBuilder_TGDB/connector/tgdb",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Connection Name",
+                                                "description": "Name of the connection"
+                                            },
+                                            "value": "TGDB"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "description": "Connection description"
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "url",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "TGDB Server URL",
+                                                "description": "TGDB server URL ex. tcp://scott@localhost:8222",
+                                                "type": "string"
+                                            },
+                                            "value": "tcp://scott@localhost:8222"
+                                        },
+                                        {
+                                            "name": "user",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Username",
+                                                "description": "Username for login to TGDB server",
+                                                "type": "string"
+                                            },
+                                            "value": "scott"
+                                        },
+                                        {
+                                            "name": "password",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Password",
+                                                "description": "Password for login to TGDB server",
+                                                "type": "password"
+                                            },
+                                            "value": "SECRET:C10BxPipUoeggmJXjDzLq72hlRG/"
+                                        },
+                                        {
+                                            "name": "keepAlive",
+                                            "type": "boolean",
+                                            "display": {
+                                                "name": "Keep Connection Alive",
+                                                "description": "Will keep connection alive"
+                                            },
+                                            "value": true,
+                                            "required": true
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "flogo",
+                                    "key": "flogo/GraphBuilder_TGDB/connector/connector.json",
+                                    "display": {
+                                        "description": "This is TGDB GraphDatabase connector",
+                                        "category": "GraphBuilder_TGDB",
+                                        "visible": true,
+                                        "smallIcon": "tgdb.png"
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "Connect",
+                                            "display": {
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            }
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "iteratorAccumulate": false,
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1587475362083,
+                                    "createdTime": 1587475362083,
+                                    "user": "flogo",
+                                    "subscriptionId": "flogo_sbsc",
+                                    "id": "2df8a730-83d3-11ea-9fe5-759f8e5f04a0",
+                                    "connectorName": "TGDB",
+                                    "connectorDescription": " "
+                                },
+                                "allowEmptyStringKey": true
+                            },
+                            "input": {
+                                "Graph": "=$activity[BuildGraph].Graph"
+                            }
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "EventString",
+                            "type": "string"
+                        }
+                    ],
+                    "output": [],
+                    "fe_metadata": {
+                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"EventString\":{\"type\":\"string\"}}}"
+                    }
+                }
+            }
+        },
+        {
+            "id": "flow:Streaming_Server",
+            "data": {
+                "name": "Streaming Server",
+                "description": "Flow for Serving Streaming Graph Data",
+                "links": [],
+                "tasks": [],
+                "metadata": {
+                    "input": [],
+                    "output": [],
+                    "fe_metadata": {}
+                }
+            }
+        }
+    ],
+    "properties": [],
+    "connections": {},
+    "contrib": "W3sicmVmIjoiZ2l0aHViLmNvbS9USUJDT1NvZnR3YXJlL0dyYXBoQnVpbGRlcl9TU0UiLCJzM2xvY2F0aW9uIjoie1VTRVJJRH0vR3JhcGhCdWlsZGVyX1NTRSJ9LHsicmVmIjoiZ2l0aHViLmNvbS9USUJDT1NvZnR3YXJlL0dyYXBoQnVpbGRlcl9Ub29scyIsInMzbG9jYXRpb24iOiJ7VVNFUklEfS9HcmFwaEJ1aWxkZXJfVG9vbHMifSx7InJlZiI6ImdpdGh1Yi5jb20vVElCQ09Tb2Z0d2FyZS9HcmFwaEJ1aWxkZXIiLCJzM2xvY2F0aW9uIjoie1VTRVJJRH0vR3JhcGhCdWlsZGVyIn0seyJyZWYiOiJnaXRodWIuY29tL1RJQkNPU29mdHdhcmUvR3JhcGhCdWlsZGVyX1RHREIiLCJzM2xvY2F0aW9uIjoie1VTRVJJRH0vR3JhcGhCdWlsZGVyX1RHREIifV0=",
+    "fe_metadata": "UEsDBAoAAAAIADKEm1CrqSRGFQAAABMAAAAIAAAAYXBwLmpzb26rViopykxPTy1yy8kvL1ayio6tBQBQSwECFAAKAAAACAAyhJtQq6kkRhUAAAATAAAACAAAAAAAAAAAAAAAAAAAAAAAYXBwLmpzb25QSwUGAAAAAAEAAQA2AAAAOwAAAAAA"
+}

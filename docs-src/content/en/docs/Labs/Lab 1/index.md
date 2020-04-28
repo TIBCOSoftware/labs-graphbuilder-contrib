@@ -216,4 +216,53 @@ Then we need to tell BuildGrap activity the relation between employee0 and emplo
 
 ![Import Extension](createApp34.png)
 
+Now we cab test out Northwind application by sending data to it then we'll verify if data get inserted to TGDB server
 
+For building Northwind flogo application
+1. In project click "Build" button
+2. Select the build target OS (in my case Darwin/amd64) then click to build
+
+![Build RESTful](BuildNorthwind_01.png) 
+
+Once finished you can get your executable (Northwind-darwin_amd64) in your browser download folder
+
+![Build RESTful](BuildNorthwind_02.png)
+
+Then we need to setup a TIBCO® Graph Database. Currently Project GraphBuilder "only" support TGDB 2.0.1 (both Enterprise Edition and Community Edition are supported). 
+You can get a Community version <a href="http://community.tibco.com/products/tibco-graph-database" target="_blank">here</a>.
+
+![Build RESTful](TGDB_01.png)
+
+Follow instructions in the download file to install TGDB server then copy artifacts from your labs folder
+- labs/tgdb/northwind -> tgdb/2.0/examples
+- labs/tgdb/init_northwind_with_data_definition.sh -> tgdb/2.0/bin/
+- labs/tgdb/run_northwind.sh -> tgdb/2.0/bin/
+
+![Build RESTful](TGDB_02.png)
+
+In terminal switch to tgdb/2.0/bin folder then
+- execute ./init_northwind_with_data_definition.sh to initialize tgdb with Northwind schema
+
+![Build RESTful](TGDB_03.png)
+
+![Build RESTful](TGDB_04.png)
+
+- execute ./run_northwind.sh to run tgdb server
+
+![Build RESTful](TGDB_05.png)
+
+![Build RESTful](TGDB_06.png)
+
+Open a new terminal and switch to the folder which contains Northwind appliction executable (Northwind-darwin_amd64). 
+- Change Northwind-darwin_amd64's permission to executable 
+- Run Northwind-darwin_amd64
+
+![Build RESTful](LaunchNorthwind.png)
+
+Open a new terminal and switch to TGDB bin folder
+- run tgdb-admin
+- make query to get all categories
+
+![Build RESTful](Query.png)
+
+We've proved that data has been inserted to TGDB server

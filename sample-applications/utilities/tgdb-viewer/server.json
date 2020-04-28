@@ -1,0 +1,88 @@
+{
+	"serverUrl" : {
+		"ip" : "0.0.0.0", 
+		"port" : 10080
+	},
+		
+	"deployer" : {
+		"conversationProjectDeployer" : {
+			"deployerJavaClass" : "com.tibco.tge.deploy.ConversationProjectDeployer",
+			"projectJavaClass" : "com.tibco.tge.adapter.api.restful.convBot.Project",
+			"projectCongiguration" : "${GRAPH_BUILDER_HOME}/tgdb.json",
+			"deployFolder" : "${GRAPH_BUILDER_HOME}/convBot" 
+		}
+	},
+	
+	"environmentVariables" : {
+		"" : ""
+	},
+	
+	"webservices" : [
+		{
+			"id" : "rewrite",
+			"javaClass" : "com.tibco.tge.adapter.web.handler.RewriteHandlerDescriptor",
+			"configuration" : {
+				"rules" :  [
+					{"pattern":"/home/*", "location":"/"}, 
+					{"pattern":"/project/*", "location":"/"}
+				]
+			}
+		},
+		{
+			"id" : "resource",
+			"javaClass" : "com.tibco.tge.adapter.web.handler.ResourceHandlerDescriptor",
+			"configuration" : {
+				"welcomeFiles" :  [
+					"index.html", "index.htm"
+				],
+				"resourceBasex" : "/root",
+				"resourceBase" : "${GRAPH_BUILDER_HOME}/webapp/dist"
+			}
+		},
+		{
+			"id" : "convbot",
+			"disabled" : false,
+			"javaClass" : "com.tibco.tge.adapter.web.handler.jaxrs.jersey.JerseyHandlerDescriptor",
+			"configuration" : {
+				"contextPath" : "/rest",
+				"servletMapping" : "/api/*",
+				"initParameters" : {
+					"javax.ws.rs.Application" : "com.tibco.tge.adapter.web.handler.jaxrs.jersey.convBot.SecuredApplicationConfig"
+				}
+			}
+		},
+		{
+			"id" : "tgdb",
+			"disabled" : false,
+			"javaClass" : "com.tibco.tge.adapter.web.handler.jaxrs.jersey.JerseyHandlerDescriptor",
+			"configuration" : {
+				"contextPath" : "/",
+				"servletMapping" : "/api/*",
+				"initParameters" : {
+					"javax.ws.rs.Application" : "com.tibco.tgdb.restful.jaxrs.jersey.TGDBApplicationConfig"
+				}
+			}
+		},
+        {
+            "id" : "multiservlet-restful",
+            "disabled" : true,
+            "javaClass" : "com.tibco.tge.adapter.web.handler.jaxrs.jersey.MultiServletJerseyHandlerDescriptor",
+            "configuration" : {
+                "contextPath" : "/appcontext1",
+                "servlets" : [{
+                        "servletMapping" : "/resources/hello/*",
+                        "initParameters" : {
+                            "javax.ws.rs.Application" : "com.huei.jaxrs.jersey.example1.ContextTestApplicationConfig1"
+                        }
+                    },
+                    {
+                        "servletMapping" : "/resources/rsp/*",
+                        "initParameters" : {
+                            "javax.ws.rs.Application" : "com.huei.jaxrs.jersey.example1.ContextTestApplicationConfig1"
+                        }
+                    }
+                ]
+            }
+        }						
+	]
+}
