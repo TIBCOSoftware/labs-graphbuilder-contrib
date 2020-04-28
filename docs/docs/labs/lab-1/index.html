@@ -25,12 +25,12 @@
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/labs/lab-1/" />
-<meta property="article:modified_time" content="2020-04-27T10:04:34-04:00" /><meta property="og:site_name" content="Project GraphBuilder" />
+<meta property="article:modified_time" content="2020-04-28T11:10:51-04:00" /><meta property="og:site_name" content="Project GraphBuilder" />
 <meta itemprop="name" content="Lab1 - CSV">
 <meta itemprop="description" content="Build an app to populate TIBCO Graph Database with data in csv files
 ">
-<meta itemprop="dateModified" content="2020-04-27T10:04:34-04:00" />
-<meta itemprop="wordCount" content="1198">
+<meta itemprop="dateModified" content="2020-04-28T11:10:51-04:00" />
+<meta itemprop="wordCount" content="1384">
 
 
 
@@ -416,7 +416,7 @@ if (!doNotTrack) {
 
 
 
-<p class="-text-primary pt-3 h6" >Reading time: 5 minutes and 26 seconds.</p>
+<p class="-text-primary pt-3 h6" >Reading time: 6 minutes and 18 seconds.</p>
 <p>
 <div class="td-content">
 	<h1>Lab1 - CSV</h1>
@@ -590,6 +590,49 @@ Make room for logger activity by shifting activities one position to the right.<
 <p><img src="createApp33.png" alt="Import Extension"></p>
 <p>Then we need to tell BuildGrap activity the relation between employee0 and employee1.</p>
 <p><img src="createApp34.png" alt="Import Extension"></p>
+<p>Now we cab test out Northwind application by sending data to it then we'll verify if data get inserted to TGDB server</p>
+<p>For building Northwind flogo application</p>
+<ol>
+<li>In project click &ldquo;Build&rdquo; button</li>
+<li>Select the build target OS (in my case Darwin/amd64) then click to build</li>
+</ol>
+<p><img src="BuildNorthwind_01.png" alt="Build RESTful"></p>
+<p>Once finished you can get your executable (Northwind-darwin_amd64) in your browser download folder</p>
+<p><img src="BuildNorthwind_02.png" alt="Build RESTful"></p>
+<p>Then we need to setup a TIBCO® Graph Database. Currently Project GraphBuilder &ldquo;only&rdquo; support TGDB 2.0.1 (both Enterprise Edition and Community Edition are supported). 
+You can get a Community version <a href="http://community.tibco.com/products/tibco-graph-database" target="_blank">here</a>.</p>
+<p><img src="TGDB_01.png" alt="Build RESTful"></p>
+<p>Follow instructions in the download file to install TGDB server then copy artifacts from your labs folder</p>
+<ul>
+<li>labs/tgdb/northwind -&gt; tgdb/2.0/examples</li>
+<li>labs/tgdb/init_northwind_with_data_definition.sh -&gt; tgdb/2.0/bin/</li>
+<li>labs/tgdb/run_northwind.sh -&gt; tgdb/2.0/bin/</li>
+</ul>
+<p><img src="TGDB_02.png" alt="Build RESTful"></p>
+<p>In terminal switch to tgdb/2.0/bin folder then</p>
+<ul>
+<li>execute ./init_northwind_with_data_definition.sh to initialize tgdb with Northwind schema</li>
+</ul>
+<p><img src="TGDB_03.png" alt="Build RESTful"></p>
+<p><img src="TGDB_04.png" alt="Build RESTful"></p>
+<ul>
+<li>execute ./run_northwind.sh to run tgdb server</li>
+</ul>
+<p><img src="TGDB_05.png" alt="Build RESTful"></p>
+<p><img src="TGDB_06.png" alt="Build RESTful"></p>
+<p>Open a new terminal and switch to the folder which contains Northwind appliction executable (Northwind-darwin_amd64).</p>
+<ul>
+<li>Change Northwind-darwin_amd64's permission to executable</li>
+<li>Run Northwind-darwin_amd64</li>
+</ul>
+<p><img src="LaunchNorthwind.png" alt="Build RESTful"></p>
+<p>Open a new terminal and switch to TGDB bin folder</p>
+<ul>
+<li>run tgdb-admin</li>
+<li>make query to get all categories</li>
+</ul>
+<p><img src="Query.png" alt="Build RESTful"></p>
+<p>We've proved that data has been inserted to TGDB server</p>
 
 	
 		<style>
@@ -653,7 +696,7 @@ Make room for logger activity by shifting activities one position to the right.<
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified April 27, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/752c26445eecc3cee8ecd2864a9be912361706c7">Update documentation and purge project (752c264)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified April 28, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/f5644f46a25ddf86f621d3382bab4ca16e4723a9">Update documentation (f5644f4)</a>
 </div>
 </div>
 

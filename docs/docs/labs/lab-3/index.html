@@ -25,12 +25,12 @@
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/labs/lab-3/" />
-<meta property="article:modified_time" content="2020-04-27T10:04:34-04:00" /><meta property="og:site_name" content="Project GraphBuilder" />
+<meta property="article:modified_time" content="2020-04-28T11:11:15-04:00" /><meta property="og:site_name" content="Project GraphBuilder" />
 <meta itemprop="name" content="Lab3 - real-time">
 <meta itemprop="description" content="Build an app to upsert real-time data to TIBCO Graph Database
 ">
-<meta itemprop="dateModified" content="2020-04-27T10:04:34-04:00" />
-<meta itemprop="wordCount" content="667">
+<meta itemprop="dateModified" content="2020-04-28T11:11:15-04:00" />
+<meta itemprop="wordCount" content="1013">
 
 
 
@@ -416,7 +416,7 @@ if (!doNotTrack) {
 
 
 
-<p class="-text-primary pt-3 h6" >Reading time: 3 minutes and 1 second.</p>
+<p class="-text-primary pt-3 h6" >Reading time: 4 minutes and 36 seconds.</p>
 <p>
 <div class="td-content">
 	<h1>Lab3 - real-time</h1>
@@ -551,6 +551,62 @@ Let's select GraphBuilder -&gt; Bruild Graph and configue it.</p>
 <p><img src="realtime26.png" alt="Realtime"></p>
 <p>This is the final version of flogo Northwind application</p>
 <p><img src="realtime27.png" alt="Realtime"></p>
+<p>Let's rebuild application for further testing</p>
+<p><img src="BuildNorthwind_02.png" alt="Realtime"></p>
+<p>We are going to install Kafka message bus for providing order event. <a href="https://kafka.apache.org/quickstart" target="_blank">Here</a> is the instalation instructions.</p>
+<p>After downloading and installing Kafka we can start Kafka</p>
+<ul>
+<li>Start zoo keeper</li>
+</ul>
+<p><img src="StartKafka01.png" alt="Realtime">
+<img src="StartKafka02.png" alt="Realtime"></p>
+<ul>
+<li>Start server</li>
+</ul>
+<p><img src="StartKafka03.png" alt="Realtime"></p>
+<ul>
+<li>Create &ldquo;test&rdquo; topic</li>
+</ul>
+<p><img src="StartKafka04.png" alt="Realtime"></p>
+<p>Let's restart Northwind appliction executable.</p>
+<ul>
+<li>Switch to the folder which contains Northwind appliction executable (Northwind-darwin_amd64).</li>
+<li>Change Northwind-darwin_amd64's permission to executable</li>
+<li>Run Northwind-darwin_amd64</li>
+</ul>
+<p>This time you'll see two extra information while Northwind application starting</p>
+<ul>
+<li>Kafka consumer (the trigger of order event flow) is up and listening</li>
+<li>SSEServer is up and waiting for client (UI utility) to connect</li>
+</ul>
+<p><img src="StartKafka05.png" alt="Realtime"></p>
+<p>Here it the our test (see screenshot)</p>
+<ul>
+<li>Make sure TGDB, TGDB_RESTful_Service, Kafka (server, zoo keeper, producer) and UI utility are running</li>
+<li>On the upper/middle left of screenshot open oerders.csv file</li>
+<li>On the lower left of screenshot start Kafka producer and keep it opened</li>
+<li>On the right follow the instruction to 1. Click &ldquo;Realtime Data&rdquo; 2. Click &ldquo;Connect&rdquo; to connect to SSE server in Northwind application 3. Copy &amp; paste order to Kafka producer then press enter 4 ~ 6. Each time you send one order you will see the corresponding graph entities showing on the UI.</li>
+</ul>
+<p>Send more order as your wish.</p>
+<p><img src="FinalTest.png" alt="Realtime"></p>
+<p>After the streaming testing we also want to see the order in TGDB. Follow the instrctions in lab2</p>
+<ul>
+<li>Click &ldquo;TGDB Data&rdquo; button</li>
+<li>Use the default query setup but make traversalDepth = 5</li>
+<li>Click &ldquo;Make Query&rdquo; button</li>
+</ul>
+<p>You'll see the oder with OrderID = 10248 and its associated graph entities on the UI</p>
+<p><img src="QueryGraph.png" alt="Realtime"></p>
+<p>The last test is about traversal query. We are going to find the supplier companies which supplies prodcut which the customer company called &lsquo;Vins et alcools Chevalier&rsquo; purchased. We are going use Postman and TGDB_RESTful_Service to query against TGDB server</p>
+<ul>
+<li>Open a postman and setup a POST query</li>
+<li>The gremlin query is &ldquo;g.V().has(&lsquo;Company&rsquo;, &lsquo;CompanyID&rsquo;, &lsquo;Vins et alcools Chevalier&rsquo;).in(&lsquo;Customer_Company&rsquo;).in(&lsquo;SoldTo&rsquo;).out(&lsquo;Includes&rsquo;).out(&lsquo;Contains&rsquo;).in(&lsquo;Supplies&rsquo;).out(&lsquo;Supplier_Company&rsquo;);&rdquo;</li>
+</ul>
+<p>You should get &ldquo;Formaggi Fortini s.r.l.&quot;, &ldquo;Leka Trading&rdquo; and &ldquo;Cooperativa de Quesos &lsquo;Las Cabras&rsquo;&rdquo; in your result</p>
+<p><img src="QueryPostMan.png" alt="Realtime"></p>
+<p>Observe the traversal request on the UI utility and verify the correctness ogf the query</p>
+<p><img src="QueryPostManOnGraph.png" alt="Realtime"></p>
+<p>Now you've finish all three labs</p>
 
 	
 		<style>
@@ -614,7 +670,7 @@ Let's select GraphBuilder -&gt; Bruild Graph and configue it.</p>
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified April 27, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/752c26445eecc3cee8ecd2864a9be912361706c7">Update documentation and purge project (752c264)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified April 28, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/709511841b863d8f0d0145f4d7888c39b6c7c2b4">Update index.md (7095118)</a>
 </div>
 </div>
 
