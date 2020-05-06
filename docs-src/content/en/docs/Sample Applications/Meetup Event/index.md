@@ -3,7 +3,7 @@ title: "Meetup Event"
 linkTitle: "Meetup Event"
 weight: 4
 description: >
-  Business use case
+  Useing Meetup open event to demonstrate transforming JSON data to graph then upsert to TGDB in realtime 
 ---
 
 This example uses Meetup open event through Meetup API see https://www.meetup.com/meetup_api/

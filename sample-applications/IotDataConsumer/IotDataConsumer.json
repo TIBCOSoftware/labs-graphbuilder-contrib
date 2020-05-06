@@ -1,55 +1,132 @@
 {
+    "imports": [
+        "github.com/project-flogo/flow",
+        "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/activity/log",
+        "github.com/TIBCOSoftware/GraphBuilder/activity/builder",
+        "github.com/TIBCOSoftware/GraphBuilder_dgraph/activity/dgraphupsert",
+        "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/trigger/rest",
+        "github.com/project-flogo/contrib/function/string",
+        "github.com/project-flogo/contrib/function/array"
+    ],
     "name": "IotDataConsumer",
     "description": " ",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "type": "flogo:app",
-    "appModel": "1.0.0",
-    "feVersion": "2.5.0",
+    "appModel": "1.1.1",
+    "feVersion": "2.8.1",
+    "triggers": [
+        {
+            "ref": "#rest",
+            "name": "tibco-wi-rest",
+            "description": "",
+            "settings": {
+                "port": 9999,
+                "APISpecUpdate": false,
+                "swagger": "",
+                "secureConnection": false,
+                "serverKey": "",
+                "caCertificate": ""
+            },
+            "id": "ReceiveHTTPMessage",
+            "handlers": [
+                {
+                    "description": "",
+                    "settings": {
+                        "Method": "POST",
+                        "Path": "/particle/sensor",
+                        "OutputValidation": false
+                    },
+                    "action": {
+                        "ref": "github.com/project-flogo/flow",
+                        "settings": {
+                            "flowURI": "res://flow:ProcessSensorReadings_POST"
+                        },
+                        "input": {
+                            "body": "=$.body"
+                        }
+                    },
+                    "reply": {
+                        "code": 200,
+                        "configureResponseCodes": false,
+                        "message": "any"
+                    },
+                    "schemas": {
+                        "reply": {
+                            "data": {
+                                "type": "json",
+                                "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"pushed\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"created\":{\"type\":\"number\"},\"modified\":{\"type\":\"number\"},\"origin\":{\"type\":\"number\"},\"schedule\":{\"type\":\"null\"},\"event\":{\"type\":\"null\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"pushed\":{\"type\":\"number\"},\"created\":{\"type\":\"number\"},\"origin\":{\"type\":\"number\"},\"modified\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"}}}}}}",
+                                "fe_metadata": "{\n   \"id\":\"5c5f4beb0e3608000114b459\",\n   \"pushed\":0,\n   \"device\":\"ArgonParticle01\",\n   \"created\":1549749227499,\n   \"modified\":0,\n   \"origin\":0,\n   \"schedule\":null,\n   \"event\":null,\n   \"readings\":[\n      {\n         \"id\":\"5c5f4beb0e3608000114b45a\",\n         \"pushed\":0,\n         \"created\":1549749227499,\n         \"origin\":1549749227486,\n         \"modified\":0,\n         \"device\":\"ArgonParticle01\",\n         \"name\":\"LightSensor\",\n         \"value\":\"1080\"\n      }\n   ]\n}"
+                            }
+                        },
+                        "output": {
+                            "headers": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]}",
+                                "fe_metadata": "[{\"parameterName\":\"Accept\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Charset\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Encoding\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Type\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Length\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Connection\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Cookie\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Pragma\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false}]"
+                            },
+                            "body": {
+                                "type": "json",
+                                "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"pushed\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"created\":{\"type\":\"number\"},\"modified\":{\"type\":\"number\"},\"origin\":{\"type\":\"number\"},\"schedule\":{\"type\":\"null\"},\"event\":{\"type\":\"null\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"pushed\":{\"type\":\"number\"},\"created\":{\"type\":\"number\"},\"origin\":{\"type\":\"number\"},\"modified\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"}}}}}}",
+                                "fe_metadata": "{\n   \"id\":\"5c5f4beb0e3608000114b459\",\n   \"pushed\":0,\n   \"device\":\"ArgonParticle01\",\n   \"created\":1549749227499,\n   \"modified\":0,\n   \"origin\":0,\n   \"schedule\":null,\n   \"event\":null,\n   \"readings\":[\n      {\n         \"id\":\"5c5f4beb0e3608000114b45a\",\n         \"pushed\":0,\n         \"created\":1549749227499,\n         \"origin\":1549749227486,\n         \"modified\":0,\n         \"device\":\"ArgonParticle01\",\n         \"name\":\"LightSensor\",\n         \"value\":\"1080\"\n      }\n   ]\n}"
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    ],
     "resources": [
         {
             "id": "flow:ProcessSensorReadings_POST",
             "data": {
                 "name": "ProcessSensorReadings_POST",
                 "description": "",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "LogMessage",
+                        "to": "BuildGraph",
+                        "type": "default"
+                    },
+                    {
+                        "id": 2,
+                        "from": "BuildGraph",
+                        "to": "DgraphUpsert",
+                        "type": "default"
+                    }
+                ],
                 "tasks": [
                     {
                         "id": "LogMessage",
                         "name": "LogMessage",
+                        "description": "",
                         "activity": {
-                            "ref": "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/activity/log",
-                            "settings": {},
+                            "ref": "#log",
                             "input": {
                                 "Log Level": "INFO",
                                 "flowInfo": true,
-                                "message": ""
-                            },
-                            "output": {},
-                            "mappings": {
-                                "input": [
-                                    {
-                                        "mapTo": "$INPUT['message']",
-                                        "type": "expression",
-                                        "value": "string.tostring($flow.body)"
-                                    }
-                                ]
+                                "message": "=string.tostring($flow.body)"
                             }
                         }
                     },
                     {
                         "id": "BuildGraph",
                         "name": "BuildGraph",
-                        "settings": {
-                            "iterate": "$flow.body.readings"
-                        },
+                        "description": "This activity build graph from incoming data",
                         "type": "iterator",
+                        "settings": {
+                            "iterate": "=$flow.body.readings",
+                            "accumulate": false
+                        },
                         "activity": {
-                            "ref": "github.com/TIBCOSoftware/GraphBuilder/activity/builder",
+                            "ref": "#builder",
                             "settings": {
                                 "GraphModel": {
-                                    "id": "a7cdc900-caba-11e9-aca2-a14e2a179560",
+                                    "id": "d8613ef0-8bd8-11ea-a0c6-112138167609",
                                     "type": "flogo:connector",
                                     "version": "1.0.0",
                                     "name": "tibco-graph",
+                                    "hashTags": [],
                                     "inputMappings": {},
                                     "outputMappings": {},
                                     "iteratorMappings": {},
@@ -77,14 +154,33 @@
                                             "value": ""
                                         },
                                         {
-                                            "name": "inMemory",
-                                            "type": "boolean",
+                                            "name": "modelSource",
+                                            "type": "string",
+                                            "required": true,
                                             "display": {
-                                                "name": "In Memory",
-                                                "description": "Will keep graph in memory"
+                                                "name": "Model Source",
+                                                "description": "Where the model stored",
+                                                "type": "string"
                                             },
-                                            "value": false,
-                                            "required": true
+                                            "allowed": [
+                                                "Local File",
+                                                "TGDB"
+                                            ],
+                                            "value": "Local File"
+                                        },
+                                        {
+                                            "name": "url",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Model Server URL",
+                                                "description": "URL to the model server, ex. http://localhost:9999/tgdb/metadata",
+                                                "type": "string",
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": false
+                                            },
+                                            "value": ""
                                         },
                                         {
                                             "name": "model",
@@ -97,12 +193,25 @@
                                                 "fileExtensions": [
                                                     ".tgbm",
                                                     ".json"
-                                                ]
+                                                ],
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
                                             },
                                             "value": {
                                                 "filename": "IotModel.json",
                                                 "content": "data:application/json;base64,ewoJIm5vZGVzIjogWwoJCXsKCQkJIm5hbWUiOiAicmVhZGluZyIsCgkJCSJrZXkiOiBbCgkJCQkidXVpZCIKCQkJXSwKCQkJImF0dHJpYnV0ZXMiOiBbCgkJCQl7CgkJCQkJIm5hbWUiOiAidXVpZCIsCgkJCQkJInR5cGUiOiAiU3RyaW5nIgoJCQkJfSwKCQkJCXsKCQkJCQkibmFtZSI6ICJyZWFkaW5nIiwKCQkJCQkidHlwZSI6ICJTdHJpbmciCgkJCQl9LAoJCQkJewoJCQkJCSJuYW1lIjogInZhbHVlIiwKCQkJCQkidHlwZSI6ICJTdHJpbmciCgkJCQl9LAoJCQkJewoJCQkJCSJuYW1lIjogImNyZWF0ZWQiLAoJCQkJCSJ0eXBlIjogIkxvbmciCgkJCQl9LAoJCQkJewoJCQkJCSJuYW1lIjogInR5cGUiLAoJCQkJCSJ0eXBlIjogIlN0cmluZyIKCQkJCX0KCQkJXQoJCX0sCgkJewoJCQkibmFtZSI6ICJyZXNvdXJjZSIsCgkJCSJrZXkiOiBbCgkJCQkidXVpZCIKCQkJXSwKCQkJImF0dHJpYnV0ZXMiOiBbCgkJCQl7CgkJCQkJIm5hbWUiOiAidXVpZCIsCgkJCQkJInR5cGUiOiAiU3RyaW5nIgoJCQkJfSwKCQkJCXsKCQkJCQkibmFtZSI6ICJyZXNvdXJjZSIsCgkJCQkJInR5cGUiOiAiU3RyaW5nIgoJCQkJfSwKCQkJCXsKCQkJCQkibmFtZSI6ICJuYW1lIiwKCQkJCQkidHlwZSI6ICJTdHJpbmciCgkJCQl9LAoJCQkJewoJCQkJCSJuYW1lIjogInR5cGUiLAoJCQkJCSJ0eXBlIjogIlN0cmluZyIKCQkJCX0KCQkJXQoJCX0sCgkJewoJCQkibmFtZSI6ICJkZXZpY2UiLAoJCQkia2V5IjogWwoJCQkJInV1aWQiCgkJCV0sCgkJCSJhdHRyaWJ1dGVzIjogWwoJCQkJewoJCQkJCSJuYW1lIjogInV1aWQiLAoJCQkJCSJ0eXBlIjogIlN0cmluZyIKCQkJCX0sCgkJCQl7CgkJCQkJIm5hbWUiOiAiZGV2aWNlIiwKCQkJCQkidHlwZSI6ICJTdHJpbmciCgkJCQl9LAoJCQkJewoJCQkJCSJuYW1lIjogIm5hbWUiLAoJCQkJCSJ0eXBlIjogIlN0cmluZyIKCQkJCX0sCgkJCQl7CgkJCQkJIm5hbWUiOiAib3BlcmF0aW5nU3RhdGUiLAoJCQkJCSJ0eXBlIjogIlN0cmluZyIKCQkJCX0sCgkJCQl7CgkJCQkJIm5hbWUiOiAiYWRtaW5TdGF0ZSIsCgkJCQkJInR5cGUiOiAiU3RyaW5nIgoJCQkJfSwKCQkJCXsKCQkJCQkibmFtZSI6ICJkZXNjcmlwdGlvbiIsCgkJCQkJInR5cGUiOiAiU3RyaW5nIgoJCQkJfSwKCQkJCXsKCQkJCQkibmFtZSI6ICJ0eXBlIiwKCQkJCQkidHlwZSI6ICJTdHJpbmciCgkJCQl9CgkJCV0KCQl9LAoJCXsKCQkJIm5hbWUiOiAiZ2F0ZXdheSIsCgkJCSJrZXkiOiBbCgkJCQkidXVpZCIKCQkJXSwKCQkJImF0dHJpYnV0ZXMiOiBbCgkJCQl7CgkJCQkJIm5hbWUiOiAiZ2F0ZXdheSIsCgkJCQkJInR5cGUiOiAiU3RyaW5nIgoJCQkJfSwKCQkJCXsKCQkJCQkibmFtZSI6ICJ1cmwiLAoJCQkJCSJ0eXBlIjogIlN0cmluZyIKCQkJCX0sCgkJCQl7CgkJCQkJIm5hbWUiOiAidXVpZCIsCgkJCQkJInR5cGUiOiAiU3RyaW5nIgoJCQkJfSwKCQkJCXsKCQkJCQkibmFtZSI6ICJsYXRpdHVkZSIsCgkJCQkJInR5cGUiOiAiRG91YmxlIgoJCQkJfSwKCQkJCXsKCQkJCQkibmFtZSI6ICJsb25naXR1ZGUiLAoJCQkJCSJ0eXBlIjogIkRvdWJsZSIKCQkJCX0sCgkJCQl7CgkJCQkJIm5hbWUiOiAiY3JlYXRlZHRzIiwKCQkJCQkidHlwZSI6ICJTdHJpbmciCgkJCQl9LAoJCQkJewoJCQkJCSJuYW1lIjogInVwZGF0ZWR0cyIsCgkJCQkJInR5cGUiOiAiU3RyaW5nIgoJCQkJfSwKCQkJCXsKCQkJCQkibmFtZSI6ICJ0eXBlIiwKCQkJCQkidHlwZSI6ICJTdHJpbmciCgkJCQl9CgkJCV0KCQl9CgldLAoJImVkZ2VzIjogWwoJCXsKCQkJInRvIjogImRldmljZSIsCgkJCSJuYW1lIjogImdhdGV3YXlfZGV2aWNlIiwKCQkJImZyb20iOiAiZ2F0ZXdheSIsCgkJCSJkaXJlY3Rpb24iIDogMgoJCX0sCgkJewoJCQkidG8iOiAicmVzb3VyY2UiLAoJCQkibmFtZSI6ICJkZXZpY2VfcmVzb3VyY2UiLAoJCQkiZnJvbSI6ICJkZXZpY2UiCgkJfSwKCQl7CgkJCSJ0byI6ICJyZWFkaW5nIiwKCQkJIm5hbWUiOiAicmVzb3VyY2VfcmVhZGluZyIsCgkJCSJmcm9tIjogInJlc291cmNlIgoJCX0KCV0KfQ=="
                                             }
+                                        },
+                                        {
+                                            "name": "metadata",
+                                            "type": "string",
+                                            "display": {
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": false
+                                            },
+                                            "value": "{\n\t\"nodes\": [\n\t\t{\n\t\t\t\"name\": \"reading\",\n\t\t\t\"key\": [\n\t\t\t\t\"uuid\"\n\t\t\t],\n\t\t\t\"attributes\": [\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"uuid\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"reading\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"value\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"created\",\n\t\t\t\t\t\"type\": \"Long\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"type\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"name\": \"resource\",\n\t\t\t\"key\": [\n\t\t\t\t\"uuid\"\n\t\t\t],\n\t\t\t\"attributes\": [\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"uuid\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"resource\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"name\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"type\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"name\": \"device\",\n\t\t\t\"key\": [\n\t\t\t\t\"uuid\"\n\t\t\t],\n\t\t\t\"attributes\": [\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"uuid\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"device\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"name\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"operatingState\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"adminState\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"description\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"type\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"name\": \"gateway\",\n\t\t\t\"key\": [\n\t\t\t\t\"uuid\"\n\t\t\t],\n\t\t\t\"attributes\": [\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"gateway\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"url\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"uuid\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"latitude\",\n\t\t\t\t\t\"type\": \"Double\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"longitude\",\n\t\t\t\t\t\"type\": \"Double\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"createdts\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"updatedts\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"type\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t}\n\t\t\t]\n\t\t}\n\t],\n\t\"edges\": [\n\t\t{\n\t\t\t\"to\": \"device\",\n\t\t\t\"name\": \"gateway_device\",\n\t\t\t\"from\": \"gateway\",\n\t\t\t\"direction\" : 2\n\t\t},\n\t\t{\n\t\t\t\"to\": \"resource\",\n\t\t\t\"name\": \"device_resource\",\n\t\t\t\"from\": \"device\"\n\t\t},\n\t\t{\n\t\t\t\"to\": \"reading\",\n\t\t\t\"name\": \"resource_reading\",\n\t\t\t\"from\": \"resource\"\n\t\t}\n\t]\n}"
                                         }
                                     ],
                                     "outputs": [],
@@ -130,56 +239,73 @@
                                         }
                                     ],
                                     "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
                                     "propertyMap": {},
                                     "keyfield": "name",
+                                    "iteratorAccumulate": false,
                                     "isValid": true,
-                                    "lastUpdatedTime": 1567346558760,
+                                    "lastUpdatedTime": 1588359602136,
                                     "user": "flogo",
                                     "connectorName": "IotModel",
                                     "connectorDescription": " "
                                 },
+                                "AllowNullKey": false,
+                                "BatchMode": false,
+                                "PassThrough": "",
                                 "Multiinstances": ""
                             },
                             "input": {
+                                "BatchEnd": false,
                                 "Nodes": {
-                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"reading\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"uuid\":{\"type\":\"string\"},\"reading\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"created\":{\"type\":\"number\"},\"type\":{\"type\":\"string\"}}}},\"resource\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"uuid\":{\"type\":\"string\"},\"resource\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}},\"device\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"uuid\":{\"type\":\"string\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"operatingState\":{\"type\":\"string\"},\"adminState\":{\"type\":\"string\"},\"description\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}},\"gateway\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"gateway\":{\"type\":\"string\"},\"url\":{\"type\":\"string\"},\"uuid\":{\"type\":\"string\"},\"latitude\":{\"type\":\"number\"},\"longitude\":{\"type\":\"number\"},\"createdts\":{\"type\":\"string\"},\"updatedts\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}}}}}",
-                                    "value": "",
-                                    "fe_metadata": "[{\"reading\":[{\"_skipCondition\":false,\"uuid\":\"2\",\"reading\":\"2\",\"value\":\"2\",\"created\":2,\"type\":\"2\"}],\"resource\":[{\"_skipCondition\":false,\"uuid\":\"2\",\"resource\":\"2\",\"name\":\"2\",\"type\":\"2\"}],\"device\":[{\"_skipCondition\":false,\"uuid\":\"2\",\"device\":\"2\",\"name\":\"2\",\"operatingState\":\"2\",\"adminState\":\"2\",\"description\":\"2\",\"type\":\"2\"}],\"gateway\":[{\"_skipCondition\":false,\"gateway\":\"2\",\"url\":\"2\",\"uuid\":\"2\",\"latitude\":2,\"longitude\":2,\"createdts\":\"2\",\"updatedts\":\"2\",\"type\":\"2\"}]}]"
+                                    "mapping": []
                                 },
                                 "Edges": {
-                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"gateway_device\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}}}},\"device_resource\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}}}},\"resource_reading\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}}}}}}}",
-                                    "value": "",
-                                    "fe_metadata": "[{\"gateway_device\":[{\"_skipCondition\":false,\"vertices\":[{\"from\":\"string\",\"to\":\"string\"}]}],\"device_resource\":[{\"_skipCondition\":false,\"vertices\":[{\"from\":\"string\",\"to\":\"string\"}]}],\"resource_reading\":[{\"_skipCondition\":false,\"vertices\":[{\"from\":\"string\",\"to\":\"string\"}]}]}]"
+                                    "mapping": []
                                 }
                             },
-                            "output": {},
-                            "mappings": {
-                                "input": [
-                                    {
-                                        "mapTo": "$INPUT['Nodes']",
-                                        "type": "array",
-                                        "value": "{\"to\":\"$INPUT['Nodes']\",\"from\":\"NEWARRAY\",\"type\":\"foreach\",\"fields\":[{\"to\":\"$INPUT.$$['reading']\",\"from\":\"NEWARRAY\",\"type\":\"foreach\",\"fields\":[{\"to\":\"$INPUT.$$['uuid']\",\"from\":\"$current.iteration.value.id\",\"type\":\"assign\"},{\"to\":\"$INPUT.$$['reading']\",\"from\":\" \",\"type\":\"literal\"},{\"to\":\"$INPUT.$$['value']\",\"from\":\"$current.iteration.value.value\",\"type\":\"assign\"},{\"to\":\"$INPUT.$$['created']\",\"from\":\"$current.iteration.value.origin\",\"type\":\"assign\"},{\"to\":\"$INPUT.$$['type']\",\"from\":\"reading\",\"type\":\"literal\"}]},{\"to\":\"$INPUT.$$['resource']\",\"from\":\"NEWARRAY\",\"type\":\"foreach\",\"fields\":[{\"to\":\"$INPUT.$$['uuid']\",\"from\":\"string.concat($current.iteration.value.device, '_', $current.iteration.value.name)\",\"type\":\"expression\"},{\"to\":\"$INPUT.$$['resource']\",\"from\":\" \",\"type\":\"literal\"},{\"to\":\"$INPUT.$$['name']\",\"from\":\"$current.iteration.value.name\",\"type\":\"assign\"},{\"to\":\"$INPUT.$$['type']\",\"from\":\"resource\",\"type\":\"literal\"}]},{\"to\":\"$INPUT.$$['device']\",\"from\":\"NEWARRAY\",\"type\":\"foreach\",\"fields\":[{\"to\":\"$INPUT.$$['device']\",\"from\":\" \",\"type\":\"literal\"},{\"to\":\"$INPUT.$$['name']\",\"from\":\"$current.iteration.value.device\",\"type\":\"assign\"},{\"to\":\"$INPUT.$$['type']\",\"from\":\"device\",\"type\":\"literal\"},{\"to\":\"$INPUT.$$['uuid']\",\"from\":\"$current.iteration.value.device\",\"type\":\"assign\"}]},{\"to\":\"$INPUT.$$['gateway']\",\"from\":\"NEWARRAY\",\"type\":\"foreach\",\"fields\":[{\"to\":\"$INPUT.$$['gateway']\",\"from\":\" \",\"type\":\"literal\"},{\"to\":\"$INPUT.$$['uuid']\",\"from\":\"gateway1\",\"type\":\"literal\"},{\"to\":\"$INPUT.$$['type']\",\"from\":\"gateway\",\"type\":\"literal\"}]}]}"
+                            "schemas": {
+                                "input": {
+                                    "Nodes": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"reading\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"uuid\":{\"type\":\"string\"},\"reading\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"created\":{\"type\":\"number\"},\"type\":{\"type\":\"string\"}}},\"resource\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"uuid\":{\"type\":\"string\"},\"resource\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}},\"device\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"uuid\":{\"type\":\"string\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"operatingState\":{\"type\":\"string\"},\"adminState\":{\"type\":\"string\"},\"description\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}},\"gateway\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"gateway\":{\"type\":\"string\"},\"url\":{\"type\":\"string\"},\"uuid\":{\"type\":\"string\"},\"latitude\":{\"type\":\"number\"},\"longitude\":{\"type\":\"number\"},\"createdts\":{\"type\":\"string\"},\"updatedts\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}}}",
+                                        "fe_metadata": "{\"reading\":{\"_skipCondition\":false,\"uuid\":\"2\",\"reading\":\"2\",\"value\":\"2\",\"created\":2,\"type\":\"2\"},\"resource\":{\"_skipCondition\":false,\"uuid\":\"2\",\"resource\":\"2\",\"name\":\"2\",\"type\":\"2\"},\"device\":{\"_skipCondition\":false,\"uuid\":\"2\",\"device\":\"2\",\"name\":\"2\",\"operatingState\":\"2\",\"adminState\":\"2\",\"description\":\"2\",\"type\":\"2\"},\"gateway\":{\"_skipCondition\":false,\"gateway\":\"2\",\"url\":\"2\",\"uuid\":\"2\",\"latitude\":2,\"longitude\":2,\"createdts\":\"2\",\"updatedts\":\"2\",\"type\":\"2\"}}"
                                     },
-                                    {
-                                        "mapTo": "$INPUT['Edges']",
-                                        "type": "array",
-                                        "value": "{\"to\":\"$INPUT['Edges']\",\"from\":\"NEWARRAY\",\"type\":\"foreach\",\"fields\":[{\"to\":\"$INPUT.$$['gateway_device']\",\"from\":\"NEWARRAY\",\"type\":\"foreach\",\"fields\":[]},{\"to\":\"$INPUT.$$['device_resource']\",\"from\":\"NEWARRAY\",\"type\":\"foreach\",\"fields\":[]},{\"to\":\"$INPUT.$$['resource_reading']\",\"from\":\"NEWARRAY\",\"type\":\"foreach\",\"fields\":[]}]}"
+                                    "Edges": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway_device\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}},\"device_resource\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}},\"resource_reading\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}}}}",
+                                        "fe_metadata": "{\"gateway_device\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"}},\"device_resource\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"}},\"resource_reading\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"}}}"
+                                    },
+                                    "PassThroughData": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+                                        "fe_metadata": "{}"
                                     }
-                                ]
+                                },
+                                "output": {
+                                    "PassThroughDataOut": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+                                        "fe_metadata": "{}"
+                                    }
+                                }
                             }
                         }
                     },
                     {
                         "id": "DgraphUpsert",
                         "name": "DgraphUpsert",
+                        "description": "This activity upsert to Dgraph",
                         "activity": {
-                            "ref": "github.com/TIBCOSoftware/GraphBuilder_dgraph/activity/dgraphupsert",
+                            "ref": "#dgraphupsert",
                             "settings": {
                                 "dgraphConnection": {
-                                    "id": "aa395950-ca8f-11e9-bc3e-d1065db3fa04",
+                                    "id": "37bdb330-8bd7-11ea-a0c6-112138167609",
                                     "type": "flogo:connector",
                                     "version": "1.0.0",
                                     "name": "tibco-dgraph",
+                                    "hashTags": [],
                                     "inputMappings": {},
                                     "outputMappings": {},
                                     "iteratorMappings": {},
@@ -225,7 +351,7 @@
                                                 "description": "Username for login to Dgraph server",
                                                 "type": "string"
                                             },
-                                            "value": ""
+                                            "value": "123"
                                         },
                                         {
                                             "name": "password",
@@ -236,7 +362,7 @@
                                                 "description": "Password for login to Dgraph server",
                                                 "type": "password"
                                             },
-                                            "value": "SECRET:t17dtUhNzbeOkWXOWqkq3JzYig=="
+                                            "value": "SECRET:FFFK83TkF+bB/aR4MYXZtA75lg=="
                                         }
                                     ],
                                     "outputs": [],
@@ -264,156 +390,60 @@
                                         }
                                     ],
                                     "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
                                     "propertyMap": {},
                                     "keyfield": "name",
+                                    "iteratorAccumulate": false,
                                     "isValid": true,
-                                    "lastUpdatedTime": 1567129477209,
+                                    "lastUpdatedTime": 1588357352934,
                                     "user": "flogo",
                                     "connectorName": "Dgraph",
                                     "connectorDescription": " "
                                 },
+                                "cacheSize": -1,
                                 "readableExternalId": true,
                                 "explicitType": true,
                                 "typeTag": "type",
                                 "attrWithPrefix": false
                             },
                             "input": {
-                                "Graph": ""
-                            },
-                            "output": {
-                                "MessageId": ""
-                            },
-                            "mappings": {
-                                "input": [
-                                    {
-                                        "mapTo": "$INPUT['Graph']",
-                                        "type": "assign",
-                                        "value": "$activity[BuildGraph].Graph"
-                                    }
-                                ]
+                                "Graph": "=$activity[BuildGraph].Graph"
                             }
                         }
-                    }
-                ],
-                "links": [
-                    {
-                        "id": 1,
-                        "from": "LogMessage",
-                        "to": "BuildGraph",
-                        "type": "default"
-                    },
-                    {
-                        "id": 2,
-                        "from": "BuildGraph",
-                        "to": "DgraphUpsert",
-                        "type": "default"
                     }
                 ],
                 "metadata": {
                     "input": [
                         {
                             "name": "headers",
-                            "type": "complex_object",
-                            "value": {
-                                "value": "",
-                                "metadata": "{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}}"
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}}"
                             }
                         },
                         {
                             "name": "body",
-                            "type": "complex_object",
-                            "value": {
-                                "value": "",
-                                "metadata": "{\"id\":{\"type\":\"string\"},\"pushed\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"created\":{\"type\":\"number\"},\"modified\":{\"type\":\"number\"},\"origin\":{\"type\":\"number\"},\"schedule\":{\"type\":\"null\"},\"event\":{\"type\":\"null\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"pushed\":{\"type\":\"number\"},\"created\":{\"type\":\"number\"},\"origin\":{\"type\":\"number\"},\"modified\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"}}}}}"
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"id\":{\"type\":\"string\"},\"pushed\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"created\":{\"type\":\"number\"},\"modified\":{\"type\":\"number\"},\"origin\":{\"type\":\"number\"},\"schedule\":{\"type\":\"null\"},\"event\":{\"type\":\"null\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"pushed\":{\"type\":\"number\"},\"created\":{\"type\":\"number\"},\"origin\":{\"type\":\"number\"},\"modified\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"}}}}}"
                             }
                         }
                     ],
-                    "output": [
-                        {
-                            "name": "code",
-                            "type": "integer"
-                        },
-                        {
-                            "name": "data",
-                            "type": "complex_object",
-                            "value": {
-                                "value": "",
-                                "metadata": "{\"id\":{\"type\":\"string\"},\"pushed\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"created\":{\"type\":\"number\"},\"modified\":{\"type\":\"number\"},\"origin\":{\"type\":\"number\"},\"schedule\":{\"type\":\"null\"},\"event\":{\"type\":\"null\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"pushed\":{\"type\":\"number\"},\"created\":{\"type\":\"number\"},\"origin\":{\"type\":\"number\"},\"modified\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"}}}}}"
-                            }
-                        },
-                        {
-                            "name": "message",
-                            "type": "string"
-                        }
-                    ],
+                    "output": [],
                     "fe_metadata": {
-                        "input": "{\"type\":\"object\",\"title\":\"ReceiveHTTPMessage\",\"properties\":{\"headers\":{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]},\"body\":{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"pushed\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"created\":{\"type\":\"number\"},\"modified\":{\"type\":\"number\"},\"origin\":{\"type\":\"number\"},\"schedule\":{\"type\":\"null\"},\"event\":{\"type\":\"null\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"pushed\":{\"type\":\"number\"},\"created\":{\"type\":\"number\"},\"origin\":{\"type\":\"number\"},\"modified\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"}}}}}}}}",
-                        "output": "{\"type\":\"object\",\"title\":\"Inputs\",\"properties\":{\"code\":{\"type\":\"integer\",\"required\":false},\"data\":{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"pushed\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"created\":{\"type\":\"number\"},\"modified\":{\"type\":\"number\"},\"origin\":{\"type\":\"number\"},\"schedule\":{\"type\":\"null\"},\"event\":{\"type\":\"null\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"pushed\":{\"type\":\"number\"},\"created\":{\"type\":\"number\"},\"origin\":{\"type\":\"number\"},\"modified\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"}}}}}},\"message\":{\"type\":\"string\",\"required\":false}},\"required\":[]}"
+                        "input": "{\"type\":\"object\",\"title\":\"ReceiveHTTPMessage\",\"properties\":{\"headers\":{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]},\"body\":{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"pushed\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"created\":{\"type\":\"number\"},\"modified\":{\"type\":\"number\"},\"origin\":{\"type\":\"number\"},\"schedule\":{\"type\":\"null\"},\"event\":{\"type\":\"null\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"pushed\":{\"type\":\"number\"},\"created\":{\"type\":\"number\"},\"origin\":{\"type\":\"number\"},\"modified\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"}}}}}}}}"
                     }
                 },
                 "explicitReply": true
             }
         }
     ],
-    "triggers": [
-        {
-            "ref": "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/trigger/rest",
-            "name": "ReceiveHTTPMessage",
-            "description": "",
-            "settings": {
-                "port": 9999
-            },
-            "id": "ReceiveHTTPMessage",
-            "handlers": [
-                {
-                    "description": "",
-                    "settings": {
-                        "Method": "POST",
-                        "Path": "/particle/sensor",
-                        "OutputValidation": false
-                    },
-                    "outputs": {
-                        "headers": {
-                            "metadata": "{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]}",
-                            "value": "",
-                            "fe_metadata": "[{\"parameterName\":\"Accept\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Charset\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Encoding\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Type\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Length\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Connection\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Cookie\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Pragma\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false}]"
-                        },
-                        "body": {
-                            "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"pushed\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"created\":{\"type\":\"number\"},\"modified\":{\"type\":\"number\"},\"origin\":{\"type\":\"number\"},\"schedule\":{\"type\":\"null\"},\"event\":{\"type\":\"null\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"pushed\":{\"type\":\"number\"},\"created\":{\"type\":\"number\"},\"origin\":{\"type\":\"number\"},\"modified\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"}}}}}}",
-                            "value": "",
-                            "fe_metadata": "{\n   \"id\":\"5c5f4beb0e3608000114b459\",\n   \"pushed\":0,\n   \"device\":\"ArgonParticle01\",\n   \"created\":1549749227499,\n   \"modified\":0,\n   \"origin\":0,\n   \"schedule\":null,\n   \"event\":null,\n   \"readings\":[\n      {\n         \"id\":\"5c5f4beb0e3608000114b45a\",\n         \"pushed\":0,\n         \"created\":1549749227499,\n         \"origin\":1549749227486,\n         \"modified\":0,\n         \"device\":\"ArgonParticle01\",\n         \"name\":\"LightSensor\",\n         \"value\":\"1080\"\n      }\n   ]\n}"
-                        }
-                    },
-                    "action": {
-                        "ref": "github.com/TIBCOSoftware/flogo-contrib/action/flow",
-                        "data": {
-                            "flowURI": "res://flow:ProcessSensorReadings_POST"
-                        },
-                        "mappings": {
-                            "input": [
-                                {
-                                    "mapTo": "$INPUT['body']",
-                                    "type": "assign",
-                                    "value": "$.body"
-                                }
-                            ],
-                            "output": []
-                        }
-                    },
-                    "reply": {
-                        "code": 200,
-                        "data": {
-                            "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"pushed\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"created\":{\"type\":\"number\"},\"modified\":{\"type\":\"number\"},\"origin\":{\"type\":\"number\"},\"schedule\":{\"type\":\"null\"},\"event\":{\"type\":\"null\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"pushed\":{\"type\":\"number\"},\"created\":{\"type\":\"number\"},\"origin\":{\"type\":\"number\"},\"modified\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"}}}}}}",
-                            "value": "",
-                            "fe_metadata": "{\n   \"id\":\"5c5f4beb0e3608000114b459\",\n   \"pushed\":0,\n   \"device\":\"ArgonParticle01\",\n   \"created\":1549749227499,\n   \"modified\":0,\n   \"origin\":0,\n   \"schedule\":null,\n   \"event\":null,\n   \"readings\":[\n      {\n         \"id\":\"5c5f4beb0e3608000114b45a\",\n         \"pushed\":0,\n         \"created\":1549749227499,\n         \"origin\":1549749227486,\n         \"modified\":0,\n         \"device\":\"ArgonParticle01\",\n         \"name\":\"LightSensor\",\n         \"value\":\"1080\"\n      }\n   ]\n}"
-                        },
-                        "message": "any"
-                    }
-                }
-            ]
-        }
-    ],
     "properties": [],
-    "contrib": "W3sicmVmIjoiZ2l0aHViLmNvbS9USUJDT1NvZnR3YXJlL0dyYXBoQnVpbGRlciIsInMzbG9jYXRpb24iOiJ7VVNFUklEfS9HcmFwaEJ1aWxkZXIifSx7InJlZiI6ImdpdGh1Yi5jb20vVElCQ09Tb2Z0d2FyZS9HcmFwaEJ1aWxkZXJfZGdyYXBoIiwiczNsb2NhdGlvbiI6IntVU0VSSUR9L0dyYXBoQnVpbGRlcl9kZ3JhcGgifSx7InJlZiI6ImdpdC50aWJjby5jb20vZ2l0L3Byb2R1Y3QvaXBhYXMvd2ktY29udHJpYi5naXQvY29udHJpYnV0aW9ucy9HZW5lcmFsIiwiczNsb2NhdGlvbiI6IlRpYmNvL0dlbmVyYWwifV0=",
-    "fe_metadata": "UEsDBAoAAAAIAJphI0+rqSRGFQAAABMAAAAIAAAAYXBwLmpzb26rViopykxPTy1yy8kvL1ayio6tBQBQSwECFAAKAAAACACaYSNPq6kkRhUAAAATAAAACAAAAAAAAAAAAAAAAAAAAAAAYXBwLmpzb25QSwUGAAAAAAEAAQA2AAAAOwAAAAAA"
+    "connections": {},
+    "contrib": "W3sicmVmIjoiZ2l0LnRpYmNvLmNvbS9naXQvcHJvZHVjdC9pcGFhcy93aS1jb250cmliLmdpdC9jb250cmlidXRpb25zL0dlbmVyYWwiLCJzM2xvY2F0aW9uIjoiVGliY28vR2VuZXJhbCJ9LHsicmVmIjoiZ2l0aHViLmNvbS9USUJDT1NvZnR3YXJlL0dyYXBoQnVpbGRlciIsInMzbG9jYXRpb24iOiJ7VVNFUklEfS9HcmFwaEJ1aWxkZXIifSx7InJlZiI6ImdpdGh1Yi5jb20vVElCQ09Tb2Z0d2FyZS9HcmFwaEJ1aWxkZXJfZGdyYXBoIiwiczNsb2NhdGlvbiI6IntVU0VSSUR9L0dyYXBoQnVpbGRlcl9kZ3JhcGgifV0=",
+    "fe_metadata": "UEsDBAoAAAAIAHCdpVCrqSRGFQAAABMAAAAIAAAAYXBwLmpzb26rViopykxPTy1yy8kvL1ayio6tBQBQSwECFAAKAAAACABwnaVQq6kkRhUAAAATAAAACAAAAAAAAAAAAAAAAAAAAAAAYXBwLmpzb25QSwUGAAAAAAEAAQA2AAAAOwAAAAAA"
 }
