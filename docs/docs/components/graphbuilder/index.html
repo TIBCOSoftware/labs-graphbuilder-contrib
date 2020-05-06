@@ -21,22 +21,22 @@
 <link rel="icon" type="image/png" href="/labs-graphbuilder-contrib/favicons/android-192x192.png" sizes="192x192">
 
 <title>GraphBuilder | Project GraphBuilder</title><meta property="og:title" content="GraphBuilder" />
-<meta property="og:description" content="details about GraphBuilder it self
+<meta property="og:description" content="The core extension which provides BuildGraph activity to construct graph from input data based on user predefined graph model
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/components/graphbuilder/" />
-<meta property="article:modified_time" content="2020-03-30T14:55:45+02:00" /><meta property="og:site_name" content="Project GraphBuilder" />
+<meta property="article:modified_time" content="2020-05-06T12:41:29-04:00" /><meta property="og:site_name" content="Project GraphBuilder" />
 <meta itemprop="name" content="GraphBuilder">
-<meta itemprop="description" content="details about GraphBuilder it self
+<meta itemprop="description" content="The core extension which provides BuildGraph activity to construct graph from input data based on user predefined graph model
 ">
-<meta itemprop="dateModified" content="2020-03-30T14:55:45&#43;02:00" />
-<meta itemprop="wordCount" content="5">
+<meta itemprop="dateModified" content="2020-05-06T12:41:29-04:00" />
+<meta itemprop="wordCount" content="233">
 
 
 
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="GraphBuilder"/>
-<meta name="twitter:description" content="details about GraphBuilder it self
+<meta name="twitter:description" content="The core extension which provides BuildGraph activity to construct graph from input data based on user predefined graph model
 "/>
 
 
@@ -311,6 +311,12 @@ if (!doNotTrack) {
       
       
       
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocssample-applicationsnorthwind" href="/labs-graphbuilder-contrib/docs/sample-applications/northwind/">Northwind</a>
+      
+      
+      
+      
+      
       <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocssample-applicationshierachy" href="/labs-graphbuilder-contrib/docs/sample-applications/hierachy/">Hierachy</a>
       
       
@@ -416,16 +422,104 @@ if (!doNotTrack) {
 
 
 
-<p class="-text-primary pt-3 h6" >Reading time: 0 minutes and 1 second.</p>
+<p class="-text-primary pt-3 h6" >Reading time: 1 minutes and 3 seconds.</p>
 <p>
 <div class="td-content">
 	<h1>GraphBuilder</h1>
-	<div class="lead">details about GraphBuilder it self</div>
-	<p>Implementation Sources</p>
-<ul>
-<li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/connector/graph">Connector</a></li>
-<li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/activity/builder">BuildGraph</a></li>
-<li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/activity/graphtofile">GraphToFile</a></li>
+	<div class="lead">The core extension which provides BuildGraph activity to construct graph from input data based on user predefined graph model</div>
+	<ul>
+<li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/connector/graph">Graph Connector</a>
+: A Graph connector is the component to host your graph model. Activities which connect to same graph connector would share same graph model (data schema)</li>
+</ul>
+<p>Here is the schema of graph model</p>
+<pre><code>{
+    &quot;$schema&quot;: &quot;http://json-schema.org/draft-04/schema#&quot;,
+    &quot;type&quot;: &quot;object&quot;,
+    &quot;properties&quot;: {
+        &quot;nodes&quot;: {
+            &quot;type&quot;: &quot;array&quot;,
+            &quot;items&quot;: {
+                &quot;type&quot;: &quot;object&quot;,
+                &quot;properties&quot;: {
+                    &quot;name&quot;: {
+                        &quot;type&quot;: &quot;string&quot;
+                    },
+                    &quot;key&quot;: {
+                        &quot;type&quot;: &quot;array&quot;,
+                        &quot;items&quot;: {
+                            &quot;type&quot;: &quot;string&quot;
+                        }
+                    },
+                    &quot;attributes&quot;: {
+                        &quot;type&quot;: &quot;array&quot;,
+                        &quot;items&quot;: {
+                            &quot;type&quot;: &quot;object&quot;,
+                            &quot;properties&quot;: {
+                                &quot;name&quot;: {
+                                    &quot;type&quot;: &quot;string&quot;
+                                },
+                                &quot;type&quot;: {
+                                    &quot;type&quot;: &quot;string&quot;
+                                }
+                            },
+                            &quot;required&quot;: [
+                                &quot;name&quot;,
+                                &quot;type&quot;
+                            ]
+                        }
+                    }
+                },
+                &quot;required&quot;: [
+                    &quot;name&quot;,
+                    &quot;key&quot;,
+                    &quot;attributes&quot;
+                ]
+            }
+        },
+        &quot;edges&quot;: {
+            &quot;type&quot;: &quot;array&quot;,
+            &quot;items&quot;: {
+                &quot;type&quot;: &quot;object&quot;,
+                &quot;properties&quot;: {
+                    &quot;to&quot;: {
+                        &quot;type&quot;: &quot;string&quot;
+                    },
+                    &quot;name&quot;: {
+                        &quot;type&quot;: &quot;string&quot;
+                    },
+                    &quot;from&quot;: {
+                        &quot;type&quot;: &quot;string&quot;
+                    },
+                    &quot;attributes&quot;: {
+                        &quot;type&quot;: &quot;array&quot;,
+                        &quot;items&quot;: {
+                            &quot;type&quot;: &quot;object&quot;,
+                            &quot;properties&quot;: {
+                                &quot;name&quot;: {
+                                    &quot;type&quot;: &quot;string&quot;
+                                },
+                                &quot;type&quot;: {
+                                    &quot;type&quot;: &quot;string&quot;
+                                }
+                            }
+                        }
+                    }
+                },
+                &quot;required&quot;: [
+                    &quot;from&quot;,
+                    &quot;name&quot;,
+                    &quot;to&quot;,
+                    &quot;attributes&quot;
+                ]
+            }
+        }
+    }
+}
+</code></pre><ul>
+<li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/activity/builder">BuildGraph Activity</a>
+: A BuildGraph activity must connect to a Graph connector so it can build the input data structure from the graph model which associated with connector. BuildGraph activity transform the input data to graph structure (nodes and edges) based on the graph model.</li>
+<li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/activity/graphtofile">GraphToFile</a>
+: A GraphToFile activity takes graph entities (nodes and edges) from BuildGraph and writes them to file. It's an useful utility for troubleshooting</li>
 </ul>
 
 	
@@ -490,7 +584,7 @@ if (!doNotTrack) {
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified March 30, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/d4fc2c52480f37f30ee4311a0585d2a0e450f720">initial docs (d4fc2c5)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified May 6, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/b2df637bf0c3596f7594bcd148cc2b6616d15048">Update document and sample app (b2df637)</a>
 </div>
 </div>
 

@@ -21,22 +21,22 @@
 <link rel="icon" type="image/png" href="/labs-graphbuilder-contrib/favicons/android-192x192.png" sizes="192x192">
 
 <title>TGDB | Project GraphBuilder</title><meta property="og:title" content="TGDB" />
-<meta property="og:description" content="details about GraphBuilder and TIBCO® Graph Database
+<meta property="og:description" content="This extension contains activities to perform CRUD operations against TIBCO® Graph Database
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/components/graphbuilder-tgdb/" />
-<meta property="article:modified_time" content="2020-03-30T14:55:45+02:00" /><meta property="og:site_name" content="Project GraphBuilder" />
+<meta property="article:modified_time" content="2020-05-06T12:41:29-04:00" /><meta property="og:site_name" content="Project GraphBuilder" />
 <meta itemprop="name" content="TGDB">
-<meta itemprop="description" content="details about GraphBuilder and TIBCO® Graph Database
+<meta itemprop="description" content="This extension contains activities to perform CRUD operations against TIBCO® Graph Database
 ">
-<meta itemprop="dateModified" content="2020-03-30T14:55:45&#43;02:00" />
-<meta itemprop="wordCount" content="6">
+<meta itemprop="dateModified" content="2020-05-06T12:41:29-04:00" />
+<meta itemprop="wordCount" content="90">
 
 
 
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="TGDB"/>
-<meta name="twitter:description" content="details about GraphBuilder and TIBCO® Graph Database
+<meta name="twitter:description" content="This extension contains activities to perform CRUD operations against TIBCO® Graph Database
 "/>
 
 
@@ -311,6 +311,12 @@ if (!doNotTrack) {
       
       
       
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocssample-applicationsnorthwind" href="/labs-graphbuilder-contrib/docs/sample-applications/northwind/">Northwind</a>
+      
+      
+      
+      
+      
       <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocssample-applicationshierachy" href="/labs-graphbuilder-contrib/docs/sample-applications/hierachy/">Hierachy</a>
       
       
@@ -416,17 +422,20 @@ if (!doNotTrack) {
 
 
 
-<p class="-text-primary pt-3 h6" >Reading time: 0 minutes and 1 second.</p>
+<p class="-text-primary pt-3 h6" >Reading time: 0 minutes and 24 seconds.</p>
 <p>
 <div class="td-content">
 	<h1>TGDB</h1>
-	<div class="lead">details about GraphBuilder and TIBCO® Graph Database</div>
-	<p>Implementation Sources</p>
-<ul>
-<li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/tgdb/connector/">Connector</a></li>
-<li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/tgdb/activity/tgdbupsert/">TGDBUpsert</a></li>
-<li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/tgdb/activity/tgdbquery/">TGDBQuery</a></li>
-<li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/tgdb/activity/tgdbdelete/">TGDBDelete</a></li>
+	<div class="lead">This extension contains activities to perform CRUD operations against TIBCO® Graph Database</div>
+	<ul>
+<li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tgdb/connector/">TGDB Connector</a>
+: A TGDB connector is the component to host your TGDB server connecting information. Activities which connect to same TGDB connector would connect to same TGDB server instance</li>
+<li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tgdb/activity/tgdbupsert">TGDBUpsert</a>
+: A TGDBUpsert activity consumes the graph data from BuildGraph activity and insert/update to TGDB.</li>
+<li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/tgdb/activity/tgdbquery/">TGDBQuery</a>
+: With TGDBQuery activity users can build their own application to query against TGDB. It support both TGQL and Gremlin query language</li>
+<li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/tgdb/activity/tgdbdelete/">TGDBDelete</a>
+: TGDBDelete activity implemeting graph entities deletion for TGDB. It takes graph entities from BuildGraph then performs deletion of them</li>
 </ul>
 
 	
@@ -491,7 +500,7 @@ if (!doNotTrack) {
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified March 30, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/d4fc2c52480f37f30ee4311a0585d2a0e450f720">initial docs (d4fc2c5)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified May 6, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/b2df637bf0c3596f7594bcd148cc2b6616d15048">Update document and sample app (b2df637)</a>
 </div>
 </div>
 

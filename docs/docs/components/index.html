@@ -306,6 +306,12 @@ if (!doNotTrack) {
       
       
       
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocssample-applicationsnorthwind" href="/labs-graphbuilder-contrib/docs/sample-applications/northwind/">Northwind</a>
+      
+      
+      
+      
+      
       <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocssample-applicationshierachy" href="/labs-graphbuilder-contrib/docs/sample-applications/hierachy/">Hierachy</a>
       
       
@@ -402,14 +408,18 @@ if (!doNotTrack) {
 	
 	
 	
-	<p class="-text-secondary pt-3 h6" >Reading time: 0 minutes and 1 second.</p>
+	<p class="-text-secondary pt-3 h6" >Reading time: 0 minutes and 33 seconds.</p>
 	<h1>Components</h1>
 	<div class="lead">The solution is based on four core components</div>
-	<p>Implementation Sources</p>
-<ul>
-<li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/connector/graph">Connector</a></li>
-<li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/activity/builder">BuildGraph</a></li>
-<li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/activity/graphtofile">GraphToFile</a></li>
+	<ul>
+<li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/connector/graph">Graph Connector</a>
+: A Graph connector is the component to host your graph model. Activities which connect to same Graph connector would share same graph model (data schema)</li>
+<li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/activity/builder">BuildGraph Activity</a>
+: A BuildGraph activity must connect to a Graph connector so it can build the input data structure from the graph model which associated with connector. BuildGraph activity transform the input data to graph structure (nodes and edges) based on the graph model.</li>
+<li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tgdb/connector/">TGDB Connector</a>
+: A TGDB connector is a component to store your TGDB server connecting information. Activities which connect to same TGDB connector are actually connect to the same TGDB server instance</li>
+<li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tgdb/activity/tgdbupsert">TGDBUpsert</a>
+: A TGDBUpsert activity consumes the graph data from BuildGraph activity and insert/update to TGDB.</li>
 </ul>
 
         <div class="section-index">
@@ -426,8 +436,10 @@ if (!doNotTrack) {
                     <h5>
                         <a href="/labs-graphbuilder-contrib/docs/components/graphbuilder/">GraphBuilder</a>
                     </h5>
-                    <p>details about GraphBuilder it self</p>
+                    <p>The core extension which provides BuildGraph activity to construct graph from input data based on user predefined graph model</p>
                 </div>
+            
+        
             
         
             
@@ -445,7 +457,7 @@ if (!doNotTrack) {
                     <h5>
                         <a href="/labs-graphbuilder-contrib/docs/components/graphbuilder-tgdb/">TGDB</a>
                     </h5>
-                    <p>details about GraphBuilder and TIBCO® Graph Database</p>
+                    <p>This extension contains activities to perform CRUD operations against TIBCO® Graph Database</p>
                 </div>
             
         
@@ -454,7 +466,7 @@ if (!doNotTrack) {
                     <h5>
                         <a href="/labs-graphbuilder-contrib/docs/components/graphbuilder-dgraph/">Dgraph</a>
                     </h5>
-                    <p>details about GraphBuilder Dgraph</p>
+                    <p>This extension contains activities to perform upsert operation against Dgraph database</p>
                 </div>
             
         
@@ -473,7 +485,7 @@ if (!doNotTrack) {
                     <h5>
                         <a href="/labs-graphbuilder-contrib/docs/components/graphbuilder-neo4j/">Neo4j</a>
                     </h5>
-                    <p>details about GraphBuilder Neo4j</p>
+                    <p>This extension contains activities to perform upsert operation against Neo4j database</p>
                 </div>
             
         
@@ -484,7 +496,7 @@ if (!doNotTrack) {
                     <h5>
                         <a href="/labs-graphbuilder-contrib/docs/components/graphbuilder-gremlin/">Gremlin</a>
                     </h5>
-                    <p>details about GraphBuilder Gremlin</p>
+                    <p>This extension contains activities to perform upsert operation against Gremlin Janusgraph server</p>
                 </div>
             
         
@@ -495,7 +507,7 @@ if (!doNotTrack) {
                     <h5>
                         <a href="/labs-graphbuilder-contrib/docs/components/graphbuilder-sse/">SSE</a>
                     </h5>
-                    <p>details about GraphBuilder SSE</p>
+                    <p>SSE user extension contains activities for implemeting Server Sent Event (HTTP based streaming event) client and server.</p>
                 </div>
             
         
@@ -504,7 +516,7 @@ if (!doNotTrack) {
                     <h5>
                         <a href="/labs-graphbuilder-contrib/docs/components/graphbuilder-tools/">Tools</a>
                     </h5>
-                    <p>details about GraphBuilder Tools</p>
+                    <p>This user extension provide utilities for building an graph database related flogo application</p>
                 </div>
             
         
@@ -575,7 +587,7 @@ if (!doNotTrack) {
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified March 31, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/d8f2a6dea1d9622e1132a2bb9ba898e28f4d0c8c">add doc links (d8f2a6d)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified May 6, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/b2df637bf0c3596f7594bcd148cc2b6616d15048">Update document and sample app (b2df637)</a>
 </div>
 </div>
 
