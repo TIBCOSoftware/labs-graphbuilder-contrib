@@ -1,0 +1,145 @@
+{
+	"partition_key": "B6_0134",
+	"Flight": {
+		"DataIndicator": {
+			"Value": "ALL",
+			"Name": "Flight"
+		},
+		"ScheduledFlightLeg": [
+			{
+				"FlightLegSeqNumber": "10",
+				"SecureFlightIndicator": "true",
+				"SourceSystemName": "SchedMgr",
+				"OriginatorFlightIndicator": "N",
+				"DomesticArrStnIndictor": "Y",
+				"SchAcftConfig": "C16Y143",
+				"DepTerminal": "I",
+				"OnTimePerfValue": "7",
+				"DomesticDepStnIndictor": "Y",
+				"ServiceType": "J",
+				"SchAcftOwner": "XYZ",
+				"SourceMessageType": "SCH",
+				"FlightType": "SCH",
+				"ScheduledGroundMinutes": "80",
+				"MarketingFlightSegment": [
+					{
+						"MarketingFlightNumber": "0134",
+						"FlightSegDestLocalDateTime": "2018-11-18T00:35:00-05:00",
+						"SourceSystemName": "SchedMgr",
+						"SourceMessageType": "SCH",
+						"MarketingCarrierCode": "XYZ",
+						"FlightSegDestAirport": "BOS",
+						"FlightSegOriginLocalDateTime": "2018-11-17T16:15:00-08:00",
+						"FlightSegOriginLocalDate": "2018-11-17",
+						"SourceUpdateDateTime": "2018-11-16T14:40:00Z",
+						"FlightSegOriginAirport": "SFO"
+					}
+				],
+				"SchOnwardFlightCarrierCode": "XYZ",
+				"Status": "ON TIME",
+				"SchOnwardFlightNumber": "1077",
+				"SchLocalDepDateTime": "2018-11-17T16:15:00-08:00",
+				"ScheduledBlockMinutes": "320",
+				"SchDepStnCode": "SFO",
+				"SchLocalDepDate": "2018-11-17",
+				"SchLocalArrDateTime": "2018-11-18T00:35:00-05:00",
+				"ArrTerminal": "C",
+				"CurrentFlightLeg": [
+					{
+						"ActualFlightTimeMinutes": "0",
+						"PrevTailNumber": "987",
+						"CurrentArrivalTerminal": "C",
+						"ActualDepartureDelayMinutes": "0",
+						"DispatchDesk": "DM",
+						"BlueTurnIndicator": "N",
+						"EstimatedDepartureDelayMinutes": "0",
+						"PrevAcftRegNumber": "N987JT",
+						"ActualEquipmentType": "32S",
+						"TurnTime": "60",
+						"DoorCloseTime": "04:00 PM",
+						"EstLocalArrDateTime": "2018-11-18T00:35:00-05:00",
+						"TailNumber": "934",
+						"ActualFlightType": "SCH",
+						"Status": "On Time",
+						"ArrProgress": "S",
+						"CurrentArrivalDateTime": "2018-11-18T00:35:00-05:00",
+						"DepProgress": "S",
+						"EstimatedGroundMinutes": "80",
+						"EstLocalBoardingDateTime": "2018-11-17T15:40:00-08:00",
+						"CurrentDepartureTerminal": "I",
+						"ActualArrivalDelayMinutes": "0",
+						"CurrentDepStnCode": "SFO",
+						"RON": "true",
+						"ActualBlockMinutes": "0",
+						"AcftRegNumber": "N934JB",
+						"ActiveAFLSeqNumber": "1",
+						"CurrentDepartureDateTime": "2018-11-17T16:15:00-08:00",
+						"ATCStatus": "0",
+						"FleetLaunchFlightIndicator": "N",
+						"CurrentArrStnCode": "BOS",
+						"EstimatedArrivalDelayMinutes": "0",
+						"EstLocalDepDateTime": "2018-11-17T16:15:00-08:00",
+						"SourceUpdateDateTime": "2018-11-11T05:52:00Z"
+					}
+				],
+				"SchArrStnCode": "BOS",
+				"RON": "true",
+				"ActualFlightLeg": [
+					{
+						"DepStnCode": "SFO",
+						"PrevTailNumber": "987",
+						"SourceSystemName": "FliteTrac",
+						"Fitindicator": "false",
+						"DispatchDeskId": "DM",
+						"PrevAcftRegNumber": "N987JT",
+						"ActFlightType": "SCH",
+						"LocalArrDateTime": "2018-11-18T00:35:00-05:00",
+						"SourceFlightLegSeqNumber": "10",
+						"LocalDepDateTime": "2018-11-17T16:15:00-08:00",
+						"ArrStnCode": "BOS",
+						"LocalDepDate": "2018-11-17",
+						"ServiceType": "J",
+						"ActFlightLegSeqNumber": "1",
+						"EstLocalPubDepDateTime": "2018-11-17T16:15:00-08:00",
+						"TailNumber": "934",
+						"SourceMessageType": "ADH",
+						"SourceFlightLegId": "0005059803",
+						"Atcstatus": "0",
+						"ArrProgress": "S",
+						"DepProgress": "S",
+						"SchFlightType": "SCH",
+						"SourceUpdateUserId": "ICAB",
+						"ReplacedFromSourceFlightLegSeqNumber": "0",
+						"AcftRegNumber": "N934JB",
+						"LegStatus": "ON TIME",
+						"SourceUpdateDateTime": "2018-11-11T05:52:00Z",
+						"EstLocalPubArrDateTime": "2018-11-18T00:35:00-05:00",
+						"EqpmtType": "32S"
+					}
+				],
+				"FleetLaunchFlightIndicator": "N",
+				"OnTimePerfPeriod": "JUL18",
+				"SourceUpdateDateTime": "2018-11-16T14:40:00Z",
+				"EqpmtType": "32S"
+			}
+		],
+		"FlightCarrierCode": "XYZ",
+		"FlightNumber": "0134",
+		"EventId": "20181116171707052.B6013420181117SFO10.2",
+		"DocumentType": "Flight",
+		"FlightOriginStnCode": "SFO",
+		"EventTimeStamp": "2018-11-16T17:17:07.053-05:00",
+		"FlightOriginLocalDate": "2018-11-17",
+		"FlightDestStnCode": "BOS",
+		"EventSubType": "|FlightDepNotification",
+		"ChangeIndicator": [
+			{
+				"Name": "SchFltLeg"
+			},
+			{
+				"Name": "ActFltLeg"
+			}
+		]
+	},
+	"id": "B6_0134_2018-11-17"
+}

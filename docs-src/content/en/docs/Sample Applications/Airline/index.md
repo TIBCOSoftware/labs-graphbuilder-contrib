@@ -3,11 +3,10 @@ title: "Airline"
 linkTitle: "Airline"
 weight: 1
 description: >
-  Business use case
+  Using graph model to construct the relation between passenger, destination data and flight events
 ---
 
 #### Details
-coming soon here!
 
 #### Implementation Source
 stored on GitHub [here](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/Airline).

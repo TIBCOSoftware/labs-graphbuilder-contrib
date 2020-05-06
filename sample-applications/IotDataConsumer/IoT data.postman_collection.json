@@ -1,0 +1,65 @@
+{
+	"info": {
+		"_postman_id": "3504995d-4202-41fa-a918-facad8239284",
+		"name": "IoT data",
+		"description": "getNodeTypes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "IoT",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"id\":\"5c5f4beb0e3608000114b459\",\n   \"pushed\":0,\n   \"device\":\"ArgonParticle01\",\n   \"created\":1549749227499,\n   \"modified\":0,\n   \"origin\":0,\n   \"schedule\":null,\n   \"event\":null,\n   \"readings\":[\n      {\n         \"id\":\"5c5f4beb0e3608000114b45a\",\n         \"pushed\":0,\n         \"created\":1549749227499,\n         \"origin\":1549749227486,\n         \"modified\":0,\n         \"device\":\"ArgonParticle01\",\n         \"name\":\"LightSensor\",\n         \"value\":\"1080\"\n      }\n   ]\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:9999/particle/sensor",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9999",
+					"path": [
+						"particle",
+						"sensor"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "c1418a25-b877-46e3-996d-6c9b098f37f6",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "46c3a6e1-9df2-444c-862a-cf86420d507b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

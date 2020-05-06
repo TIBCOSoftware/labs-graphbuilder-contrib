@@ -3,7 +3,7 @@ title: "RESTful Service"
 linkTitle: "RESTful Service"
 weight: 5
 description: >
-  REST Services Interfaces for TIBCO Graph Database
+  RESTful Services API for querying against TIBCO Graph Database
 ---
 
 ## Create TGDB Connection

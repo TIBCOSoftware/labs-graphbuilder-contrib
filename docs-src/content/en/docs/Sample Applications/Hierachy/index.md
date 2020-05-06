@@ -3,7 +3,7 @@ title: "Hierachy"
 linkTitle: "Hierachy"
 weight: 2
 description: >
-  Business use case
+  This original example is shipped with TGDB to demonstrate how to build a graph with the API and perform search and queries on objects in the graph. Here we demonstrate another way which is using GraphBuilder to populate Napoleon Bonaparte's family tree to TGDB.
 ---
 
 #### Details

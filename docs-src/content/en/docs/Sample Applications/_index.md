@@ -3,7 +3,7 @@ title: "Sample Applications"
 linkTitle: "Applications"
 weight: 5
 description: >
-  What you achieve using Project GraphBuilder
+  What you can achieve with Project GraphBuilder
 ---
 
 Project Graph Builder offers an easy and powerful way of loading data from multiple enterprise data sources into TIBCO® Graph Database in real time to leverage the power of all the business insights that are captured in your data. 

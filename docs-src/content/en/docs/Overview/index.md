@@ -3,7 +3,7 @@ title: "Overview"
 linkTitle: "Overview"
 weight: 1
 description: >
-  Project GraphBuilder is a Flogo based tool set which includes couples of graph data processing related user extensions for TIBCO Flogo Enterprise.
+  Project GraphBuilder is a Flogo based tool set which includes a set og graph data processing related user extensions for TIBCO Flogo Enterprise.
 ---
 
 By using GraphBuilder you are able to build your own application to

@@ -3,7 +3,7 @@ title: "Labs"
 linkTitle: "Labs"
 weight: 3
 description: >
-  GraphBuilder Labs
+  GraphBuilder Labs step by step guide you through the process of building an flogo application which transform csv data then upsert to TGDB in three hand on labs. 
 ---
 
 In following labs we are going to use the Northwind dataset to create an flogo application. The Northwind data is a sample dataset used by Microsoft to demonstrate the

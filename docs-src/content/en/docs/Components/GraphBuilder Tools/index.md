@@ -3,21 +3,22 @@ title: "Tools"
 linkTitle: "Tools"
 weight: 7
 description: >
-  details about GraphBuilder Tools
+  This user extension provide utilities for building an graph database related flogo application
 ---
 
-Implementation Sources
-
-* [Connector](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/connector/simpletable/)
 * [FileReader](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/trigger/filereader/)
+	: Read data from single file, files in a folder or files in a zip file
 * [Accumulator](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/accumulator/)
+	: Accumulate input data then emits it in a batch
 * [CSVFileWriter](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/csvfilewriter/)
+	: Write data to file in CSV format
 * [CSVParser](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/csvparser/)
+	: Parse data from CSV file based on predefined path then set to a flate tuple
 * [JsonDataDecoupler](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/jsondatadecoupler/)
+	: Extract array data from JSON then emits a array of tuples
 * [JsonDeserializer](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/jsondeserializer/)
+	: Convert JSON string to an object
 * [JsonParser](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/jsonparser/)
-* [CSVParser](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/csvparser/)
-* [JsonDataDecoupler](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/jsondatadecoupler/)
-* [JsonDeserializer](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/jsondeserializer/)
-* [TableQuery](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/tablequery/)
-* [TableUpsert](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/tableupsert/)
+	: Parse data from JSON file based on predefined path then set to a flate tuple
+* [JsonSerializer](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/jsonserializer/)
+	: Convert an object to JSON string

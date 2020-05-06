@@ -3,7 +3,7 @@ title: "IoT Data Consumer"
 linkTitle: "IoT Data Consumer"
 weight: 3
 description: >
-  Business use case
+  Using graph model to store the realtine reading from IoT devices
 ---
 
 #### Details
