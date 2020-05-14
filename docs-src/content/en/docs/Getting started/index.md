@@ -7,8 +7,8 @@ description: >
 ---
 
 
-1. Download latest TIBCO Flogo Enterprise from here <a href="https://edelivery.tibco.com/storefront/en/eval/tibco-flogo-enterprise/prod11810.html" target="_blank">here</a>
+1. Download latest TIBCO Flogo® Enterprise from here <a href="https://edelivery.tibco.com/storefront/en/eval/tibco-flogo-enterprise/prod11810.html" target="_blank">here</a>
 2. Download GraphBuilder user extensions <a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/dist" target="_blank">here</a> 
-3. import GraphBuilder user extensions to TIBCO Flogo Enterprise studio.
+3. import GraphBuilder user extensions to TIBCO Flogo® Enterprise studio (for detail, see instructions in following Labs)
 4. Enjoy it!
 
