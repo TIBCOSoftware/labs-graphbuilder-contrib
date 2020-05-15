@@ -7,7 +7,7 @@ description: >
 ---
 
 * [FileReader](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/trigger/filereader/)
-	: Read data from single file, files in a folder or files in a zip file
+	: Read data from single file, files in a folder or file entries in a zip file
 * [Accumulator](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/accumulator/)
 	: Accumulate input data then emits it in a batch
 * [CSVFileWriter](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/csvfilewriter/)

@@ -3,25 +3,25 @@ title: "Labs"
 linkTitle: "Labs"
 weight: 3
 description: >
-  GraphBuilder Labs step by step guide you through the process of building an flogo application which transform csv data then upsert to TGDB in three hand on labs. 
+  In following hands on labs I will step by step guide you through the process of building an Flogo application which transforms csv data then inserts/updates data to TIBCO® Graph Database. 
 ---
 
-In following labs we are going to use the Northwind dataset to create an flogo application. The Northwind data is a sample dataset used by Microsoft to demonstrate the
-features of Microsoft's relational database. We will demonstrate how to use GraphBuilder to convert relational data to graph then insert into TIBCO® Graph Database (TGDB).
+We are going to use the Northwind dataset to create an Flogo application. The Northwind data is a sample dataset used by Microsoft to demonstrate the features of Microsoft's relational database. We will demonstrate how to use GraphBuilder to convert relational data to graph then insert into TIBCO® Graph Database.
 
-You can check out or download Project GraphBuilder from https://https://github.com/TIBCOSoftware/labs-graphbuilder-contrib.gitlabs-graphbuilder-contrib.git. You can find the artifacts which you need for the labs project
+You can check out or download Project GraphBuilder from <a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib" target="_blank">here</a> and the artifacts which you need for your labs project
 
-- /TIBCOSoftware/labs-graphbuilder-contrib/dist : GraphBuilders user extensions
-- /TIBCOSoftware/labs-graphbuilder-contrib/labs : Project data, graph model and TGDB configuration
+- Download GraphBuilders user extensions <a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/dist" target="_blank">here</a>
+- Download project data, graph model and TGDB configuration <a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/sample-applications/Northwind/" target="_blank">here</a>
+- Sownload GUI utilities <a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/sample-applications/utilities/" target="_blank">here</a>
 
-In the labs we use TIBCO Flogo® Enterprise studio to configure the application. You need to have it installed before you can start building the application. 
+In the labs we use TIBCO Flogo® Enterprise studio to configure the lab applications. You need to have it installed before you can start building the application. You can get TIBCO Flogo® Enterprise studio from <a href="https://edelivery.tibco.com/storefront/en/eval/tibco-flogo-enterprise/prod11810.html" target="_blank">here</a>
 
 ![Import Extension](upload01.png)
 
-Import all required user extensions files (builder.zip, tgdb.zip, tools.zip and sse.zip)
+After installed studio import all required user extensions files (builder.zip, tgdb.zip, tools.zip and sse.zip)
 1. In "Extensions" tab click "Upload" button
 2. Click "From a Zip file"
-3. Select one user extension from dist folder (/TIBCOSoftware/labs-graphbuilder-contrib/dist)
+3. Each time select one user extension (for example builder.zip) from your download folder
 4. Click "Upload and compiling"
 
 ![Import Extension](upload02.png)

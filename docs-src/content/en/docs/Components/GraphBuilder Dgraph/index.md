@@ -7,6 +7,6 @@ description: >
 ---
 
 * [Connector](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/dgraph/connector/dgraph/)
-	: A Dgraph connector is the component to host your Dgraph server connecting information. Activities which connect to same Dgraph connector would connect to same Dgraph server instance
+	: A Dgraph connector is a component to store your Dgraph server connection information. Activities which connect to the same Dgraph connector would connect to the same Dgraph server instance
 * [DgraphUpsert](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/dgraph/activity/dgraphupsert/)
-	: A DgraphUpsert activity consumes the graph data from BuildGraph activity and insert/update to Dgraph server
+	: A DgraphUpsert activity consumes the graph entities from BuildGraph activity and inserts/updates them to Dgraph server
