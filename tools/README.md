@@ -1,6 +1,6 @@
 ## GraphBuilder_Tools
 * [Connector](./connector/simpletable/)
-* [FileReader](./trigger/filereader/)
+* [FileReader](./trigger/filesreader/)
 * [Accumulator](./activity/accumulator/)
 * [CSVFileWriter](./activity/csvfilewriter/)
 * [CSVParser](./activity/csvparser/)
