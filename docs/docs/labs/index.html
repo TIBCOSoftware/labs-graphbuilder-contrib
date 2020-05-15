@@ -22,16 +22,16 @@
 <link rel="icon" type="image/png" href="/labs-graphbuilder-contrib/favicons/android-192x192.png" sizes="192x192">
 
 <title>Labs | Project GraphBuilder</title><meta property="og:title" content="Labs" />
-<meta property="og:description" content="GraphBuilder Labs step by step guide you through the process of building an flogo application which transform csv data then upsert to TGDB in three hand on labs. 
+<meta property="og:description" content="In following hands on labs I will step by step guide you through the process of building an Flogo application which transforms csv data then inserts/updates data to TIBCO® Graph Database. 
 " />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/labs/" />
 <meta property="og:site_name" content="Project GraphBuilder" />
 <meta itemprop="name" content="Labs">
-<meta itemprop="description" content="GraphBuilder Labs step by step guide you through the process of building an flogo application which transform csv data then upsert to TGDB in three hand on labs. 
+<meta itemprop="description" content="In following hands on labs I will step by step guide you through the process of building an Flogo application which transforms csv data then inserts/updates data to TIBCO® Graph Database. 
 "><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Labs"/>
-<meta name="twitter:description" content="GraphBuilder Labs step by step guide you through the process of building an flogo application which transform csv data then upsert to TGDB in three hand on labs. 
+<meta name="twitter:description" content="In following hands on labs I will step by step guide you through the process of building an Flogo application which transforms csv data then inserts/updates data to TIBCO® Graph Database. 
 "/>
 
 
@@ -408,23 +408,23 @@ if (!doNotTrack) {
 	
 	
 	
-	<p class="-text-secondary pt-3 h6" >Reading time: 0 minutes and 55 seconds.</p>
+	<p class="-text-secondary pt-3 h6" >Reading time: 1 minutes and 1 second.</p>
 	<h1>Labs</h1>
-	<div class="lead">GraphBuilder Labs step by step guide you through the process of building an flogo application which transform csv data then upsert to TGDB in three hand on labs.</div>
-	<p>In following labs we are going to use the Northwind dataset to create an flogo application. The Northwind data is a sample dataset used by Microsoft to demonstrate the
-features of Microsoft's relational database. We will demonstrate how to use GraphBuilder to convert relational data to graph then insert into TIBCO® Graph Database (TGDB).</p>
-<p>You can check out or download Project GraphBuilder from https://https://github.com/TIBCOSoftware/labs-graphbuilder-contrib.gitlabs-graphbuilder-contrib.git. You can find the artifacts which you need for the labs project</p>
+	<div class="lead">In following hands on labs I will step by step guide you through the process of building an Flogo application which transforms csv data then inserts/updates data to TIBCO® Graph Database.</div>
+	<p>We are going to use the Northwind dataset to create an Flogo application. The Northwind data is a sample dataset used by Microsoft to demonstrate the features of Microsoft's relational database. We will demonstrate how to use GraphBuilder to convert relational data to graph then insert into TIBCO® Graph Database.</p>
+<p>You can check out or download Project GraphBuilder from <a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib" target="_blank">here</a> and the artifacts which you need for your labs project</p>
 <ul>
-<li>/TIBCOSoftware/labs-graphbuilder-contrib/dist : GraphBuilders user extensions</li>
-<li>/TIBCOSoftware/labs-graphbuilder-contrib/labs : Project data, graph model and TGDB configuration</li>
+<li>Download GraphBuilders user extensions <a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/dist" target="_blank">here</a></li>
+<li>Download project data, graph model and TGDB configuration <a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/sample-applications/Northwind/" target="_blank">here</a></li>
+<li>Sownload GUI utilities <a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/sample-applications/utilities/" target="_blank">here</a></li>
 </ul>
-<p>In the labs we use TIBCO Flogo® Enterprise studio to configure the application. You need to have it installed before you can start building the application.</p>
+<p>In the labs we use TIBCO Flogo® Enterprise studio to configure the lab applications. You need to have it installed before you can start building the application. You can get TIBCO Flogo® Enterprise studio from <a href="https://edelivery.tibco.com/storefront/en/eval/tibco-flogo-enterprise/prod11810.html" target="_blank">here</a></p>
 <p><img src="upload01.png" alt="Import Extension"></p>
-<p>Import all required user extensions files (builder.zip, tgdb.zip, tools.zip and sse.zip)</p>
+<p>After installed studio import all required user extensions files (builder.zip, tgdb.zip, tools.zip and sse.zip)</p>
 <ol>
 <li>In &ldquo;Extensions&rdquo; tab click &ldquo;Upload&rdquo; button</li>
 <li>Click &ldquo;From a Zip file&rdquo;</li>
-<li>Select one user extension from dist folder (/TIBCOSoftware/labs-graphbuilder-contrib/dist)</li>
+<li>Each time select one user extension (for example builder.zip) from your download folder</li>
 <li>Click &ldquo;Upload and compiling&rdquo;</li>
 </ol>
 <p><img src="upload02.png" alt="Import Extension"></p>
@@ -458,7 +458,7 @@ features of Microsoft's relational database. We will demonstrate how to use Grap
                     <h5>
                         <a href="/labs-graphbuilder-contrib/docs/labs/lab-1/">Lab1 - CSV</a>
                     </h5>
-                    <p>Build an app to populate TIBCO Graph Database with data in csv files</p>
+                    <p>Build an application to populate TIBCO® Graph Database with csv data from files</p>
                 </div>
             
         
@@ -475,7 +475,7 @@ features of Microsoft's relational database. We will demonstrate how to use Grap
                     <h5>
                         <a href="/labs-graphbuilder-contrib/docs/labs/lab-2/">Lab2 - Query</a>
                     </h5>
-                    <p>Build an app to query against TIBCO Graph Database</p>
+                    <p>Build an application to query against TIBCO® Graph Database</p>
                 </div>
             
         
@@ -490,7 +490,7 @@ features of Microsoft's relational database. We will demonstrate how to use Grap
                     <h5>
                         <a href="/labs-graphbuilder-contrib/docs/labs/lab-3/">Lab3 - real-time</a>
                     </h5>
-                    <p>Build an app to upsert real-time data to TIBCO Graph Database</p>
+                    <p>Build an application to insert/update real-time data to TIBCO® Graph Database</p>
                 </div>
             
         
@@ -579,7 +579,7 @@ features of Microsoft's relational database. We will demonstrate how to use Grap
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified May 6, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/b2df637bf0c3596f7594bcd148cc2b6616d15048">Update document and sample app (b2df637)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified May 14, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/dbcdad0c7b0a9bbf3cab23c0952c4873ac27ce8f">update documentation (dbcdad0)</a>
 </div>
 </div>
 

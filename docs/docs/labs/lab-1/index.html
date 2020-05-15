@@ -21,22 +21,22 @@
 <link rel="icon" type="image/png" href="/labs-graphbuilder-contrib/favicons/android-192x192.png" sizes="192x192">
 
 <title>Lab1 - CSV | Project GraphBuilder</title><meta property="og:title" content="Lab1 - CSV" />
-<meta property="og:description" content="Build an app to populate TIBCO Graph Database with data in csv files
+<meta property="og:description" content="Build an application to populate TIBCO® Graph Database with csv data from files
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/labs/lab-1/" />
-<meta property="article:modified_time" content="2020-04-28T11:10:51-04:00" /><meta property="og:site_name" content="Project GraphBuilder" />
+<meta property="article:modified_time" content="2020-05-14T17:55:41-04:00" /><meta property="og:site_name" content="Project GraphBuilder" />
 <meta itemprop="name" content="Lab1 - CSV">
-<meta itemprop="description" content="Build an app to populate TIBCO Graph Database with data in csv files
+<meta itemprop="description" content="Build an application to populate TIBCO® Graph Database with csv data from files
 ">
-<meta itemprop="dateModified" content="2020-04-28T11:10:51-04:00" />
-<meta itemprop="wordCount" content="1384">
+<meta itemprop="dateModified" content="2020-05-14T17:55:41-04:00" />
+<meta itemprop="wordCount" content="1505">
 
 
 
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Lab1 - CSV"/>
-<meta name="twitter:description" content="Build an app to populate TIBCO Graph Database with data in csv files
+<meta name="twitter:description" content="Build an application to populate TIBCO® Graph Database with csv data from files
 "/>
 
 
@@ -422,91 +422,91 @@ if (!doNotTrack) {
 
 
 
-<p class="-text-primary pt-3 h6" >Reading time: 6 minutes and 18 seconds.</p>
+<p class="-text-primary pt-3 h6" >Reading time: 7 minutes and 2 seconds.</p>
 <p>
 <div class="td-content">
 	<h1>Lab1 - CSV</h1>
-	<div class="lead">Build an app to populate TIBCO Graph Database with data in csv files</div>
-	<p>Let's build a graph model for Northwind data. In connection tab select Graph to host graph model for your flogo application.
-<img src="createModel01.png" alt="Import Extension"></p>
+	<div class="lead">Build an application to populate TIBCO® Graph Database with csv data from files</div>
+	<p>Let's start with building a graph model for Northwind dataset. In connection tab select Graph to host graph model for your flogo application.</p>
+<p><img src="createModel01.png" alt="Import Extension"></p>
 <p>In the diaog box</p>
 <ul>
 <li>Set model name</li>
 <li>Select &ldquo;Local File&rdquo;</li>
-<li>select and upload northwind_model.json from your download folder</li>
+<li>select and upload northwind_model.json (Northwind model descriptor) from your download folder</li>
 <li>Click connect</li>
 </ul>
-<p>The Northwind model descriptor file has attached to your graph model 
-<img src="createModel02.png" alt="Import Extension"></p>
-<p>Now let's select Application table then create to start building an allication
-<img src="createApp01.png" alt="Import Extension"></p>
-<p>Name the application &ldquo;Northwind&rdquo; then create it
-<img src="createApp02.png" alt="Import Extension"></p>
-<p>Select create to make it from scratch
-<img src="createApp03.png" alt="Import Extension"></p>
-<p>Flogo studio brings you to the dialog for creating the first flow. According to Northwind data set we have, we are going to create five flows to process data from customers.csv, suppliers.csv, employees.csv, categories.csv and products.csv respectively. We start from Building the customer data flow. 
-<img src="createApp04.png" alt="Import Extension"></p>
-<p>In the empty flow panel click &ldquo;Flow Inputs &amp; Outputs&rdquo; verticle bar to generate data schema for current flow.
-<img src="createApp05.png" alt="Import Extension"></p>
-<p>The flow processes a CSV data row from file each time. Just set a sample of incoming data. In the sample &ldquo;FileContent&rdquo; is a row of CSV data and &ldquo;LineNumber&rdquo; is current &ldquo;row number&rdquo; of the row.
-<img src="createApp06.png" alt="Import Extension"></p>
-<p>After clik &ldquo;Save&rdquo; buttom schema generator converts data sample to schema definition.
-<img src="createApp07.png" alt="Import Extension"></p>
-<p>Let's add a trigger (data source) for the flow by clicking &ldquo;+&rdquo; buttom on the left and select GraphBuilder_Tools -&gt; FileReader trigger.
-<img src="createApp08.png" alt="Import Extension"></p>
+<p>The Northwind model descriptor file has attached to your graph model</p>
+<p><img src="createModel02.png" alt="Import Extension"></p>
+<p>Now let's select &ldquo;Apps&rdquo; tab and click &ldquo;Create&rdquo; button to start building your first allication</p>
+<p><img src="createApp01.png" alt="Import Extension"></p>
+<p>Name the application &ldquo;Northwind&rdquo; then create it</p>
+<p><img src="createApp02.png" alt="Import Extension"></p>
+<p>Select create to build it from scratch</p>
+<p><img src="createApp03.png" alt="Import Extension"></p>
+<p>Flogo® Enterprise studio brings you to the dialog for creating the first flow. According to Northwind dataset we have, we are going to create five flows to process data from customers.csv, suppliers.csv, employees.csv, categories.csv and products.csv respectively. We'll start from Building the customer data flow.</p>
+<p><img src="createApp04.png" alt="Import Extension"></p>
+<p>In the empty flow panel click &ldquo;Flow Inputs &amp; Outputs&rdquo; verticle bar to generate data schema for current flow.</p>
+<p><img src="createApp05.png" alt="Import Extension"></p>
+<p>The flow starts from processing CSV data rows from a file one line each time (we'll set it up in FileReader Trigger later). Just set a sample of useful data fields from incoming data. In the sample &ldquo;FileContent&rdquo; field represents a row of CSV data and &ldquo;LineNumber&rdquo; filelds is current &ldquo;sequence number&rdquo; of that row.</p>
+<p><img src="createApp06.png" alt="Import Extension"></p>
+<p>After clik &ldquo;Save&rdquo; buttom the schema generator of studio converts data sample to its schema definition.</p>
+<p><img src="createApp07.png" alt="Import Extension"></p>
+<p>Let's add a trigger (data source of the flow) by clicking &ldquo;+&rdquo; buttom on the left and select GraphBuilder_Tools -&gt; FileReader trigger.</p>
+<p><img src="createApp08.png" alt="Import Extension"></p>
 <p>Filling the &ldquo;Trigger Settings&rdquo;</p>
 <ul>
-<li>Filename : point to customers.csv in your download folder</li>
-<li>Asychroous : make it true so all triggers for different data would run simutanously</li>
-<li>Emit per Line : set true to make sure each time only one row of data sending to flow</li>
+<li>Filename : point to the customers.csv in your download folder</li>
+<li>Asynchronous : set it true so all triggers for different data could run simutanously</li>
+<li>Emit per Line : set it true to make sure each time only one row of data get sent to flow</li>
 <li>Max Number of Line : set to negative means no limit.</li>
 </ul>
-<p>Click save after you finish it
-<img src="createApp09.png" alt="Import Extension"></p>
+<p>Click &ldquo;Save&rdquo; after you finish it</p>
+<p><img src="createApp09.png" alt="Import Extension"></p>
 <p>Now switch to &ldquo;Map to Flow Inputs&rdquo; and make following mapping</p>
 <ul>
 <li>FileContent (defined in schema) -&gt; $trigger.FileContent</li>
 <li>LineNumber (defined in schema) -&gt; $trigger.LineNumber</li>
 </ul>
-<p>Then click save button
-<img src="createApp10.png" alt="Import Extension"></p>
-<p>Back to flow and adding first activities. Select GraphBuilder_Tools -&gt; CSVParser for converting CSV text to system object.
-<img src="createApp11.png" alt="Import Extension"></p>
+<p>Click &ldquo;Save&rdquo; button</p>
+<p><img src="createApp10.png" alt="Import Extension"></p>
+<p>Back to flow and adding first activity to the flow. Select GraphBuilder_Tools -&gt; CSVParser for converting CSV text to system object.</p>
+<p><img src="createApp11.png" alt="Import Extension"></p>
 <p>Filling Settings</p>
 <ul>
-<li>Date Format Sample : 2006-01-02 (GOLang data format)</li>
-<li>Serve Graph Data : set false since we are not using it</li>
-<li>Output Field Names : One line of setting for each data column. AttributeName is the field name in system object and CSVFieldName is the column name in CSV file. Set optional to &ldquo;false&rdquo; for all key element fields. Click save after set configuring each line.</li>
-<li>First Row is Heade : Set true since the data file we use has header</li>
+<li>Date Format Sample : 2006-01-02 (Data format setup for underlining GOLang code)</li>
+<li>Serve Graph Data : set to false since we are not using it</li>
+<li>Output Field Names : One line of setting for each data column. AttributeName is the attribute name in generated system object and CSVFieldName is the column name in CSV data row. Set optional to &ldquo;false&rdquo; for all key element fields. Click &ldquo;Save&rdquo; after finish configuring each line.</li>
+<li>First Row is Heade : Set it true since the data file we use has a header</li>
 </ul>
-<p>Click save button
-<img src="createApp12.png" alt="Import Extension">
-<img src="createApp14.png" alt="Import Extension"></p>
-<p>Switch to Inputs and map current input data to upstream output data</p>
+<p>Click &ldquo;Save&rdquo; button</p>
+<p><img src="createApp12.png" alt="Import Extension"></p>
+<p><img src="createApp14.png" alt="Import Extension"></p>
+<p>Switch to Inputs and map current input data to output data from upstream</p>
 <ul>
 <li>CSVString -&gt; $flow.FileContent</li>
 <li>SequenceNumber -&gt; $flow.LineNumber</li>
 </ul>
-<p>Click save when finish it
-<img src="createApp13.png" alt="Import Extension"></p>
-<p>Now the data has bean transform to the object which could be recognized by the system. The next step is to convert data to graph entities (nodes, edges and attributes). We use the core activity &ldquo;Build Graph&rdquo; to perform this tranformation.
-Let's select GraphBuilder -&gt; Bruild Graph and configue it.</p>
+<p>Click &ldquo;Save&rdquo; when finishing it</p>
+<p><img src="createApp13.png" alt="Import Extension"></p>
+<p>Now the data has been transform to the system object which could be recognized by the system. The next step is to convert plain object data to graph entities (nodes, edges and their attributes). We are going to use the core activity clled &ldquo;BuildGraph&rdquo; to perform this tranformation.</p>
+<p>Let's select GraphBuilder -&gt; Bruild Graph and configue it.</p>
 <p><img src="createApp15.png" alt="Import Extension"></p>
 <p>Filling setting</p>
 <ul>
-<li>Graph Model : Select &ldquo;Northwind&rdquo; which we just created. The Northwind graph model now associated with this activity. You would see this when we setup Inputs.</li>
-<li>Allow Null Key : Will Generate node, edge even their primary key will null element.</li>
-<li>Batch Mode : Set false since we process one data each time.</li>
+<li>Graph Model : Select &ldquo;Northwind&rdquo; connector which we just created. The &ldquo;Northwind&rdquo; graph model now associated with this activity which means  BuildGraph activity take &ldquo;Northwind&rdquo; graph model to build the structure of its input data schema. You would see this when we setup &ldquo;Inputs&rdquo; data mapping later.</li>
+<li>Allow Null Key : set it &ldquo;true&rdquo; will make it generate node, edge even their primary key contains null elements.</li>
+<li>Batch Mode : set it &ldquo;false&rdquo; since we process one data each time.</li>
 <li>Pass Through Fields : (leave it empty)</li>
 <li>Modify Size of Instances : (leave it empty, will use it in Employee data setup)</li>
 </ul>
-<p>Click save button
-<img src="createApp16.png" alt="Import Extension"></p>
-<p>Before we can map the input data let's take look of the output of CSVParser (upstream data of current Build Graph activity). Since CSVParser has ability to handle multiple CSV rows, the output of it is an array not just a single object.
-<img src="createApp16-9.png" alt="Import Extension"></p>
-<p>For procees the incoming array type of data, we need to turn on the iterator to iterate through upstream output data. Even there is only one element in the array for the current case. Following screenshot showing how to do it.
-<img src="createApp17.png" alt="Import Extension"></p>
-<p>For mapping the input data you may notice that 1. the Northwind graph model has been brought to this activity as input schema, 2. The mapping target is not to CSVParser but the local interation. For the data coming from customers.csv you can populate more than one type of nodes which are deinfed in Northwind graph. Here is the nodes data which will be set.</p>
+<p>Click &ldquo;Save&rdquo; button</p>
+<p><img src="createApp16.png" alt="Import Extension"></p>
+<p>Before we can map the input data, let's a take look of the output schema of &ldquo;CSVParser&rdquo; (it's the upstream data for current &ldquo;BuildGraph&rdquo; activity). Since &ldquo;CSVParser&rdquo; has ability to handle multiple CSV rows, the output data structure is an array of object not just a single object.</p>
+<p><img src="createApp16-9.png" alt="Import Extension"></p>
+<p>For procees the incoming array type of data, we need to turn on the iterator to iterate through upstream output data. Even there is only one element in the array for the current case. Following screenshot shows how to do it.</p>
+<p><img src="createApp17.png" alt="Import Extension"></p>
+<p>For mapping the input data you may notice that 1. the &ldquo;Northwind&rdquo; graph model has been brought to this activity as input schema, 2. The mapping target is not to &ldquo;CSVParser&rdquo; anymore but the local interation. For the data coming from customers.csv you can populate more than one type of nodes which are deinfed in Northwind graph. Here is the nodes (Customer, Company and Region) which will be set.</p>
 <p>Customer node</p>
 <ul>
 <li>_skipCondition -&gt; null==$iteration[value].CustomerID</li>
@@ -532,12 +532,12 @@ Let's select GraphBuilder -&gt; Bruild Graph and configue it.</p>
 <li>RegionName -&gt; $iteration[value].RegionName</li>
 <li>Country -&gt; $iteration[value].Country</li>
 </ul>
-<p>You don't have to setup mapping for edge if you don't have attribute need to be setup for them (we don't configue &ldquo;label&rdquo; since TGDB doesn't need it). BuildGraph activity is going to use the edge definded in graph model to create edge between nodes automatically.</p>
-<p><img src="createApp18.png" alt="Import Extension">
-<img src="createApp17-5.png" alt="Import Extension">
-<img src="createApp19.png" alt="Import Extension"></p>
-<p>After we convert data to graph entities we can insert them to TGDB. Let's create TGDB connection first. In Connections tab select Add Connection -&gt; TGDB Connector
-<img src="createModel03.png" alt="Import Extension"></p>
+<p>You don't have to setup mapping for edge if you don't have attribute need to be setup for them (we don't configue &ldquo;label&rdquo; attribute for edges now since TGDB doesn't need it). BuildGraph activity is going to use the edge definded in graph model to create edge between nodes automatically.</p>
+<p><img src="createApp18.png" alt="Import Extension"></p>
+<p><img src="createApp17-5.png" alt="Import Extension"></p>
+<p><img src="createApp19.png" alt="Import Extension"></p>
+<p>After we convert data to graph entities we can insert them to TIBCO® Graph Database. Let's create TIBCO® Graph Database connection first. In &ldquo;Connections&rdquo; tab select Add Connection -&gt; TGDB Connector</p>
+<p><img src="createModel03.png" alt="Import Extension"></p>
 <p>In the diaog box filling following information</p>
 <ul>
 <li>Connection name (for example &ldquo;TGDB&rdquo;)</li>
@@ -546,36 +546,36 @@ Let's select GraphBuilder -&gt; Bruild Graph and configue it.</p>
 <li>Password</li>
 <li>Keep Connection Alive : select &ldquo;true&rdquo;</li>
 </ul>
-<p>Click connect</p>
+<p>Click &ldquo;Connect&rdquo; button</p>
 <p><img src="createModel04.png" alt="Import Extension"></p>
-<p>Now back to application &ldquo;Customer Data&rdquo; flow to add TGDB activity. Slect GraphBuilder_TGDB -&gt; TGDBUpsert.
-<img src="createApp20.png" alt="Import Extension"></p>
+<p>Now back to application's &ldquo;Customer Data&rdquo; flow to add TGDB activity. Slect GraphBuilder_TGDB -&gt; TGDBUpsert.</p>
+<p><img src="createApp20.png" alt="Import Extension"></p>
 <p>Filling Setting for</p>
 <ul>
 <li>TGDB connection : Select the &ldquo;TGDB&rdquo; Connection we just created</li>
-<li>Set Allow empty sting key to true (so node with empty string key still get inserted)</li>
+<li>Set Allow empty sting key to true (so a node with empty string key still get inserted)</li>
 </ul>
-<p>Click save</p>
+<p>Click &ldquo;Save&rdquo;</p>
 <p><img src="createApp21.png" alt="Import Extension"></p>
 <p>Map input data</p>
 <ul>
 <li>Graph{} - $activity[BuildGraph].Graph{}</li>
 </ul>
-<p>Since the Graph object is immutable, you are not allow to access the internal structure detail.</p>
+<p>Since the Graph object is immutable, you are not allowed to access the detail of its internal structure.</p>
 <p><img src="createApp22.png" alt="Import Extension"></p>
-<p>You can insert built in log activity by following steps:
-Make room for logger activity by shifting activities one position to the right.</p>
+<p>You can insert a built-in &ldquo;Log&rdquo; activity by following steps:
+Make room for &ldquo;Log&rdquo; activity by shifting activities one position to the right.</p>
 <p><img src="createApp23.png" alt="Import Extension"></p>
-<p>Add log activity by select Default -&gt; Log</p>
+<p>Add &ldquo;Log&rdquo; activity by select Default -&gt; Log</p>
 <p><img src="createApp24.png" alt="Import Extension"></p>
 <p>Setup message for priniting (you can apply built-in fuctions to incoming data fields)</p>
 <ul>
 <li>message : string.concat(string.tostring($flow.LineNumber), &quot; - &ldquo;, $flow.FileContent)</li>
 </ul>
 <p><img src="createApp25.png" alt="Import Extension"></p>
-<p>You can add write the entities which generate be BuildGraph activity by adding GraphBuilder -&gt; GraphtoFile activity</p>
+<p>You can write the entities (which are generated by BuildGraph activity) to file by adding GraphBuilder -&gt; GraphtoFile activity</p>
 <p><img src="createApp26.png" alt="Import Extension"></p>
-<p>Specify the output folder and filename for writing the graph entities</p>
+<p>Specify the output folder and filename for GraphtoFile activity</p>
 <p><img src="createApp27.png" alt="Import Extension"></p>
 <p>Input data is and only can be Graph. The input setup same as TGDBUpsert</p>
 <p><img src="createApp28.png" alt="Import Extension"></p>
@@ -583,12 +583,12 @@ Make room for logger activity by shifting activities one position to the right.<
 <p><img src="createApp29.png" alt="Import Extension"></p>
 <p>Now you can follow the same steps to finish all the rest of flows</p>
 <p><img src="createApp30.png" alt="Import Extension"></p>
-<p>When you work on employee flow, please pay attention on following steps.</p>
-<p>In employee data there are two fields EmployeeID and ReportTo which represent one indivisual employee. It implies that by the infomation in the employee data we can populate two employee nodes. One for empoyee himself/herself and one for his/her manager. We have to incresae the employee instance for the data mapping.</p>
+<p>When you work on &ldquo;Employee flow&rdquo;, please pay attention to following steps.</p>
+<p>In employee data there are two fields called EmployeeID and ReportTo each of them represents one indivisual employee. It implies that from the infomation of one employee data we can populate two employee nodes. One for empoyee himself/herself and the other one for his/her manager. We have to incresae the instance of employee node for such data mapping.</p>
 <ul>
-<li>Modify size of instances : Select &ldquo;Employee&rdquo; node and make the number of instances to 2</li>
+<li>Modify size of instances : Add one entry for &ldquo;Employee&rdquo; node and make the number of instances to 2</li>
 </ul>
-<p>Click save</p>
+<p>Click &ldquo;Save&rdquo;</p>
 <p><img src="createApp31.png" alt="Import Extension"></p>
 <p>Switch to Inputs you will see two employee nodes appears (Employee0 and Employee1). Let's make employee0 the employee (not manager) so all data can be populate to this node.</p>
 <p><img src="createApp32.png" alt="Import Extension"></p>
@@ -596,7 +596,7 @@ Make room for logger activity by shifting activities one position to the right.<
 <p><img src="createApp33.png" alt="Import Extension"></p>
 <p>Then we need to tell BuildGrap activity the relation between employee0 and employee1.</p>
 <p><img src="createApp34.png" alt="Import Extension"></p>
-<p>Now we cab test out Northwind application by sending data to it then we'll verify if data get inserted to TGDB server</p>
+<p>Now we can test out Northwind application by sending data to it then we'll verify if data get inserted to TIBCO® Graph Database server</p>
 <p>For building Northwind flogo application</p>
 <ol>
 <li>In project click &ldquo;Build&rdquo; button</li>
@@ -605,14 +605,14 @@ Make room for logger activity by shifting activities one position to the right.<
 <p><img src="BuildNorthwind_01.png" alt="Build RESTful"></p>
 <p>Once finished you can get your executable (Northwind-darwin_amd64) in your browser download folder</p>
 <p><img src="BuildNorthwind_02.png" alt="Build RESTful"></p>
-<p>Then we need to setup a TIBCO® Graph Database. Currently Project GraphBuilder &ldquo;only&rdquo; support TGDB 2.0.1 (both Enterprise Edition and Community Edition are supported). 
-You can get a Community version <a href="http://community.tibco.com/products/tibco-graph-database" target="_blank">here</a>.</p>
+<p>Then we need to setup a TIBCO® Graph Database. Currently Project GraphBuilder &ldquo;only&rdquo; support TIBCO® Graph Database 2.0.1 (both Enterprise Edition and Community Edition are supported). 
+You can get a Community version from <a href="http://community.tibco.com/products/tibco-graph-database" target="_blank">here</a>.</p>
 <p><img src="TGDB_01.png" alt="Build RESTful"></p>
-<p>Follow instructions in the download file to install TGDB server then copy artifacts from your labs folder</p>
+<p>Follow instructions in the download file to install TIBCO® Graph Database server then copy artifacts from your download folder</p>
 <ul>
-<li>labs/tgdb/northwind -&gt; tgdb/2.0/examples</li>
-<li>labs/tgdb/init_northwind_with_data_definition.sh -&gt; tgdb/2.0/bin/</li>
-<li>labs/tgdb/run_northwind.sh -&gt; tgdb/2.0/bin/</li>
+<li>Northwind/tgdb/northwind -&gt; tgdb/2.0/examples</li>
+<li>Northwind/tgdb/init_northwind_with_data_definition.sh -&gt; tgdb/2.0/bin/</li>
+<li>Northwind/tgdb/run_northwind.sh -&gt; tgdb/2.0/bin/</li>
 </ul>
 <p><img src="TGDB_02.png" alt="Build RESTful"></p>
 <p>In terminal switch to tgdb/2.0/bin folder then</p>
@@ -632,13 +632,13 @@ You can get a Community version <a href="http://community.tibco.com/products/tib
 <li>Run Northwind-darwin_amd64</li>
 </ul>
 <p><img src="LaunchNorthwind.png" alt="Build RESTful"></p>
-<p>Open a new terminal and switch to TGDB bin folder</p>
+<p>Open a new terminal and switch to TIBCO® Graph Database bin folder</p>
 <ul>
 <li>run tgdb-admin</li>
 <li>make query to get all categories</li>
 </ul>
 <p><img src="Query.png" alt="Build RESTful"></p>
-<p>We've proved that data has been inserted to TGDB server</p>
+<p>We've proved that data has been inserted to TIBCO® Graph Database server</p>
 
 	
 		<style>
@@ -702,7 +702,7 @@ You can get a Community version <a href="http://community.tibco.com/products/tib
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified April 28, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/f5644f46a25ddf86f621d3382bab4ca16e4723a9">Update documentation (f5644f4)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified May 14, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/dbcdad0c7b0a9bbf3cab23c0952c4873ac27ce8f">update documentation (dbcdad0)</a>
 </div>
 </div>
 

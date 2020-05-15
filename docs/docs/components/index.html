@@ -408,18 +408,18 @@ if (!doNotTrack) {
 	
 	
 	
-	<p class="-text-secondary pt-3 h6" >Reading time: 0 minutes and 33 seconds.</p>
+	<p class="-text-secondary pt-3 h6" >Reading time: 0 minutes and 43 seconds.</p>
 	<h1>Components</h1>
 	<div class="lead">The solution is based on four core components</div>
 	<ul>
 <li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/connector/graph">Graph Connector</a>
-: A Graph connector is the component to host your graph model. Activities which connect to same Graph connector would share same graph model (data schema)</li>
+: A Graph connector is a component which hosts your graph model for sharing graph model among graph construction related activity. Activities which connect to the same Graph connector would share same graph model (data schema)</li>
 <li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/activity/builder">BuildGraph Activity</a>
-: A BuildGraph activity must connect to a Graph connector so it can build the input data structure from the graph model which associated with connector. BuildGraph activity transform the input data to graph structure (nodes and edges) based on the graph model.</li>
+: A BuildGraph activity must connect to a Graph connector so it can build its input data schema from the graph model which is hosted in that Graph connector. BuildGraph activity transform the input data to graph entities (nodes, edges and their attributes) based on the graph model.</li>
 <li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tgdb/connector/">TGDB Connector</a>
-: A TGDB connector is a component to store your TGDB server connecting information. Activities which connect to same TGDB connector are actually connect to the same TGDB server instance</li>
+: A TGDB connector is a component to store your TIBCO® Graph Database server connection information. Activities which connect to the same TGDB connector are actually connecting to the same TIBCO® Graph Database server instance</li>
 <li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tgdb/activity/tgdbupsert">TGDBUpsert</a>
-: A TGDBUpsert activity consumes the graph data from BuildGraph activity and insert/update to TGDB.</li>
+: A TGDBUpsert activity consumes the graph entities from BuildGraph activity and inserts/updates them to TIBCO® Graph Database</li>
 </ul>
 
         <div class="section-index">
@@ -587,7 +587,7 @@ if (!doNotTrack) {
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified May 6, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/b2df637bf0c3596f7594bcd148cc2b6616d15048">Update document and sample app (b2df637)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified May 15, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/ddfb60517d31b6880070407c876e6b250a448c7d">Update documentation (ddfb605)</a>
 </div>
 </div>
 

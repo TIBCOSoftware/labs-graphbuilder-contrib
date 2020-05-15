@@ -25,12 +25,12 @@
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/components/graphbuilder/" />
-<meta property="article:modified_time" content="2020-05-06T12:41:29-04:00" /><meta property="og:site_name" content="Project GraphBuilder" />
+<meta property="article:modified_time" content="2020-05-15T10:48:25-04:00" /><meta property="og:site_name" content="Project GraphBuilder" />
 <meta itemprop="name" content="GraphBuilder">
 <meta itemprop="description" content="The core extension which provides BuildGraph activity to construct graph from input data based on user predefined graph model
 ">
-<meta itemprop="dateModified" content="2020-05-06T12:41:29-04:00" />
-<meta itemprop="wordCount" content="233">
+<meta itemprop="dateModified" content="2020-05-15T10:48:25-04:00" />
+<meta itemprop="wordCount" content="247">
 
 
 
@@ -422,14 +422,14 @@ if (!doNotTrack) {
 
 
 
-<p class="-text-primary pt-3 h6" >Reading time: 1 minutes and 3 seconds.</p>
+<p class="-text-primary pt-3 h6" >Reading time: 1 minutes and 7 seconds.</p>
 <p>
 <div class="td-content">
 	<h1>GraphBuilder</h1>
 	<div class="lead">The core extension which provides BuildGraph activity to construct graph from input data based on user predefined graph model</div>
 	<ul>
 <li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/connector/graph">Graph Connector</a>
-: A Graph connector is the component to host your graph model. Activities which connect to same graph connector would share same graph model (data schema)</li>
+: A Graph connector is a component which hosts your graph model for sharing graph model among graph construction related activity. Activities which connect to the same Graph connector would share same graph model (data schema)</li>
 </ul>
 <p>Here is the schema of graph model</p>
 <pre><code>{
@@ -516,10 +516,18 @@ if (!doNotTrack) {
     }
 }
 </code></pre><ul>
-<li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/activity/builder">BuildGraph Activity</a>
-: A BuildGraph activity must connect to a Graph connector so it can build the input data structure from the graph model which associated with connector. BuildGraph activity transform the input data to graph structure (nodes and edges) based on the graph model.</li>
-<li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/activity/graphtofile">GraphToFile</a>
-: A GraphToFile activity takes graph entities (nodes and edges) from BuildGraph and writes them to file. It's an useful utility for troubleshooting</li>
+<li>
+<dl>
+<dt><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/activity/builder">BuildGraph Activity</a></dt>
+<dd>A BuildGraph activity must connect to a Graph connector so it can build its input data schema from the graph model which is hosted in that Graph connector. BuildGraph activity transform the input data to graph entities (nodes, edges and their attributes) based on the graph model</dd>
+</dl>
+</li>
+<li>
+<dl>
+<dt><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/activity/graphtofile">GraphToFile</a></dt>
+<dd>A GraphToFile activity takes graph entities (nodes and edges) from BuildGraph and writes them to a file. It's an useful utility for troubleshooting</dd>
+</dl>
+</li>
 </ul>
 
 	
@@ -584,7 +592,7 @@ if (!doNotTrack) {
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified May 6, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/b2df637bf0c3596f7594bcd148cc2b6616d15048">Update document and sample app (b2df637)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified May 15, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/ddfb60517d31b6880070407c876e6b250a448c7d">Update documentation (ddfb605)</a>
 </div>
 </div>
 

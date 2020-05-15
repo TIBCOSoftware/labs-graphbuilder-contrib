@@ -25,12 +25,12 @@
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/components/graphbuilder-sse/" />
-<meta property="article:modified_time" content="2020-05-06T12:41:29-04:00" /><meta property="og:site_name" content="Project GraphBuilder" />
+<meta property="article:modified_time" content="2020-05-15T10:48:25-04:00" /><meta property="og:site_name" content="Project GraphBuilder" />
 <meta itemprop="name" content="SSE">
 <meta itemprop="description" content="SSE user extension contains activities for implemeting Server Sent Event (HTTP based streaming event) client and server. 
 ">
-<meta itemprop="dateModified" content="2020-05-06T12:41:29-04:00" />
-<meta itemprop="wordCount" content="154">
+<meta itemprop="dateModified" content="2020-05-15T10:48:25-04:00" />
+<meta itemprop="wordCount" content="165">
 
 
 
@@ -422,7 +422,7 @@ if (!doNotTrack) {
 
 
 
-<p class="-text-primary pt-3 h6" >Reading time: 0 minutes and 42 seconds.</p>
+<p class="-text-primary pt-3 h6" >Reading time: 0 minutes and 45 seconds.</p>
 <p>
 <div class="td-content">
 	<h1>SSE</h1>
@@ -430,19 +430,19 @@ if (!doNotTrack) {
 	<ul>
 <li>
 <p><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sse/connector/sse/">Connector</a>
-: A SSE connector is the component to store your sse server (Outbound = false) or connection (Outbound = true) information. Activities connect to same SSE connector are connecting to same SSE service.</p>
+: A SSE connector is a component to store your sse server (Outbound = false) configuration or remote sse server connection (Outbound = true) information. Activities connect to same the SSE connector are connecting to the same SSE service.</p>
 </li>
 <li>
 <p><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sse/trigger/ssesub/">SSESubscriber</a>
-: A SSESubscriber trigger subscribes to remote sse server then consumes streaming events. The SSE Connector for a subscriber need to be configured as Outbound = true.</p>
+: A &ldquo;SSESubscriber trigger&rdquo; subscribes to remote sse server then consumes streaming events. The SSE Connector for a subscriber need to be configured as Outbound = true.</p>
 </li>
 <li>
 <p><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sse/trigger/sseserver/">SSEServer</a>
-: A SSEServer trigger works as an SSE server which serves streamming events. It maitains the incoming connection and requests but generate any data. The streaming data comes from another activity called SSEEndPoint. The SSE Connector for a subscriber need to be configured as Outbound = false</p>
+: A &ldquo;SSEServer trigger&rdquo; works as an SSE server which serves streamming events. It maitains the incoming connection and requests but won't generate any data itself. The streaming data comes from another activity called SSEEndPoint. The SSE Connector for a subscriber need to be configured as Outbound = false</p>
 </li>
 <li>
 <p><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sse/activity/sseendpoint/">SSEEndpoint</a>
-: A SSEEndpoint activity sits on different flow from SSEServer. It takes input event and streams it to SSEServer. The link between a SSEServer and a SSEEndPoint is that both of them need to connect to the same SSE connector (Outbound = false)</p>
+: A SSEEndpoint activity sits on different flow (a data flow) from SSEServer. It takes input event and streams it to SSEServer. The link between a SSEServer and a SSEEndPoint is that both of them need to connect to the same SSE connector (Outbound = false)</p>
 </li>
 </ul>
 
@@ -508,7 +508,7 @@ if (!doNotTrack) {
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified May 6, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/b2df637bf0c3596f7594bcd148cc2b6616d15048">Update document and sample app (b2df637)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified May 15, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/ddfb60517d31b6880070407c876e6b250a448c7d">Update documentation (ddfb605)</a>
 </div>
 </div>
 
