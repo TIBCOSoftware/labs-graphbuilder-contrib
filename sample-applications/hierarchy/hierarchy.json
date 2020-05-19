@@ -130,6 +130,7 @@
                             "ref": "#builder",
                             "settings": {
                                 "GraphModel": {
+                                    "id": "2277dea0-9961-11ea-a030-d5552accd2a4",
                                     "type": "flogo:connector",
                                     "version": "1.0.0",
                                     "name": "tibco-graph",
@@ -253,11 +254,8 @@
                                     "keyfield": "name",
                                     "iteratorAccumulate": false,
                                     "isValid": true,
-                                    "lastUpdatedTime": 1588003138937,
-                                    "createdTime": 1588003138937,
+                                    "lastUpdatedTime": 1589845331216,
                                     "user": "flogo",
-                                    "subscriptionId": "flogo_sbsc",
-                                    "id": "017d8690-88a0-11ea-aeb3-1bffc5aa8b85",
                                     "connectorName": "hierarchy",
                                     "connectorDescription": " "
                                 },
@@ -319,6 +317,7 @@
                             "ref": "#tgdbupsert",
                             "settings": {
                                 "tgdbConnection": {
+                                    "id": "2e035500-995d-11ea-a030-d5552accd2a4",
                                     "type": "flogo:connector",
                                     "version": "1.0.0",
                                     "name": "tibco-tgdb",
@@ -379,7 +378,7 @@
                                                 "description": "Password for login to TGDB server",
                                                 "type": "password"
                                             },
-                                            "value": "SECRET:BCSg8UJGKxbE+rlgFnUtcL8dODu+"
+                                            "value": "SECRET:tRCsLbkgGtiSgqB+Ly1XjBtA1eWk"
                                         },
                                         {
                                             "name": "keepAlive",
@@ -424,11 +423,8 @@
                                     "keyfield": "name",
                                     "iteratorAccumulate": false,
                                     "isValid": true,
-                                    "lastUpdatedTime": 1587475362083,
-                                    "createdTime": 1587475362083,
+                                    "lastUpdatedTime": 1589844104666,
                                     "user": "flogo",
-                                    "subscriptionId": "flogo_sbsc",
-                                    "id": "2df8a730-83d3-11ea-9fe5-759f8e5f04a0",
                                     "connectorName": "TGDB",
                                     "connectorDescription": " "
                                 },
@@ -525,6 +521,7 @@
                             "ref": "#builder",
                             "settings": {
                                 "GraphModel": {
+                                    "id": "2277dea0-9961-11ea-a030-d5552accd2a4",
                                     "type": "flogo:connector",
                                     "version": "1.0.0",
                                     "name": "tibco-graph",
@@ -648,11 +645,8 @@
                                     "keyfield": "name",
                                     "iteratorAccumulate": false,
                                     "isValid": true,
-                                    "lastUpdatedTime": 1588003138937,
-                                    "createdTime": 1588003138937,
+                                    "lastUpdatedTime": 1589845331216,
                                     "user": "flogo",
-                                    "subscriptionId": "flogo_sbsc",
-                                    "id": "017d8690-88a0-11ea-aeb3-1bffc5aa8b85",
                                     "connectorName": "hierarchy",
                                     "connectorDescription": " "
                                 },
@@ -663,9 +657,6 @@
                             },
                             "input": {
                                 "BatchEnd": false,
-                                "Edges": {
-                                    "mapping": []
-                                },
                                 "Nodes": {
                                     "mapping": {
                                         "houseMemberType_0": {
@@ -675,6 +666,9 @@
                                             "memberName": "=$iteration[value].toMemberName"
                                         }
                                     }
+                                },
+                                "Edges": {
+                                    "mapping": []
                                 }
                             },
                             "schemas": {
@@ -720,6 +714,7 @@
                             "ref": "#tgdbupsert",
                             "settings": {
                                 "tgdbConnection": {
+                                    "id": "2e035500-995d-11ea-a030-d5552accd2a4",
                                     "type": "flogo:connector",
                                     "version": "1.0.0",
                                     "name": "tibco-tgdb",
@@ -780,7 +775,7 @@
                                                 "description": "Password for login to TGDB server",
                                                 "type": "password"
                                             },
-                                            "value": "SECRET:DYX+zxaJavsNm1S3SIvYRA5SOlk9"
+                                            "value": "SECRET:RumSu4xDUfCvB6A5oWQickI44Hjz"
                                         },
                                         {
                                             "name": "keepAlive",
@@ -825,11 +820,8 @@
                                     "keyfield": "name",
                                     "iteratorAccumulate": false,
                                     "isValid": true,
-                                    "lastUpdatedTime": 1587475362083,
-                                    "createdTime": 1587475362083,
+                                    "lastUpdatedTime": 1589844104666,
                                     "user": "flogo",
-                                    "subscriptionId": "flogo_sbsc",
-                                    "id": "2df8a730-83d3-11ea-9fe5-759f8e5f04a0",
                                     "connectorName": "TGDB",
                                     "connectorDescription": " "
                                 },
@@ -863,5 +855,5 @@
     "properties": [],
     "connections": {},
     "contrib": "W3sicmVmIjoiZ2l0aHViLmNvbS9USUJDT1NvZnR3YXJlL0dyYXBoQnVpbGRlcl9Ub29scyIsInMzbG9jYXRpb24iOiJ7VVNFUklEfS9HcmFwaEJ1aWxkZXJfVG9vbHMifSx7InJlZiI6ImdpdGh1Yi5jb20vVElCQ09Tb2Z0d2FyZS9HcmFwaEJ1aWxkZXIiLCJzM2xvY2F0aW9uIjoie1VTRVJJRH0vR3JhcGhCdWlsZGVyIn0seyJyZWYiOiJnaXRodWIuY29tL1RJQkNPU29mdHdhcmUvR3JhcGhCdWlsZGVyX1RHREIiLCJzM2xvY2F0aW9uIjoie1VTRVJJRH0vR3JhcGhCdWlsZGVyX1RHREIifV0=",
-    "fe_metadata": "UEsDBAoAAAAIAEOBm1CrqSRGFQAAABMAAAAIAAAAYXBwLmpzb26rViopykxPTy1yy8kvL1ayio6tBQBQSwECFAAKAAAACABDgZtQq6kkRhUAAAATAAAACAAAAAAAAAAAAAAAAAAAAAAAYXBwLmpzb25QSwUGAAAAAAEAAQA2AAAAOwAAAAAA"
+    "fe_metadata": "UEsDBAoAAAAIAHC9slCrqSRGFQAAABMAAAAIAAAAYXBwLmpzb26rViopykxPTy1yy8kvL1ayio6tBQBQSwECFAAKAAAACABwvbJQq6kkRhUAAAATAAAACAAAAAAAAAAAAAAAAAAAAAAAYXBwLmpzb25QSwUGAAAAAAEAAQA2AAAAOwAAAAAA"
 }

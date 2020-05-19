@@ -6,7 +6,7 @@ description: >
   This user extension provide utilities for building an graph database related flogo application
 ---
 
-* [FileReader](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/trigger/filereader/)
+* [FileReader](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/trigger/filesreader/)
 	: Read data from single file, files in a folder or file entries in a zip file
 * [Accumulator](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/accumulator/)
 	: Accumulate input data then emits it in a batch
