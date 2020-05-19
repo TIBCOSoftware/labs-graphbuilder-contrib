@@ -22,11 +22,32 @@
       <description>
         
         
-        &lt;h4 id=&#34;details&#34;&gt;Details&lt;/h4&gt;
-&lt;h4 id=&#34;implementation-source&#34;&gt;Implementation Source&lt;/h4&gt;
-&lt;p&gt;stored on GitHub &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/Airline&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+        &lt;h4 id=&#34;implementation-source&#34;&gt;Implementation Source&lt;/h4&gt;
+&lt;p&gt;Download application artifacts from &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/Airline&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Download GraphBuilder user extensions from &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/dist&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id=&#34;installation&#34;&gt;Installation&lt;/h4&gt;
+&lt;p&gt;Open TIBCO Flogo® Enterprise 2.8.1 studio and upload required user extensions (builder.zip, tgdb.zip and tools.zip)&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;user_extensions.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Create an empty application for Airline&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;create_app.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Import application from the pre-configured Airline application descriptor&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;import_app.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Find and select descriptor (airline.json) from download folder&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;import_app2.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Ignore waning just click &amp;ldquo;Import All&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;import_app3.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Airline application with two data flow (flight and pnr) is imported&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;import_app4.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Check connection tab to see two connections to be fixed&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;fix_conn.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Select TGDB connection and edit it&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;fix_conn1.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Make configuration meet your TIBCO® Graph Database setup then click &amp;ldquo;Connect&amp;rdquo; to save it&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;fix_conn2.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Same to the Graph connection but just click &amp;ldquo;Connect&amp;rdquo; since graph model has been correctly set&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;fix_conn3.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;This example is created in TIBCO Flogo® Enterprise 2.8.0 studio.&lt;/p&gt;
+&lt;p&gt;This example is created in TIBCO Flogo® Enterprise 2.8.1 studio.&lt;/p&gt;
 &lt;/blockquote&gt;
 
       </description>
@@ -41,10 +62,14 @@
       <description>
         
         
-        &lt;h4 id=&#34;details&#34;&gt;Details&lt;/h4&gt;
-&lt;p&gt;detail to see the labs&lt;/p&gt;
-&lt;h4 id=&#34;implementation-source&#34;&gt;Implementation Source&lt;/h4&gt;
-&lt;p&gt;stored on GitHub &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/Northwind&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+        &lt;h4 id=&#34;implementation-source&#34;&gt;Implementation Source&lt;/h4&gt;
+&lt;p&gt;sDownload application artifacts from &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/Northwind&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Download GraphBuilder user extensions from &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/dist&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id=&#34;installation&#34;&gt;Installation&lt;/h4&gt;
+&lt;p&gt;Open TIBCO Flogo® Enterprise 2.8.1 studio and upload required user extensions (builder.zip, sse.zip, tgdb.zip and tools.zip)&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;user_extensions.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Follow the &lt;a href=&#34;../airline&#34;&gt;Airline&lt;/a&gt; example to continue importing application&lt;/p&gt;
+&lt;p&gt;Create application from scratch see &lt;a href=&#34;../../labs&#34;&gt;labs&lt;/a&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;This example is created in TIBCO Flogo® Enterprise 2.8.0 studio.&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -61,12 +86,15 @@
       <description>
         
         
-        &lt;h4 id=&#34;details&#34;&gt;Details&lt;/h4&gt;
-&lt;p&gt;coming soon here!&lt;/p&gt;
-&lt;h4 id=&#34;implementation-source&#34;&gt;Implementation Source&lt;/h4&gt;
-&lt;p&gt;stored on GitHub &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/hierarchy&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+        &lt;h4 id=&#34;implementation-source&#34;&gt;Implementation Source&lt;/h4&gt;
+&lt;p&gt;Download application artifacts from &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/hierarchy&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Download GraphBuilder user extensions from &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/dist&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id=&#34;installation&#34;&gt;Installation&lt;/h4&gt;
+&lt;p&gt;Open TIBCO Flogo® Enterprise 2.8.1 studio and upload required user extensions (builder.zip, tgdb.zip and tools.zip)&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;user_extensions.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Follow the &lt;a href=&#34;../airline&#34;&gt;Airline&lt;/a&gt; example to continue importing application&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;This example is created in TIBCO Flogo® Enterprise 2.8.0 studio.&lt;/p&gt;
+&lt;p&gt;This example is created in TIBCO Flogo® Enterprise 2.8.1 studio.&lt;/p&gt;
 &lt;/blockquote&gt;
 
       </description>
@@ -81,12 +109,14 @@
       <description>
         
         
-        &lt;h4 id=&#34;details&#34;&gt;Details&lt;/h4&gt;
-&lt;p&gt;coming soon here!&lt;/p&gt;
-&lt;h4 id=&#34;implementation-source&#34;&gt;Implementation Source&lt;/h4&gt;
-&lt;p&gt;stored on GitHub &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/IotDataConsumer&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+        &lt;h4 id=&#34;implementation-source&#34;&gt;Implementation Source&lt;/h4&gt;
+&lt;p&gt;Download application artifacts from &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/IotDataConsumer&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Download GraphBuilder user extensions from &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/dist&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id=&#34;installation&#34;&gt;Installation&lt;/h4&gt;
+&lt;p&gt;Open TIBCO Flogo® Enterprise 2.8.1 studio and upload required user extensions (builder.zip, dgraph.zip and tools.zip)&lt;/p&gt;
+&lt;p&gt;Follow the &lt;a href=&#34;../airline&#34;&gt;Airline&lt;/a&gt; example to continue importing application&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;This example is created in TIBCO Flogo® Enterprise 2.8.0 studio.&lt;/p&gt;
+&lt;p&gt;This example is created in TIBCO Flogo® Enterprise 2.8.1 studio.&lt;/p&gt;
 &lt;/blockquote&gt;
 
       </description>

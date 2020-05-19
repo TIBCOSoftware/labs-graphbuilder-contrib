@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="generator" content="Hugo 0.62.2" />
 
-<META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
 
 
 
@@ -25,12 +25,12 @@
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/sample-applications/airline/" />
-<meta property="article:modified_time" content="2020-05-06T12:41:29-04:00" /><meta property="og:site_name" content="Project GraphBuilder" />
+<meta property="article:modified_time" content="2020-05-19T13:09:31-04:00" /><meta property="og:site_name" content="Project GraphBuilder" />
 <meta itemprop="name" content="Airline">
 <meta itemprop="description" content="Using graph model to construct the relation between passenger, destination data and flight events
 ">
-<meta itemprop="dateModified" content="2020-05-06T12:41:29-04:00" />
-<meta itemprop="wordCount" content="17">
+<meta itemprop="dateModified" content="2020-05-19T13:09:31-04:00" />
+<meta itemprop="wordCount" content="124">
 
 
 
@@ -38,19 +38,6 @@
 <meta name="twitter:title" content="Airline"/>
 <meta name="twitter:description" content="Using graph model to construct the relation between passenger, destination data and flight events
 "/>
-
-
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-218413-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
-
 
 
 
@@ -422,16 +409,37 @@ if (!doNotTrack) {
 
 
 
-<p class="-text-primary pt-3 h6" >Reading time: 0 minutes and 6 seconds.</p>
+<p class="-text-primary pt-3 h6" >Reading time: 0 minutes and 37 seconds.</p>
 <p>
 <div class="td-content">
 	<h1>Airline</h1>
 	<div class="lead">Using graph model to construct the relation between passenger, destination data and flight events</div>
-	<h4 id="details">Details</h4>
-<h4 id="implementation-source">Implementation Source</h4>
-<p>stored on GitHub <a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/Airline">here</a>.</p>
+	<h4 id="implementation-source">Implementation Source</h4>
+<p>Download application artifacts from <a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/Airline">here</a>.</p>
+<p>Download GraphBuilder user extensions from <a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/dist">here</a></p>
+<h4 id="installation">Installation</h4>
+<p>Open TIBCO Flogo® Enterprise 2.8.1 studio and upload required user extensions (builder.zip, tgdb.zip and tools.zip)</p>
+<p><img src="user_extensions.png" alt="Import Extension"></p>
+<p>Create an empty application for Airline</p>
+<p><img src="create_app.png" alt="Import Extension"></p>
+<p>Import application from the pre-configured Airline application descriptor</p>
+<p><img src="import_app.png" alt="Import Extension"></p>
+<p>Find and select descriptor (airline.json) from download folder</p>
+<p><img src="import_app2.png" alt="Import Extension"></p>
+<p>Ignore waning just click &ldquo;Import All&rdquo;</p>
+<p><img src="import_app3.png" alt="Import Extension"></p>
+<p>Airline application with two data flow (flight and pnr) is imported</p>
+<p><img src="import_app4.png" alt="Import Extension"></p>
+<p>Check connection tab to see two connections to be fixed</p>
+<p><img src="fix_conn.png" alt="Import Extension"></p>
+<p>Select TGDB connection and edit it</p>
+<p><img src="fix_conn1.png" alt="Import Extension"></p>
+<p>Make configuration meet your TIBCO® Graph Database setup then click &ldquo;Connect&rdquo; to save it</p>
+<p><img src="fix_conn2.png" alt="Import Extension"></p>
+<p>Same to the Graph connection but just click &ldquo;Connect&rdquo; since graph model has been correctly set</p>
+<p><img src="fix_conn3.png" alt="Import Extension"></p>
 <blockquote>
-<p>This example is created in TIBCO Flogo® Enterprise 2.8.0 studio.</p>
+<p>This example is created in TIBCO Flogo® Enterprise 2.8.1 studio.</p>
 </blockquote>
 
 	
@@ -496,7 +504,7 @@ if (!doNotTrack) {
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified May 6, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/b2df637bf0c3596f7594bcd148cc2b6616d15048">Update document and sample app (b2df637)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified May 19, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/a2101fc32deabcb60c71495c6db73067d31aea6e">add documentation for sample applications (a2101fc)</a>
 </div>
 </div>
 

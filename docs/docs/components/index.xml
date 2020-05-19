@@ -253,7 +253,7 @@
         
         
         &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/trigger/filereader/&#34;&gt;FileReader&lt;/a&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/trigger/filesreader/&#34;&gt;FileReader&lt;/a&gt;
 : Read data from single file, files in a folder or file entries in a zip file&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/accumulator/&#34;&gt;Accumulator&lt;/a&gt;
 : Accumulate input data then emits it in a batch&lt;/li&gt;
