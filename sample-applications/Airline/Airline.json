@@ -24,7 +24,7 @@
                 {
                     "description": "",
                     "settings": {
-                        "Filename": "/Users/steven/Desktop/airline/airline_flight.zip",
+                        "Filename": "/Desktop/sample-applications/Airline/data/airline",
                         "Asynchronous": true,
                         "EmitPerLine": true,
                         "MaxNumberOfLine": -1
@@ -45,7 +45,7 @@
                 {
                     "description": "",
                     "settings": {
-                        "Filename": "/Users/steven/Desktop/airline/airline_pnr.zip",
+                        "Filename": "/Desktop/sample-applications/Airline/data/airline/pnr",
                         "Asynchronous": true,
                         "EmitPerLine": true,
                         "MaxNumberOfLine": -1
@@ -132,7 +132,7 @@
                             "ref": "#builder",
                             "settings": {
                                 "GraphModel": {
-                                    "id": "d5d258a0-8a15-11ea-aeb3-1bffc5aa8b85",
+                                    "id": "2e024390-995d-11ea-a030-d5552accd2a4",
                                     "type": "flogo:connector",
                                     "version": "1.0.0",
                                     "name": "tibco-graph",
@@ -256,7 +256,7 @@
                                     "keyfield": "name",
                                     "iteratorAccumulate": false,
                                     "isValid": true,
-                                    "lastUpdatedTime": 1588163815831,
+                                    "lastUpdatedTime": 1589844237584,
                                     "user": "flogo",
                                     "connectorName": "Airline",
                                     "connectorDescription": " "
@@ -407,6 +407,7 @@
                             "ref": "#tgdbupsert",
                             "settings": {
                                 "tgdbConnection": {
+                                    "id": "2e035500-995d-11ea-a030-d5552accd2a4",
                                     "type": "flogo:connector",
                                     "version": "1.0.0",
                                     "name": "tibco-tgdb",
@@ -467,7 +468,7 @@
                                                 "description": "Password for login to TGDB server",
                                                 "type": "password"
                                             },
-                                            "value": "SECRET:sy6VRSB2ZpvDOYRI3yxLhYlr6E/5"
+                                            "value": "SECRET:PM471417cEupRREL/4uyGr/zZfSd"
                                         },
                                         {
                                             "name": "keepAlive",
@@ -512,11 +513,8 @@
                                     "keyfield": "name",
                                     "iteratorAccumulate": false,
                                     "isValid": true,
-                                    "lastUpdatedTime": 1587475362083,
-                                    "createdTime": 1587475362083,
+                                    "lastUpdatedTime": 1589844104666,
                                     "user": "flogo",
-                                    "subscriptionId": "flogo_sbsc",
-                                    "id": "2df8a730-83d3-11ea-9fe5-759f8e5f04a0",
                                     "connectorName": "TGDB",
                                     "connectorDescription": " "
                                 },
@@ -633,7 +631,7 @@
                             "ref": "#builder",
                             "settings": {
                                 "GraphModel": {
-                                    "id": "d5d258a0-8a15-11ea-aeb3-1bffc5aa8b85",
+                                    "id": "2e024390-995d-11ea-a030-d5552accd2a4",
                                     "type": "flogo:connector",
                                     "version": "1.0.0",
                                     "name": "tibco-graph",
@@ -757,7 +755,7 @@
                                     "keyfield": "name",
                                     "iteratorAccumulate": false,
                                     "isValid": true,
-                                    "lastUpdatedTime": 1588163815831,
+                                    "lastUpdatedTime": 1589844237584,
                                     "user": "flogo",
                                     "connectorName": "Airline",
                                     "connectorDescription": " "
@@ -864,6 +862,7 @@
                             "ref": "#tgdbupsert",
                             "settings": {
                                 "tgdbConnection": {
+                                    "id": "2e035500-995d-11ea-a030-d5552accd2a4",
                                     "type": "flogo:connector",
                                     "version": "1.0.0",
                                     "name": "tibco-tgdb",
@@ -924,7 +923,7 @@
                                                 "description": "Password for login to TGDB server",
                                                 "type": "password"
                                             },
-                                            "value": "SECRET:zt/BsBeQYOWbquSZqpRjJGx0ajoN"
+                                            "value": "SECRET:IX9sbqt61nLoEe/Ryv+Rrn/PftaQ"
                                         },
                                         {
                                             "name": "keepAlive",
@@ -969,11 +968,8 @@
                                     "keyfield": "name",
                                     "iteratorAccumulate": false,
                                     "isValid": true,
-                                    "lastUpdatedTime": 1587475362083,
-                                    "createdTime": 1587475362083,
+                                    "lastUpdatedTime": 1589844104666,
                                     "user": "flogo",
-                                    "subscriptionId": "flogo_sbsc",
-                                    "id": "2df8a730-83d3-11ea-9fe5-759f8e5f04a0",
                                     "connectorName": "TGDB",
                                     "connectorDescription": " "
                                 },
@@ -1027,6 +1023,6 @@
     ],
     "properties": [],
     "connections": {},
-    "contrib": "W3sicmVmIjoiZ2l0aHViLmNvbS9USUJDT1NvZnR3YXJlL0dyYXBoQnVpbGRlcl9Ub29scyIsInMzbG9jYXRpb24iOiJ7VVNFUklEfS9HcmFwaEJ1aWxkZXJfVG9vbHMifSx7InJlZiI6ImdpdGh1Yi5jb20vVElCQ09Tb2Z0d2FyZS9HcmFwaEJ1aWxkZXJfVEdEQiIsInMzbG9jYXRpb24iOiJ7VVNFUklEfS9HcmFwaEJ1aWxkZXJfVEdEQiJ9LHsicmVmIjoiZ2l0aHViLmNvbS9USUJDT1NvZnR3YXJlL0dyYXBoQnVpbGRlciIsInMzbG9jYXRpb24iOiJ7VVNFUklEfS9HcmFwaEJ1aWxkZXIifSx7InJlZiI6ImdpdC50aWJjby5jb20vZ2l0L3Byb2R1Y3QvaXBhYXMvd2ktY29udHJpYi5naXQvY29udHJpYnV0aW9ucy9HZW5lcmFsIiwiczNsb2NhdGlvbiI6IlRpYmNvL0dlbmVyYWwifV0=",
-    "fe_metadata": "UEsDBAoAAAAIACufpVCrqSRGFQAAABMAAAAIAAAAYXBwLmpzb26rViopykxPTy1yy8kvL1ayio6tBQBQSwECFAAKAAAACAArn6VQq6kkRhUAAAATAAAACAAAAAAAAAAAAAAAAAAAAAAAYXBwLmpzb25QSwUGAAAAAAEAAQA2AAAAOwAAAAAA"
+    "contrib": "W3sicmVmIjoiZ2l0aHViLmNvbS9USUJDT1NvZnR3YXJlL0dyYXBoQnVpbGRlcl9Ub29scyIsInMzbG9jYXRpb24iOiJ7VVNFUklEfS9HcmFwaEJ1aWxkZXJfVG9vbHMifSx7InJlZiI6ImdpdGh1Yi5jb20vVElCQ09Tb2Z0d2FyZS9HcmFwaEJ1aWxkZXIiLCJzM2xvY2F0aW9uIjoie1VTRVJJRH0vR3JhcGhCdWlsZGVyIn0seyJyZWYiOiJnaXRodWIuY29tL1RJQkNPU29mdHdhcmUvR3JhcGhCdWlsZGVyX1RHREIiLCJzM2xvY2F0aW9uIjoie1VTRVJJRH0vR3JhcGhCdWlsZGVyX1RHREIifSx7InJlZiI6ImdpdC50aWJjby5jb20vZ2l0L3Byb2R1Y3QvaXBhYXMvd2ktY29udHJpYi5naXQvY29udHJpYnV0aW9ucy9HZW5lcmFsIiwiczNsb2NhdGlvbiI6IlRpYmNvL0dlbmVyYWwifV0=",
+    "fe_metadata": "UEsDBAoAAAAIAPC8slCrqSRGFQAAABMAAAAIAAAAYXBwLmpzb26rViopykxPTy1yy8kvL1ayio6tBQBQSwECFAAKAAAACADwvLJQq6kkRhUAAAATAAAACAAAAAAAAAAAAAAAAAAAAAAAYXBwLmpzb25QSwUGAAAAAAEAAQA2AAAAOwAAAAAA"
 }
