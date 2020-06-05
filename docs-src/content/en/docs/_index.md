@@ -9,5 +9,4 @@ menu:
 ---
 
 
-This section is where the user documentation for TIBCO LABS™ Project GraphBuilder - all the information you need to understand this project. 
-
+This section contains all the user documentation that is needed to understand TIBCO LABS™ Project GraphBuilder

@@ -3,7 +3,7 @@ title: "Meetup Event"
 linkTitle: "Meetup Event"
 weight: 4
 description: >
-  Useing Meetup open event to demonstrate transforming JSON data to graph then upsert to TGDB in realtime 
+  This application shows how to transform JSON data to graph and then upsert to TIBCO® Graph Database in real-time 
 ---
 
 This example uses Meetup open event through Meetup API see https://www.meetup.com/meetup_api/
@@ -199,4 +199,4 @@ body sample :
 #### Implementation Source
 stored on GitHub [here](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/Meetup_Event).
 
-> This example is created in TIBCO Flogo® Enterprise 2.8.0 studio.
+> This example is created in TIBCO Flogo® Enterprise 2.8.1 studio.

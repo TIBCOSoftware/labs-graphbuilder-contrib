@@ -3,7 +3,7 @@ title: "RESTful Service"
 linkTitle: "RESTful Service"
 weight: 5
 description: >
-  RESTful Services API for querying against TIBCO Graph Database
+  This application illustrates how to use RESTful Services API for querying TIBCO® Graph Database
 ---
 
 ## Create TGDB Connection
@@ -146,4 +146,4 @@ sample :
 #### Implementation Source
 stored on GitHub [here](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/TGDB_RESTful_Service).
 
-> This example is created in TIBCO Flogo® Enterprise 2.8.0 studio.
+> This example is created in TIBCO Flogo® Enterprise 2.8.1 studio.

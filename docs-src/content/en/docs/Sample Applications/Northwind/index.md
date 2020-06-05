@@ -3,13 +3,13 @@ title: "Northwind"
 linkTitle: "Northwind"
 weight: 1
 description: >
-  Using Microsoft Northwind data to demonstrate the features of GraphBuilder user extensions 
+  This application uses Microsoft Northwind data to demonstrate the features of GraphBuilder user extensions 
 ---
 
 
 #### Implementation Source
 
-sDownload application artifacts from [here](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/Northwind).
+Download application artifacts from [here](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/Northwind).
 
 Download GraphBuilder user extensions from [here](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/dist)
 
