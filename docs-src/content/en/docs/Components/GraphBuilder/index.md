@@ -3,11 +3,11 @@ title: "GraphBuilder"
 linkTitle: "GraphBuilder"
 weight: 1
 description: >
-  The core extension which provides BuildGraph activity to construct graph from input data based on user predefined graph model
+  The core extension which provides BuildGraph activity to construct graph based on input data coming from user’s predefined graph model
 ---
 
 - [Graph Connector](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/connector/graph)
-	: A Graph connector is a component which hosts your graph model for sharing graph model among graph construction related activity. Activities which connect to the same Graph connector would share same graph model (data schema)
+	: Graph Connector is a component which hosts your graph model for sharing graph model among graph construction related activity. Activities which connect to the same Graph connector would share same graph model (data schema)
 
 Here is the schema of graph model
 
@@ -98,6 +98,6 @@ Here is the schema of graph model
 ```
 
 - [BuildGraph Activity](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/activity/builder)
-  : A BuildGraph activity must connect to a Graph connector so it can build its input data schema from the graph model which is hosted in that Graph connector. BuildGraph activity transform the input data to graph entities (nodes, edges and their attributes) based on the graph model
+  : BuildGraph Activity must connect to a Graph Connector so it can build its input data schema from the graph model which is hosted in that Graph connector. BuildGraph activity transform the input data to graph entities (nodes, edges and their attributes) based on the graph model
 - [GraphToFile](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/activity/graphtofile)
-  : A GraphToFile activity takes graph entities (nodes and edges) from BuildGraph and writes them to a file. It's an useful utility for troubleshooting
+  : GraphToFile activity takes graph entities (nodes and edges) from BuildGraph and writes them to a file. It's a useful utility for troubleshooting

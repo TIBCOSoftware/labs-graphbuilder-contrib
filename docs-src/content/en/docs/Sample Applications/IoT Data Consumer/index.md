@@ -3,7 +3,7 @@ title: "IoT Data Consumer"
 linkTitle: "IoT Data Consumer"
 weight: 3
 description: >
-  Using graph model to store the realtine reading from IoT devices
+  This application demonstrates how a graph model can be used to store real-time readings from IoT devices
 ---
 
 #### Implementation Source

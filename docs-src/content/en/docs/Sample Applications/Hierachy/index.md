@@ -3,7 +3,7 @@ title: "Hierachy"
 linkTitle: "Hierachy"
 weight: 2
 description: >
-  This original example is shipped with TGDB to demonstrate how to build a graph with the API and perform search and queries on objects in the graph. Here we demonstrate another way which is using GraphBuilder to populate Napoleon Bonaparte's family tree to TGDB.
+  This example is shipped with TIBCO® Graph Database to demonstrate how to build a graph with the API and perform searches and queries on objects in the graph model. Through this example, it is demonstrated how GraphBuilder can be used to populate Napoleon Bonaparte's family tree to TGDB.
 ---
 
 

@@ -3,7 +3,7 @@ title: "Neo4j"
 linkTitle: "Neo4j"
 weight: 4
 description: >
-  This extension contains activities to perform upsert operation against Neo4j database
+  Extension that contains activities to perform upsert operation against Neo4j database
 ---
 
 * [Connector](https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/neo4j/connector/neo4j/)

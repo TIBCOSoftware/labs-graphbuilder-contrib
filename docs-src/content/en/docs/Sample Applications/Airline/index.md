@@ -3,7 +3,7 @@ title: "Airline"
 linkTitle: "Airline"
 weight: 1
 description: >
-  Using graph model to construct the relation between passenger, destination data and flight events
+  This application leverages graph model to build the relationship between passenger, destination data and flight events
 ---
 
 #### Implementation Source
@@ -18,7 +18,7 @@ Open TIBCO Flogo® Enterprise 2.8.1 studio and upload required user extensions (
 
 ![Import Extension](user_extensions.png)
 
-Create an empty application for Airline 
+Create an empty application for Airline application 
 
 ![Import Extension](create_app.png)
 
@@ -30,7 +30,7 @@ Find and select descriptor (airline.json) from download folder
 
 ![Import Extension](import_app2.png)
 
-Ignore waning just click "Import All"
+Ignore waning just click “Import All”
 
 ![Import Extension](import_app3.png)
 
@@ -46,11 +46,11 @@ Select TGDB connection and edit it
 
 ![Import Extension](fix_conn1.png)
 
-Make configuration meet your TIBCO® Graph Database setup then click "Connect" to save it
+Change configuration match your TIBCO® Graph Database setup then click “Connect” to save it
 
 ![Import Extension](fix_conn2.png)
 
-Same to the Graph connection but just click "Connect" since graph model has been correctly set
+Same to the Graph connection but just click “Connect” since graph model has been correctly set
 
 ![Import Extension](fix_conn3.png)
 
