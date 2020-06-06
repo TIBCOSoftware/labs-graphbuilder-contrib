@@ -28,13 +28,13 @@
 &lt;h4 id=&#34;installation&#34;&gt;Installation&lt;/h4&gt;
 &lt;p&gt;Open TIBCO Flogo® Enterprise 2.8.1 studio and upload required user extensions (builder.zip, tgdb.zip and tools.zip)&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;user_extensions.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
-&lt;p&gt;Create an empty application for Airline&lt;/p&gt;
+&lt;p&gt;Create an empty application for Airline application&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;create_app.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Import application from the pre-configured Airline application descriptor&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;import_app.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Find and select descriptor (airline.json) from download folder&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;import_app2.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
-&lt;p&gt;Ignore waning just click &amp;ldquo;Import All&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;Ignore waning just click “Import All”&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;import_app3.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Airline application with two data flow (flight and pnr) is imported&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;import_app4.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
@@ -42,9 +42,9 @@
 &lt;p&gt;&lt;img src=&#34;fix_conn.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Select TGDB connection and edit it&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;fix_conn1.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
-&lt;p&gt;Make configuration meet your TIBCO® Graph Database setup then click &amp;ldquo;Connect&amp;rdquo; to save it&lt;/p&gt;
+&lt;p&gt;Change configuration match your TIBCO® Graph Database setup then click “Connect” to save it&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;fix_conn2.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
-&lt;p&gt;Same to the Graph connection but just click &amp;ldquo;Connect&amp;rdquo; since graph model has been correctly set&lt;/p&gt;
+&lt;p&gt;Same to the Graph connection but just click “Connect” since graph model has been correctly set&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;fix_conn3.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;This example is created in TIBCO Flogo® Enterprise 2.8.1 studio.&lt;/p&gt;
@@ -63,7 +63,7 @@
         
         
         &lt;h4 id=&#34;implementation-source&#34;&gt;Implementation Source&lt;/h4&gt;
-&lt;p&gt;sDownload application artifacts from &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/Northwind&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Download application artifacts from &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/Northwind&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Download GraphBuilder user extensions from &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/dist&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
 &lt;h4 id=&#34;installation&#34;&gt;Installation&lt;/h4&gt;
 &lt;p&gt;Open TIBCO Flogo® Enterprise 2.8.1 studio and upload required user extensions (builder.zip, sse.zip, tgdb.zip and tools.zip)&lt;/p&gt;
@@ -325,7 +325,7 @@ $trigger.body&lt;/p&gt;
 &lt;h4 id=&#34;implementation-source&#34;&gt;Implementation Source&lt;/h4&gt;
 &lt;p&gt;stored on GitHub &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/Meetup_Event&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;This example is created in TIBCO Flogo® Enterprise 2.8.0 studio.&lt;/p&gt;
+&lt;p&gt;This example is created in TIBCO Flogo® Enterprise 2.8.1 studio.&lt;/p&gt;
 &lt;/blockquote&gt;
 
       </description>
@@ -468,7 +468,7 @@ $trigger.body&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;implementation-source&#34;&gt;Implementation Source&lt;/h4&gt;
 &lt;p&gt;stored on GitHub &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/TGDB_RESTful_Service&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;This example is created in TIBCO Flogo® Enterprise 2.8.0 studio.&lt;/p&gt;
+&lt;p&gt;This example is created in TIBCO Flogo® Enterprise 2.8.1 studio.&lt;/p&gt;
 &lt;/blockquote&gt;
 
       </description>

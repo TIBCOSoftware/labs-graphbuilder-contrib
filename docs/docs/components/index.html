@@ -22,16 +22,16 @@
 <link rel="icon" type="image/png" href="/labs-graphbuilder-contrib/favicons/android-192x192.png" sizes="192x192">
 
 <title>Components | Project GraphBuilder</title><meta property="og:title" content="Components" />
-<meta property="og:description" content="The solution is based on four core components
+<meta property="og:description" content="The solution is based on four core main components: Graph Connector, BuildGraph Activity, TGDB Connector and TGDBUpsert. This section explains in detail each one of them.
 " />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/components/" />
 <meta property="og:site_name" content="Project GraphBuilder" />
 <meta itemprop="name" content="Components">
-<meta itemprop="description" content="The solution is based on four core components
+<meta itemprop="description" content="The solution is based on four core main components: Graph Connector, BuildGraph Activity, TGDB Connector and TGDBUpsert. This section explains in detail each one of them.
 "><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Components"/>
-<meta name="twitter:description" content="The solution is based on four core components
+<meta name="twitter:description" content="The solution is based on four core main components: Graph Connector, BuildGraph Activity, TGDB Connector and TGDBUpsert. This section explains in detail each one of them.
 "/>
 
 
@@ -395,18 +395,14 @@
 	
 	
 	
-	<p class="-text-secondary pt-3 h6" >Reading time: 0 minutes and 43 seconds.</p>
+	<p class="-text-secondary pt-3 h6" >Reading time: 0 minutes and 40 seconds.</p>
 	<h1>Components</h1>
-	<div class="lead">The solution is based on four core components</div>
+	<div class="lead">The solution is based on four core main components: Graph Connector, BuildGraph Activity, TGDB Connector and TGDBUpsert. This section explains in detail each one of them.</div>
 	<ul>
-<li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/connector/graph">Graph Connector</a>
-: A Graph connector is a component which hosts your graph model for sharing graph model among graph construction related activity. Activities which connect to the same Graph connector would share same graph model (data schema)</li>
-<li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/activity/builder">BuildGraph Activity</a>
-: A BuildGraph activity must connect to a Graph connector so it can build its input data schema from the graph model which is hosted in that Graph connector. BuildGraph activity transform the input data to graph entities (nodes, edges and their attributes) based on the graph model.</li>
-<li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tgdb/connector/">TGDB Connector</a>
-: A TGDB connector is a component to store your TIBCO® Graph Database server connection information. Activities which connect to the same TGDB connector are actually connecting to the same TIBCO® Graph Database server instance</li>
-<li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tgdb/activity/tgdbupsert">TGDBUpsert</a>
-: A TGDBUpsert activity consumes the graph entities from BuildGraph activity and inserts/updates them to TIBCO® Graph Database</li>
+<li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/connector/graph">Graph Connector</a>: Graph connector is a component which hosts a graph model for sharing throughout graph construction related activities. The activities that connect to the same Graph connector share the same graph model (data schema)</li>
+<li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/activity/builder">BuildGraph Activity</a>: A BuildGraph Activity must connect to a Graph Connector to build the input data schema from the graph model which is hosted in the Graph Connector. BuildGraph Activity transforms the input data into graph entities (nodes, edges and their attributes) based on the graph model.</li>
+<li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tgdb/connector/">TGDB Connector</a>: A TGDB Connector is the component that stores TIBCO® Graph Database server connection information. Activities which connect to the same TGDB Connector are connecting to the same TIBCO® Graph Database server instance</li>
+<li><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tgdb/activity/tgdbupsert">TGDBUpsert</a>: A TGDBUpsert activity consumes the graph entities from a BuildGraph Activity and inserts/updates them into TIBCO® Graph Database</li>
 </ul>
 
         <div class="section-index">
@@ -423,7 +419,7 @@
                     <h5>
                         <a href="/labs-graphbuilder-contrib/docs/components/graphbuilder/">GraphBuilder</a>
                     </h5>
-                    <p>The core extension which provides BuildGraph activity to construct graph from input data based on user predefined graph model</p>
+                    <p>The core extension which provides BuildGraph activity to construct graph based on input data coming from user’s predefined graph model</p>
                 </div>
             
         
@@ -444,7 +440,7 @@
                     <h5>
                         <a href="/labs-graphbuilder-contrib/docs/components/graphbuilder-tgdb/">TGDB</a>
                     </h5>
-                    <p>This extension contains activities to perform CRUD operations against TIBCO® Graph Database</p>
+                    <p>Extension that contains activities that perform CRUD operations against TIBCO® Graph Database</p>
                 </div>
             
         
@@ -453,7 +449,7 @@
                     <h5>
                         <a href="/labs-graphbuilder-contrib/docs/components/graphbuilder-dgraph/">Dgraph</a>
                     </h5>
-                    <p>This extension contains activities to perform upsert operation against Dgraph database</p>
+                    <p>Extension that contains activities to perform upsert operations against Dgraph database</p>
                 </div>
             
         
@@ -472,7 +468,7 @@
                     <h5>
                         <a href="/labs-graphbuilder-contrib/docs/components/graphbuilder-neo4j/">Neo4j</a>
                     </h5>
-                    <p>This extension contains activities to perform upsert operation against Neo4j database</p>
+                    <p>Extension that contains activities to perform upsert operation against Neo4j database</p>
                 </div>
             
         
@@ -483,7 +479,7 @@
                     <h5>
                         <a href="/labs-graphbuilder-contrib/docs/components/graphbuilder-gremlin/">Gremlin</a>
                     </h5>
-                    <p>This extension contains activities to perform upsert operation against Gremlin Janusgraph server</p>
+                    <p>Extension that contains activities to perform upsert operation against Gremlin Janusgraph server</p>
                 </div>
             
         
@@ -494,7 +490,7 @@
                     <h5>
                         <a href="/labs-graphbuilder-contrib/docs/components/graphbuilder-sse/">SSE</a>
                     </h5>
-                    <p>SSE user extension contains activities for implemeting Server Sent Event (HTTP based streaming event) client and server.</p>
+                    <p>SSE user extension that contains activities for implementing Server Sent Event (HTTP based streaming event) client and server</p>
                 </div>
             
         
@@ -503,7 +499,7 @@
                     <h5>
                         <a href="/labs-graphbuilder-contrib/docs/components/graphbuilder-tools/">Tools</a>
                     </h5>
-                    <p>This user extension provide utilities for building an graph database related flogo application</p>
+                    <p>User extension that provides utilities for building a graph database related Flogo application</p>
                 </div>
             
         
@@ -574,7 +570,7 @@
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified May 15, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/ddfb60517d31b6880070407c876e6b250a448c7d">Update documentation (ddfb605)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified June 5, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/01aeddff6cc483d3246802eac4c553618302e71b">Update documentation (01aeddf)</a>
 </div>
 </div>
 

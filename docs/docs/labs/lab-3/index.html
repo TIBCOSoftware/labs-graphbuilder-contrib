@@ -25,12 +25,12 @@
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/labs/lab-3/" />
-<meta property="article:modified_time" content="2020-05-14T17:55:41-04:00" /><meta property="og:site_name" content="Project GraphBuilder" />
+<meta property="article:modified_time" content="2020-06-05T15:20:01-04:00" /><meta property="og:site_name" content="Project GraphBuilder" />
 <meta itemprop="name" content="Lab3 - real-time">
 <meta itemprop="description" content="Build an application to insert/update real-time data to TIBCO® Graph Database
 ">
-<meta itemprop="dateModified" content="2020-05-14T17:55:41-04:00" />
-<meta itemprop="wordCount" content="1058">
+<meta itemprop="dateModified" content="2020-06-05T15:20:01-04:00" />
+<meta itemprop="wordCount" content="1026">
 
 
 
@@ -409,62 +409,62 @@
 
 
 
-<p class="-text-primary pt-3 h6" >Reading time: 4 minutes and 48 seconds.</p>
+<p class="-text-primary pt-3 h6" >Reading time: 6 minutes and 49 seconds.</p>
 <p>
 <div class="td-content">
 	<h1>Lab3 - real-time</h1>
 	<div class="lead">Build an application to insert/update real-time data to TIBCO® Graph Database</div>
-	<p>Now let's create an application which receives real-time order events from Kafka topic then build graph entities (nodes, edges and their attributes), insert/update entities to TGDB then serve real-time graph entities as a streaming server.</p>
-<p>First of all create an internal &ldquo;Server Sent Event (SSE)&rdquo; connection to link between order event flow and SSE server flow (for serving streaming graph entities to external client).</p>
-<p>In &ldquo;Connections&rdquo; tab select GraphBuilder_SSE -&gt; Server-sent Events Connection</p>
+	<p>Create an application which receives real-time order events from Kafka topic then build graph entities (nodes, edges and their attributes), insert/update entities to TGDB then serve real-time graph entities as a streaming server.</p>
+<p>Create an internal “Server Sent Event (SSE)” connection to link between order event flow and SSE server flow (for serving streaming graph entities to external client).</p>
+<p>In “Connections” tab select GraphBuilder_SSE -&gt; Server-sent Events Connection</p>
 <p><img src="realtime02.png" alt="Realtime"></p>
-<p>Connection settings (following settings match the client tool which is provided for browsing real-time graph entity update)</p>
+<p>Connection settings (the settings below match the client tool which is provided for browsing real-time graph entity update)</p>
 <ul>
-<li>Connection Name : Set name to &ldquo;EventServer&rdquo;</li>
-<li>Outbound : Set false as it's a server</li>
-<li>Server port : 8888</li>
-<li>Path : It's URI path &ldquo;/sse/&rdquo;</li>
-<li>TLS enabled : false</li>
+<li>Connection Name: Set name to “EventServer”</li>
+<li>Outbound: Set false as it's a server</li>
+<li>Server port: 8888</li>
+<li>Path: It's URI path “/sse/”</li>
+<li>TLS enabled: false</li>
 </ul>
-<p>Click &ldquo;Connect&rdquo;</p>
+<p>Click “Connect”</p>
 <p><img src="realtime01.png" alt="Realtime"></p>
-<p>Back to Northwind application to create a new flow called &ldquo;Order Event Server&rdquo;</p>
+<p>Back to Northwind application to create a new flow called “Order Event Server”</p>
 <p><img src="realtime07.png" alt="Realtime"></p>
-<p>Select a &ldquo;SSE Server&rdquo; trigger to serve graph entities (come from order event flow) for streaming client</p>
+<p>Select a “SSE Server” trigger to serve graph entities (come from order event flow) for streaming client</p>
 <p><img src="realtime03.png" alt="Realtime"></p>
 <p>Settings</p>
 <ul>
-<li>Connection Name : Select the &ldquo;EventServer&rdquo; connection which we just created</li>
+<li>Connection Name: Select the “EventServer” connection which we just created</li>
 </ul>
-<p>Click &ldquo;Save&rdquo;</p>
+<p>Click “Save”.</p>
 <p><img src="realtime04.png" alt="Realtime"></p>
-<p>This simple flow will be serving streaming graph entities</p>
+<p>This simple flow will be serving streaming graph entities.</p>
 <p><img src="realtime04-5.png" alt="Realtime"></p>
-<p>Now Add the last flow for Northwind application. It is &ldquo;Order Data Flow&rdquo; which listen to Kafla topic to consume order events as input data of the flow.</p>
-<p>Before we create it, we need to create a &ldquo;Kafka Connection&rdquo;. In connection tab select &ldquo;Appach Kafka Client Configuration&rdquo;</p>
+<p>Add the last flow for Northwind application. It is “Order Data Flow” which listen to Kafka topic to consume order events as input data of the flow.</p>
+<p>Before it is created, a “Kafka Connection” needs to be created. In connection tab select “Apache Kafka Client Configuration”.</p>
 <p><img src="realtime06.png" alt="Realtime"></p>
-<p>Configure Appach Kafka Client as following screenshot then save it</p>
+<p>Configure Apache Kafka Client as the following screenshot and then save it.</p>
 <p><img src="realtime05.png" alt="Realtime"></p>
-<p>Back to application to create new flow called &ldquo;Order Event&rdquo;</p>
+<p>Back to the application, create a new flow called “Order Event”.</p>
 <p><img src="realtime08.png" alt="Realtime"></p>
-<p>Click &ldquo;Flow Inputs &amp; Outputs&rdquo; (vertical blue bar) to define schema between flow and trigger. Set following data sample then click save</p>
+<p>Click “Flow Inputs &amp; Outputs” (vertical blue bar) to define a schema between flow and trigger. Set the following data sample and then click save.</p>
 <p><img src="realtime12.png" alt="Realtime"></p>
-<p>After clicking save button schema generator would convert sample data to schema definition like before</p>
+<p>After clicking save button, the schema generator converts sample data to schema definition.</p>
 <p><img src="realtime13.png" alt="Realtime"></p>
-<p>Click &ldquo;+&rdquo; to add trigger (Kafka Consumer)</p>
+<p>Click “+” to add trigger (Kafka Consumer).</p>
 <p><img src="realtime09.png" alt="Realtime"></p>
-<p>Select &ldquo;Northwind Orders&rdquo; configuration we just created then click continue.</p>
+<p>Select the “Northwind Orders” configuration that was just created and then click continue.</p>
 <p><img src="realtime10.png" alt="Realtime"></p>
-<p>Select &ldquo;Just Add Trigger&rdquo; button to add trigger</p>
+<p>Select “Just Add Trigger” button to add a trigger.</p>
 <p><img src="realtime11.png" alt="Realtime"></p>
-<p>Finish the trigger setting as it shown below in screenshot</p>
+<p>Finish setting up the trigger as shown in screenshot below.</p>
 <p><img src="realtime14.png" alt="Realtime"></p>
 <p>Map OrderString to $trigger.stringValue</p>
 <p><img src="realtime15.png" alt="Realtime"></p>
-<p>Add CSVParser to convert incoming CVS string to system object</p>
+<p>Add CSVParser to convert incoming CVS string to system object.</p>
 <p><img src="realtime16.png" alt="Realtime"></p>
-<p>Follow the instruction in lab1 define the mapping between CSV fields and attribute of system object. Use the column field name as attribute name.</p>
-<p>Make sure &ldquo;First Row Is Header&rdquo; set to false</p>
+<p>Follow the instruction in Lab1 to define the mapping between CSV fields and attribute of system object. Use the column field name as attribute name.</p>
+<p>Make sure “First Row Is Header” set to false.</p>
 <p><img src="realtime17.png" alt="Realtime"></p>
 <p>Configure the input</p>
 <ul>
@@ -472,10 +472,9 @@
 <li>Leave SequenceNumber not mapped</li>
 </ul>
 <p><img src="realtime18.png" alt="Realtime"></p>
-<p>After the data has bean transform to the object which could be recognized by the system. The next step is to convert data to graph entities (nodes, edges and their attributes). We use the core activity &ldquo;Build Graph&rdquo; to perform this tranformation.
-Let's select GraphBuilder -&gt; Bruild Graph and configue it.</p>
+<p>After the data has been transformed to the object which could be recognized by the system, convert data to graph entities (nodes, edges and their attributes). Use core activity “Build Graph” to perform this transformation. Let's select GraphBuilder -&gt; Build Graph and configure it.</p>
 <p><img src="realtime18-5.png" alt="Realtime"></p>
-<p>Follow lab1's instruction to turn on the &ldquo;iterator&rdquo; for iterating through upstream output data (at runtime) then map with input data of BuildGraph activity. Here is the mapping</p>
+<p>Follow Lab1 instruction to turn on the “iterator” for iterating through upstream output data (at runtime) and then map with input data of BuildGraph activity. Here is the mapping</p>
 <p>Product node</p>
 <ul>
 <li>ProductID -&gt; $iteration[value].ProductID</li>
@@ -518,12 +517,17 @@ Let's select GraphBuilder -&gt; Bruild Graph and configue it.</p>
 <li>RegionName -&gt; $iteration[value].RegionName</li>
 <li>Country -&gt; $iteration[value].Country</li>
 </ul>
-<p>Since one order can be splited to multiple order events (with different product sold). We create two types of order nodes 1. Odrer node (main order) with OrderID as its primary key and 2. Suborder node with OrderID, ProductID as primary key. BuildGraph activity would link (via edge) All Suborder nodes to Order node by matching their the OrderID. (See following screenshot)</p>
+<p>Since one order can be split into multiple order events (with different product sold), create two types of order nodes:</p>
+<ol>
+<li>Odrer node (main order) with OrderID as its primary key</li>
+<li>Suborder node with OrderID, ProductID as primary key.</li>
+</ol>
+<p>BuildGraph activity would link (via edge) all Suborder nodes to Order node by matching their the OrderID (see following screenshot).</p>
 <p>Order :</p>
 <p><img src="realtime19.png" alt="Realtime"></p>
 <p>Suborder :</p>
 <p><img src="realtime20.png" alt="Realtime"></p>
-<p>Follow lab1's instruction to add TGDBUpsert activity</p>
+<p>Follow Lab1's instruction to add TGDBUpsert activity</p>
 <p><img src="realtime20-2.png" alt="Realtime"></p>
 <p>Select Connetion</p>
 <p><img src="realtime20-3.png" alt="Realtime"></p>
@@ -532,22 +536,22 @@ Let's select GraphBuilder -&gt; Bruild Graph and configue it.</p>
 <p>Now adding a new type of activity called SSEEndPoint which sends graph entities to SSEServer for serving streaming client.</p>
 <p>Select SSEEndPoint activity from GraphBuilder_SSE.</p>
 <p><img src="realtime21.png" alt="Realtime"></p>
-<p>Select &ldquo;SSEConnection&rdquo; we created and used in SSEServer earlier then the new SSEEndPoint is connected to SSEServer now.</p>
+<p>Select “SSEConnection” we created and used in SSEServer earlier then the new SSEEndPoint is connected to SSEServer now.</p>
 <p><img src="realtime22.png" alt="Realtime"></p>
-<p>Setup SessionId to &ldquo;order&rdquo; so the complete URI to access to this event flow would be /sse/order</p>
+<p>Setup SessionId to “order” so the complete URI to access to this event flow would be /sse/order</p>
 <p><img src="realtime23.png" alt="Realtime"></p>
 <p>Map input data to Graph object from BuildGraph activity</p>
 <p><img src="realtime24.png" alt="Realtime"></p>
-<p>We can add log and GraphtoFile activities like previous configured flows.</p>
+<p>Add log and GraphtoFile activities like previous configured flows</p>
 <p><img src="realtime25.png" alt="Realtime"></p>
-<p>Now we have finish the last flow for our Northwind application.</p>
+<p>This completes the last flow for the Northwind application.</p>
 <p><img src="realtime26.png" alt="Realtime"></p>
-<p>This is the final version of flogo Northwind application</p>
+<p>This is the final version of the Flogo Northwind application</p>
 <p><img src="realtime27.png" alt="Realtime"></p>
-<p>Let's rebuild application for further testing</p>
+<p>Rebuild application for further testing</p>
 <p><img src="BuildNorthwind_02.png" alt="Realtime"></p>
-<p>We are going to install Kafka message bus for providing order event. <a href="https://kafka.apache.org/quickstart" target="_blank">Here</a> is the instalation instructions.</p>
-<p>After downloading and installing Kafka we can start Kafka</p>
+<p>Install Kafka Message Bus to provide order event. <a href="https://kafka.apache.org/quickstart" target="_blank">Here</a> are the installation instructions.</p>
+<p>After downloading Kafka Message Bus and installing Kafka, start it</p>
 <ul>
 <li>Start zoo keeper</li>
 </ul>
@@ -561,45 +565,45 @@ Let's select GraphBuilder -&gt; Bruild Graph and configue it.</p>
 <li>Create &ldquo;test&rdquo; topic</li>
 </ul>
 <p><img src="StartKafka04.png" alt="Realtime"></p>
-<p>Let's restart Northwind appliction executable.</p>
+<p>Restart Northwind application executable.</p>
 <ul>
-<li>Switch to the folder which contains Northwind appliction executable (Northwind-darwin_amd64).</li>
+<li>Switch to the folder which contains Northwind application executable (Northwind-darwin_amd64).</li>
 <li>Change Northwind-darwin_amd64's permission to executable</li>
 <li>Run Northwind-darwin_amd64</li>
 </ul>
-<p>This time you'll see two extra information while Northwind application starting</p>
+<p>There will be two extra messages while Northwind application starting</p>
 <ul>
 <li>Kafka consumer (the trigger of order event flow) is up and listening</li>
 <li>SSEServer is up and waiting for client (UI utility) to connect</li>
 </ul>
 <p><img src="StartKafka05.png" alt="Realtime"></p>
-<p>Here it the our test (see screenshot)</p>
+<p>Here is the test (see screenshot)</p>
 <ul>
-<li>Make sure TGDB, TGDB_RESTful_Service, Kafka (server, zoo keeper, producer) and UI utility are running</li>
+<li>Ensure TGDB, TGDB_RESTful_Service, Kafka (server, zoo keeper, producer) and UI utility are running</li>
 <li>On the upper/middle left of screenshot open oerders.csv file</li>
 <li>On the lower left of screenshot start Kafka producer and keep it opened</li>
-<li>On the right follow the instruction to 1. Click &ldquo;Realtime Data&rdquo; 2. Click &ldquo;Connect&rdquo; to connect to SSE server in Northwind application 3. Copy &amp; paste order to Kafka producer then press enter 4 ~ 6. Each time you send one order you will see the corresponding graph entities showing on the UI.</li>
+<li>On the right follow the instruction to 1. Click “Realtime Data” 2. Click “Connect” to connect to SSE server in Northwind application 3. Copy &amp; paste order to Kafka producer then press enter 4 ~ 6. Each time you send one order you will see the corresponding graph entities showing on the UI.</li>
 </ul>
-<p>Send more order as your wish.</p>
+<p>Send as many orders as wished.</p>
 <p><img src="FinalTest.png" alt="Realtime"></p>
-<p>After the streaming testing we also want to see the order in TGDB. Follow the instrctions in lab2</p>
+<p>After the streaming testing, see the order in TGDB. Follow the instructions in Lab2</p>
 <ul>
-<li>Click &ldquo;TGDB Data&rdquo; button</li>
+<li>Click “TGDB Data” button</li>
 <li>Use the default query setup but make traversalDepth = 5</li>
-<li>Click &ldquo;Make Query&rdquo; button</li>
+<li>Click “Make Query” button</li>
 </ul>
 <p>You'll see the oder with OrderID = 10248 and its associated graph entities on the UI</p>
 <p><img src="QueryGraph.png" alt="Realtime"></p>
-<p>The last test is about traversal query. We are going to find all companies which supply prodcuts within the order from the company &lsquo;Vins et alcools Chevalier&rsquo;. We are going to use Postman and TGDB_RESTful_Service to query against TGDB server</p>
+<p>The last test is about traversal query. Find all companies which supply products within the order from the company ‘Vins et alcools Chevalier’. We are going to use Postman and TGDB_RESTful_Service to query against TGDB server</p>
 <ul>
 <li>Open a postman and setup a POST query</li>
-<li>The gremlin query is &ldquo;g.V().has(&lsquo;Company&rsquo;, &lsquo;CompanyID&rsquo;, &lsquo;Vins et alcools Chevalier&rsquo;).in(&lsquo;Customer_Company&rsquo;).in(&lsquo;SoldTo&rsquo;).out(&lsquo;Includes&rsquo;).out(&lsquo;Contains&rsquo;).in(&lsquo;Supplies&rsquo;).out(&lsquo;Supplier_Company&rsquo;);&rdquo;</li>
+<li>The gremlin query is “g.V().has(‘Company’, ‘CompanyID’, ‘Vins et alcools Chevalier’).in(‘Customer_Company’).in(‘SoldTo’).out(‘Includes’).out(‘Contains’).in(‘Supplies’).out(‘Supplier_Company’);”
+You should get “Formaggi Fortini s.r.l.&quot;, “Leka Trading” and “Cooperativa de Quesos ‘Las Cabras’” in your result</li>
 </ul>
-<p>You should get &ldquo;Formaggi Fortini s.r.l.&quot;, &ldquo;Leka Trading&rdquo; and &ldquo;Cooperativa de Quesos &lsquo;Las Cabras&rsquo;&rdquo; in your result</p>
 <p><img src="QueryPostMan.png" alt="Realtime"></p>
 <p>Observe the traversal request on the UI utility and verify the correctness of the query</p>
 <p><img src="QueryPostManOnGraph.png" alt="Realtime"></p>
-<p>Congradulations! Now you've finished all three labs</p>
+<p>Congratulations! This concludes the three Labs</p>
 
 	
 		<style>
@@ -663,7 +667,7 @@ Let's select GraphBuilder -&gt; Bruild Graph and configue it.</p>
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified May 14, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/dbcdad0c7b0a9bbf3cab23c0952c4873ac27ce8f">update documentation (dbcdad0)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified June 5, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/01aeddff6cc483d3246802eac4c553618302e71b">Update documentation (01aeddf)</a>
 </div>
 </div>
 

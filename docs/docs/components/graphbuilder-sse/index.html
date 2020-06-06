@@ -21,22 +21,22 @@
 <link rel="icon" type="image/png" href="/labs-graphbuilder-contrib/favicons/android-192x192.png" sizes="192x192">
 
 <title>SSE | Project GraphBuilder</title><meta property="og:title" content="SSE" />
-<meta property="og:description" content="SSE user extension contains activities for implemeting Server Sent Event (HTTP based streaming event) client and server. 
+<meta property="og:description" content="SSE user extension that contains activities for implementing Server Sent Event (HTTP based streaming event) client and server
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/components/graphbuilder-sse/" />
-<meta property="article:modified_time" content="2020-05-15T10:48:25-04:00" /><meta property="og:site_name" content="Project GraphBuilder" />
+<meta property="article:modified_time" content="2020-06-05T15:20:01-04:00" /><meta property="og:site_name" content="Project GraphBuilder" />
 <meta itemprop="name" content="SSE">
-<meta itemprop="description" content="SSE user extension contains activities for implemeting Server Sent Event (HTTP based streaming event) client and server. 
+<meta itemprop="description" content="SSE user extension that contains activities for implementing Server Sent Event (HTTP based streaming event) client and server
 ">
-<meta itemprop="dateModified" content="2020-05-15T10:48:25-04:00" />
-<meta itemprop="wordCount" content="165">
+<meta itemprop="dateModified" content="2020-06-05T15:20:01-04:00" />
+<meta itemprop="wordCount" content="167">
 
 
 
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="SSE"/>
-<meta name="twitter:description" content="SSE user extension contains activities for implemeting Server Sent Event (HTTP based streaming event) client and server. 
+<meta name="twitter:description" content="SSE user extension that contains activities for implementing Server Sent Event (HTTP based streaming event) client and server
 "/>
 
 
@@ -409,27 +409,27 @@
 
 
 
-<p class="-text-primary pt-3 h6" >Reading time: 0 minutes and 45 seconds.</p>
+<p class="-text-primary pt-3 h6" >Reading time: 0 minutes and 55 seconds.</p>
 <p>
 <div class="td-content">
 	<h1>SSE</h1>
-	<div class="lead">SSE user extension contains activities for implemeting Server Sent Event (HTTP based streaming event) client and server.</div>
+	<div class="lead">SSE user extension that contains activities for implementing Server Sent Event (HTTP based streaming event) client and server</div>
 	<ul>
 <li>
 <p><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sse/connector/sse/">Connector</a>
-: A SSE connector is a component to store your sse server (Outbound = false) configuration or remote sse server connection (Outbound = true) information. Activities connect to same the SSE connector are connecting to the same SSE service.</p>
+: A SSE connector is a component that stores the sse server (Outbound = false) configuration or remote sse server connection (Outbound = true) information. Activities that connect to the same the SSE connector are connecting to the same SSE service.</p>
 </li>
 <li>
 <p><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sse/trigger/ssesub/">SSESubscriber</a>
-: A &ldquo;SSESubscriber trigger&rdquo; subscribes to remote sse server then consumes streaming events. The SSE Connector for a subscriber need to be configured as Outbound = true.</p>
+: A “SSESubscriber trigger” subscribes to remote sse server then consumes streaming events. The SSE Connector for a subscriber need to be configured as Outbound = true.</p>
 </li>
 <li>
 <p><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sse/trigger/sseserver/">SSEServer</a>
-: A &ldquo;SSEServer trigger&rdquo; works as an SSE server which serves streamming events. It maitains the incoming connection and requests but won't generate any data itself. The streaming data comes from another activity called SSEEndPoint. The SSE Connector for a subscriber need to be configured as Outbound = false</p>
+: A “SSEServer trigger” works as an SSE server which serves streaming events. It maintains the incoming connection and requests but won't generate any data itself. The streaming data comes from another activity called SSEEndPoint. The SSE Connector for a subscriber need to be configured as Outbound = false.</p>
 </li>
 <li>
 <p><a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sse/activity/sseendpoint/">SSEEndpoint</a>
-: A SSEEndpoint activity sits on different flow (a data flow) from SSEServer. It takes input event and streams it to SSEServer. The link between a SSEServer and a SSEEndPoint is that both of them need to connect to the same SSE connector (Outbound = false)</p>
+: A SSEEndpoint activity sits on different flow (a data flow) from SSEServer. It takes input event and streams it to SSEServer. The link between a SSEServer and a SSEEndPoint is that both of them need to connect to the same SSE connector (Outbound = false).</p>
 </li>
 </ul>
 
@@ -495,7 +495,7 @@
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified May 15, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/ddfb60517d31b6880070407c876e6b250a448c7d">Update documentation (ddfb605)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified June 5, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/01aeddff6cc483d3246802eac4c553618302e71b">Update documentation (01aeddf)</a>
 </div>
 </div>
 

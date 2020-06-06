@@ -22,16 +22,16 @@
 <link rel="icon" type="image/png" href="/labs-graphbuilder-contrib/favicons/android-192x192.png" sizes="192x192">
 
 <title>Labs | Project GraphBuilder</title><meta property="og:title" content="Labs" />
-<meta property="og:description" content="In following hands on labs I will step by step guide you through the process of building an Flogo application which transforms csv data then inserts/updates data to TIBCO® Graph Database. 
+<meta property="og:description" content="Build an application to insert/update real-time data to TIBCO® Graph Database 
 " />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/labs/" />
 <meta property="og:site_name" content="Project GraphBuilder" />
 <meta itemprop="name" content="Labs">
-<meta itemprop="description" content="In following hands on labs I will step by step guide you through the process of building an Flogo application which transforms csv data then inserts/updates data to TIBCO® Graph Database. 
+<meta itemprop="description" content="Build an application to insert/update real-time data to TIBCO® Graph Database 
 "><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Labs"/>
-<meta name="twitter:description" content="In following hands on labs I will step by step guide you through the process of building an Flogo application which transforms csv data then inserts/updates data to TIBCO® Graph Database. 
+<meta name="twitter:description" content="Build an application to insert/update real-time data to TIBCO® Graph Database 
 "/>
 
 
@@ -395,31 +395,32 @@
 	
 	
 	
-	<p class="-text-secondary pt-3 h6" >Reading time: 1 minutes and 1 second.</p>
+	<p class="-text-secondary pt-3 h6" >Reading time: 1 minutes and 24 seconds.</p>
 	<h1>Labs</h1>
-	<div class="lead">In following hands on labs I will step by step guide you through the process of building an Flogo application which transforms csv data then inserts/updates data to TIBCO® Graph Database.</div>
-	<p>We are going to use the Northwind dataset to create an Flogo application. The Northwind data is a sample dataset used by Microsoft to demonstrate the features of Microsoft's relational database. We will demonstrate how to use GraphBuilder to convert relational data to graph then insert into TIBCO® Graph Database.</p>
-<p>You can check out or download Project GraphBuilder from <a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib" target="_blank">here</a> and the artifacts which you need for your labs project</p>
+	<div class="lead">Build an application to insert/update real-time data to TIBCO® Graph Database</div>
+	<p>The following section provides step-by-step, hands-on exercises that show how to build a Flogo application by parsing data coming in CSV files and inserting it to TIBCO® Graph Database.</p>
+<p>The Labs leverage the Northwind dataset (sample dataset used by Microsoft to demonstrate the features of their relational database). The exercises illustrate how GraphBuilder can be used to convert relational data into graph and then insert it into TIBCO® Graph Database.</p>
 <ul>
-<li>Download GraphBuilders user extensions <a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/dist" target="_blank">here</a></li>
-<li>Download project data, graph model and TGDB configuration <a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/sample-applications/Northwind/" target="_blank">here</a></li>
-<li>Sownload GUI utilities <a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/sample-applications/utilities/" target="_blank">here</a></li>
+<li>Project GraphBuilder and the artifacts needed for the exercises can be downloaded <a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib" target="_blank">here</a></li>
+<li>Click <a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/dist" target="_blank">here</a> to download GraphBuilder user extensions</li>
+<li>Click  <a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/sample-applications/Northwind/" target="_blank">here</a> to download the project data, graph model and TGDB configuration</li>
+<li>Click <a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/sample-applications/utilities/" target="_blank">here</a> to download the GUI utilities</li>
 </ul>
-<p>In the labs we use TIBCO Flogo® Enterprise studio to configure the lab applications. You need to have it installed before you can start building the application. You can get TIBCO Flogo® Enterprise studio from <a href="https://edelivery.tibco.com/storefront/en/eval/tibco-flogo-enterprise/prod11810.html" target="_blank">here</a></p>
+<p>The Labs use TIBCO Flogo® Enterprise studio to configure the applications. It is required to have it locally installed before starting building the application. Click <a href="https://edelivery.tibco.com/storefront/en/eval/tibco-flogo-enterprise/prod11810.html" target="_blank">here</a> to download TIBCO Flogo® Enterprise studio</p>
 <p><img src="upload01.png" alt="Import Extension"></p>
-<p>After installed studio import all required user extensions files (builder.zip, tgdb.zip, tools.zip and sse.zip)</p>
-<ol>
-<li>In &ldquo;Extensions&rdquo; tab click &ldquo;Upload&rdquo; button</li>
-<li>Click &ldquo;From a Zip file&rdquo;</li>
-<li>Each time select one user extension (for example builder.zip) from your download folder</li>
-<li>Click &ldquo;Upload and compiling&rdquo;</li>
-</ol>
+<p>After the installation of TIBCO Flogo® Enterprise studio has been completed, import all required user extensions files (builder.zip, tgdb.zip, tools.zip and sse.zip) as shown in the image below</p>
+<ul>
+<li>In “Extensions” tab click “Upload” button</li>
+<li>Click “From a Zip file”</li>
+<li>Select one user extension (for example builder.zip) from your download folder at a time</li>
+<li>Click “Upload and compiling”</li>
+</ul>
 <p><img src="upload02.png" alt="Import Extension"></p>
-<p>Click &ldquo;Done&rdquo; when extension get uploaded and compiled</p>
+<p>Click “Done” when extensions are uploaded and compiled</p>
 <p><img src="upload03.png" alt="Import Extension"></p>
 <p>Uploaded extension will be display on left panel</p>
 <p><img src="upload04.png" alt="Import Extension"></p>
-<p>Keep uploading all other required extensions. Here is all four required user extensions</p>
+<p>Keep uploading all other required extensions. Here are required user extensions</p>
 <ul>
 <li>GraphBuilder</li>
 <li>GraphBuilder_TGDB</li>
@@ -427,7 +428,7 @@
 <li>GraphBuilder_SSE</li>
 </ul>
 <p><img src="upload05.png" alt="Import Extension"></p>
-<p>Now you are good to go for the upcoming labs</p>
+<p>This completes the set up for the Labs</p>
 
         <div class="section-index">
     
@@ -445,7 +446,7 @@
                     <h5>
                         <a href="/labs-graphbuilder-contrib/docs/labs/lab-1/">Lab1 - CSV</a>
                     </h5>
-                    <p>Build an application to populate TIBCO® Graph Database with csv data from files</p>
+                    <p>Build an application to populate TIBCO® Graph Database with data coming from CSV files</p>
                 </div>
             
         
@@ -566,7 +567,7 @@
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified May 14, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/dbcdad0c7b0a9bbf3cab23c0952c4873ac27ce8f">update documentation (dbcdad0)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified June 5, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/01aeddff6cc483d3246802eac4c553618302e71b">Update documentation (01aeddf)</a>
 </div>
 </div>
 

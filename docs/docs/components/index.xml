@@ -24,7 +24,7 @@
         
         &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/connector/graph&#34;&gt;Graph Connector&lt;/a&gt;
-: A Graph connector is a component which hosts your graph model for sharing graph model among graph construction related activity. Activities which connect to the same Graph connector would share same graph model (data schema)&lt;/li&gt;
+: Graph Connector is a component which hosts your graph model for sharing graph model among graph construction related activity. Activities which connect to the same Graph connector would share same graph model (data schema)&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Here is the schema of graph model&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;{
@@ -114,13 +114,13 @@
 &lt;li&gt;
 &lt;dl&gt;
 &lt;dt&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/activity/builder&#34;&gt;BuildGraph Activity&lt;/a&gt;&lt;/dt&gt;
-&lt;dd&gt;A BuildGraph activity must connect to a Graph connector so it can build its input data schema from the graph model which is hosted in that Graph connector. BuildGraph activity transform the input data to graph entities (nodes, edges and their attributes) based on the graph model&lt;/dd&gt;
+&lt;dd&gt;BuildGraph Activity must connect to a Graph Connector so it can build its input data schema from the graph model which is hosted in that Graph connector. BuildGraph activity transform the input data to graph entities (nodes, edges and their attributes) based on the graph model&lt;/dd&gt;
 &lt;/dl&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;dl&gt;
 &lt;dt&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/activity/graphtofile&#34;&gt;GraphToFile&lt;/a&gt;&lt;/dt&gt;
-&lt;dd&gt;A GraphToFile activity takes graph entities (nodes and edges) from BuildGraph and writes them to a file. It&#39;s an useful utility for troubleshooting&lt;/dd&gt;
+&lt;dd&gt;GraphToFile activity takes graph entities (nodes and edges) from BuildGraph and writes them to a file. It&#39;s a useful utility for troubleshooting&lt;/dd&gt;
 &lt;/dl&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
@@ -139,13 +139,13 @@
         
         &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tgdb/connector/&#34;&gt;TGDB Connector&lt;/a&gt;
-: A TGDB connector is a component to store your TIBCO® Graph Database server connection information. Activities which connect to the same TGDB connector are actually connecting to the same TIBCO® Graph Database server instance&lt;/li&gt;
+:  A TGDB connector is a component to store TIBCO® Graph Database server connection information. Activities which connect to the same TGDB connector are actually connecting to the same TIBCO® Graph Database server instance&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tgdb/activity/tgdbupsert&#34;&gt;TGDBUpsert&lt;/a&gt;
 : A TGDBUpsert activity consumes the graph entities from BuildGraph activity and inserts/updates them to TIBCO® Graph Database&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/tgdb/activity/tgdbquery/&#34;&gt;TGDBQuery&lt;/a&gt;
-: With TGDBQuery activity users can build their own application to query against TIBCO® Graph Database. It support both TGQL and Gremlin query language&lt;/li&gt;
+: With TGDBQuery activity users can build their own application to query against TIBCO® Graph Database. It supports both TGQL and Gremlin query language&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/tgdb/activity/tgdbdelete/&#34;&gt;TGDBDelete&lt;/a&gt;
-: TGDBDelete activity implemeting the deletion of graph entities for TIBCO® Graph Database. It takes graph entities (with primary key attributes populated) from BuildGraph then performs the deletion on them&lt;/li&gt;
+: TGDBDelete activity implements the deletion of graph entities for TIBCO® Graph Database. It takes graph entities (with primary key attributes populated) from BuildGraph then performs the deletion on them&lt;/li&gt;
 &lt;/ul&gt;
 
       </description>
@@ -164,7 +164,7 @@
 &lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/dgraph/connector/dgraph/&#34;&gt;Connector&lt;/a&gt;
 : A Dgraph connector is a component to store your Dgraph server connection information. Activities which connect to the same Dgraph connector would connect to the same Dgraph server instance&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/dgraph/activity/dgraphupsert/&#34;&gt;DgraphUpsert&lt;/a&gt;
-: A DgraphUpsert activity consumes the graph entities from BuildGraph activity and inserts/updates them to Dgraph server&lt;/li&gt;
+:  A DgraphUpsert activity consumes the graph entities from BuildGraph activity and inserts/updates them to Dgraph server&lt;/li&gt;
 &lt;/ul&gt;
 
       </description>
@@ -201,7 +201,7 @@
         &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/gremlin/connector/gremlin/&#34;&gt;Connector&lt;/a&gt;
-: A gremlin connector is the component to store your Janusgraph server connection information. Activities which connect to the same gremlin connector would connect to the same Janusgraph server instance&lt;/p&gt;
+: A gremlin connector is the component that stores the Janusgraph server connection information. Activities which connect to the same gremlin connector would connect to the same Janusgraph server instance&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/gremlin/activity/janusgraphupsert/&#34;&gt;JanusgraphUpsert&lt;/a&gt;
@@ -224,19 +224,19 @@
         &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sse/connector/sse/&#34;&gt;Connector&lt;/a&gt;
-: A SSE connector is a component to store your sse server (Outbound = false) configuration or remote sse server connection (Outbound = true) information. Activities connect to same the SSE connector are connecting to the same SSE service.&lt;/p&gt;
+: A SSE connector is a component that stores the sse server (Outbound = false) configuration or remote sse server connection (Outbound = true) information. Activities that connect to the same the SSE connector are connecting to the same SSE service.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sse/trigger/ssesub/&#34;&gt;SSESubscriber&lt;/a&gt;
-: A &amp;ldquo;SSESubscriber trigger&amp;rdquo; subscribes to remote sse server then consumes streaming events. The SSE Connector for a subscriber need to be configured as Outbound = true.&lt;/p&gt;
+: A “SSESubscriber trigger” subscribes to remote sse server then consumes streaming events. The SSE Connector for a subscriber need to be configured as Outbound = true.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sse/trigger/sseserver/&#34;&gt;SSEServer&lt;/a&gt;
-: A &amp;ldquo;SSEServer trigger&amp;rdquo; works as an SSE server which serves streamming events. It maitains the incoming connection and requests but won&#39;t generate any data itself. The streaming data comes from another activity called SSEEndPoint. The SSE Connector for a subscriber need to be configured as Outbound = false&lt;/p&gt;
+: A “SSEServer trigger” works as an SSE server which serves streaming events. It maintains the incoming connection and requests but won&#39;t generate any data itself. The streaming data comes from another activity called SSEEndPoint. The SSE Connector for a subscriber need to be configured as Outbound = false.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sse/activity/sseendpoint/&#34;&gt;SSEEndpoint&lt;/a&gt;
-: A SSEEndpoint activity sits on different flow (a data flow) from SSEServer. It takes input event and streams it to SSEServer. The link between a SSEServer and a SSEEndPoint is that both of them need to connect to the same SSE connector (Outbound = false)&lt;/p&gt;
+: A SSEEndpoint activity sits on different flow (a data flow) from SSEServer. It takes input event and streams it to SSEServer. The link between a SSEServer and a SSEEndPoint is that both of them need to connect to the same SSE connector (Outbound = false).&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 
@@ -260,13 +260,13 @@
 &lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/csvfilewriter/&#34;&gt;CSVFileWriter&lt;/a&gt;
 : Write data to file in CSV format&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/csvparser/&#34;&gt;CSVParser&lt;/a&gt;
-: Parse data from CSV file based on predefined path then set to a flate tuple&lt;/li&gt;
+: Parse data from CSV file based on predefined path then set to a flat tuple&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/jsondatadecoupler/&#34;&gt;JsonDataDecoupler&lt;/a&gt;
-: Extract array data from JSON then emits a array of tuples&lt;/li&gt;
+: Extract array data from JSON then emits an array of tuples&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/jsondeserializer/&#34;&gt;JsonDeserializer&lt;/a&gt;
 : Convert JSON string to an object&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/jsonparser/&#34;&gt;JsonParser&lt;/a&gt;
-: Parse data from JSON file based on predefined path then set to a flate tuple&lt;/li&gt;
+: Parse data from JSON file based on predefined path then set to a flat tuple&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/jsonserializer/&#34;&gt;JsonSerializer&lt;/a&gt;
 : Convert an object to JSON string&lt;/li&gt;
 &lt;/ul&gt;
