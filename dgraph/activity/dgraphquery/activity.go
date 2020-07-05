@@ -1,5 +1,5 @@
 /*
- * Copyright © 2019. TIBCO Software Inc.
+ * Copyright © 2020. TIBCO Software Inc.
  * This file is subject to the license terms contained
  * in the license file that is distributed with this file.
  */
@@ -16,16 +16,15 @@ import (
 	"github.com/TIBCOSoftware/flogo-lib/logger"
 	"github.com/TIBCOSoftware/labs-graphbuilder-lib/dbservice/dgraph"
 	"github.com/TIBCOSoftware/labs-graphbuilder-lib/util"
-	//"github.com/TIBCOSoftware/tgdb-client/client/goAPI/types"
 )
 
 const (
-	Setting_Connection       = "dgraphConnection"
-	Setting_typeTag        	 = "typeTag"
+	Setting_Connection = "dgraphConnection"
+	Setting_typeTag    = "typeTag"
 
 	Setting_QueryServiceType = "queryServiceType"
 	input_QueryParams        = "queryParams"
-	input_QueryString   		 = "queryString"
+	input_QueryString        = "queryString"
 	input_PathParams         = "pathParams"
 	input_QueryType          = "queryType"
 	input_EntityType         = "entityType"
@@ -71,12 +70,12 @@ func (a *DgraphQueryActivity) Eval(context activity.Context) (done bool, err err
 
 	switch queryType {
 	case QueryType_Search:
-	log.Info("context.GetInput(input_QueryParams) = ", context.GetInput(input_QueryParams))
+		log.Info("context.GetInput(input_QueryParams) = ", context.GetInput(input_QueryParams))
 		query := context.GetInput(input_QueryParams).(*data.ComplexObject).Value.(map[string]interface{})
-	log.Info("query = ", query)
-	log.Info("dgraphService = ", dgraphService)
+		log.Info("query = ", query)
+		log.Info("dgraphService = ", dgraphService)
 		result, error := dgraphService.Query(query[input_QueryString].(string))
-		if nil!=error {
+		if nil != error {
 			queryResult["data"] = "{}"
 		} else {
 			queryResult["data"] = result
