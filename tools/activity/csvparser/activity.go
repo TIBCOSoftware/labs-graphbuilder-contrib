@@ -7,6 +7,7 @@ package csvparser
 
 import (
 	"encoding/csv"
+	"errors"
 	"io"
 	"sync"
 
@@ -59,7 +60,11 @@ func (a *CSVParserActivity) Eval(ctx activity.Context) (done bool, err error) {
 	workingData, err := a.getWorkingData(ctx)
 
 	if workingData.firstRowIsHeader {
-		sequenceNumber := ctx.GetInput(input_SequenceNumber).(int)
+		sequenceNumber, ok := ctx.GetInput(input_SequenceNumber).(int)
+		if !ok {
+			return false, errors.New("SequenceNumber should be an integer!")
+		}
+
 		if 1 == sequenceNumber {
 			log.Info("Skip header !!")
 			return false, nil
@@ -91,6 +96,7 @@ func (a *CSVParserActivity) Eval(ctx activity.Context) (done bool, err error) {
 	}
 
 	if 0 == len(csvdataArray) {
+		log.Debug("(CSVParserActivity.Eval) - No data is parsed from this csv string : ", CSVString)
 		return false, nil
 	}
 
