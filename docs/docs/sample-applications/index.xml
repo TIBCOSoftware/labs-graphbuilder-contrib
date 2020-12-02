@@ -155,7 +155,7 @@
 &lt;h3 id=&#34;setting-2&#34;&gt;Setting&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Connection Name:&lt;/strong&gt; -&amp;gt; EventServer&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Outbound:&lt;/strong&gt; -&amp;gt; select &amp;ldquo;false&amp;rdquo; since it&#39;s a server&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Outbound:&lt;/strong&gt; -&amp;gt; select &amp;ldquo;false&amp;rdquo; since it&amp;rsquo;s a server&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Server port:&lt;/strong&gt; -&amp;gt; any available port (8888 for this example)&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Path:&lt;/strong&gt; -&amp;gt; /sse/ (client connect http://[host]:[port]/sse/meetup to subscribe &amp;ldquo;meetup&amp;rdquo; graph stream)&lt;/li&gt;
 &lt;/ul&gt;

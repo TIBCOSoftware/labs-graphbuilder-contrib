@@ -120,7 +120,7 @@
 &lt;li&gt;
 &lt;dl&gt;
 &lt;dt&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/activity/graphtofile&#34;&gt;GraphToFile&lt;/a&gt;&lt;/dt&gt;
-&lt;dd&gt;GraphToFile activity takes graph entities (nodes and edges) from BuildGraph and writes them to a file. It&#39;s a useful utility for troubleshooting&lt;/dd&gt;
+&lt;dd&gt;GraphToFile activity takes graph entities (nodes and edges) from BuildGraph and writes them to a file. It&amp;rsquo;s a useful utility for troubleshooting&lt;/dd&gt;
 &lt;/dl&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
@@ -232,7 +232,7 @@
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sse/trigger/sseserver/&#34;&gt;SSEServer&lt;/a&gt;
-: A “SSEServer trigger” works as an SSE server which serves streaming events. It maintains the incoming connection and requests but won&#39;t generate any data itself. The streaming data comes from another activity called SSEEndPoint. The SSE Connector for a subscriber need to be configured as Outbound = false.&lt;/p&gt;
+: A “SSEServer trigger” works as an SSE server which serves streaming events. It maintains the incoming connection and requests but won&amp;rsquo;t generate any data itself. The streaming data comes from another activity called SSEEndPoint. The SSE Connector for a subscriber need to be configured as Outbound = false.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sse/activity/sseendpoint/&#34;&gt;SSEEndpoint&lt;/a&gt;
