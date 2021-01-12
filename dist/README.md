@@ -1,4 +1,4 @@
-Release v1.0.0
+## Release v1.0.0
 
 dgraph extension work with 
 - github.com/dgraph-io/dgraph v1.1.0
