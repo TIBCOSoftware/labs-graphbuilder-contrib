@@ -1,8 +1,4 @@
 *-lib
 *.mod
 *.sum
-builder/vendor/*
-tgdb/vendor/*
-tools/vendor/*
-dgraph/vendor/*
-dgraph 2/*
+lib
