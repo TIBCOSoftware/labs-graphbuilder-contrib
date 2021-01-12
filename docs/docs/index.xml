@@ -22,12 +22,32 @@
       <description>
         
         
-        &lt;h4 id=&#34;details&#34;&gt;Details&lt;/h4&gt;
-&lt;p&gt;coming soon here!&lt;/p&gt;
-&lt;h4 id=&#34;implementation-source&#34;&gt;Implementation Source&lt;/h4&gt;
-&lt;p&gt;stored on GitHub &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/Airline&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+        &lt;h4 id=&#34;implementation-source&#34;&gt;Implementation Source&lt;/h4&gt;
+&lt;p&gt;Download application artifacts from &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/Airline&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Download GraphBuilder user extensions from &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/dist&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id=&#34;installation&#34;&gt;Installation&lt;/h4&gt;
+&lt;p&gt;Open TIBCO Flogo® Enterprise 2.8.1 studio and upload required user extensions (builder.zip, tgdb.zip and tools.zip)&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;user_extensions.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Create an empty application for Airline application&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;create_app.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Import application from the pre-configured Airline application descriptor&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;import_app.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Find and select descriptor (airline.json) from download folder&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;import_app2.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Ignore waning just click “Import All”&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;import_app3.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Airline application with two data flow (flight and pnr) is imported&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;import_app4.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Check connection tab to see two connections to be fixed&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;fix_conn.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Select TGDB connection and edit it&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;fix_conn1.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Change configuration match your TIBCO® Graph Database setup then click “Connect” to save it&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;fix_conn2.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Same to the Graph connection but just click “Connect” since graph model has been correctly set&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;fix_conn3.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;This example is created in TIBCO Flogo® Enterprise 2.8.0 studio.&lt;/p&gt;
+&lt;p&gt;This example is created in TIBCO Flogo® Enterprise 2.8.1 studio.&lt;/p&gt;
 &lt;/blockquote&gt;
 
       </description>
@@ -42,11 +62,107 @@
       <description>
         
         
-        &lt;p&gt;Implementation Sources&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/connector/graph&#34;&gt;Connector&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/activity/builder&#34;&gt;BuildGraph&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/activity/graphtofile&#34;&gt;GraphToFile&lt;/a&gt;&lt;/li&gt;
+        &lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/connector/graph&#34;&gt;Graph Connector&lt;/a&gt;
+: Graph Connector is a component which hosts your graph model for sharing graph model among graph construction related activity. Activities which connect to the same Graph connector would share same graph model (data schema)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Here is the schema of graph model&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;{
+    &amp;quot;$schema&amp;quot;: &amp;quot;http://json-schema.org/draft-04/schema#&amp;quot;,
+    &amp;quot;type&amp;quot;: &amp;quot;object&amp;quot;,
+    &amp;quot;properties&amp;quot;: {
+        &amp;quot;nodes&amp;quot;: {
+            &amp;quot;type&amp;quot;: &amp;quot;array&amp;quot;,
+            &amp;quot;items&amp;quot;: {
+                &amp;quot;type&amp;quot;: &amp;quot;object&amp;quot;,
+                &amp;quot;properties&amp;quot;: {
+                    &amp;quot;name&amp;quot;: {
+                        &amp;quot;type&amp;quot;: &amp;quot;string&amp;quot;
+                    },
+                    &amp;quot;key&amp;quot;: {
+                        &amp;quot;type&amp;quot;: &amp;quot;array&amp;quot;,
+                        &amp;quot;items&amp;quot;: {
+                            &amp;quot;type&amp;quot;: &amp;quot;string&amp;quot;
+                        }
+                    },
+                    &amp;quot;attributes&amp;quot;: {
+                        &amp;quot;type&amp;quot;: &amp;quot;array&amp;quot;,
+                        &amp;quot;items&amp;quot;: {
+                            &amp;quot;type&amp;quot;: &amp;quot;object&amp;quot;,
+                            &amp;quot;properties&amp;quot;: {
+                                &amp;quot;name&amp;quot;: {
+                                    &amp;quot;type&amp;quot;: &amp;quot;string&amp;quot;
+                                },
+                                &amp;quot;type&amp;quot;: {
+                                    &amp;quot;type&amp;quot;: &amp;quot;string&amp;quot;
+                                }
+                            },
+                            &amp;quot;required&amp;quot;: [
+                                &amp;quot;name&amp;quot;,
+                                &amp;quot;type&amp;quot;
+                            ]
+                        }
+                    }
+                },
+                &amp;quot;required&amp;quot;: [
+                    &amp;quot;name&amp;quot;,
+                    &amp;quot;key&amp;quot;,
+                    &amp;quot;attributes&amp;quot;
+                ]
+            }
+        },
+        &amp;quot;edges&amp;quot;: {
+            &amp;quot;type&amp;quot;: &amp;quot;array&amp;quot;,
+            &amp;quot;items&amp;quot;: {
+                &amp;quot;type&amp;quot;: &amp;quot;object&amp;quot;,
+                &amp;quot;properties&amp;quot;: {
+                    &amp;quot;to&amp;quot;: {
+                        &amp;quot;type&amp;quot;: &amp;quot;string&amp;quot;
+                    },
+                    &amp;quot;name&amp;quot;: {
+                        &amp;quot;type&amp;quot;: &amp;quot;string&amp;quot;
+                    },
+                    &amp;quot;from&amp;quot;: {
+                        &amp;quot;type&amp;quot;: &amp;quot;string&amp;quot;
+                    },
+                    &amp;quot;attributes&amp;quot;: {
+                        &amp;quot;type&amp;quot;: &amp;quot;array&amp;quot;,
+                        &amp;quot;items&amp;quot;: {
+                            &amp;quot;type&amp;quot;: &amp;quot;object&amp;quot;,
+                            &amp;quot;properties&amp;quot;: {
+                                &amp;quot;name&amp;quot;: {
+                                    &amp;quot;type&amp;quot;: &amp;quot;string&amp;quot;
+                                },
+                                &amp;quot;type&amp;quot;: {
+                                    &amp;quot;type&amp;quot;: &amp;quot;string&amp;quot;
+                                }
+                            }
+                        }
+                    }
+                },
+                &amp;quot;required&amp;quot;: [
+                    &amp;quot;from&amp;quot;,
+                    &amp;quot;name&amp;quot;,
+                    &amp;quot;to&amp;quot;,
+                    &amp;quot;attributes&amp;quot;
+                ]
+            }
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;dl&gt;
+&lt;dt&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/activity/builder&#34;&gt;BuildGraph Activity&lt;/a&gt;&lt;/dt&gt;
+&lt;dd&gt;BuildGraph Activity must connect to a Graph Connector so it can build its input data schema from the graph model which is hosted in that Graph connector. BuildGraph activity transform the input data to graph entities (nodes, edges and their attributes) based on the graph model&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;dl&gt;
+&lt;dt&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/builder/activity/graphtofile&#34;&gt;GraphToFile&lt;/a&gt;&lt;/dt&gt;
+&lt;dd&gt;GraphToFile activity takes graph entities (nodes and edges) from BuildGraph and writes them to a file. It&amp;rsquo;s a useful utility for troubleshooting&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
 
       </description>
@@ -61,7 +177,241 @@
       <description>
         
         
-        &lt;p&gt;soon here &amp;hellip;&lt;/p&gt;
+        &lt;p&gt;Let&amp;rsquo;s start by building a graph model using the Northwind dataset. In the connection tab, select Graph to host graph model for the Flogo application.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createModel01.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;In the dialog box&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Set model name&lt;/li&gt;
+&lt;li&gt;Select “Local File”&lt;/li&gt;
+&lt;li&gt;Select and upload northwind_model.json (Northwind model descriptor) from the ‘Download’ folder&lt;/li&gt;
+&lt;li&gt;Click connect&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The Northwind model descriptor file has been attached to the graph model&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createModel02.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Select ‘Apps’ tab and click ‘Create’ button to start building the first application&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp01.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Name the application “Northwind” and then create it&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp02.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Select ‘Create’ to build it from scratch&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp03.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Flogo® Enterprise studio brings the dialog for creating the first flow. Based on the Northwind dataset, five flows are going to be created that will process the data from customers.csv, suppliers.csv, employees.csv, categories.csv and products.csv respectively. First step is building the customer data flow.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp04.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;In the empty flow panel, click “Flow Inputs &amp;amp; Outputs” vertical bar to generate data schema for current flow.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp05.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The flow starts by processing CSV data rows from a file one line at a time (to be set up in FileReader Trigger later on). A sample of useful data fields from incoming data need to be set. In the sample, the “FileContent” field represents a row of CSV data and the “LineNumber” field represents the current “sequence number” of the row in question.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp06.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Click the “Save” button so the schema generator of the studio converts the data sample into the schema definition.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp07.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Next, a trigger (data source of the flow) needs to be added by clicking “+” button on the left-hand side. Then select GraphBuilder_Tools -&amp;gt; FileReader trigger.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp08.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Filling the “Trigger Settings”&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Filename: point to the customers.csv in the ‘Download’ folder&lt;/li&gt;
+&lt;li&gt;Asynchronous: set it to true so all the triggers for different data files could run simultaneously&lt;/li&gt;
+&lt;li&gt;Emit per Line: set it to true so only one row of data is sent to the flow&lt;/li&gt;
+&lt;li&gt;Max Number of Line: if it is set to negative, it means there will be no limit&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Click “Save” to finish&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp09.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Switch to “Map to Flow Inputs” and make the following mapping&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;FileContent (defined in schema) -&amp;gt; $trigger.FileContent&lt;/li&gt;
+&lt;li&gt;LineNumber (defined in schema) -&amp;gt; $trigger.LineNumber&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Click “Save” button&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp10.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Back to the flow to add first activity to the flow. Select GraphBuilder_Tools -&amp;gt; CSVParser to convert CSV text to system object.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp11.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Filling Settings:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Date Format Sample: 2006-01-02 (Data format setup for underlining GOLang code)&lt;/li&gt;
+&lt;li&gt;Serve Graph Data: set it to false since it is not going to be used&lt;/li&gt;
+&lt;li&gt;Output Field Names: one line of setting for each data column. AttributeName is the attribute name in generated system object and CSVFieldName is the column name in CSV data row. Set optional to “false” for all key element fields. Click “Save” after finish configuring each line.&lt;/li&gt;
+&lt;li&gt;First Row is Header: It can be set to true since the data file that is being used has a header&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Click “Save” button&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp12.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp14.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Switch to Inputs and map current input data to output data from upstream&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;CSVString -&amp;gt; $flow.FileContent&lt;/li&gt;
+&lt;li&gt;SequenceNumber -&amp;gt; $flow.LineNumber&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Click “Save” when finishing it&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp13.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Now the data has been transformed to the system object which could be recognized by the system. The next step is to convert plain object data to graph entities (nodes, edges and their attributes). We are going to use the core activity called “BuildGraph” to perform this transformation.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s select GraphBuilder -&amp;gt; Build Graph and configue it.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp15.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Filling setting&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Graph Model: Select “Northwind” connector which we just created. The “Northwind” graph model now associated with this activity which means BuildGraph activity take “Northwind” graph model to build the structure of its input data schema. This is seen during the setting of “Inputs” data mapping later.&lt;/li&gt;
+&lt;li&gt;Allow Null Key: setting it to “true” will make it generate nodes (even when their primary key contains null elements).&lt;/li&gt;
+&lt;li&gt;Batch Mode: set it to “false” since one data batch is processed each time.&lt;/li&gt;
+&lt;li&gt;Pass Through Fields: leave it empty&lt;/li&gt;
+&lt;li&gt;Modify Size of Instances: leave it empty, will be used in Employee data setup&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Click “Save” button&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp16.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Before input data can be mapped, take a look at the output schema of “CSVParser” (it&amp;rsquo;s the upstream data for current “BuildGraph” activity). “CSVParser” has ability to handle multiple CSV rows, the output data structure is an array of object not just a single object.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp16-9.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;In order to process the incoming data of array type, the iterator needs to be turned on to iterate through upstream output data (even though in this example there is only one element in the array). Following screenshot shows how to do it.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp17.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;While mapping the input data, you may notice that the “Northwind” graph model has been brought to this activity as an input schema and the mapping target is not to “CSVParser” anymore but the local iteration. For the data coming from customers.csv, more than one type of nodes can be populated (which are defined in Northwind graph). Here is how the nodes (Customer, Company and Region) will be set&lt;/p&gt;
+&lt;p&gt;Customer node&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;_skipCondition -&amp;gt; null==$iteration[value].CustomerID&lt;/li&gt;
+&lt;li&gt;CustomerID -&amp;gt; $iteration[value].CustomerID&lt;/li&gt;
+&lt;li&gt;CustomerName -&amp;gt; $iteration[value].CustomerName&lt;/li&gt;
+&lt;li&gt;ContactName -&amp;gt; $iteration[value].ContactName&lt;/li&gt;
+&lt;li&gt;ContactTitle -&amp;gt; $iteration[value].ContactTitle&lt;/li&gt;
+&lt;li&gt;City -&amp;gt; $iteration[value].City&lt;/li&gt;
+&lt;li&gt;RegionName -&amp;gt; $iteration[value].RegionName&lt;/li&gt;
+&lt;li&gt;RegionCode -&amp;gt; $iteration[value].RegionCode&lt;/li&gt;
+&lt;li&gt;Country -&amp;gt; $iteration[value].Country&lt;/li&gt;
+&lt;li&gt;Phone -&amp;gt; $iteration[value].Phone&lt;/li&gt;
+&lt;li&gt;Fax -&amp;gt; $iteration[value].Fax&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Company node&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;_skipCondition -&amp;gt; null==$iteration[value].CompanyID&lt;/li&gt;
+&lt;li&gt;CompanyID -&amp;gt; $iteration[value].CompanyID&lt;/li&gt;
+&lt;li&gt;CompanyName -&amp;gt; $iteration[value].CompanyName&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Region node&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;RegionName -&amp;gt; $iteration[value].RegionName&lt;/li&gt;
+&lt;li&gt;Country -&amp;gt; $iteration[value].Country&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Mapping for edge doesn’t need to be set up if there are no attributes for it (we don&amp;rsquo;t configure “label” attribute for edges now since TGDB doesn&amp;rsquo;t need it). BuildGraph activity is going to use the edge defined in graph model to create edge between nodes automatically.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp18.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp17-5.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp19.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;After we convert data to graph entities, we can insert them to TIBCO® Graph Database. Let&amp;rsquo;s create TIBCO® Graph Database connection first. In “Connections” tab select Add Connection -&amp;gt; TGDB Connector&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createModel03.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;In the dialog box enter the following information&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Connection name (for example “TGDB”)&lt;/li&gt;
+&lt;li&gt;TGDB Server URL&lt;/li&gt;
+&lt;li&gt;Username&lt;/li&gt;
+&lt;li&gt;Password&lt;/li&gt;
+&lt;li&gt;Keep Connection Alive: select “true”&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Click “Connect” button&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createModel04.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Now back to application&amp;rsquo;s “Customer Data” flow to add TGDB activity. Select GraphBuilder_TGDB -&amp;gt; TGDBUpsert.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp20.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Filling Setting for&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;TGDB connection: Select the “TGDB” Connection we just created&lt;/li&gt;
+&lt;li&gt;Set Allow empty sting key to true (so a node with empty string key still get inserted)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Click “Save”&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp21.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Map input data&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Graph{} - $activity[BuildGraph].Graph{}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Since the Graph object is immutable, you are not allowed to access the detail of its internal structure.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp22.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;A built-in “Log” activity can be inserted by following the next steps: 
+Make room for “Log” activity by shifting activities one position to the right.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp23.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Add “Log” activity by select Default -&amp;gt; Log&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp24.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Setup message for printing (you can apply built-in function to incoming data fields)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;message : string.concat(string.tostring($flow.LineNumber), &amp;quot; - “, $flow.FileContent)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;createApp25.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;You can write the entities (which are generated by BuildGraph activity) to file by adding GraphBuilder -&amp;gt; GraphtoFile activity&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp26.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Specify the output folder and filename for GraphtoFile activity&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp27.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Input data is and only can be Graph. The input setup same as TGDBUpsert&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp28.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Congratulations, you have finished the first data flow for the application&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp29.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Now you can follow the same steps to finish all the rest of flows&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp30.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;When you work on “Employee flow”, please pay attention to following steps.&lt;/p&gt;
+&lt;p&gt;In employee data there are two fields called EmployeeID and ReportTo each of them represents one individual employee. It implies that from the information of one employee data we can populate two employee nodes. One for employee himself/herself and the other one for his/her manager. We have to increase the instance of employee node for such data mapping.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Modify size of instances: Add one entry for “Employee” node and set the number of instances to 2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Click “Save”&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp31.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Switch to Inputs you will see two employee nodes appears (Employee0 and Employee1). Let&amp;rsquo;s make Employee0 the employee (not manager) so all data can be populated to this node.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp32.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;We make the Employee1 node represent the manager of Employee0 node so the only information we have for it (in the data) is “ReportTo” which will populate Employee1&amp;rsquo;s EmployeeID.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp33.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Then we need to tell BuildGrap activity the relation between Employee0 and Employee1.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;createApp34.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Now we can test Northwind application by sending data to it and then verifying if the data got inserted into TIBCO® Graph Database server&lt;/p&gt;
+&lt;p&gt;For building Northwind Flogo application, follow the next steps&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;In project, click “Build” button&lt;/li&gt;
+&lt;li&gt;Select the build target OS (in my case Darwin/amd64) then click to build&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;BuildNorthwind_01.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Once finished you can get your executable (Northwind-darwin_amd64) in the browser download folder&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;BuildNorthwind_02.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;TIBCO® Graph Database needs to be set up next. Currently, Project GraphBuilder only supports TIBCO® Graph Database 2.0.1 (both Enterprise Edition and Community Edition are supported). You can get a Community version from &lt;a href=&#34;http://community.tibco.com/products/tibco-graph-database&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;TGDB_01.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Follow the instructions in the download file to install TIBCO® Graph Database server and then copy the artifacts from the Download folder&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Northwind/tgdb/northwind -&amp;gt; tgdb/2.0/examples&lt;/li&gt;
+&lt;li&gt;Northwind/tgdb/init_northwind_with_data_definition.sh -&amp;gt; tgdb/2.0/bin/&lt;/li&gt;
+&lt;li&gt;Northwind/tgdb/run_northwind.sh -&amp;gt; tgdb/2.0/bin/&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;TGDB_02.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;In Terminal switch to tgdb/2.0/bin folder then&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;execute ./init_northwind_with_data_definition.sh to initialize tgdb with Northwind schema&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;TGDB_03.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;TGDB_04.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;execute ./run_northwind.sh to run tgdb server&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;TGDB_05.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;TGDB_06.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Open a new terminal and switch to the folder which contains Northwind application executable (Northwind-darwin_amd64).&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Change Northwind-darwin_amd64&amp;rsquo;s permission to executable&lt;/li&gt;
+&lt;li&gt;Run Northwind-darwin_amd64&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;LaunchNorthwind.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Open a new Terminal and switch to TIBCO® Graph Database bin folder&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;run tgdb-admin&lt;/li&gt;
+&lt;li&gt;make query to get all categories&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;Query.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;We&amp;rsquo;ve proved that data has been inserted to TIBCO® Graph Database server&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Northwind</title>
+      <link>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/sample-applications/northwind/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/sample-applications/northwind/</guid>
+      <description>
+        
+        
+        &lt;h4 id=&#34;implementation-source&#34;&gt;Implementation Source&lt;/h4&gt;
+&lt;p&gt;Download application artifacts from &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/Northwind&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Download GraphBuilder user extensions from &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/dist&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id=&#34;installation&#34;&gt;Installation&lt;/h4&gt;
+&lt;p&gt;Open TIBCO Flogo® Enterprise 2.8.1 studio and upload required user extensions (builder.zip, sse.zip, tgdb.zip and tools.zip)&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;user_extensions.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Follow the &lt;a href=&#34;../airline&#34;&gt;Airline&lt;/a&gt; example to continue importing application&lt;/p&gt;
+&lt;p&gt;Create application from scratch see &lt;a href=&#34;../../labs&#34;&gt;labs&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;This example is created in TIBCO Flogo® Enterprise 2.8.0 studio.&lt;/p&gt;
+&lt;/blockquote&gt;
 
       </description>
     </item>
@@ -75,11 +425,11 @@
       <description>
         
         
-        &lt;p&gt;By using GraphBuilder you are able to build your own application to&lt;/p&gt;
+        &lt;p&gt;Using GraphBuilder you can build your own application to do the following:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Transform your data to desirded graph structure based upon your graph model.&lt;/li&gt;
-&lt;li&gt;Insert graph into many major graph databases in the marcket (include TIBCO Graph Database, Dgraph, Neo4j and Janusgraph).&lt;/li&gt;
-&lt;li&gt;Query and delete graph data against TIBCO Graph Database&lt;/li&gt;
+&lt;li&gt;Transform your data to the desired graph structure based upon an existing graph model.&lt;/li&gt;
+&lt;li&gt;Insert graph data into any major graph database in the market (including TIBCO® Graph Database, Dgraph, Neo4j and JanusGraph).&lt;/li&gt;
+&lt;li&gt;Query and delete graph data against TIBCO® Graph Database&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img src=&#34;graph_builder.jpg&#34; alt=&#34;Flogo Studio&#34;&gt;&lt;/p&gt;
 
@@ -96,9 +446,9 @@
         
         
         &lt;ol&gt;
-&lt;li&gt;Download latest TIBCO Flogo Enterprise from here &lt;a href=&#34;https://edelivery.tibco.com/storefront/en/eval/tibco-flogo-enterprise/prod11810.html&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Download latest TIBCO Flogo® Enterprise &lt;a href=&#34;https://edelivery.tibco.com/storefront/en/eval/tibco-flogo-enterprise/prod11810.html&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Download GraphBuilder user extensions &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/dist&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;import GraphBuilder user extensions to TIBCO Flogo Enterprise studio.&lt;/li&gt;
+&lt;li&gt;Import GraphBuilder user extensions to TIBCO Flogo® Enterprise studio (for detail, see instructions in the Labs section)&lt;/li&gt;
 &lt;li&gt;Enjoy it!&lt;/li&gt;
 &lt;/ol&gt;
 
@@ -114,12 +464,15 @@
       <description>
         
         
-        &lt;h4 id=&#34;details&#34;&gt;Details&lt;/h4&gt;
-&lt;p&gt;coming soon here!&lt;/p&gt;
-&lt;h4 id=&#34;implementation-source&#34;&gt;Implementation Source&lt;/h4&gt;
-&lt;p&gt;stored on GitHub &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/hierarchy&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+        &lt;h4 id=&#34;implementation-source&#34;&gt;Implementation Source&lt;/h4&gt;
+&lt;p&gt;Download application artifacts from &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/hierarchy&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Download GraphBuilder user extensions from &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/dist&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id=&#34;installation&#34;&gt;Installation&lt;/h4&gt;
+&lt;p&gt;Open TIBCO Flogo® Enterprise 2.8.1 studio and upload required user extensions (builder.zip, tgdb.zip and tools.zip)&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;user_extensions.png&#34; alt=&#34;Import Extension&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Follow the &lt;a href=&#34;../airline&#34;&gt;Airline&lt;/a&gt; example to continue importing application&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;This example is created in TIBCO Flogo® Enterprise 2.8.0 studio.&lt;/p&gt;
+&lt;p&gt;This example is created in TIBCO Flogo® Enterprise 2.8.1 studio.&lt;/p&gt;
 &lt;/blockquote&gt;
 
       </description>
@@ -134,7 +487,142 @@
       <description>
         
         
-        &lt;p&gt;soon here &amp;hellip;&lt;/p&gt;
+        &lt;p&gt;Create a new Flogo application called “TGDB_RESTful_Service”&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful01.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Click “+ Create” button to build from scratch&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful02.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Create the first flow for querying metadata&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful03.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Define the data schema for the input of current flow sample data (queryType in string data type).&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;queryType: the value could be “metadata”, “edgetypes” or “nodetypes” (metadata querying flow)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful04.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Saving sample data will evoke schema builder to generate the schema definition from it&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful05.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Define the output schema for the current flow by pasting sample output data&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Content: contains the data of query result&lt;/li&gt;
+&lt;li&gt;Success: true means query go through without error&lt;/li&gt;
+&lt;li&gt;Code: error code&lt;/li&gt;
+&lt;li&gt;Message: error message&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Click “Save” button&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful06.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Clicking “Save” button triggers schema definition generation&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful07.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Add a trigger to receive HTTP request by clicking “+” -&amp;gt; “ReceiveHTTPMessage”&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful07-5.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Select GET, enter resource path “/tgdb/{queryType}” then click “Finish”&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful09.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Now we have a trigger with HTTP GET methods and listen on port 9999)&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful08.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Click the icon of trigger to map incoming query data to flow input data&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful10.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;In “Reply Settings” set reply schema make it same as flow output data schema&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful11.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;In “Map from flow outputs” mapping data.queryResult to $flow.queryResult&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful12.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Add query activity by selecting GraphBuilder_TGDB -&amp;gt; TGDBQuery activity&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful13.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Select the “TGDB” connection that was created in Lab1 so the TGDBQuery activity executes against the server where the Northwind data was inserted&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful14.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Map input data for TGDBQuery activity&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;QueryType : $flow.queryType&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful15.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Add return activity to link the query result back to HTTP trigger&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful16.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Map outputs for Return activity&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;queryResult : $activity[TGDBQuery].queryResult (map entire object)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful17.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;You&amp;rsquo;ve finished creating metadata query flow&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful18.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Click “Create” button to create another flow for querying the content of Northwind graph&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful19.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Add a name and description for the new flow&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful20.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Define the flow inputs data schema by pasting sample data (for schema detail; see TGDB documentation)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;queryType: search (for content flow)&lt;/li&gt;
+&lt;li&gt;language: TGQL (TIBCO graph query language) or Gremlin&lt;/li&gt;
+&lt;li&gt;queryString: for TGQL and Gremlin&lt;/li&gt;
+&lt;li&gt;traversalCondition: TGQL only&lt;/li&gt;
+&lt;li&gt;traversalDepth: TGQL only&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful21.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Click save to generate data schema definition&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful22.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Flow output data schema same as metadata flow&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful22-5.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Add another trigger for receiving content query&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful23.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;POST method for content query&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful24.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Adding sample query for the output (to the flow) setting. To be noticed that the schema is very similar to flow input schema but grouped under “query” keyword.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful25.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Map to flow input&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;queryType: $trigger.pathParams.queryType&lt;/li&gt;
+&lt;li&gt;language: $trigger.body.query.language&lt;/li&gt;
+&lt;li&gt;queryString: $trigger.body.query.queryString&lt;/li&gt;
+&lt;li&gt;traversalCondition: $trigger.body.query.traversalCondition&lt;/li&gt;
+&lt;li&gt;endCondition: $trigger.body.query.endCondition&lt;/li&gt;
+&lt;li&gt;traversalDepth: $trigger.body.query.traversalDepth&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Click save&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful26.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Set the reply data (same as metadata flow)&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful26-5.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful26-6.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Add query activity by select GraphBuilder_TGDB -&amp;gt; TGDBQuery activity&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful13.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Select “TGDB” connection that was created in Lab1 so the TGDBQuery activity queries the same server updated Northwind data was inserted into&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful14.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Map input data for TGDBQuery activity&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;QueryType: $flow.queryType&lt;/li&gt;
+&lt;li&gt;params.language: $flow.language&lt;/li&gt;
+&lt;li&gt;params.queryString: $flow.queryString&lt;/li&gt;
+&lt;li&gt;params.traversalCondition: $flow.traversalCondition&lt;/li&gt;
+&lt;li&gt;params.endCondition: $flow.endCondition&lt;/li&gt;
+&lt;li&gt;params.traversalDepth: $flow.traversalDepth&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful27.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Add “Return” activity to link the query result back to HTTP trigger&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful16.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Map outputs for Return activity&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;queryResult: $activity[TGDBQuery].queryResult (map entire object)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful17.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The TGDB_RESTful_Service is configured and it&amp;rsquo;s ready for query Nothwind graph&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;RESTful28.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Test TGDB_RESTful_Service so you can see Nothwind data after querying against TGDB server&lt;/p&gt;
+&lt;p&gt;For building Flogo application&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;In project click “Build” button&lt;/li&gt;
+&lt;li&gt;Select the build target OS (in my case Darwin/amd64) then click to build&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;BuildRESTful01.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Once finished you can get your executable in your browser&amp;rsquo;s download folder&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;BuildRESTful02.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Find your executable and change its permission to executable then run it&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;Launch_RESTfulService.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Switch to local labs -&amp;gt; utilities -&amp;gt; lite folder&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Launch UI tool by type “npm start”&lt;/li&gt;
+&lt;li&gt;It is required to have npm and lite-server installed before using this tool&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;Launch_Lite_Server.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Upon launching the server, the default browser will pop up and show Project GraphBuilder UI utility. For querying data against TGDB server, click “TGDB Data” tab&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;Launch_UI_01.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;A query to TGDB using TGQL expression can be made as shown in screenshot below&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;Launch_UI_02.png&#34; alt=&#34;Build RESTful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Now, Northwind data from TGDB server can be seen&lt;/p&gt;
 
       </description>
     </item>
@@ -148,12 +636,15 @@
       <description>
         
         
-        &lt;p&gt;Implementation Sources&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/tgdb/connector/&#34;&gt;Connector&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/tgdb/activity/tgdbupsert/&#34;&gt;TGDBUpsert&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/tgdb/activity/tgdbquery/&#34;&gt;TGDBQuery&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/tgdb/activity/tgdbdelete/&#34;&gt;TGDBDelete&lt;/a&gt;&lt;/li&gt;
+        &lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tgdb/connector/&#34;&gt;TGDB Connector&lt;/a&gt;
+:  A TGDB connector is a component to store TIBCO® Graph Database server connection information. Activities which connect to the same TGDB connector are actually connecting to the same TIBCO® Graph Database server instance&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tgdb/activity/tgdbupsert&#34;&gt;TGDBUpsert&lt;/a&gt;
+: A TGDBUpsert activity consumes the graph entities from BuildGraph activity and inserts/updates them to TIBCO® Graph Database&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/tgdb/activity/tgdbquery/&#34;&gt;TGDBQuery&lt;/a&gt;
+: With TGDBQuery activity users can build their own application to query against TIBCO® Graph Database. It supports both TGQL and Gremlin query language&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/tgdb/activity/tgdbdelete/&#34;&gt;TGDBDelete&lt;/a&gt;
+: TGDBDelete activity implements the deletion of graph entities for TIBCO® Graph Database. It takes graph entities (with primary key attributes populated) from BuildGraph then performs the deletion on them&lt;/li&gt;
 &lt;/ul&gt;
 
       </description>
@@ -168,11 +659,11 @@
       <description>
         
         
-        &lt;p&gt;Implementation Sources&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/dgraph/connector/dgraph/&#34;&gt;Connector&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/dgraph/activity/dgraphupsert/&#34;&gt;DgraphUpsert&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/dgraph/activity/dgraphquery/&#34;&gt;DgraphQuery&lt;/a&gt;&lt;/li&gt;
+        &lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/dgraph/connector/dgraph/&#34;&gt;Connector&lt;/a&gt;
+: A Dgraph connector is a component to store your Dgraph server connection information. Activities which connect to the same Dgraph connector would connect to the same Dgraph server instance&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/dgraph/activity/dgraphupsert/&#34;&gt;DgraphUpsert&lt;/a&gt;
+:  A DgraphUpsert activity consumes the graph entities from BuildGraph activity and inserts/updates them to Dgraph server&lt;/li&gt;
 &lt;/ul&gt;
 
       </description>
@@ -187,12 +678,14 @@
       <description>
         
         
-        &lt;h4 id=&#34;details&#34;&gt;Details&lt;/h4&gt;
-&lt;p&gt;coming soon here!&lt;/p&gt;
-&lt;h4 id=&#34;implementation-source&#34;&gt;Implementation Source&lt;/h4&gt;
-&lt;p&gt;stored on GitHub &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/IotDataConsumer&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+        &lt;h4 id=&#34;implementation-source&#34;&gt;Implementation Source&lt;/h4&gt;
+&lt;p&gt;Download application artifacts from &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/IotDataConsumer&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Download GraphBuilder user extensions from &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/dist&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id=&#34;installation&#34;&gt;Installation&lt;/h4&gt;
+&lt;p&gt;Open TIBCO Flogo® Enterprise 2.8.1 studio and upload required user extensions (builder.zip, dgraph.zip and tools.zip)&lt;/p&gt;
+&lt;p&gt;Follow the &lt;a href=&#34;../airline&#34;&gt;Airline&lt;/a&gt; example to continue importing application&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;This example is created in TIBCO Flogo® Enterprise 2.8.0 studio.&lt;/p&gt;
+&lt;p&gt;This example is created in TIBCO Flogo® Enterprise 2.8.1 studio.&lt;/p&gt;
 &lt;/blockquote&gt;
 
       </description>
@@ -207,7 +700,196 @@
       <description>
         
         
-        &lt;p&gt;soon here &amp;hellip;&lt;/p&gt;
+        &lt;p&gt;Create an application which receives real-time order events from Kafka topic then build graph entities (nodes, edges and their attributes), insert/update entities to TGDB then serve real-time graph entities as a streaming server.&lt;/p&gt;
+&lt;p&gt;Create an internal “Server Sent Event (SSE)” connection to link between order event flow and SSE server flow (for serving streaming graph entities to external client).&lt;/p&gt;
+&lt;p&gt;In “Connections” tab select GraphBuilder_SSE -&amp;gt; Server-sent Events Connection&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime02.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Connection settings (the settings below match the client tool which is provided for browsing real-time graph entity update)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Connection Name: Set name to “EventServer”&lt;/li&gt;
+&lt;li&gt;Outbound: Set false as it&amp;rsquo;s a server&lt;/li&gt;
+&lt;li&gt;Server port: 8888&lt;/li&gt;
+&lt;li&gt;Path: It&amp;rsquo;s URI path “/sse/”&lt;/li&gt;
+&lt;li&gt;TLS enabled: false&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Click “Connect”&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime01.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Back to Northwind application to create a new flow called “Order Event Server”&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime07.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Select a “SSE Server” trigger to serve graph entities (come from order event flow) for streaming client&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime03.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Settings&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Connection Name: Select the “EventServer” connection which we just created&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Click “Save”.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime04.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;This simple flow will be serving streaming graph entities.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime04-5.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Add the last flow for Northwind application. It is “Order Data Flow” which listen to Kafka topic to consume order events as input data of the flow.&lt;/p&gt;
+&lt;p&gt;Before it is created, a “Kafka Connection” needs to be created. In connection tab select “Apache Kafka Client Configuration”.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime06.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Configure Apache Kafka Client as the following screenshot and then save it.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime05.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Back to the application, create a new flow called “Order Event”.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime08.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Click “Flow Inputs &amp;amp; Outputs” (vertical blue bar) to define a schema between flow and trigger. Set the following data sample and then click save.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime12.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;After clicking save button, the schema generator converts sample data to schema definition.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime13.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Click “+” to add trigger (Kafka Consumer).&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime09.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Select the “Northwind Orders” configuration that was just created and then click continue.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime10.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Select “Just Add Trigger” button to add a trigger.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime11.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Finish setting up the trigger as shown in screenshot below.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime14.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Map OrderString to $trigger.stringValue&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime15.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Add CSVParser to convert incoming CVS string to system object.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime16.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Follow the instruction in Lab1 to define the mapping between CSV fields and attribute of system object. Use the column field name as attribute name.&lt;/p&gt;
+&lt;p&gt;Make sure “First Row Is Header” set to false.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime17.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Configure the input&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;CSVString : $flow.OrderString&lt;/li&gt;
+&lt;li&gt;Leave SequenceNumber not mapped&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;realtime18.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;After the data has been transformed to the object which could be recognized by the system, convert data to graph entities (nodes, edges and their attributes). Use core activity “Build Graph” to perform this transformation. Let&amp;rsquo;s select GraphBuilder -&amp;gt; Build Graph and configure it.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime18-5.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Follow Lab1 instruction to turn on the “iterator” for iterating through upstream output data (at runtime) and then map with input data of BuildGraph activity. Here is the mapping&lt;/p&gt;
+&lt;p&gt;Product node&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ProductID -&amp;gt; $iteration[value].ProductID&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Employee node&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;EmployeeID -&amp;gt; $iteration[value].EmployeeID&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Customer node&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;CustomerID -&amp;gt; $iteration[value].CustomerID&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Order node&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;OrderID -&amp;gt; $iteration[value].OrderID&lt;/li&gt;
+&lt;li&gt;CustomerID -&amp;gt; $iteration[value].CustomerID&lt;/li&gt;
+&lt;li&gt;EmployeeID- &amp;gt; $iteration[value].EmployeeID&lt;/li&gt;
+&lt;li&gt;OrderDate -&amp;gt; $iteration[value].OrderDate&lt;/li&gt;
+&lt;li&gt;RequiredDate -&amp;gt; $iteration[value].RequiredDate&lt;/li&gt;
+&lt;li&gt;ShippedDate -&amp;gt; $iteration[value].ShippedDate&lt;/li&gt;
+&lt;li&gt;ShipVia -&amp;gt; $iteration[value].ShipVia&lt;/li&gt;
+&lt;li&gt;Freight -&amp;gt; $iteration[value].Freight&lt;/li&gt;
+&lt;li&gt;ShipName -&amp;gt; $iteration[value].ShipName&lt;/li&gt;
+&lt;li&gt;ShipAddress -&amp;gt; $iteration[value].ShipAddress&lt;/li&gt;
+&lt;li&gt;ShipCity -&amp;gt; $iteration[value].ShipCity&lt;/li&gt;
+&lt;li&gt;ShipRegion -&amp;gt; $iteration[value].ShipRegion&lt;/li&gt;
+&lt;li&gt;ShipPostalCode - &amp;gt; $iteration[value].ShipPostalCode&lt;/li&gt;
+&lt;li&gt;ShipCountry -&amp;gt; $iteration[value].ShipCountry&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Suborder node&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;OrderID -&amp;gt; $iteration[value].OrderID&lt;/li&gt;
+&lt;li&gt;ProductID -&amp;gt; $iteration[value].ProductID&lt;/li&gt;
+&lt;li&gt;UnitPrice -&amp;gt; $iteration[value].UnitPrice&lt;/li&gt;
+&lt;li&gt;Quantity -&amp;gt; $iteration[value].Quantity&lt;/li&gt;
+&lt;li&gt;Discount -&amp;gt; $iteration[value].Discount&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Region node&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;RegionName -&amp;gt; $iteration[value].RegionName&lt;/li&gt;
+&lt;li&gt;Country -&amp;gt; $iteration[value].Country&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Since one order can be split into multiple order events (with different product sold), create two types of order nodes:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Odrer node (main order) with OrderID as its primary key&lt;/li&gt;
+&lt;li&gt;Suborder node with OrderID, ProductID as primary key.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;BuildGraph activity would link (via edge) all Suborder nodes to Order node by matching their the OrderID (see following screenshot).&lt;/p&gt;
+&lt;p&gt;Order :&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime19.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Suborder :&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime20.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Follow Lab1&amp;rsquo;s instruction to add TGDBUpsert activity&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime20-2.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Select Connetion&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime20-3.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Map input data&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime20-4.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Now adding a new type of activity called SSEEndPoint which sends graph entities to SSEServer for serving streaming client.&lt;/p&gt;
+&lt;p&gt;Select SSEEndPoint activity from GraphBuilder_SSE.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime21.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Select “SSEConnection” we created and used in SSEServer earlier then the new SSEEndPoint is connected to SSEServer now.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime22.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Setup SessionId to “order” so the complete URI to access to this event flow would be /sse/order&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime23.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Map input data to Graph object from BuildGraph activity&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime24.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Add log and GraphtoFile activities like previous configured flows&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime25.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;This completes the last flow for the Northwind application.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime26.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;This is the final version of the Flogo Northwind application&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;realtime27.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Rebuild application for further testing&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;BuildNorthwind_02.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Install Kafka Message Bus to provide order event. &lt;a href=&#34;https://kafka.apache.org/quickstart&#34; target=&#34;_blank&#34;&gt;Here&lt;/a&gt; are the installation instructions.&lt;/p&gt;
+&lt;p&gt;After downloading Kafka Message Bus and installing Kafka, start it&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Start zoo keeper&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;StartKafka01.png&#34; alt=&#34;Realtime&#34;&gt;
+&lt;img src=&#34;StartKafka02.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Start server&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;StartKafka03.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Create &amp;ldquo;test&amp;rdquo; topic&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;StartKafka04.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Restart Northwind application executable.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Switch to the folder which contains Northwind application executable (Northwind-darwin_amd64).&lt;/li&gt;
+&lt;li&gt;Change Northwind-darwin_amd64&amp;rsquo;s permission to executable&lt;/li&gt;
+&lt;li&gt;Run Northwind-darwin_amd64&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;There will be two extra messages while Northwind application starting&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Kafka consumer (the trigger of order event flow) is up and listening&lt;/li&gt;
+&lt;li&gt;SSEServer is up and waiting for client (UI utility) to connect&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;StartKafka05.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Here is the test (see screenshot)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Ensure TGDB, TGDB_RESTful_Service, Kafka (server, zoo keeper, producer) and UI utility are running&lt;/li&gt;
+&lt;li&gt;On the upper/middle left of screenshot open oerders.csv file&lt;/li&gt;
+&lt;li&gt;On the lower left of screenshot start Kafka producer and keep it opened&lt;/li&gt;
+&lt;li&gt;On the right follow the instruction to 1. Click “Realtime Data” 2. Click “Connect” to connect to SSE server in Northwind application 3. Copy &amp;amp; paste order to Kafka producer then press enter 4 ~ 6. Each time you send one order you will see the corresponding graph entities showing on the UI.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Send as many orders as wished.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;FinalTest.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;After the streaming testing, see the order in TGDB. Follow the instructions in Lab2&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Click “TGDB Data” button&lt;/li&gt;
+&lt;li&gt;Use the default query setup but make traversalDepth = 5&lt;/li&gt;
+&lt;li&gt;Click “Make Query” button&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You&amp;rsquo;ll see the oder with OrderID = 10248 and its associated graph entities on the UI&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;QueryGraph.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The last test is about traversal query. Find all companies which supply products within the order from the company ‘Vins et alcools Chevalier’. We are going to use Postman and TGDB_RESTful_Service to query against TGDB server&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Open a postman and setup a POST query&lt;/li&gt;
+&lt;li&gt;The gremlin query is “g.V().has(‘Company’, ‘CompanyID’, ‘Vins et alcools Chevalier’).in(‘Customer_Company’).in(‘SoldTo’).out(‘Includes’).out(‘Contains’).in(‘Supplies’).out(‘Supplier_Company’);”
+You should get “Formaggi Fortini s.r.l.&amp;quot;, “Leka Trading” and “Cooperativa de Quesos ‘Las Cabras’” in your result&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;QueryPostMan.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Observe the traversal request on the UI utility and verify the correctness of the query&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;QueryPostManOnGraph.png&#34; alt=&#34;Realtime&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Congratulations! This concludes the three Labs&lt;/p&gt;
 
       </description>
     </item>
@@ -245,7 +927,7 @@
 &lt;h3 id=&#34;setting-2&#34;&gt;Setting&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Connection Name:&lt;/strong&gt; -&amp;gt; EventServer&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Outbound:&lt;/strong&gt; -&amp;gt; select &amp;ldquo;false&amp;rdquo; since it&#39;s a server&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Outbound:&lt;/strong&gt; -&amp;gt; select &amp;ldquo;false&amp;rdquo; since it&amp;rsquo;s a server&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Server port:&lt;/strong&gt; -&amp;gt; any available port (8888 for this example)&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Path:&lt;/strong&gt; -&amp;gt; /sse/ (client connect http://[host]:[port]/sse/meetup to subscribe &amp;ldquo;meetup&amp;rdquo; graph stream)&lt;/li&gt;
 &lt;/ul&gt;
@@ -415,7 +1097,7 @@ $trigger.body&lt;/p&gt;
 &lt;h4 id=&#34;implementation-source&#34;&gt;Implementation Source&lt;/h4&gt;
 &lt;p&gt;stored on GitHub &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/Meetup_Event&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;This example is created in TIBCO Flogo® Enterprise 2.8.0 studio.&lt;/p&gt;
+&lt;p&gt;This example is created in TIBCO Flogo® Enterprise 2.8.1 studio.&lt;/p&gt;
 &lt;/blockquote&gt;
 
       </description>
@@ -430,10 +1112,11 @@ $trigger.body&lt;/p&gt;
       <description>
         
         
-        &lt;p&gt;Implementation Sources&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/neo4j/connector/neo4j/&#34;&gt;Connector&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/neo4j/activity/neo4jupsert/&#34;&gt;Neo4jUpsert&lt;/a&gt;&lt;/li&gt;
+        &lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/neo4j/connector/neo4j/&#34;&gt;Connector&lt;/a&gt;
+: A Neo4j connector is the component to store your Neo4j server connection information. Activities which connect to the same Neo4j connector would connect to the same Neo4j server instance&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/neo4j/activity/neo4jupsert/&#34;&gt;Neo4jUpsert&lt;/a&gt;
+: A Neo4jUpsert activity consumes the graph entities from BuildGraph activity and inserts/updates them to Neo4j server&lt;/li&gt;
 &lt;/ul&gt;
 
       </description>
@@ -448,10 +1131,15 @@ $trigger.body&lt;/p&gt;
       <description>
         
         
-        &lt;p&gt;Implementation Sources&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/gremlin/connector/gremlin/&#34;&gt;Connector&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/gremlin/activity/janusgraphupsert/&#34;&gt;JanusgraphUpsert&lt;/a&gt;&lt;/li&gt;
+        &lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/gremlin/connector/gremlin/&#34;&gt;Connector&lt;/a&gt;
+: A gremlin connector is the component that stores the Janusgraph server connection information. Activities which connect to the same gremlin connector would connect to the same Janusgraph server instance&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/gremlin/activity/janusgraphupsert/&#34;&gt;JanusgraphUpsert&lt;/a&gt;
+: A JanusgraphUpsert activity consumes the graph entities from BuildGraph activity and inserts/updates them to Janusgraph server&lt;/p&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
 
       </description>
@@ -594,7 +1282,7 @@ $trigger.body&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;implementation-source&#34;&gt;Implementation Source&lt;/h4&gt;
 &lt;p&gt;stored on GitHub &lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sample-applications/TGDB_RESTful_Service&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;This example is created in TIBCO Flogo® Enterprise 2.8.0 studio.&lt;/p&gt;
+&lt;p&gt;This example is created in TIBCO Flogo® Enterprise 2.8.1 studio.&lt;/p&gt;
 &lt;/blockquote&gt;
 
       </description>
@@ -609,12 +1297,23 @@ $trigger.body&lt;/p&gt;
       <description>
         
         
-        &lt;p&gt;Implementation Sources&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sse/connector/sse/&#34;&gt;Connector&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sse/activity/sseendpoint/&#34;&gt;SSEEndpoint&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sse/trigger/sseserver/&#34;&gt;SSEServer&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sse/trigger/ssesub/&#34;&gt;SSESubscriber&lt;/a&gt;&lt;/li&gt;
+        &lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sse/connector/sse/&#34;&gt;Connector&lt;/a&gt;
+: A SSE connector is a component that stores the sse server (Outbound = false) configuration or remote sse server connection (Outbound = true) information. Activities that connect to the same the SSE connector are connecting to the same SSE service.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sse/trigger/ssesub/&#34;&gt;SSESubscriber&lt;/a&gt;
+: A “SSESubscriber trigger” subscribes to remote sse server then consumes streaming events. The SSE Connector for a subscriber need to be configured as Outbound = true.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sse/trigger/sseserver/&#34;&gt;SSEServer&lt;/a&gt;
+: A “SSEServer trigger” works as an SSE server which serves streaming events. It maintains the incoming connection and requests but won&amp;rsquo;t generate any data itself. The streaming data comes from another activity called SSEEndPoint. The SSE Connector for a subscriber need to be configured as Outbound = false.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/tree/master/sse/activity/sseendpoint/&#34;&gt;SSEEndpoint&lt;/a&gt;
+: A SSEEndpoint activity sits on different flow (a data flow) from SSEServer. It takes input event and streams it to SSEServer. The link between a SSEServer and a SSEEndPoint is that both of them need to connect to the same SSE connector (Outbound = false).&lt;/p&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
 
       </description>
@@ -629,21 +1328,23 @@ $trigger.body&lt;/p&gt;
       <description>
         
         
-        &lt;p&gt;Implementation Sources&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/connector/simpletable/&#34;&gt;Connector&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/trigger/filereader/&#34;&gt;FileReader&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/accumulator/&#34;&gt;Accumulator&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/csvfilewriter/&#34;&gt;CSVFileWriter&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/csvparser/&#34;&gt;CSVParser&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/jsondatadecoupler/&#34;&gt;JsonDataDecoupler&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/jsondeserializer/&#34;&gt;JsonDeserializer&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/jsonparser/&#34;&gt;JsonParser&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/csvparser/&#34;&gt;CSVParser&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/jsondatadecoupler/&#34;&gt;JsonDataDecoupler&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/jsondeserializer/&#34;&gt;JsonDeserializer&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/tablequery/&#34;&gt;TableQuery&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/tableupsert/&#34;&gt;TableUpsert&lt;/a&gt;&lt;/li&gt;
+        &lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/trigger/filesreader/&#34;&gt;FileReader&lt;/a&gt;
+: Read data from single file, files in a folder or file entries in a zip file&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/accumulator/&#34;&gt;Accumulator&lt;/a&gt;
+: Accumulate input data then emits it in a batch&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/csvfilewriter/&#34;&gt;CSVFileWriter&lt;/a&gt;
+: Write data to file in CSV format&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/csvparser/&#34;&gt;CSVParser&lt;/a&gt;
+: Parse data from CSV file based on predefined path then set to a flat tuple&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/jsondatadecoupler/&#34;&gt;JsonDataDecoupler&lt;/a&gt;
+: Extract array data from JSON then emits an array of tuples&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/jsondeserializer/&#34;&gt;JsonDeserializer&lt;/a&gt;
+: Convert JSON string to an object&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/jsonparser/&#34;&gt;JsonParser&lt;/a&gt;
+: Parse data from JSON file based on predefined path then set to a flat tuple&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/blob/master/tools/activity/jsonserializer/&#34;&gt;JsonSerializer&lt;/a&gt;
+: Convert an object to JSON string&lt;/li&gt;
 &lt;/ul&gt;
 
       </description>

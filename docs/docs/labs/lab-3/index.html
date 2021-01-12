@@ -3,10 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.62.2" />
-
-<META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
-
+<meta name="generator" content="Hugo 0.79.0" /><META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
 
 <link rel="shortcut icon" href="/favicons/favicon.ico" >
@@ -21,22 +18,23 @@
 <link rel="icon" type="image/png" href="/labs-graphbuilder-contrib/favicons/android-192x192.png" sizes="192x192">
 
 <title>Lab3 - real-time | Project GraphBuilder</title><meta property="og:title" content="Lab3 - real-time" />
-<meta property="og:description" content="Build an app to upsert real-time data to TIBCO Graph Database
+<meta property="og:description" content="Build an application to insert/update real-time data to TIBCO® Graph Database
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tibcosoftware.github.io/labs-graphbuilder-contrib/docs/labs/lab-3/" />
-<meta property="article:modified_time" content="2020-03-30T14:55:45+02:00" /><meta property="og:site_name" content="Project GraphBuilder" />
+<meta property="article:modified_time" content="2020-06-05T15:20:01-04:00" /><meta property="og:site_name" content="Project GraphBuilder" />
 <meta itemprop="name" content="Lab3 - real-time">
-<meta itemprop="description" content="Build an app to upsert real-time data to TIBCO Graph Database
+<meta itemprop="description" content="Build an application to insert/update real-time data to TIBCO® Graph Database
 ">
-<meta itemprop="dateModified" content="2020-03-30T14:55:45&#43;02:00" />
-<meta itemprop="wordCount" content="3">
+<meta itemprop="dateModified" content="2020-06-05T15:20:01-04:00" />
+<meta itemprop="wordCount" content="1026">
 
 
 
-<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Lab3 - real-time"/>
-<meta name="twitter:description" content="Build an app to upsert real-time data to TIBCO Graph Database
+<meta name="twitter:description" content="Build an application to insert/update real-time data to TIBCO® Graph Database
 "/>
 
 
@@ -56,22 +54,23 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/labs-graphbuilder-contrib/scss/main.min.b89b80d9419406daa7c0ed2e35270fa100fe03d637a5bcde4d4b7df1f4cd87f1.css" as="style">
-<link href="/labs-graphbuilder-contrib/scss/main.min.b89b80d9419406daa7c0ed2e35270fa100fe03d637a5bcde4d4b7df1f4cd87f1.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/labs-graphbuilder-contrib/scss/main.min.b3777d1de130b743f48c5273591e22abddef8c1ed6a1a9c82e69b87a180a7bb6.css" as="style">
+<link href="/labs-graphbuilder-contrib/scss/main.min.b3777d1de130b743f48c5273591e22abddef8c1ed6a1a9c82e69b87a180a7bb6.css" rel="stylesheet" integrity="">
 
-
-<link href="/css/offline-search.css" rel="stylesheet">
 
 <script
-  src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  src="https://code.jquery.com/jquery-3.5.1.min.js"
+  integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
   crossorigin="anonymous"></script>
 
-<script src="https://unpkg.com/lunr@2.1.6/lunr.js"></script>
-<script src="/js/offline-search.js"></script>
+<script
+  src="https://unpkg.com/lunr@2.3.8/lunr.min.js"
+  integrity="sha384-vRQ9bDyE0Wnu+lMfm57BlYLO0/XauFuKpVsZPs7KEDwYKktWi5+Kz3MP8++DFlRY"
+  crossorigin="anonymous"></script>
 
 
-    <title>Lab3 - real-time | Project GraphBuilder</title>
+
+
   </head>
   <body class="td-page">
     <header>
@@ -119,10 +118,21 @@ if (!doNotTrack) {
 		</ul>
 	</div>
 	<div class="navbar-nav d-none d-lg-block">
-<div id="search-nav-container">
-<input type="search" id="search-input" autocomplete="off" class="form-control td-search-input" placeholder="&#xf002 Search this site…" autocomplete="on">
-<div id="search-results" class="container"></div>
-</div>
+
+
+
+<input
+  type="search"
+  class="form-control td-search-input"
+  placeholder="&#xf002; Search this site…"
+  aria-label="Search this site…"
+  autocomplete="off"
+  
+  data-offline-search-index-json-src="/labs-graphbuilder-contrib/offline-search-index.86b1def49092b0abcb1c16712425c69d.json"
+  data-offline-search-base-href="/"
+  data-offline-search-max-results="10"
+>
+
 </div>
 </nav>
 
@@ -138,18 +148,30 @@ if (!doNotTrack) {
 
 <div id="td-sidebar-menu" class="td-sidebar__inner">
   
-  <form class="td-sidebar__search d-flex align-items-center">
+  <form class="td-sidebar__search d-flex align-items-center d-lg-none">
     
-<div id="search-nav-container">
-<input type="search" id="search-input" autocomplete="off" class="form-control td-search-input" placeholder="&#xf002 Search this site…" autocomplete="on">
-<div id="search-results" class="container"></div>
-</div>
+
+
+
+<input
+  type="search"
+  class="form-control td-search-input"
+  placeholder="&#xf002; Search this site…"
+  aria-label="Search this site…"
+  autocomplete="off"
+  
+  data-offline-search-index-json-src="/labs-graphbuilder-contrib/offline-search-index.86b1def49092b0abcb1c16712425c69d.json"
+  data-offline-search-base-href="/"
+  data-offline-search-max-results="10"
+>
+
 
     <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ml-3 fas fa-bars" type="button" data-toggle="collapse" data-target="#td-section-nav" aria-controls="td-docs-nav" aria-expanded="false" aria-label="Toggle section navigation">
     </button>
   </form>
   
-  <nav class="collapse td-sidebar-nav pt-2 pl-4" id="td-section-nav">
+  <nav class="collapse td-sidebar-nav" id="td-section-nav">
+    
     
     
 
@@ -168,19 +190,24 @@ if (!doNotTrack) {
       
       
       
-      
-      
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocsoverview" href="/labs-graphbuilder-contrib/docs/overview/">Overview</a>
-      
-      
-      
-      
-      
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocsgetting-started" href="/labs-graphbuilder-contrib/docs/getting-started/">Getting Started</a>
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocsoverview" href="/labs-graphbuilder-contrib/docs/overview/">Overview</a>
+        
       
       
       
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocsgetting-started" href="/labs-graphbuilder-contrib/docs/getting-started/">Getting Started</a>
+        
       
+      
+      
+        
+          
 
 
 
@@ -197,31 +224,39 @@ if (!doNotTrack) {
       
       
       
-      
-      
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocslabslab-1" href="/labs-graphbuilder-contrib/docs/labs/lab-1/">Lab1 - CSV</a>
-      
-      
-      
-      
-      
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocslabslab-2" href="/labs-graphbuilder-contrib/docs/labs/lab-2/">Lab2 - Query</a>
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocslabslab-1" href="/labs-graphbuilder-contrib/docs/labs/lab-1/">Lab1 - CSV</a>
+        
       
       
       
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocslabslab-2" href="/labs-graphbuilder-contrib/docs/labs/lab-2/">Lab2 - Query</a>
+        
       
       
-      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-labs-graphbuilder-contribdocslabslab-3" href="/labs-graphbuilder-contrib/docs/labs/lab-3/">Lab3 - real-time</a>
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page  active" id="m-labs-graphbuilder-contribdocslabslab-3" href="/labs-graphbuilder-contrib/docs/labs/lab-3/">Lab3 - real-time</a>
+        
       
       
     </li>
   </ul>
 </ul>
 
+        
       
       
       
-      
+        
+          
 
 
 
@@ -238,55 +273,71 @@ if (!doNotTrack) {
       
       
       
-      
-      
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocscomponentsgraphbuilder" href="/labs-graphbuilder-contrib/docs/components/graphbuilder/">GraphBuilder</a>
-      
-      
-      
-      
-      
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocscomponentsgraphbuilder-tgdb" href="/labs-graphbuilder-contrib/docs/components/graphbuilder-tgdb/">TGDB</a>
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocscomponentsgraphbuilder" href="/labs-graphbuilder-contrib/docs/components/graphbuilder/">GraphBuilder</a>
+        
       
       
       
-      
-      
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocscomponentsgraphbuilder-dgraph" href="/labs-graphbuilder-contrib/docs/components/graphbuilder-dgraph/">Dgraph</a>
-      
-      
-      
-      
-      
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocscomponentsgraphbuilder-neo4j" href="/labs-graphbuilder-contrib/docs/components/graphbuilder-neo4j/">Neo4j</a>
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocscomponentsgraphbuilder-tgdb" href="/labs-graphbuilder-contrib/docs/components/graphbuilder-tgdb/">TGDB</a>
+        
       
       
       
-      
-      
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocscomponentsgraphbuilder-gremlin" href="/labs-graphbuilder-contrib/docs/components/graphbuilder-gremlin/">Gremlin</a>
-      
-      
-      
-      
-      
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocscomponentsgraphbuilder-sse" href="/labs-graphbuilder-contrib/docs/components/graphbuilder-sse/">SSE</a>
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocscomponentsgraphbuilder-dgraph" href="/labs-graphbuilder-contrib/docs/components/graphbuilder-dgraph/">Dgraph</a>
+        
       
       
       
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocscomponentsgraphbuilder-neo4j" href="/labs-graphbuilder-contrib/docs/components/graphbuilder-neo4j/">Neo4j</a>
+        
       
       
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocscomponentsgraphbuilder-tools" href="/labs-graphbuilder-contrib/docs/components/graphbuilder-tools/">Tools</a>
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocscomponentsgraphbuilder-gremlin" href="/labs-graphbuilder-contrib/docs/components/graphbuilder-gremlin/">Gremlin</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocscomponentsgraphbuilder-sse" href="/labs-graphbuilder-contrib/docs/components/graphbuilder-sse/">SSE</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocscomponentsgraphbuilder-tools" href="/labs-graphbuilder-contrib/docs/components/graphbuilder-tools/">Tools</a>
+        
       
       
     </li>
   </ul>
 </ul>
 
+        
       
       
       
-      
+        
+          
 
 
 
@@ -303,39 +354,58 @@ if (!doNotTrack) {
       
       
       
-      
-      
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocssample-applicationsairline" href="/labs-graphbuilder-contrib/docs/sample-applications/airline/">Airline</a>
-      
-      
-      
-      
-      
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocssample-applicationshierachy" href="/labs-graphbuilder-contrib/docs/sample-applications/hierachy/">Hierachy</a>
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocssample-applicationsairline" href="/labs-graphbuilder-contrib/docs/sample-applications/airline/">Airline</a>
+        
       
       
       
-      
-      
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocssample-applicationsiot-data-consumer" href="/labs-graphbuilder-contrib/docs/sample-applications/iot-data-consumer/">IoT Data Consumer</a>
-      
-      
-      
-      
-      
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocssample-applicationsmeetup-event" href="/labs-graphbuilder-contrib/docs/sample-applications/meetup-event/">Meetup Event</a>
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocssample-applicationsnorthwind" href="/labs-graphbuilder-contrib/docs/sample-applications/northwind/">Northwind</a>
+        
       
       
       
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocssample-applicationshierachy" href="/labs-graphbuilder-contrib/docs/sample-applications/hierachy/">Hierachy</a>
+        
       
       
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocssample-applicationsrestful-service" href="/labs-graphbuilder-contrib/docs/sample-applications/restful-service/">RESTful Service</a>
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocssample-applicationsiot-data-consumer" href="/labs-graphbuilder-contrib/docs/sample-applications/iot-data-consumer/">IoT Data Consumer</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocssample-applicationsmeetup-event" href="/labs-graphbuilder-contrib/docs/sample-applications/meetup-event/">Meetup Event</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-labs-graphbuilder-contribdocssample-applicationsrestful-service" href="/labs-graphbuilder-contrib/docs/sample-applications/restful-service/">RESTful Service</a>
+        
       
       
     </li>
   </ul>
 </ul>
 
+        
       
       
     </li>
@@ -355,6 +425,8 @@ if (!doNotTrack) {
 
 
 
+
+
 <div class="td-page-meta ml-2 pb-1 pt-2 mb-0">
 
 
@@ -362,10 +434,21 @@ if (!doNotTrack) {
 
 
 
+
+
+
+
+
+<a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//edit/master/docs-src/content/en/docs/Labs/Lab%203/index.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
+<a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//new/master/docs-src/content/en/docs/Labs/Lab%203/index.md?filename=change-me.md&amp;value=---%0D%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0D%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0D%0Aweight%3A&#43;100%0D%0Adescription%3A&#43;%3E-%0D%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0D%0A---%0D%0A%0D%0A%23%23&#43;Heading%0D%0A%0D%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0D%0A%0D%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0D%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0D%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0D%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0D%0A" target="_blank"><i class="fa fa-edit fa-fw"></i> Create child page</a>
 <a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//issues/new?title=Lab3%20-%20real-time" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
 
 
 <a href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//issues/new" target="_blank"><i class="fas fa-tasks fa-fw"></i> Create project issue</a>
+
+
+
+
 
 </div>
 
@@ -378,6 +461,9 @@ if (!doNotTrack) {
 
           </div>
           <main class="col-12 col-md-9 col-xl-8 pl-md-5" role="main">
+            
+  
+
             <nav aria-label="breadcrumb" class="d-none d-md-block d-print-none">
 	<ol class="breadcrumb spb-1">
 		
@@ -413,15 +499,200 @@ if (!doNotTrack) {
 </nav	>
 
             
-
-
-
-<p class="-text-primary pt-3 h6" >Reading time: 0 minutes and 0 seconds.</p>
-<p>
 <div class="td-content">
 	<h1>Lab3 - real-time</h1>
-	<div class="lead">Build an app to upsert real-time data to TIBCO Graph Database</div>
-	<p>soon here &hellip;</p>
+    <div class="lead">Build an application to insert/update real-time data to TIBCO® Graph Database</div>
+	       
+	<p>Create an application which receives real-time order events from Kafka topic then build graph entities (nodes, edges and their attributes), insert/update entities to TGDB then serve real-time graph entities as a streaming server.</p>
+<p>Create an internal “Server Sent Event (SSE)” connection to link between order event flow and SSE server flow (for serving streaming graph entities to external client).</p>
+<p>In “Connections” tab select GraphBuilder_SSE -&gt; Server-sent Events Connection</p>
+<p><img src="realtime02.png" alt="Realtime"></p>
+<p>Connection settings (the settings below match the client tool which is provided for browsing real-time graph entity update)</p>
+<ul>
+<li>Connection Name: Set name to “EventServer”</li>
+<li>Outbound: Set false as it&rsquo;s a server</li>
+<li>Server port: 8888</li>
+<li>Path: It&rsquo;s URI path “/sse/”</li>
+<li>TLS enabled: false</li>
+</ul>
+<p>Click “Connect”</p>
+<p><img src="realtime01.png" alt="Realtime"></p>
+<p>Back to Northwind application to create a new flow called “Order Event Server”</p>
+<p><img src="realtime07.png" alt="Realtime"></p>
+<p>Select a “SSE Server” trigger to serve graph entities (come from order event flow) for streaming client</p>
+<p><img src="realtime03.png" alt="Realtime"></p>
+<p>Settings</p>
+<ul>
+<li>Connection Name: Select the “EventServer” connection which we just created</li>
+</ul>
+<p>Click “Save”.</p>
+<p><img src="realtime04.png" alt="Realtime"></p>
+<p>This simple flow will be serving streaming graph entities.</p>
+<p><img src="realtime04-5.png" alt="Realtime"></p>
+<p>Add the last flow for Northwind application. It is “Order Data Flow” which listen to Kafka topic to consume order events as input data of the flow.</p>
+<p>Before it is created, a “Kafka Connection” needs to be created. In connection tab select “Apache Kafka Client Configuration”.</p>
+<p><img src="realtime06.png" alt="Realtime"></p>
+<p>Configure Apache Kafka Client as the following screenshot and then save it.</p>
+<p><img src="realtime05.png" alt="Realtime"></p>
+<p>Back to the application, create a new flow called “Order Event”.</p>
+<p><img src="realtime08.png" alt="Realtime"></p>
+<p>Click “Flow Inputs &amp; Outputs” (vertical blue bar) to define a schema between flow and trigger. Set the following data sample and then click save.</p>
+<p><img src="realtime12.png" alt="Realtime"></p>
+<p>After clicking save button, the schema generator converts sample data to schema definition.</p>
+<p><img src="realtime13.png" alt="Realtime"></p>
+<p>Click “+” to add trigger (Kafka Consumer).</p>
+<p><img src="realtime09.png" alt="Realtime"></p>
+<p>Select the “Northwind Orders” configuration that was just created and then click continue.</p>
+<p><img src="realtime10.png" alt="Realtime"></p>
+<p>Select “Just Add Trigger” button to add a trigger.</p>
+<p><img src="realtime11.png" alt="Realtime"></p>
+<p>Finish setting up the trigger as shown in screenshot below.</p>
+<p><img src="realtime14.png" alt="Realtime"></p>
+<p>Map OrderString to $trigger.stringValue</p>
+<p><img src="realtime15.png" alt="Realtime"></p>
+<p>Add CSVParser to convert incoming CVS string to system object.</p>
+<p><img src="realtime16.png" alt="Realtime"></p>
+<p>Follow the instruction in Lab1 to define the mapping between CSV fields and attribute of system object. Use the column field name as attribute name.</p>
+<p>Make sure “First Row Is Header” set to false.</p>
+<p><img src="realtime17.png" alt="Realtime"></p>
+<p>Configure the input</p>
+<ul>
+<li>CSVString : $flow.OrderString</li>
+<li>Leave SequenceNumber not mapped</li>
+</ul>
+<p><img src="realtime18.png" alt="Realtime"></p>
+<p>After the data has been transformed to the object which could be recognized by the system, convert data to graph entities (nodes, edges and their attributes). Use core activity “Build Graph” to perform this transformation. Let&rsquo;s select GraphBuilder -&gt; Build Graph and configure it.</p>
+<p><img src="realtime18-5.png" alt="Realtime"></p>
+<p>Follow Lab1 instruction to turn on the “iterator” for iterating through upstream output data (at runtime) and then map with input data of BuildGraph activity. Here is the mapping</p>
+<p>Product node</p>
+<ul>
+<li>ProductID -&gt; $iteration[value].ProductID</li>
+</ul>
+<p>Employee node</p>
+<ul>
+<li>EmployeeID -&gt; $iteration[value].EmployeeID</li>
+</ul>
+<p>Customer node</p>
+<ul>
+<li>CustomerID -&gt; $iteration[value].CustomerID</li>
+</ul>
+<p>Order node</p>
+<ul>
+<li>OrderID -&gt; $iteration[value].OrderID</li>
+<li>CustomerID -&gt; $iteration[value].CustomerID</li>
+<li>EmployeeID- &gt; $iteration[value].EmployeeID</li>
+<li>OrderDate -&gt; $iteration[value].OrderDate</li>
+<li>RequiredDate -&gt; $iteration[value].RequiredDate</li>
+<li>ShippedDate -&gt; $iteration[value].ShippedDate</li>
+<li>ShipVia -&gt; $iteration[value].ShipVia</li>
+<li>Freight -&gt; $iteration[value].Freight</li>
+<li>ShipName -&gt; $iteration[value].ShipName</li>
+<li>ShipAddress -&gt; $iteration[value].ShipAddress</li>
+<li>ShipCity -&gt; $iteration[value].ShipCity</li>
+<li>ShipRegion -&gt; $iteration[value].ShipRegion</li>
+<li>ShipPostalCode - &gt; $iteration[value].ShipPostalCode</li>
+<li>ShipCountry -&gt; $iteration[value].ShipCountry</li>
+</ul>
+<p>Suborder node</p>
+<ul>
+<li>OrderID -&gt; $iteration[value].OrderID</li>
+<li>ProductID -&gt; $iteration[value].ProductID</li>
+<li>UnitPrice -&gt; $iteration[value].UnitPrice</li>
+<li>Quantity -&gt; $iteration[value].Quantity</li>
+<li>Discount -&gt; $iteration[value].Discount</li>
+</ul>
+<p>Region node</p>
+<ul>
+<li>RegionName -&gt; $iteration[value].RegionName</li>
+<li>Country -&gt; $iteration[value].Country</li>
+</ul>
+<p>Since one order can be split into multiple order events (with different product sold), create two types of order nodes:</p>
+<ol>
+<li>Odrer node (main order) with OrderID as its primary key</li>
+<li>Suborder node with OrderID, ProductID as primary key.</li>
+</ol>
+<p>BuildGraph activity would link (via edge) all Suborder nodes to Order node by matching their the OrderID (see following screenshot).</p>
+<p>Order :</p>
+<p><img src="realtime19.png" alt="Realtime"></p>
+<p>Suborder :</p>
+<p><img src="realtime20.png" alt="Realtime"></p>
+<p>Follow Lab1&rsquo;s instruction to add TGDBUpsert activity</p>
+<p><img src="realtime20-2.png" alt="Realtime"></p>
+<p>Select Connetion</p>
+<p><img src="realtime20-3.png" alt="Realtime"></p>
+<p>Map input data</p>
+<p><img src="realtime20-4.png" alt="Realtime"></p>
+<p>Now adding a new type of activity called SSEEndPoint which sends graph entities to SSEServer for serving streaming client.</p>
+<p>Select SSEEndPoint activity from GraphBuilder_SSE.</p>
+<p><img src="realtime21.png" alt="Realtime"></p>
+<p>Select “SSEConnection” we created and used in SSEServer earlier then the new SSEEndPoint is connected to SSEServer now.</p>
+<p><img src="realtime22.png" alt="Realtime"></p>
+<p>Setup SessionId to “order” so the complete URI to access to this event flow would be /sse/order</p>
+<p><img src="realtime23.png" alt="Realtime"></p>
+<p>Map input data to Graph object from BuildGraph activity</p>
+<p><img src="realtime24.png" alt="Realtime"></p>
+<p>Add log and GraphtoFile activities like previous configured flows</p>
+<p><img src="realtime25.png" alt="Realtime"></p>
+<p>This completes the last flow for the Northwind application.</p>
+<p><img src="realtime26.png" alt="Realtime"></p>
+<p>This is the final version of the Flogo Northwind application</p>
+<p><img src="realtime27.png" alt="Realtime"></p>
+<p>Rebuild application for further testing</p>
+<p><img src="BuildNorthwind_02.png" alt="Realtime"></p>
+<p>Install Kafka Message Bus to provide order event. <a href="https://kafka.apache.org/quickstart" target="_blank">Here</a> are the installation instructions.</p>
+<p>After downloading Kafka Message Bus and installing Kafka, start it</p>
+<ul>
+<li>Start zoo keeper</li>
+</ul>
+<p><img src="StartKafka01.png" alt="Realtime">
+<img src="StartKafka02.png" alt="Realtime"></p>
+<ul>
+<li>Start server</li>
+</ul>
+<p><img src="StartKafka03.png" alt="Realtime"></p>
+<ul>
+<li>Create &ldquo;test&rdquo; topic</li>
+</ul>
+<p><img src="StartKafka04.png" alt="Realtime"></p>
+<p>Restart Northwind application executable.</p>
+<ul>
+<li>Switch to the folder which contains Northwind application executable (Northwind-darwin_amd64).</li>
+<li>Change Northwind-darwin_amd64&rsquo;s permission to executable</li>
+<li>Run Northwind-darwin_amd64</li>
+</ul>
+<p>There will be two extra messages while Northwind application starting</p>
+<ul>
+<li>Kafka consumer (the trigger of order event flow) is up and listening</li>
+<li>SSEServer is up and waiting for client (UI utility) to connect</li>
+</ul>
+<p><img src="StartKafka05.png" alt="Realtime"></p>
+<p>Here is the test (see screenshot)</p>
+<ul>
+<li>Ensure TGDB, TGDB_RESTful_Service, Kafka (server, zoo keeper, producer) and UI utility are running</li>
+<li>On the upper/middle left of screenshot open oerders.csv file</li>
+<li>On the lower left of screenshot start Kafka producer and keep it opened</li>
+<li>On the right follow the instruction to 1. Click “Realtime Data” 2. Click “Connect” to connect to SSE server in Northwind application 3. Copy &amp; paste order to Kafka producer then press enter 4 ~ 6. Each time you send one order you will see the corresponding graph entities showing on the UI.</li>
+</ul>
+<p>Send as many orders as wished.</p>
+<p><img src="FinalTest.png" alt="Realtime"></p>
+<p>After the streaming testing, see the order in TGDB. Follow the instructions in Lab2</p>
+<ul>
+<li>Click “TGDB Data” button</li>
+<li>Use the default query setup but make traversalDepth = 5</li>
+<li>Click “Make Query” button</li>
+</ul>
+<p>You&rsquo;ll see the oder with OrderID = 10248 and its associated graph entities on the UI</p>
+<p><img src="QueryGraph.png" alt="Realtime"></p>
+<p>The last test is about traversal query. Find all companies which supply products within the order from the company ‘Vins et alcools Chevalier’. We are going to use Postman and TGDB_RESTful_Service to query against TGDB server</p>
+<ul>
+<li>Open a postman and setup a POST query</li>
+<li>The gremlin query is “g.V().has(‘Company’, ‘CompanyID’, ‘Vins et alcools Chevalier’).in(‘Customer_Company’).in(‘SoldTo’).out(‘Includes’).out(‘Contains’).in(‘Supplies’).out(‘Supplier_Company’);”
+You should get “Formaggi Fortini s.r.l.&quot;, “Leka Trading” and “Cooperativa de Quesos ‘Las Cabras’” in your result</li>
+</ul>
+<p><img src="QueryPostMan.png" alt="Realtime"></p>
+<p>Observe the traversal request on the UI utility and verify the correctness of the query</p>
+<p><img src="QueryPostManOnGraph.png" alt="Realtime"></p>
+<p>Congratulations! This concludes the three Labs</p>
 
 	
 		<style>
@@ -439,6 +710,7 @@ if (!doNotTrack) {
     display: block;
   }
 </style>
+<div class="d-print-none">
 <h2 class="feedback--title">Feedback</h2>
 <p class="feedback--question">Was this page helpful?</p>
 <button class="feedback--answer feedback--answer-yes">Yes</button>
@@ -449,6 +721,7 @@ if (!doNotTrack) {
 <p class="feedback--response feedback--response-no">
   
 </p>
+</div>
 <script>
   const yesButton = document.querySelector('.feedback--answer-yes');
   const noButton = document.querySelector('.feedback--answer-no');
@@ -485,7 +758,7 @@ if (!doNotTrack) {
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified March 30, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/d4fc2c52480f37f30ee4311a0585d2a0e450f720">initial docs (d4fc2c5)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified June 5, 2020: <a  href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib//commit/01aeddff6cc483d3246802eac4c553618302e71b">Update documentation (01aeddff)</a>
 </div>
 </div>
 
@@ -504,19 +777,19 @@ if (!doNotTrack) {
 <ul class="list-inline mb-0">
   
   <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Facebook" aria-label="Facebook">
-    <a class="text-white" target="_blank" href="https://www.facebook.com/TIBCO">
+    <a class="text-white" target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/TIBCO">
       <i class="fab fa-facebook"></i>
     </a>
   </li>
   
   <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Twitter" aria-label="Twitter">
-    <a class="text-white" target="_blank" href="https://twitter.com/tibco">
+    <a class="text-white" target="_blank" rel="noopener noreferrer" href="https://twitter.com/tibco">
       <i class="fab fa-twitter"></i>
     </a>
   </li>
   
   <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Linkedin" aria-label="Linkedin">
-    <a class="text-white" target="_blank" href="https://www.linkedin.com/company/tibco/">
+    <a class="text-white" target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/company/tibco/">
       <i class="fab fa-linkedin"></i>
     </a>
   </li>
@@ -533,19 +806,19 @@ if (!doNotTrack) {
 <ul class="list-inline mb-0">
   
   <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="GitHub" aria-label="GitHub">
-    <a class="text-white" target="_blank" href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/">
+    <a class="text-white" target="_blank" rel="noopener noreferrer" href="https://github.com/TIBCOSoftware/labs-graphbuilder-contrib/">
       <i class="fab fa-github"></i>
     </a>
   </li>
   
   <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="TIBCO Community" aria-label="TIBCO Community">
-    <a class="text-white" target="_blank" href="https://community.tibco.com/modules/labs-graphbuilder-contrib">
+    <a class="text-white" target="_blank" rel="noopener noreferrer" href="https://community.tibco.com/modules/labs-graphbuilder-contrib">
       <i class="fa fa-comment-alt"></i>
     </a>
   </li>
   
   <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="TIBCO LABS Email" aria-label="TIBCO LABS Email">
-    <a class="text-white" target="_blank" href="mailto:tibcolabs@tibco.com">
+    <a class="text-white" target="_blank" rel="noopener noreferrer" href="mailto:tibcolabs@tibco.com">
       <i class="fa fa-envelope"></i>
     </a>
   </li>
@@ -556,8 +829,8 @@ if (!doNotTrack) {
         
       </div>
       <div class="col-12 col-sm-4 text-center py-2 order-sm-2">
-        <small class="text-white">&copy; 2020 TIBCO LABS™ All Rights Reserved</small>
-        <small class="ml-1"><a href="https://www.tibco.com/company/privacy" target="_blank">Privacy Policy</a></small>
+        <small class="text-white">&copy; 2020 TIBCO Software Inc. All Rights Reserved</small>
+        <small class="ml-1"><a href="https://www.tibco.com/company/terms-of-use" target="_blank">Privacy Policy</a></small>
 	
 		<p class="mt-2"><a href="/labs-graphbuilder-contrib/about/">About Project Graph Builder</a></p>
 	
@@ -577,7 +850,15 @@ if (!doNotTrack) {
 
 
 
-<script src="/labs-graphbuilder-contrib/js/main.min.a2ef99965ccaec98037ef2f474437290425c974048364c85bf1c51070b72576e.js" integrity="sha256-ou&#43;ZllzK7JgDfvL0dENykEJcl0BINkyFvxxRBwtyV24=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+<script src="/labs-graphbuilder-contrib/js/main.min.460c8ae21829f9b330823a08f34ac961d7d0daa8874c8c9eba7ea0484bb42a79.js" integrity="sha256-RgyK4hgp&#43;bMwgjoI80rJYdfQ2qiHTIyeun6gSEu0Knk=" crossorigin="anonymous"></script>
+
 
 
 
