@@ -1,0 +1,6 @@
+function package {
+	echo $1
+    cd ../
+	zip -vr ./dist/$1.zip ./$1 -x ".DS_Store" -x "__MACOSX"
+	cd ./dist
+}
