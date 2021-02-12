@@ -1,0 +1,56 @@
+{
+	"name": "flogo-accumulator",
+	"type": "flogo:activity",
+	"ref": "github.com/TIBCOSoftware/GraphBuilder_Tools/activity/accumulator",
+	"version": "0.0.1",
+	"title": "Accumulator",
+	"display": {
+    		"category": "GraphBuilder_Tools",
+    		"visible": true,
+    		"smallIcon": "accumulator.png",
+  		"description": "Accumulate tuple then release them as a batch"
+	},
+	"settings": [
+		{
+			"name": "ArrayMode",
+			"type": "boolean",
+			"display": {
+				"name": "Array Mode",
+				"description": "Array Mode"
+			},
+			"value": false
+		},
+		{
+			"name": "WindowSize",
+			"type": "integer",
+			"display": {
+				"name": "Window Size",
+				"description": "Maximum number of accumulated tuples before emit"
+			},
+			"required": true
+		},
+		{
+			"name": "DataFields",
+			"type": "array",
+			"required": true,
+			"display": {
+				"name": "Data Fields",
+				"description": "Name and type of data fields",
+				"type": "table",
+				"schema": "{\r\n    \"$schema\": \"http:\/\/json-schema.org\/draft-04\/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http:\/\/example.com\/example.json\",\r\n    \"items\": {\r\n        \"id\": \"\/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"\/items\/properties\/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"\/items\/properties\/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
+			}
+		}
+	],
+	"input":[
+		{
+			"name": "Input",
+			"type": "complex_object"
+		}
+	],
+	"output": [
+		{
+            "name": "Output",
+            "type": "complex_object"
+		}
+	]
+}

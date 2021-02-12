@@ -1,0 +1,50 @@
+{
+    "name": "tgdbupsert",
+    "version": "1.0.0",
+    "author": "TIBCO Software Inc.",
+    "type": "flogo:activity",
+    "title": "TGDB Upsert",
+     
+    "display": {
+       "category": "GraphBuilder_TGDB",
+       "visible": true,
+       "smallIcon": "tgdbupsert.png",
+       "description": "This activity upsert to tgdb"
+    },
+ 
+    "ref": "github.com/TIBCOSoftware/GraphBuilder_TGDB/activity/tgdbupsert",
+    "settings": [
+		{
+            "name": "tgdbConnection",
+            "type": "object",
+            "required": true,
+            "display":{
+              "name": "TGDB Connection",
+              "description": "Select TGDB Connection",
+              "type": "connection"
+            },
+            "allowed":[]
+		},
+		{
+			"name": "allowEmptyStringKey",
+			"type": "boolean",
+			"display": {
+				"name": "Allow Empty String Key",
+				"description": "Allow Empty String Key"
+			},
+			"value": true
+		}
+    ],
+    "inputs": [
+ 		{
+			"name": "Graph",
+			"type": "object"
+		}
+    ],
+    "outputs": [
+		{
+            "name": "MessageId",
+            "type": "string"
+		}
+    ]
+}

@@ -1,0 +1,79 @@
+{
+	"name": "files-reader",
+	"type": "flogo:trigger",
+	"version": "0.0.1",
+	"title": "FilesReader",
+	"description": "Files Reader",
+	"ref": "github.com/TIBCOSoftware/GraphBuilder_Tools/trigger/filesreader",
+	"homepage": "https://github.com/TIBCOSoftware/GraphBuilder_Tools/trigger/filesreader",
+	"display": {
+		"category": "GraphBuilder_Tools",
+		"visible": true,
+		"smallIcon": "filesreader.png",
+		"description": "This activity read file and pass string content to downstream"
+	},
+	"output": [
+		{
+			"name": "MessageId",
+			"type": "string"
+		},
+		{
+			"name": "FileContent",
+			"type": "string"
+		},
+		{
+			"name": "ModifiedTime",
+			"type": "integer"
+		},
+		{
+			"name": "LineNumber",
+			"type": "integer"
+		},
+		{
+			"name": "EndOfFile",
+			"type": "boolean"
+		}
+	],
+	"handler": {
+	"settings": [
+		{
+			"name": "Filename",
+			"type": "string",
+			"required": true,
+			"display": {
+				"name": "Filename",
+				"description": "Set filename/folder for reading files as string"
+ 			}
+		},
+		{
+			"name": "Asynchronous",
+			"type": "boolean",
+			"display": {
+				"name": "Asynchronous",
+				"description": "Handle file asynchrously"
+			},
+			"value": false,
+			"required": true
+		},
+		{
+			"name": "EmitPerLine",
+			"type": "boolean",
+			"display": {
+				"name": "Emit Per Line",
+				"description": "Emit content per line"
+			},
+			"value": false,
+			"required": true
+		},
+		{
+			"name": "MaxNumberOfLine",
+			"type": "integer",
+			"display": {
+				"name": "Max Number of Line",
+				"description": "Max Number of Line to Fetch"
+			},
+			"required": false
+		}
+	]	
+	}
+}

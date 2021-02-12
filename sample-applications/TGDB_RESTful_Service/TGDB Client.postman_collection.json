@@ -1,0 +1,232 @@
+{
+	"info": {
+		"_postman_id": "d3f14cf0-7642-4f67-b1ef-c48e3bad45ce",
+		"name": "TGDB Client",
+		"description": "getNodeTypes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get metadata",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9999/tgdb/metadata",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"tgdb",
+						"metadata"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get edge types",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:9999/tgdb/edgetypes",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9999",
+					"path": [
+						"tgdb",
+						"edgetypes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get node types",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:9999/tgdb/nodetypes",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9999",
+					"path": [
+						"tgdb",
+						"nodetypes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "tgql traversal",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"query\": {\n  \t\"language\" : \"tgql\",\n    \"queryString\" : \"@nodetype = 'houseMemberType' and memberName = 'Napoleon Bonaparte';\",\n    \"traversalCondition\" : \"@edgetype = 'relation' and @isfromedge = 1 and @edge.relType = 'spouse' and @degree = 1;\",\n\t\"traversalDepth\" : 1\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:9999/tgdb/search",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9999",
+					"path": [
+						"tgdb",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "tgql simple01",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"query\": {\n  \t\"language\" : \"tgql\",\n    \"queryString\" : \"@nodetype='houseMemberType' and memberName='Jerome Bonaparte';\",\n\t\"traversalDepth\" : 1\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:9999/tgdb/search",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9999",
+					"path": [
+						"tgdb",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "tgql simple02",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"query\": {\n  \t\"language\" : \"tgql\",\n    \"queryString\" : \"@nodetype='houseMemberType';\",\n\t\"traversalDepth\" : 1\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:9999/tgdb/search",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9999",
+					"path": [
+						"tgdb",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "gremlin",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"query\": {\n  \t\"language\" : \"gremlin\",\n    \"queryString\" : \"g.V().has('houseMemberType','memberName','Napoleon Bonaparte');\",\n    \"queryStringx\" : \"g.V().has('houseMemberType', 'yearBorn', between(1800, 2000)).toList();\"\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:9999/tgdb/search",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9999",
+					"path": [
+						"tgdb",
+						"search"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

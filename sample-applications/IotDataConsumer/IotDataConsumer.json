@@ -1,0 +1,449 @@
+{
+    "imports": [
+        "github.com/project-flogo/flow",
+        "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/activity/log",
+        "github.com/TIBCOSoftware/GraphBuilder/activity/builder",
+        "github.com/TIBCOSoftware/GraphBuilder_dgraph/activity/dgraphupsert",
+        "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/trigger/rest",
+        "github.com/project-flogo/contrib/function/string",
+        "github.com/project-flogo/contrib/function/array"
+    ],
+    "name": "IotDataConsumer",
+    "description": " ",
+    "version": "1.1.0",
+    "type": "flogo:app",
+    "appModel": "1.1.1",
+    "feVersion": "2.8.1",
+    "triggers": [
+        {
+            "ref": "#rest",
+            "name": "tibco-wi-rest",
+            "description": "",
+            "settings": {
+                "port": 9999,
+                "APISpecUpdate": false,
+                "swagger": "",
+                "secureConnection": false,
+                "serverKey": "",
+                "caCertificate": ""
+            },
+            "id": "ReceiveHTTPMessage",
+            "handlers": [
+                {
+                    "description": "",
+                    "settings": {
+                        "Method": "POST",
+                        "Path": "/particle/sensor",
+                        "OutputValidation": false
+                    },
+                    "action": {
+                        "ref": "github.com/project-flogo/flow",
+                        "settings": {
+                            "flowURI": "res://flow:ProcessSensorReadings_POST"
+                        },
+                        "input": {
+                            "body": "=$.body"
+                        }
+                    },
+                    "reply": {
+                        "code": 200,
+                        "configureResponseCodes": false,
+                        "message": "any"
+                    },
+                    "schemas": {
+                        "reply": {
+                            "data": {
+                                "type": "json",
+                                "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"pushed\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"created\":{\"type\":\"number\"},\"modified\":{\"type\":\"number\"},\"origin\":{\"type\":\"number\"},\"schedule\":{\"type\":\"null\"},\"event\":{\"type\":\"null\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"pushed\":{\"type\":\"number\"},\"created\":{\"type\":\"number\"},\"origin\":{\"type\":\"number\"},\"modified\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"}}}}}}",
+                                "fe_metadata": "{\n   \"id\":\"5c5f4beb0e3608000114b459\",\n   \"pushed\":0,\n   \"device\":\"ArgonParticle01\",\n   \"created\":1549749227499,\n   \"modified\":0,\n   \"origin\":0,\n   \"schedule\":null,\n   \"event\":null,\n   \"readings\":[\n      {\n         \"id\":\"5c5f4beb0e3608000114b45a\",\n         \"pushed\":0,\n         \"created\":1549749227499,\n         \"origin\":1549749227486,\n         \"modified\":0,\n         \"device\":\"ArgonParticle01\",\n         \"name\":\"LightSensor\",\n         \"value\":\"1080\"\n      }\n   ]\n}"
+                            }
+                        },
+                        "output": {
+                            "headers": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]}",
+                                "fe_metadata": "[{\"parameterName\":\"Accept\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Charset\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Encoding\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Type\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Length\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Connection\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Cookie\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Pragma\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false}]"
+                            },
+                            "body": {
+                                "type": "json",
+                                "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"pushed\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"created\":{\"type\":\"number\"},\"modified\":{\"type\":\"number\"},\"origin\":{\"type\":\"number\"},\"schedule\":{\"type\":\"null\"},\"event\":{\"type\":\"null\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"pushed\":{\"type\":\"number\"},\"created\":{\"type\":\"number\"},\"origin\":{\"type\":\"number\"},\"modified\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"}}}}}}",
+                                "fe_metadata": "{\n   \"id\":\"5c5f4beb0e3608000114b459\",\n   \"pushed\":0,\n   \"device\":\"ArgonParticle01\",\n   \"created\":1549749227499,\n   \"modified\":0,\n   \"origin\":0,\n   \"schedule\":null,\n   \"event\":null,\n   \"readings\":[\n      {\n         \"id\":\"5c5f4beb0e3608000114b45a\",\n         \"pushed\":0,\n         \"created\":1549749227499,\n         \"origin\":1549749227486,\n         \"modified\":0,\n         \"device\":\"ArgonParticle01\",\n         \"name\":\"LightSensor\",\n         \"value\":\"1080\"\n      }\n   ]\n}"
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "resources": [
+        {
+            "id": "flow:ProcessSensorReadings_POST",
+            "data": {
+                "name": "ProcessSensorReadings_POST",
+                "description": "",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "LogMessage",
+                        "to": "BuildGraph",
+                        "type": "default"
+                    },
+                    {
+                        "id": 2,
+                        "from": "BuildGraph",
+                        "to": "DgraphUpsert",
+                        "type": "default"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "LogMessage",
+                        "name": "LogMessage",
+                        "description": "",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": true,
+                                "message": "=string.tostring($flow.body)"
+                            }
+                        }
+                    },
+                    {
+                        "id": "BuildGraph",
+                        "name": "BuildGraph",
+                        "description": "This activity build graph from incoming data",
+                        "type": "iterator",
+                        "settings": {
+                            "iterate": "=$flow.body.readings",
+                            "accumulate": false
+                        },
+                        "activity": {
+                            "ref": "#builder",
+                            "settings": {
+                                "GraphModel": {
+                                    "id": "d8613ef0-8bd8-11ea-a0c6-112138167609",
+                                    "type": "flogo:connector",
+                                    "version": "1.0.0",
+                                    "name": "tibco-graph",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "Graph",
+                                    "description": "This is URL file reader",
+                                    "ref": "github.com/TIBCOSoftware/GraphBuilder/connector/graph",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Graph Name",
+                                                "description": "Name of the graph"
+                                            },
+                                            "value": "IotModel"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "description": "Graph description"
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "modelSource",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Model Source",
+                                                "description": "Where the model stored",
+                                                "type": "string"
+                                            },
+                                            "allowed": [
+                                                "Local File",
+                                                "TGDB"
+                                            ],
+                                            "value": "Local File"
+                                        },
+                                        {
+                                            "name": "url",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Model Server URL",
+                                                "description": "URL to the model server, ex. http://localhost:9999/tgdb/metadata",
+                                                "type": "string",
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": false
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "model",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Graph Model",
+                                                "description": "Define nodes and entities for a graph",
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".tgbm",
+                                                    ".json"
+                                                ],
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            },
+                                            "value": {
+                                                "filename": "IotModel.json",
+                                                "content": "data:application/json;base64,ewoJIm5vZGVzIjogWwoJCXsKCQkJIm5hbWUiOiAicmVhZGluZyIsCgkJCSJrZXkiOiBbCgkJCQkidXVpZCIKCQkJXSwKCQkJImF0dHJpYnV0ZXMiOiBbCgkJCQl7CgkJCQkJIm5hbWUiOiAidXVpZCIsCgkJCQkJInR5cGUiOiAiU3RyaW5nIgoJCQkJfSwKCQkJCXsKCQkJCQkibmFtZSI6ICJyZWFkaW5nIiwKCQkJCQkidHlwZSI6ICJTdHJpbmciCgkJCQl9LAoJCQkJewoJCQkJCSJuYW1lIjogInZhbHVlIiwKCQkJCQkidHlwZSI6ICJTdHJpbmciCgkJCQl9LAoJCQkJewoJCQkJCSJuYW1lIjogImNyZWF0ZWQiLAoJCQkJCSJ0eXBlIjogIkxvbmciCgkJCQl9LAoJCQkJewoJCQkJCSJuYW1lIjogInR5cGUiLAoJCQkJCSJ0eXBlIjogIlN0cmluZyIKCQkJCX0KCQkJXQoJCX0sCgkJewoJCQkibmFtZSI6ICJyZXNvdXJjZSIsCgkJCSJrZXkiOiBbCgkJCQkidXVpZCIKCQkJXSwKCQkJImF0dHJpYnV0ZXMiOiBbCgkJCQl7CgkJCQkJIm5hbWUiOiAidXVpZCIsCgkJCQkJInR5cGUiOiAiU3RyaW5nIgoJCQkJfSwKCQkJCXsKCQkJCQkibmFtZSI6ICJyZXNvdXJjZSIsCgkJCQkJInR5cGUiOiAiU3RyaW5nIgoJCQkJfSwKCQkJCXsKCQkJCQkibmFtZSI6ICJuYW1lIiwKCQkJCQkidHlwZSI6ICJTdHJpbmciCgkJCQl9LAoJCQkJewoJCQkJCSJuYW1lIjogInR5cGUiLAoJCQkJCSJ0eXBlIjogIlN0cmluZyIKCQkJCX0KCQkJXQoJCX0sCgkJewoJCQkibmFtZSI6ICJkZXZpY2UiLAoJCQkia2V5IjogWwoJCQkJInV1aWQiCgkJCV0sCgkJCSJhdHRyaWJ1dGVzIjogWwoJCQkJewoJCQkJCSJuYW1lIjogInV1aWQiLAoJCQkJCSJ0eXBlIjogIlN0cmluZyIKCQkJCX0sCgkJCQl7CgkJCQkJIm5hbWUiOiAiZGV2aWNlIiwKCQkJCQkidHlwZSI6ICJTdHJpbmciCgkJCQl9LAoJCQkJewoJCQkJCSJuYW1lIjogIm5hbWUiLAoJCQkJCSJ0eXBlIjogIlN0cmluZyIKCQkJCX0sCgkJCQl7CgkJCQkJIm5hbWUiOiAib3BlcmF0aW5nU3RhdGUiLAoJCQkJCSJ0eXBlIjogIlN0cmluZyIKCQkJCX0sCgkJCQl7CgkJCQkJIm5hbWUiOiAiYWRtaW5TdGF0ZSIsCgkJCQkJInR5cGUiOiAiU3RyaW5nIgoJCQkJfSwKCQkJCXsKCQkJCQkibmFtZSI6ICJkZXNjcmlwdGlvbiIsCgkJCQkJInR5cGUiOiAiU3RyaW5nIgoJCQkJfSwKCQkJCXsKCQkJCQkibmFtZSI6ICJ0eXBlIiwKCQkJCQkidHlwZSI6ICJTdHJpbmciCgkJCQl9CgkJCV0KCQl9LAoJCXsKCQkJIm5hbWUiOiAiZ2F0ZXdheSIsCgkJCSJrZXkiOiBbCgkJCQkidXVpZCIKCQkJXSwKCQkJImF0dHJpYnV0ZXMiOiBbCgkJCQl7CgkJCQkJIm5hbWUiOiAiZ2F0ZXdheSIsCgkJCQkJInR5cGUiOiAiU3RyaW5nIgoJCQkJfSwKCQkJCXsKCQkJCQkibmFtZSI6ICJ1cmwiLAoJCQkJCSJ0eXBlIjogIlN0cmluZyIKCQkJCX0sCgkJCQl7CgkJCQkJIm5hbWUiOiAidXVpZCIsCgkJCQkJInR5cGUiOiAiU3RyaW5nIgoJCQkJfSwKCQkJCXsKCQkJCQkibmFtZSI6ICJsYXRpdHVkZSIsCgkJCQkJInR5cGUiOiAiRG91YmxlIgoJCQkJfSwKCQkJCXsKCQkJCQkibmFtZSI6ICJsb25naXR1ZGUiLAoJCQkJCSJ0eXBlIjogIkRvdWJsZSIKCQkJCX0sCgkJCQl7CgkJCQkJIm5hbWUiOiAiY3JlYXRlZHRzIiwKCQkJCQkidHlwZSI6ICJTdHJpbmciCgkJCQl9LAoJCQkJewoJCQkJCSJuYW1lIjogInVwZGF0ZWR0cyIsCgkJCQkJInR5cGUiOiAiU3RyaW5nIgoJCQkJfSwKCQkJCXsKCQkJCQkibmFtZSI6ICJ0eXBlIiwKCQkJCQkidHlwZSI6ICJTdHJpbmciCgkJCQl9CgkJCV0KCQl9CgldLAoJImVkZ2VzIjogWwoJCXsKCQkJInRvIjogImRldmljZSIsCgkJCSJuYW1lIjogImdhdGV3YXlfZGV2aWNlIiwKCQkJImZyb20iOiAiZ2F0ZXdheSIsCgkJCSJkaXJlY3Rpb24iIDogMgoJCX0sCgkJewoJCQkidG8iOiAicmVzb3VyY2UiLAoJCQkibmFtZSI6ICJkZXZpY2VfcmVzb3VyY2UiLAoJCQkiZnJvbSI6ICJkZXZpY2UiCgkJfSwKCQl7CgkJCSJ0byI6ICJyZWFkaW5nIiwKCQkJIm5hbWUiOiAicmVzb3VyY2VfcmVhZGluZyIsCgkJCSJmcm9tIjogInJlc291cmNlIgoJCX0KCV0KfQ=="
+                                            }
+                                        },
+                                        {
+                                            "name": "metadata",
+                                            "type": "string",
+                                            "display": {
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": false
+                                            },
+                                            "value": "{\n\t\"nodes\": [\n\t\t{\n\t\t\t\"name\": \"reading\",\n\t\t\t\"key\": [\n\t\t\t\t\"uuid\"\n\t\t\t],\n\t\t\t\"attributes\": [\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"uuid\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"reading\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"value\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"created\",\n\t\t\t\t\t\"type\": \"Long\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"type\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"name\": \"resource\",\n\t\t\t\"key\": [\n\t\t\t\t\"uuid\"\n\t\t\t],\n\t\t\t\"attributes\": [\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"uuid\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"resource\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"name\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"type\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"name\": \"device\",\n\t\t\t\"key\": [\n\t\t\t\t\"uuid\"\n\t\t\t],\n\t\t\t\"attributes\": [\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"uuid\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"device\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"name\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"operatingState\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"adminState\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"description\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"type\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"name\": \"gateway\",\n\t\t\t\"key\": [\n\t\t\t\t\"uuid\"\n\t\t\t],\n\t\t\t\"attributes\": [\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"gateway\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"url\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"uuid\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"latitude\",\n\t\t\t\t\t\"type\": \"Double\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"longitude\",\n\t\t\t\t\t\"type\": \"Double\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"createdts\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"updatedts\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"type\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t}\n\t\t\t]\n\t\t}\n\t],\n\t\"edges\": [\n\t\t{\n\t\t\t\"to\": \"device\",\n\t\t\t\"name\": \"gateway_device\",\n\t\t\t\"from\": \"gateway\",\n\t\t\t\"direction\" : 2\n\t\t},\n\t\t{\n\t\t\t\"to\": \"resource\",\n\t\t\t\"name\": \"device_resource\",\n\t\t\t\"from\": \"device\"\n\t\t},\n\t\t{\n\t\t\t\"to\": \"reading\",\n\t\t\t\"name\": \"resource_reading\",\n\t\t\t\"from\": \"resource\"\n\t\t}\n\t]\n}"
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "flogo",
+                                    "key": "flogo/GraphBuilder/connector/graph/connector.json",
+                                    "display": {
+                                        "description": "This is URL file reader",
+                                        "category": "GraphBuilder",
+                                        "visible": true,
+                                        "smallIcon": "graph.png"
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "Connect",
+                                            "display": {
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            }
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "iteratorAccumulate": false,
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1588359602136,
+                                    "user": "flogo",
+                                    "connectorName": "IotModel",
+                                    "connectorDescription": " "
+                                },
+                                "AllowNullKey": false,
+                                "BatchMode": false,
+                                "PassThrough": "",
+                                "Multiinstances": ""
+                            },
+                            "input": {
+                                "BatchEnd": false,
+                                "Nodes": {
+                                    "mapping": []
+                                },
+                                "Edges": {
+                                    "mapping": []
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Nodes": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"reading\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"uuid\":{\"type\":\"string\"},\"reading\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"created\":{\"type\":\"number\"},\"type\":{\"type\":\"string\"}}},\"resource\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"uuid\":{\"type\":\"string\"},\"resource\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}},\"device\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"uuid\":{\"type\":\"string\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"operatingState\":{\"type\":\"string\"},\"adminState\":{\"type\":\"string\"},\"description\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}},\"gateway\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"gateway\":{\"type\":\"string\"},\"url\":{\"type\":\"string\"},\"uuid\":{\"type\":\"string\"},\"latitude\":{\"type\":\"number\"},\"longitude\":{\"type\":\"number\"},\"createdts\":{\"type\":\"string\"},\"updatedts\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}}}",
+                                        "fe_metadata": "{\"reading\":{\"_skipCondition\":false,\"uuid\":\"2\",\"reading\":\"2\",\"value\":\"2\",\"created\":2,\"type\":\"2\"},\"resource\":{\"_skipCondition\":false,\"uuid\":\"2\",\"resource\":\"2\",\"name\":\"2\",\"type\":\"2\"},\"device\":{\"_skipCondition\":false,\"uuid\":\"2\",\"device\":\"2\",\"name\":\"2\",\"operatingState\":\"2\",\"adminState\":\"2\",\"description\":\"2\",\"type\":\"2\"},\"gateway\":{\"_skipCondition\":false,\"gateway\":\"2\",\"url\":\"2\",\"uuid\":\"2\",\"latitude\":2,\"longitude\":2,\"createdts\":\"2\",\"updatedts\":\"2\",\"type\":\"2\"}}"
+                                    },
+                                    "Edges": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway_device\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}},\"device_resource\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}},\"resource_reading\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}}}}",
+                                        "fe_metadata": "{\"gateway_device\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"}},\"device_resource\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"}},\"resource_reading\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"}}}"
+                                    },
+                                    "PassThroughData": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+                                        "fe_metadata": "{}"
+                                    }
+                                },
+                                "output": {
+                                    "PassThroughDataOut": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+                                        "fe_metadata": "{}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "DgraphUpsert",
+                        "name": "DgraphUpsert",
+                        "description": "This activity upsert to Dgraph",
+                        "activity": {
+                            "ref": "#dgraphupsert",
+                            "settings": {
+                                "dgraphConnection": {
+                                    "id": "37bdb330-8bd7-11ea-a0c6-112138167609",
+                                    "type": "flogo:connector",
+                                    "version": "1.0.0",
+                                    "name": "tibco-dgraph",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "Dgraph Connector",
+                                    "description": "This is Dgraph connector",
+                                    "ref": "github.com/TIBCOSoftware/GraphBuilder_dgraph/connector/dgraph",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Connection Name",
+                                                "description": "Name of the connection"
+                                            },
+                                            "value": "Dgraph"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "description": "Connection description"
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "url",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Dgraph Server URL",
+                                                "description": "Dgraph server URL ex. localhost:9080",
+                                                "type": "string"
+                                            },
+                                            "value": "localhost:9080"
+                                        },
+                                        {
+                                            "name": "user",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Username",
+                                                "description": "Username for login to Dgraph server",
+                                                "type": "string"
+                                            },
+                                            "value": "123"
+                                        },
+                                        {
+                                            "name": "password",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Password",
+                                                "description": "Password for login to Dgraph server",
+                                                "type": "password"
+                                            },
+                                            "value": "SECRET:FFFK83TkF+bB/aR4MYXZtA75lg=="
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "flogo",
+                                    "key": "flogo/GraphBuilder_dgraph/connector/dgraph/connector.json",
+                                    "display": {
+                                        "description": "This is Dgraph connector",
+                                        "category": "GraphBuilder_dgraph",
+                                        "visible": true,
+                                        "smallIcon": "dgraph.png"
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "Connect",
+                                            "display": {
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            }
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "iteratorAccumulate": false,
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1588357352934,
+                                    "user": "flogo",
+                                    "connectorName": "Dgraph",
+                                    "connectorDescription": " "
+                                },
+                                "cacheSize": -1,
+                                "readableExternalId": true,
+                                "explicitType": true,
+                                "typeTag": "type",
+                                "attrWithPrefix": false
+                            },
+                            "input": {
+                                "Graph": "=$activity[BuildGraph].Graph"
+                            }
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "headers",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}}"
+                            }
+                        },
+                        {
+                            "name": "body",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"id\":{\"type\":\"string\"},\"pushed\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"created\":{\"type\":\"number\"},\"modified\":{\"type\":\"number\"},\"origin\":{\"type\":\"number\"},\"schedule\":{\"type\":\"null\"},\"event\":{\"type\":\"null\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"pushed\":{\"type\":\"number\"},\"created\":{\"type\":\"number\"},\"origin\":{\"type\":\"number\"},\"modified\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"}}}}}"
+                            }
+                        }
+                    ],
+                    "output": [],
+                    "fe_metadata": {
+                        "input": "{\"type\":\"object\",\"title\":\"ReceiveHTTPMessage\",\"properties\":{\"headers\":{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]},\"body\":{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"pushed\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"created\":{\"type\":\"number\"},\"modified\":{\"type\":\"number\"},\"origin\":{\"type\":\"number\"},\"schedule\":{\"type\":\"null\"},\"event\":{\"type\":\"null\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"pushed\":{\"type\":\"number\"},\"created\":{\"type\":\"number\"},\"origin\":{\"type\":\"number\"},\"modified\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"}}}}}}}}"
+                    }
+                },
+                "explicitReply": true
+            }
+        }
+    ],
+    "properties": [],
+    "connections": {},
+    "contrib": "W3sicmVmIjoiZ2l0LnRpYmNvLmNvbS9naXQvcHJvZHVjdC9pcGFhcy93aS1jb250cmliLmdpdC9jb250cmlidXRpb25zL0dlbmVyYWwiLCJzM2xvY2F0aW9uIjoiVGliY28vR2VuZXJhbCJ9LHsicmVmIjoiZ2l0aHViLmNvbS9USUJDT1NvZnR3YXJlL0dyYXBoQnVpbGRlciIsInMzbG9jYXRpb24iOiJ7VVNFUklEfS9HcmFwaEJ1aWxkZXIifSx7InJlZiI6ImdpdGh1Yi5jb20vVElCQ09Tb2Z0d2FyZS9HcmFwaEJ1aWxkZXJfZGdyYXBoIiwiczNsb2NhdGlvbiI6IntVU0VSSUR9L0dyYXBoQnVpbGRlcl9kZ3JhcGgifV0=",
+    "fe_metadata": "UEsDBAoAAAAIAHCdpVCrqSRGFQAAABMAAAAIAAAAYXBwLmpzb26rViopykxPTy1yy8kvL1ayio6tBQBQSwECFAAKAAAACABwnaVQq6kkRhUAAAATAAAACAAAAAAAAAAAAAAAAAAAAAAAYXBwLmpzb25QSwUGAAAAAAEAAQA2AAAAOwAAAAAA"
+}

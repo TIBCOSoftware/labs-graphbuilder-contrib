@@ -1,0 +1,45 @@
+{
+    "name": "tgdbquery",
+    "version": "1.0.0",
+    "author": "TIBCO Software Inc.",
+    "type": "flogo:activity",
+    "title": "TGDB Query",
+     
+    "display": {
+       "category": "GraphBuilder_TGDB",
+       "visible": true,
+       "smallIcon": "tgdbquery.png",
+       "description": "This activity query data from tgdb"
+    },
+
+    "ref": "github.com/TIBCOSoftware/GraphBuilder_TGDB/activity/tgdbquery",
+    "settings": [
+		{
+            "name": "tgdbConnection",
+            "type": "object",
+            "required": true,
+            "display":{
+              "name": "TGDB Connection",
+              "description": "Select TGDB Connection",
+              "type": "connection"
+            },
+            "allowed":[]
+		}
+    ],
+    "inputs": [
+		{
+			"name": "queryType",
+			"type": "string"
+		},
+		{
+			"name": "params",
+			"type": "complex_object"
+		}
+    ],
+    "outputs": [
+		{
+            "name": "queryResult",
+            "type": "complex_object"
+		}
+    ]
+}

@@ -1,0 +1,78 @@
+{
+  "name": "tibco-graph",
+  "title": "Graph",
+  "author": "TIBCO Software Inc.",
+  "type": "flogo:connector",
+  "version": "1.0.0",
+  "display": {
+    "description": "This is URL file reader",
+    "category": "GraphBuilder",
+    "visible": true,
+    "smallIcon": "graph.png"
+  },
+  "ref": "github.com/TIBCOSoftware/GraphBuilder/connector/graph",
+  "keyfield": "name",
+  "settings": [
+    {
+      "name": "name",
+      "type": "string",
+      "required": true,
+      "display": {
+        "name": "Graph Name",
+        "description": "Name of the graph"
+      }
+    },
+    {
+		"name": "description",
+		"type": "string",
+		"display": {
+			"name": "Description",
+			"description": "Graph description"
+		}
+    },
+    {
+		"name": "modelSource",
+		"type": "string",
+		"required": true,
+		"display": {
+			"name": "Model Source",
+			"description": "Where the model stored",
+			"type": "string"
+		},
+		"allowed": ["Local File", "TGDB"]
+    },
+    {
+		"name": "url",
+		"type": "string",
+		"required": true,
+		"display": {
+			"name": "Model Server URL",
+			"description": "URL to the model server, ex. http://localhost:9999/tgdb/metadata",
+			"type": "string"
+		}
+    },
+	{ 
+		"name": "model",
+		"type": "string", 
+		"required": true,
+		"display": { 
+			"name": "Graph Model",
+			"description": "Define nodes and entities for a graph", 
+			"type": "fileselector", 
+			"fileExtensions": [".tgbm",".json"] 
+		} 
+	},
+	{ 
+		"name": "metadata",
+		"type": "string"
+	}
+  ],
+  "actions": [
+    {
+      "name": "Connect",
+      "display": {
+        "readonly": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "name": "tibco-gremlin",
+  "title": "Gremlin Connector",
+  "author": "TIBCO Software Inc.",
+  "type": "flogo:connector",
+  "version": "1.0.0",
+  "display": {
+    "description": "This is Gremlin connector",
+    "category": "GraphBuilder_gremlin",
+    "visible": true,
+    "smallIcon": "gremlin.png"
+  },
+  "ref": "github.com/TIBCOSoftware/GraphBuilder_gremlin/connector/gremlin",
+  "keyfield": "name",
+  "settings": [
+    {
+      "name": "name",
+      "type": "string",
+      "required": true,
+      "display": {
+        "name": "Connection Name",
+        "description": "Name of the connection"
+      }
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "display": {
+        "name": "Description",
+        "description": "Connection description"
+      }
+    },
+    {
+      "name": "url",
+      "type": "string",
+      "required": true,
+      "display": {
+        "name": "Gremlin Server URL",
+        "description": "Gremlin server URL ex. ws://127.0.0.1:8182",
+        "type": "string"
+      }
+    },
+    {
+      "name": "user",
+      "type": "string",
+      "display": {
+        "name": "Username",
+        "description": "Username for login to Gremlin server",
+        "type": "string"
+      }
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "required": true,
+      "display": {
+        "name": "Password",
+        "description": "Password for login to Gremlin server",
+        "type": "password"
+      }
+    }
+  ],
+  "actions": [
+    {
+      "name": "Connect",
+      "display": {
+        "readonly": true
+      }
+    }
+  ]
+}

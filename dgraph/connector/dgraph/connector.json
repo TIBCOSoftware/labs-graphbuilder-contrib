@@ -1,0 +1,128 @@
+{
+  "name": "tibco-dgraph",
+  "title": "Dgraph Connector",
+  "author": "TIBCO Software Inc.",
+  "type": "flogo:connector",
+  "version": "1.0.0",
+  "display": {
+    "description": "This is Dgraph connector",
+    "category": "GraphBuilder_dgraph",
+    "visible": true,
+    "smallIcon": "dgraph.png"
+  },
+  "ref": "github.com/TIBCOSoftware/GraphBuilder_dgraph/connector/dgraph",
+  "keyfield": "name",
+  "settings": [
+    {
+      "name": "name",
+      "type": "string",
+      "required": true,
+      "display": {
+        "name": "Connection Name",
+        "description": "Name of the connection"
+      }
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "display": {
+        "name": "Description",
+        "description": "Connection description"
+      }
+    },
+    {
+      "name": "apiVersion",
+      "type": "string",
+      "required": true,
+    	  "allowed" : ["v1", "v2"],
+      "display": {
+        "name": "API Version",
+        "description": "Dgraph dgo API Version",
+        "type": "string"
+      }
+    },
+    {
+      "name": "url",
+      "type": "string",
+      "required": true,
+      "display": {
+        "name": "Dgraph Server URL",
+        "description": "Dgraph server URL ex. localhost:9080",
+        "type": "string",
+ 		"appPropertySupport": true
+      }
+    },
+	{
+		"name": "tlsEnabled",
+		"type": "boolean",
+		"display": {
+			"name": "TLS Enabled",
+			"description": "Will use tls connection"
+		},
+		"value": false,
+		"required": true
+	},
+    {
+      "name": "user",
+      "type": "string",
+      "display": {
+        "name": "Username",
+        "description": "Username for login to Dgraph server",
+        "type": "string",
+ 		"appPropertySupport": true
+      }
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "required": false,
+      "display": {
+        "name": "Password",
+        "description": "Password for login to Dgraph server",
+        "type": "password",
+ 		"appPropertySupport": true
+      }
+    },
+	{ 
+		"name": "tls",
+		"type": "string", 
+		"required": false,
+		"display": { 
+			"name": "TLS Configuration",
+			"description": "Configuration file for TLS", 
+			"type": "fileselector", 
+			"fileExtensions": [".json"] 
+		} 
+	},
+	{
+		"name": "schemaGen",
+		"type": "string",
+		"display": {
+			"name": "Schema Generation",
+			"description": "How to generate schema"
+		},
+		"value": "default",
+		"allowed": ["default", "file", "no"],
+		"required": true
+	},
+	{ 
+		"name": "schema",
+		"type": "string", 
+		"required": false,
+		"display": { 
+			"name": "Graph Schema",
+			"description": "Define schema for queries", 
+			"type": "fileselector", 
+			"fileExtensions": [".dschema"] 
+		} 
+	}
+  ],
+  "actions": [
+    {
+      "name": "Connect",
+      "display": {
+        "readonly": true
+      }
+    }
+  ]
+}

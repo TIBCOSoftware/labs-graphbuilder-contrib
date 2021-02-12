@@ -1,0 +1,90 @@
+{
+    "name": "dgraphupsert",
+    "version": "1.0.0",
+    "author": "TIBCO Software Inc.",
+    "type": "flogo:activity",
+    "title": "Dgraph Upsert",
+     
+    "display": {
+       "category": "GraphBuilder_dgraph",
+       "visible": true,
+       "smallIcon": "dgraphupsert.png",
+       "description": "This activity upsert to Dgraph"
+    },
+ 
+    "ref": "github.com/TIBCOSoftware/GraphBuilder_dgraph/activity/dgraphupsert",
+    "settings": [
+		{
+            "name": "dgraphConnection",
+            "type": "object",
+            "required": true,
+            "display":{
+              "name": "Dgraph Connection",
+              "description": "Select Dgraph connection",
+              "type": "connection"
+            },
+            "allowed":[]
+		},
+		{
+			"name": "cacheSize",
+			"type": "integer",
+			"display": {
+				"name": "Cache Size",
+				"description": "Maximum number of cache entries (turn off cache: cacheSize<1)"
+			},
+			"value": 1,
+			"required": true
+		},
+		{
+			"name": "readableExternalId",
+			"type": "boolean",
+			"display": {
+				"name": "Readable External Id",
+				"description": "Will generate readable dgraph external id for node "
+			},
+			"value": false,
+			"required": true
+		},
+		{
+			"name": "explicitType",
+			"type": "boolean",
+			"display": {
+				"name": "Define Type Explicitly",
+				"description": "Will define a attribute call 'type' and its value is type name "
+			},
+			"value": true,
+			"required": true
+		},
+		{
+            "name": "typeTag",
+            "type": "string",
+            "required": false,
+            "display":{
+              "name": "Type Tag",
+              "description": "Data tag to represent type of node and edge"
+            }
+		},
+		{
+			"name": "attrWithPrefix",
+			"type": "boolean",
+				"display": {
+				"name": "Attribute With Prefix",
+				"description": "Will add type name as attribute prifix"
+			},
+			"value": false,
+			"required": true
+		}
+    ],
+    "inputs": [
+ 		{
+			"name": "Graph",
+			"type": "object"
+		}
+    ],
+    "outputs": [
+		{
+            "name": "MessageId",
+            "type": "string"
+		}
+    ]
+}

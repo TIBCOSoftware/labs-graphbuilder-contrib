@@ -1,0 +1,56 @@
+{
+	"nodes": {
+			"reading" : {
+				"uuid" : "",
+				"reading" : "",
+				"value" : "",
+				"type": "String",
+				"created" : 123
+		},
+			"resource": {
+				"uuid" : "",
+				"resource" : "",
+				"name" : "",
+				"type" : ""
+		},
+			"device" : {
+				"uuid" : "",
+				"device" : "",
+				"name" : "",
+				"operatingState" : "",
+				"adminState" : "",
+				"description" : "",
+				"type" : ""
+		},
+			"gateway": {
+				"gateway" : "",
+				"url" : "",
+				"uuid" : "",
+				"latitude" : 1.23,
+				"longitude" : 1.23,
+				"createdts" : "",
+				"updatedts" : "",
+				"type" : ""
+		}
+	},
+	"edges": {
+		"gateway_device" : {
+    			"fromNode": {
+			},
+        		"toNode": {
+            }
+		},
+		"device_resource" : {
+    			"fromNode": {
+			},
+        		"toNode": {
+            }
+		},
+		"resource_reading" : {
+    			"fromNode": {
+			},
+        		"toNode": {
+            }
+		}
+	}
+}

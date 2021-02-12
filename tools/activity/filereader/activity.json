@@ -1,0 +1,38 @@
+{
+    "name": "filereader",
+    "version": "1.0.0",
+    "author": "TIBCO Software Inc.",
+    "type": "flogo:activity",
+    "title": "File Reader",
+     
+    "display": {
+       "category": "GraphBuilder_Tools",
+       "visible": true,
+       "smallIcon": "filereader.png",
+       "description": "This activity write incoming object to file system"
+    },
+ 
+    "ref": "github.com/TIBCOSoftware/GraphBuilder_Tools/activity/filereader",
+    "settings": [
+		{
+            "name": "baseFolder",
+            "type": "string",
+            "display":{
+              "name": "File folder",
+              "description": "Set target folder for reading file"
+            }
+		}
+    ],
+    "input": [
+		{
+            "name": "filename",
+            "type": "string"
+		}
+    ],
+	"output": [
+		{
+            "name": "content",
+            "type": "string"
+		}
+	]
+}

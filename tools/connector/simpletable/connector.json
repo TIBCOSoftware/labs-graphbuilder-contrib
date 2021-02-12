@@ -1,0 +1,54 @@
+{
+	"name": "tibco-simple-table",
+	"title": "Simple Table",
+	"author": "TIBCO Software Inc.",
+	"type": "flogo:connector",
+	"version": "1.0.0",
+	"display": {
+		"description": "This is URL file reader",
+		"category": "GraphBuilder_Tools",
+		"visible": true,
+		"smallIcon": "simpletable.png"
+	},
+	"ref": "github.com/TIBCOSoftware/GraphBuilder_Tools/connector/simpletable",
+	"keyfield": "name",
+	"settings": [
+		{
+			"name": "name",
+			"type": "string",
+			"required": true,
+			"display": {
+				"name": "Table Name",
+				"description": "Name of the table instance"
+			}
+    		},
+		{
+			"name": "description",
+			"type": "string",
+			"display": {
+				"name": "Description",
+				"description": "A simple table for storing tuple"
+			}
+		},
+		{
+			"name": "schema",
+			"type": "array",
+			"required": true,
+			"display": {
+				"name": "Table Schema",
+				"description": "Schema of the table",
+				"type": "table",
+				"schema": "{\r\n    \"$schema\": \"http:\/\/json-schema.org\/draft-04\/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http:\/\/example.com\/example.json\",\r\n    \"items\": {\r\n        \"id\": \"\/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"\/items\/properties\/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"\/items\/properties\/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"\/items\/properties\/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
+			}
+		}
+	],
+	"actions": [
+		{
+			"name": "create",
+			"display": {
+				"name": "Create",
+				"readonly": true
+			}
+		}
+	]
+}

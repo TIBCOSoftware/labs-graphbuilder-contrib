@@ -1,0 +1,1028 @@
+{
+    "imports": [
+        "github.com/project-flogo/flow",
+        "github.com/TIBCOSoftware/GraphBuilder_Tools/activity/jsonparser",
+        "github.com/TIBCOSoftware/GraphBuilder/activity/builder",
+        "github.com/TIBCOSoftware/GraphBuilder_TGDB/activity/tgdbupsert",
+        "github.com/project-flogo/contrib/activity/actreturn",
+        "github.com/TIBCOSoftware/GraphBuilder_Tools/trigger/filesreader"
+    ],
+    "name": "Airline",
+    "description": " ",
+    "version": "1.1.0",
+    "type": "flogo:app",
+    "appModel": "1.1.1",
+    "feVersion": "2.8.1",
+    "triggers": [
+        {
+            "ref": "#filesreader",
+            "name": "files-reader",
+            "description": "This activity read file and pass string content to downstream",
+            "settings": {},
+            "id": "FlightData",
+            "handlers": [
+                {
+                    "description": "",
+                    "settings": {
+                        "Filename": "/Desktop/sample-applications/Airline/data/airline",
+                        "Asynchronous": true,
+                        "EmitPerLine": true,
+                        "MaxNumberOfLine": -1
+                    },
+                    "action": {
+                        "ref": "github.com/project-flogo/flow",
+                        "settings": {
+                            "flowURI": "res://flow:Flight_Data"
+                        },
+                        "input": {
+                            "MessageId": "=$.MessageId",
+                            "FileContent": "=$.FileContent",
+                            "ModifiedTime": "=$.ModifiedTime",
+                            "LineNumber": "=$.LineNumber"
+                        }
+                    }
+                },
+                {
+                    "description": "",
+                    "settings": {
+                        "Filename": "/Desktop/sample-applications/Airline/data/airline/pnr",
+                        "Asynchronous": true,
+                        "EmitPerLine": true,
+                        "MaxNumberOfLine": -1
+                    },
+                    "action": {
+                        "ref": "github.com/project-flogo/flow",
+                        "settings": {
+                            "flowURI": "res://flow:PNR_Event"
+                        },
+                        "input": {
+                            "MessageId": "=$.MessageId",
+                            "FileContent": "=$.FileContent",
+                            "ModifiedTime": "=$.ModifiedTime",
+                            "LineNumber": "=$.LineNumber"
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "resources": [
+        {
+            "id": "flow:Flight_Data",
+            "data": {
+                "name": "Flight Data",
+                "description": "",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "JSONParser",
+                        "to": "BuildGraph",
+                        "type": "default"
+                    },
+                    {
+                        "id": 2,
+                        "from": "BuildGraph",
+                        "to": "TGDBUpsert",
+                        "type": "default"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "JSONParser",
+                        "name": "JSONParser",
+                        "description": "JSON Parser Activity",
+                        "activity": {
+                            "ref": "#jsonparser",
+                            "settings": {
+                                "DateFormat": "",
+                                "ServeGraphData": false,
+                                "OutputFieldnames": "[{\"AttributeName\":\"FlightCarrierCode\",\"JSONPath\":\"root. Flight.FlightCarrierCode\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"FlightNumber\",\"JSONPath\":\"root. Flight.FlightNumber\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"FlightOriginStnCode\",\"JSONPath\":\"root. Flight.FlightOriginStnCode\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"FlightOriginLocalDate\",\"JSONPath\":\"root. Flight.FlightOriginLocalDate\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"FlightDestStnCode\",\"JSONPath\":\"root. Flight.FlightDestStnCode\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"FlightLegSeqNumber\",\"JSONPath\":\"root.Flight.ScheduledFlightLeg. FlightLegSeqNumber\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"SchDepStnCode\",\"JSONPath\":\"root.Flight.ScheduledFlightLeg.SchDepStnCode\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"SchArrStnCode\",\"JSONPath\":\"root.Flight.ScheduledFlightLeg.SchArrStnCode\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"SchLocalArrDateTime\",\"JSONPath\":\"root.Flight.ScheduledFlightLeg.SchLocalArrDateTime\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"SchLocalDepDate\",\"JSONPath\":\"root.Flight.ScheduledFlightLeg.SchLocalDepDate\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"SchLocalDepDateTime\",\"JSONPath\":\"root.Flight.ScheduledFlightLeg.SchLocalDepDateTime\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"}]"
+                            },
+                            "input": {
+                                "JSONString": "=$flow.FileContent"
+                            },
+                            "schemas": {
+                                "output": {
+                                    "Data": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"FlightCarrierCode\":{\"type\":\"string\"},\"FlightNumber\":{\"type\":\"string\"},\"FlightOriginStnCode\":{\"type\":\"string\"},\"FlightOriginLocalDate\":{\"type\":\"string\"},\"FlightDestStnCode\":{\"type\":\"string\"},\"FlightLegSeqNumber\":{\"type\":\"string\"},\"SchDepStnCode\":{\"type\":\"string\"},\"SchArrStnCode\":{\"type\":\"string\"},\"SchLocalArrDateTime\":{\"type\":\"string\"},\"SchLocalDepDate\":{\"type\":\"string\"},\"SchLocalDepDateTime\":{\"type\":\"string\"},\"LastElement\":{\"type\":\"boolean\"}}}}",
+                                        "fe_metadata": "[{\"FlightCarrierCode\":\"2\",\"FlightNumber\":\"2\",\"FlightOriginStnCode\":\"2\",\"FlightOriginLocalDate\":\"2\",\"FlightDestStnCode\":\"2\",\"FlightLegSeqNumber\":\"2\",\"SchDepStnCode\":\"2\",\"SchArrStnCode\":\"2\",\"SchLocalArrDateTime\":\"2\",\"SchLocalDepDate\":\"2\",\"SchLocalDepDateTime\":\"2\",\"LastElement\":true}]"
+                                    }
+                                },
+                                "settings": {
+                                    "OutputFieldnames": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"AttributeName\":{\"type\":\"string\"},\"JSONPath\":{\"type\":\"string\"},\"Default\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Optional\":{\"type\":\"string\"}},\"required\":[\"AttributeName\",\"JSONPath\",\"Default\",\"Type\",\"Optional\"]}}",
+                                        "fe_metadata": "[{\"AttributeName\":\"FlightCarrierCode\",\"JSONPath\":\"root. Flight.FlightCarrierCode\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"FlightNumber\",\"JSONPath\":\"root. Flight.FlightNumber\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"FlightOriginStnCode\",\"JSONPath\":\"root. Flight.FlightOriginStnCode\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"FlightOriginLocalDate\",\"JSONPath\":\"root. Flight.FlightOriginLocalDate\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"FlightDestStnCode\",\"JSONPath\":\"root. Flight.FlightDestStnCode\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"FlightLegSeqNumber\",\"JSONPath\":\"root.Flight.ScheduledFlightLeg. FlightLegSeqNumber\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"SchDepStnCode\",\"JSONPath\":\"root.Flight.ScheduledFlightLeg.SchDepStnCode\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"SchArrStnCode\",\"JSONPath\":\"root.Flight.ScheduledFlightLeg.SchArrStnCode\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"SchLocalArrDateTime\",\"JSONPath\":\"root.Flight.ScheduledFlightLeg.SchLocalArrDateTime\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"SchLocalDepDate\",\"JSONPath\":\"root.Flight.ScheduledFlightLeg.SchLocalDepDate\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"SchLocalDepDateTime\",\"JSONPath\":\"root.Flight.ScheduledFlightLeg.SchLocalDepDateTime\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "BuildGraph",
+                        "name": "BuildGraph",
+                        "description": "This activity build graph from incoming data",
+                        "type": "iterator",
+                        "settings": {
+                            "iterate": "=$activity[JSONParser].Data",
+                            "accumulate": false
+                        },
+                        "activity": {
+                            "ref": "#builder",
+                            "settings": {
+                                "GraphModel": {
+                                    "id": "2e024390-995d-11ea-a030-d5552accd2a4",
+                                    "type": "flogo:connector",
+                                    "version": "1.0.0",
+                                    "name": "tibco-graph",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "Graph",
+                                    "description": "This is URL file reader",
+                                    "ref": "github.com/TIBCOSoftware/GraphBuilder/connector/graph",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Graph Name",
+                                                "description": "Name of the graph"
+                                            },
+                                            "value": "Airline"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "description": "Graph description"
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "modelSource",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Model Source",
+                                                "description": "Where the model stored",
+                                                "type": "string"
+                                            },
+                                            "allowed": [
+                                                "Local File",
+                                                "TGDB"
+                                            ],
+                                            "value": "Local File"
+                                        },
+                                        {
+                                            "name": "url",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Model Server URL",
+                                                "description": "URL to the model server, ex. http://localhost:9999/tgdb/metadata",
+                                                "type": "string",
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": false
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "model",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Graph Model",
+                                                "description": "Define nodes and entities for a graph",
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".tgbm",
+                                                    ".json"
+                                                ],
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            },
+                                            "value": {
+                                                "filename": "AirLine_model.json",
+                                                "content": "data:application/json;base64,eyAgCgkibm9kZXMiOlsgIAoJCXsgIAogICAgICAgICAgICAibmFtZSI6ImZsaWdodCIsCiAgICAgICAgICAgICJrZXkiOlsidXVpZCJdLAogICAgICAgICAgICAiYXR0cmlidXRlcyI6WyAgCiAgICAgICAgICAgICAgIHsgIm5hbWUiOiJ0eXBlIiwgInR5cGUiOiJTdHJpbmciIH0sCiAgICAgICAgICAgICAgIHsgIm5hbWUiOiJ0eXBlZmxpZ2h0IiwgInR5cGUiOiJTdHJpbmciIH0sCiAgICAgICAgICAgICAgIHsgIm5hbWUiOiJjYXJyaWVyQ29kZSIsICJ0eXBlIjoiU3RyaW5nIiB9LAogICAgICAgICAgICAgICB7ICJuYW1lIjoiZmxpZ2h0TnVtYmVyIiwgInR5cGUiOiJTdHJpbmciIH0sCiAgICAgICAgICAgICAgIHsgIm5hbWUiOiJvcmlnaW5Mb2NhbERhdGUiLCAidHlwZSI6IlN0cmluZyIgfSwKICAgICAgICAgICAgICAgeyAibmFtZSI6InV1aWQiLCAidHlwZSI6IlN0cmluZyIgfSwKICAgICAgICAgICAgICAgeyAibmFtZSI6ImxhYmVsIiwidHlwZSI6IlN0cmluZyIgfQogICAgICAgICAgICBdCiAgICAgICAgIH0sCiAgICAgICAgIHsgIAogICAgICAgICAgICAibmFtZSI6InBuciIsCiAgICAgICAgICAgICJrZXkiOlsidXVpZCJdLAogICAgICAgICAgICAiYXR0cmlidXRlcyI6WyAgCgkJCQl7ICJuYW1lIjoidHlwZSIsICJ0eXBlIjoiU3RyaW5nIiB9LAoJCQkJeyAibmFtZSI6InR5cGVwbnIiLCAidHlwZSI6IlN0cmluZyIgfSwKCQkJCXsgIm5hbWUiOiJ1dWlkIiwgInR5cGUiOiJTdHJpbmciIH0sCgkJCQl7ICJuYW1lIjoibGFiZWwiLCAidHlwZSI6IlN0cmluZyIgfSwKCQkJCXsgIm5hbWUiOiJ2YWx1ZSIsICJ0eXBlIjoiU3RyaW5nIiB9LAoJCQkJeyAibmFtZSI6InJlY29yZExvY2F0b3IiLCAidHlwZSI6IlN0cmluZyIgfSwKCQkJCXsgIm5hbWUiOiJudW1iZXJJblBhcnR5IiwgInR5cGUiOiJTdHJpbmciIH0sCgkJCQl7ICJuYW1lIjoibnVtYmVyT2ZJbmZhbnRzIiwgInR5cGUiOiJTdHJpbmciIH0sCgkJCQl7ICJuYW1lIjoicGhvbmVOdW1iZXIiLCAidHlwZSI6IlN0cmluZyIgfSwKCQkJCXsgIm5hbWUiOiJlbWFpbCIsICJ0eXBlIjoiU3RyaW5nIiB9LAoJCQkJeyAibmFtZSI6ImFkZHJMaW5lIiwgInR5cGUiOiJTdHJpbmciIH0sCgkJCQl7ICJuYW1lIjoiY2l0eVN0YXRlIiwgInR5cGUiOiJTdHJpbmciIH0sCgkJCQl7ICJuYW1lIjoiemlwQ29kZSIsICJ0eXBlIjoiU3RyaW5nIiB9CiAgICAgICAgICAgIF0KICAgICAgICAgfSwKICAgICAgICAgeyAgCiAgICAgICAgICAgICJuYW1lIjoicGFzc2VuZ2VyIiwKICAgICAgICAgICAgImtleSI6WyJ1dWlkIl0sCiAgICAgICAgICAgICJhdHRyaWJ1dGVzIjpbCiAgICAgICAgICAgIAkJeyAibmFtZSI6InR5cGUiLCAidHlwZSI6IlN0cmluZyIgfSwKICAgICAgICAgICAgCQl7ICJuYW1lIjoidHlwZXBhc3NlbmdlciIsICJ0eXBlIjoiU3RyaW5nIiB9LAogICAgICAgICAgICAJCXsgIm5hbWUiOiJ1dWlkIiwgInR5cGUiOiJTdHJpbmciIH0sCiAgICAgICAgICAgIAkJeyAibmFtZSI6ImxhYmVsIiwgInR5cGUiOiJTdHJpbmciIH0sCiAgICAgICAgICAgIAkJeyAibmFtZSI6ImZpcnN0bmFtZSIsICJ0eXBlIjoiU3RyaW5nIiB9LAogICAgICAgICAgICAJCXsgIm5hbWUiOiJsYXN0bmFtZSIsICJ0eXBlIjoiU3RyaW5nIiB9CiAgICAgICAgICAgIF0KCQl9LAogICAgICAgIHsgIAogICAgICAgICAgICAibmFtZSI6InJvdXRlIiwKICAgICAgICAgICAgImtleSI6WyJ1dWlkIl0sCiAgICAgICAgICAgICJhdHRyaWJ1dGVzIjpbCiAgICAgICAgICAgIAkJeyAibmFtZSI6InR5cGUiLCAidHlwZSI6IlN0cmluZyIgfSwKICAgICAgICAgICAgCQl7ICJuYW1lIjoidHlwZXJvdXRlIiwgInR5cGUiOiJTdHJpbmciIH0sCiAgICAgICAgICAgIAkJeyAibmFtZSI6InV1aWQiLCAidHlwZSI6IlN0cmluZyIgfSwKICAgICAgICAgICAgCQl7ICJuYW1lIjoib3JpZ2luIiwgInR5cGUiOiJTdHJpbmciIH0sCiAgICAgICAgICAgIAkJeyAibmFtZSI6ImRlc3RpbmF0aW9uIiwgInR5cGUiOiJTdHJpbmciIH0sCiAgICAgICAgICAgIAkJeyAibmFtZSI6ImxhYmVsIiwgInR5cGUiOiJTdHJpbmciIH0KICAgICAgICAgICAgXQogICAgICAgIH0sCiAgICAgICAgeyAgCiAgICAgICAgICAgICJuYW1lIjoibGVnIiwKICAgICAgICAgICAgImtleSI6WyJ1dWlkIl0sCiAgICAgICAgICAgICJhdHRyaWJ1dGVzIjpbCiAgICAgICAgICAgIAkJeyAibmFtZSI6InR5cGUiLCAidHlwZSI6IlN0cmluZyIgfSwKICAgICAgICAgICAgCQl7ICJuYW1lIjoidHlwZWxlZyIsICJ0eXBlIjoiU3RyaW5nIiB9LAogICAgICAgICAgICAJCXsgIm5hbWUiOiJ1dWlkIiwgInR5cGUiOiJTdHJpbmciIH0sCiAgICAgICAgICAgIAkJeyAibmFtZSI6ImxhYmVsIiwgInR5cGUiOiJTdHJpbmciIH0KICAgICAgICAgICAgXQogICAgICAgIH0sCgkJewogICAgICAgICAgICAibmFtZSI6IkRheSIsCiAgICAgICAgICAgICJrZXkiOlsibGFiZWwiXSwKICAgICAgICAgICAgImF0dHJpYnV0ZXMiOlsKICAgICAgICAgICAgICAgeyAibmFtZSI6InR5cGUiLCAgInR5cGUiOiJTdHJpbmciIH0sCiAgICAgICAgICAgICAgIHsgIm5hbWUiOiJsYWJlbCIsICJ0eXBlIjoiU3RyaW5nIiB9CiAgICAgICAgICAgXQogICAgICAgIH0sCiAgICAgICAgeyAgCiAgICAgICAgICAgICJuYW1lIjoiYWlycG9ydCIsCiAgICAgICAgICAgICJrZXkiOlsidXVpZCJdLAogICAgICAgICAgICAiYXR0cmlidXRlcyI6WwogICAgICAgICAgICAJCXsgIm5hbWUiOiJ0eXBlIiwgInR5cGUiOiJTdHJpbmciIH0sCiAgICAgICAgICAgIAkJeyAibmFtZSI6InR5cGVhaXJwb3J0IiwgInR5cGUiOiJTdHJpbmciIH0sCiAgICAgICAgICAgIAkJeyAibmFtZSI6InV1aWQiLCAidHlwZSI6IlN0cmluZyIgfSwKICAgICAgICAgICAgCQl7ICJuYW1lIjoibGFiZWwiLCAidHlwZSI6IlN0cmluZyIgfQogICAgICAgICAgICBdCiAgICAgICAgfQogICAgXSwKICAgICJlZGdlcyI6WyAgCiAgICAgICAgeyAgCiAgICAgICAgICAgICJ0byI6InBhc3NlbmdlciIsCiAgICAgICAgICAgICJuYW1lIjoicG5yX3Bhc3NlbmdlciIsCiAgICAgICAgICAgICJmcm9tIjoicG5yIiwKICAgICAgICAgICAgImF0dHJpYnV0ZXMiOlsKICAgICAgICAgICAgCQl7ICJuYW1lIjoicmVsYXRpb24iLCAidHlwZSI6IlN0cmluZyIgfQogICAgICAgICAgICBdCiAgICAgICAgfSwKICAgICAgICB7ICAKICAgICAgICAgICAgInRvIjoiZmxpZ2h0IiwKICAgICAgICAgICAgIm5hbWUiOiJwbnJfZmxpZ2h0IiwKICAgICAgICAgICAgImZyb20iOiJwbnIiLAogICAgICAgICAgICAiYXR0cmlidXRlcyI6WwogICAgICAgICAgICAJCXsgIm5hbWUiOiJyZWxhdGlvbiIsICJ0eXBlIjoiU3RyaW5nIiB9CiAgICAgICAgICAgIF0KICAgICAgICB9LAogICAgICAgeyAgCiAgICAgICAgICAgICJ0byI6InJvdXRlIiwKICAgICAgICAgICAgIm5hbWUiOiJmbGlnaHRfcm91dGUiLAogICAgICAgICAgICAiZnJvbSI6ImZsaWdodCIsCiAgICAgICAgICAgICJhdHRyaWJ1dGVzIjpbIAogICAgICAgICAgICAJCXsibmFtZSI6InJlbGF0aW9uIiwgInR5cGUiOiJTdHJpbmciIH0KICAgICAgICAgICAgXQogICAgICAgIH0sCiAgICAgICAgeyAgCiAgICAgICAgICAgICJ0byI6ImxlZyIsCiAgICAgICAgICAgICJuYW1lIjoiZmxpZ2h0X2xlZyIsCiAgICAgICAgICAgICJmcm9tIjoiZmxpZ2h0IiwKICAgICAgICAgICAgImF0dHJpYnV0ZXMiOlsKICAgICAgICAgICAgCQl7ICJuYW1lIjoicmVsYXRpb24iLCAidHlwZSI6IlN0cmluZyIgfQogICAgICAgICAgICBdCiAgICAgICAgfSwKICAgICAgICB7ICAKICAgICAgICAgICAgInRvIjoiYWlycG9ydCIsCiAgICAgICAgICAgICJuYW1lIjoibGVnX2Rlc3RpbmF0aW9uIiwKICAgICAgICAgICAgImZyb20iOiJsZWciLAogICAgICAgICAgICAiYXR0cmlidXRlcyI6WwogICAgICAgICAgICAJCXsgICAibmFtZSI6InJlbGF0aW9uIiwgInR5cGUiOiJTdHJpbmciIH0KICAgICAgICAgICAgXQogICAgICAgIH0sCiAgICAgICAgeyAgCiAgICAgICAgICAgICJ0byI6ImFpcnBvcnQiLAogICAgICAgICAgICAibmFtZSI6ImxlZ19vcmlnaW4iLAogICAgICAgICAgICAiZnJvbSI6ImxlZyIsCiAgICAgICAgICAgICJkaXJlY3Rpb24iIDogMSwKICAgICAgICAgICAgImF0dHJpYnV0ZXMiOlsKICAgICAgICAgICAgCQl7ICJuYW1lIjoicmVsYXRpb24iLCAidHlwZSI6IlN0cmluZyIgfQogICAgICAgICAgICBdCiAgICAgICAgfSwKICAgICAgICB7ICAKICAgICAgICAgICAgInRvIjoiYWlycG9ydCIsCiAgICAgICAgICAgICJuYW1lIjoicm91dGVfb3JpZ2luIiwKICAgICAgICAgICAgImZyb20iOiJyb3V0ZSIsCiAgICAgICAgICAgICJhdHRyaWJ1dGVzIjpbCiAgICAgICAgICAgIAkJeyAibmFtZSI6InJlbGF0aW9uIiwgInR5cGUiOiJTdHJpbmciIH0KICAgICAgICAgICAgXQogICAgICAgIH0sCiAgICAgICAgeyAgCiAgICAgICAgICAgICJ0byI6ImFpcnBvcnQiLAogICAgICAgICAgICAibmFtZSI6InJvdXRlX2Rlc3RpbmF0aW9uIiwKICAgICAgICAgICAgImZyb20iOiJyb3V0ZSIsCiAgICAgICAgICAgICJhdHRyaWJ1dGVzIjpbCiAgICAgICAgICAgIAkJeyAibmFtZSI6InJlbGF0aW9uIiwgInR5cGUiOiJTdHJpbmciIH0KICAgICAgICAgICAgXQogICAgICAgIH0sCiAgICAgICAgeyAgCiAgICAgICAgICAgICJ0byI6ImZsaWdodCIsCiAgICAgICAgICAgICJuYW1lIjoiZmxpZ2h0X2V2ZW50IiwKICAgICAgICAgICAgImZyb20iOiJEYXkiLAogICAgICAgICAgICAiYXR0cmlidXRlcyI6WwogICAgICAgICAgICAJCXsgIm5hbWUiOiJyZWxhdGlvbiIsICJ0eXBlIjoiU3RyaW5nIiB9LAogICAgICAgICAgICAJCXsgIm5hbWUiOiJldmVudG5hbWUiLCAidHlwZSI6IlN0cmluZyIgfSwKICAgICAgICAgICAgCQl7ICJuYW1lIjoidGltZSIsICJ0eXBlIjoiU3RyaW5nIiB9CiAgICAgICAgICAgIF0KICAgICAgICB9LAogICAgICAgICB7ICAKICAgICAgICAgICAgInRvIjoibGVnIiwKICAgICAgICAgICAgIm5hbWUiOiJsZWdfZXZlbnQiLAogICAgICAgICAgICAiZnJvbSI6IkRheSIsCiAgICAgICAgICAgICJhdHRyaWJ1dGVzIjpbCiAgICAgICAgICAgIAkJeyAibmFtZSI6InJlbGF0aW9uIiwgInR5cGUiOiJTdHJpbmciIH0sCiAgICAgICAgICAgIAkJeyAibmFtZSI6ImV2ZW50bmFtZSIsICJ0eXBlIjoiU3RyaW5nIiB9LAogICAgICAgICAgICAJCXsgIm5hbWUiOiJ0aW1lIiwgInR5cGUiOiJTdHJpbmciIH0KICAgICAgICAgICAgXQogICAgICAgIH0sCiAgICAgICAgeyAgCiAgICAgICAgICAgICJ0byI6InBuciIsCiAgICAgICAgICAgICJuYW1lIjoicG5yX2V2ZW50IiwKICAgICAgICAgICAgImZyb20iOiJEYXkiLAogICAgICAgICAgICAiYXR0cmlidXRlcyI6WwogICAgICAgICAgICAJCXsgIm5hbWUiOiJyZWxhdGlvbiIsICJ0eXBlIjoiU3RyaW5nIiB9LAogICAgICAgICAgICAJCXsgIm5hbWUiOiJldmVudG5hbWUiLCAidHlwZSI6IlN0cmluZyIgfSwKICAgICAgICAgICAgCQl7ICJuYW1lIjoidGltZSIsICJ0eXBlIjoiU3RyaW5nIiB9CiAgICAgICAgICAgIF0KICAgICAgICB9CiAgICBdCn0K"
+                                            }
+                                        },
+                                        {
+                                            "name": "metadata",
+                                            "type": "string",
+                                            "display": {
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": false
+                                            },
+                                            "value": "{  \n\t\"nodes\":[  \n\t\t{  \n            \"name\":\"flight\",\n            \"key\":[\"uuid\"],\n            \"attributes\":[  \n               { \"name\":\"type\", \"type\":\"String\" },\n               { \"name\":\"typeflight\", \"type\":\"String\" },\n               { \"name\":\"carrierCode\", \"type\":\"String\" },\n               { \"name\":\"flightNumber\", \"type\":\"String\" },\n               { \"name\":\"originLocalDate\", \"type\":\"String\" },\n               { \"name\":\"uuid\", \"type\":\"String\" },\n               { \"name\":\"label\",\"type\":\"String\" }\n            ]\n         },\n         {  \n            \"name\":\"pnr\",\n            \"key\":[\"uuid\"],\n            \"attributes\":[  \n\t\t\t\t{ \"name\":\"type\", \"type\":\"String\" },\n\t\t\t\t{ \"name\":\"typepnr\", \"type\":\"String\" },\n\t\t\t\t{ \"name\":\"uuid\", \"type\":\"String\" },\n\t\t\t\t{ \"name\":\"label\", \"type\":\"String\" },\n\t\t\t\t{ \"name\":\"value\", \"type\":\"String\" },\n\t\t\t\t{ \"name\":\"recordLocator\", \"type\":\"String\" },\n\t\t\t\t{ \"name\":\"numberInParty\", \"type\":\"String\" },\n\t\t\t\t{ \"name\":\"numberOfInfants\", \"type\":\"String\" },\n\t\t\t\t{ \"name\":\"phoneNumber\", \"type\":\"String\" },\n\t\t\t\t{ \"name\":\"email\", \"type\":\"String\" },\n\t\t\t\t{ \"name\":\"addrLine\", \"type\":\"String\" },\n\t\t\t\t{ \"name\":\"cityState\", \"type\":\"String\" },\n\t\t\t\t{ \"name\":\"zipCode\", \"type\":\"String\" }\n            ]\n         },\n         {  \n            \"name\":\"passenger\",\n            \"key\":[\"uuid\"],\n            \"attributes\":[\n            \t\t{ \"name\":\"type\", \"type\":\"String\" },\n            \t\t{ \"name\":\"typepassenger\", \"type\":\"String\" },\n            \t\t{ \"name\":\"uuid\", \"type\":\"String\" },\n            \t\t{ \"name\":\"label\", \"type\":\"String\" },\n            \t\t{ \"name\":\"firstname\", \"type\":\"String\" },\n            \t\t{ \"name\":\"lastname\", \"type\":\"String\" }\n            ]\n\t\t},\n        {  \n            \"name\":\"route\",\n            \"key\":[\"uuid\"],\n            \"attributes\":[\n            \t\t{ \"name\":\"type\", \"type\":\"String\" },\n            \t\t{ \"name\":\"typeroute\", \"type\":\"String\" },\n            \t\t{ \"name\":\"uuid\", \"type\":\"String\" },\n            \t\t{ \"name\":\"origin\", \"type\":\"String\" },\n            \t\t{ \"name\":\"destination\", \"type\":\"String\" },\n            \t\t{ \"name\":\"label\", \"type\":\"String\" }\n            ]\n        },\n        {  \n            \"name\":\"leg\",\n            \"key\":[\"uuid\"],\n            \"attributes\":[\n            \t\t{ \"name\":\"type\", \"type\":\"String\" },\n            \t\t{ \"name\":\"typeleg\", \"type\":\"String\" },\n            \t\t{ \"name\":\"uuid\", \"type\":\"String\" },\n            \t\t{ \"name\":\"label\", \"type\":\"String\" }\n            ]\n        },\n\t\t{\n            \"name\":\"Day\",\n            \"key\":[\"label\"],\n            \"attributes\":[\n               { \"name\":\"type\",  \"type\":\"String\" },\n               { \"name\":\"label\", \"type\":\"String\" }\n           ]\n        },\n        {  \n            \"name\":\"airport\",\n            \"key\":[\"uuid\"],\n            \"attributes\":[\n            \t\t{ \"name\":\"type\", \"type\":\"String\" },\n            \t\t{ \"name\":\"typeairport\", \"type\":\"String\" },\n            \t\t{ \"name\":\"uuid\", \"type\":\"String\" },\n            \t\t{ \"name\":\"label\", \"type\":\"String\" }\n            ]\n        }\n    ],\n    \"edges\":[  \n        {  \n            \"to\":\"passenger\",\n            \"name\":\"pnr_passenger\",\n            \"from\":\"pnr\",\n            \"attributes\":[\n            \t\t{ \"name\":\"relation\", \"type\":\"String\" }\n            ]\n        },\n        {  \n            \"to\":\"flight\",\n            \"name\":\"pnr_flight\",\n            \"from\":\"pnr\",\n            \"attributes\":[\n            \t\t{ \"name\":\"relation\", \"type\":\"String\" }\n            ]\n        },\n       {  \n            \"to\":\"route\",\n            \"name\":\"flight_route\",\n            \"from\":\"flight\",\n            \"attributes\":[ \n            \t\t{\"name\":\"relation\", \"type\":\"String\" }\n            ]\n        },\n        {  \n            \"to\":\"leg\",\n            \"name\":\"flight_leg\",\n            \"from\":\"flight\",\n            \"attributes\":[\n            \t\t{ \"name\":\"relation\", \"type\":\"String\" }\n            ]\n        },\n        {  \n            \"to\":\"airport\",\n            \"name\":\"leg_destination\",\n            \"from\":\"leg\",\n            \"attributes\":[\n            \t\t{   \"name\":\"relation\", \"type\":\"String\" }\n            ]\n        },\n        {  \n            \"to\":\"airport\",\n            \"name\":\"leg_origin\",\n            \"from\":\"leg\",\n            \"direction\" : 1,\n            \"attributes\":[\n            \t\t{ \"name\":\"relation\", \"type\":\"String\" }\n            ]\n        },\n        {  \n            \"to\":\"airport\",\n            \"name\":\"route_origin\",\n            \"from\":\"route\",\n            \"attributes\":[\n            \t\t{ \"name\":\"relation\", \"type\":\"String\" }\n            ]\n        },\n        {  \n            \"to\":\"airport\",\n            \"name\":\"route_destination\",\n            \"from\":\"route\",\n            \"attributes\":[\n            \t\t{ \"name\":\"relation\", \"type\":\"String\" }\n            ]\n        },\n        {  \n            \"to\":\"flight\",\n            \"name\":\"flight_event\",\n            \"from\":\"Day\",\n            \"attributes\":[\n            \t\t{ \"name\":\"relation\", \"type\":\"String\" },\n            \t\t{ \"name\":\"eventname\", \"type\":\"String\" },\n            \t\t{ \"name\":\"time\", \"type\":\"String\" }\n            ]\n        },\n         {  \n            \"to\":\"leg\",\n            \"name\":\"leg_event\",\n            \"from\":\"Day\",\n            \"attributes\":[\n            \t\t{ \"name\":\"relation\", \"type\":\"String\" },\n            \t\t{ \"name\":\"eventname\", \"type\":\"String\" },\n            \t\t{ \"name\":\"time\", \"type\":\"String\" }\n            ]\n        },\n        {  \n            \"to\":\"pnr\",\n            \"name\":\"pnr_event\",\n            \"from\":\"Day\",\n            \"attributes\":[\n            \t\t{ \"name\":\"relation\", \"type\":\"String\" },\n            \t\t{ \"name\":\"eventname\", \"type\":\"String\" },\n            \t\t{ \"name\":\"time\", \"type\":\"String\" }\n            ]\n        }\n    ]\n}\n"
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "flogo",
+                                    "key": "flogo/GraphBuilder/connector/graph/connector.json",
+                                    "display": {
+                                        "description": "This is URL file reader",
+                                        "category": "GraphBuilder",
+                                        "visible": true,
+                                        "smallIcon": "graph.png"
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "Connect",
+                                            "display": {
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            }
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "iteratorAccumulate": false,
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1589844237584,
+                                    "user": "flogo",
+                                    "connectorName": "Airline",
+                                    "connectorDescription": " "
+                                },
+                                "AllowNullKey": false,
+                                "BatchMode": false,
+                                "PassThrough": "",
+                                "Multiinstances": "[{\"EntityType\":\"Node\",\"Name\":\"airport\",\"NumberOfInstances\":\"2\"},{\"EntityType\":\"Edge\",\"Name\":\"leg_event\",\"NumberOfInstances\":\"2\"}]"
+                            },
+                            "input": {
+                                "Nodes": {
+                                    "mapping": {
+                                        "flight": {
+                                            "carrierCode": "=$iteration[value].FlightCarrierCode",
+                                            "type": "flight",
+                                            "typeflight": "",
+                                            "flightNumber": "=$iteration[value].FlightNumber",
+                                            "originLocalDate": "=$iteration[value].FlightOriginLocalDate",
+                                            "uuid": "=$iteration[value].FlightCarrierCode + \"-\" + $iteration[value].FlightNumber + \"-\" +$iteration[value].FlightOriginLocalDate",
+                                            "label": "=$iteration[value].FlightCarrierCode + \"-\" + $iteration[value].FlightNumber + \"-\" +$iteration[value].FlightOriginLocalDate",
+                                            "_skipCondition": "=null==$iteration[value].FlightNumber"
+                                        },
+                                        "route": {
+                                            "type": "route",
+                                            "typeroute": "",
+                                            "uuid": "=$iteration[value].FlightCarrierCode + \"-\" + $iteration[value].FlightNumber",
+                                            "origin": "=$iteration[value].FlightOriginStnCode",
+                                            "destination": "=$iteration[value].FlightDestStnCode",
+                                            "label": "=$iteration[value].FlightNumber + \" \" + $iteration[value].FlightOriginStnCode + \"-\" + $iteration[value].FlightDestStnCode"
+                                        },
+                                        "leg": {
+                                            "type": "leg",
+                                            "typeleg": "",
+                                            "uuid": "=$iteration[value].FlightCarrierCode + \", \" + $iteration[value].FlightNumber + \", \" + $iteration[value].FlightOriginLocalDate + \", \" + $iteration[value].FlightLegSeqNumber",
+                                            "label": "=$iteration[value].FlightNumber + \" \" + $iteration[value].SchDepStnCode + \"-\" + $iteration[value].SchArrStnCode + \" \" + $iteration[value].SchLocalDepDate"
+                                        },
+                                        "airport_0": {
+                                            "type": "airport",
+                                            "typeairport": "",
+                                            "uuid": "=$iteration[value].SchDepStnCode",
+                                            "label": "=$iteration[value].SchDepStnCode"
+                                        },
+                                        "airport_1": {
+                                            "type": "airport",
+                                            "typeairport": "",
+                                            "uuid": "=$iteration[value].SchArrStnCode",
+                                            "label": "=$iteration[value].SchArrStnCode"
+                                        }
+                                    }
+                                },
+                                "Edges": {
+                                    "mapping": {
+                                        "pnr_flight": {
+                                            "relation": "pnr_flight"
+                                        },
+                                        "flight_route": {
+                                            "relation": "flight_route"
+                                        },
+                                        "flight_leg": {
+                                            "relation": "flight_leg"
+                                        },
+                                        "leg_destination": {
+                                            "relation": "leg_destination",
+                                            "vertices": {
+                                                "from": "leg",
+                                                "to": "airport_1"
+                                            }
+                                        },
+                                        "leg_origin": {
+                                            "relation": "leg_origin",
+                                            "vertices": {
+                                                "from": "leg",
+                                                "to": "airport_0"
+                                            }
+                                        },
+                                        "route_origin": {
+                                            "relation": "route_origin",
+                                            "vertices": {
+                                                "from": "route",
+                                                "to": "airport_0"
+                                            }
+                                        },
+                                        "route_destination": {
+                                            "vertices": {
+                                                "from": "route",
+                                                "to": "airport_1"
+                                            },
+                                            "relation": "route_desination"
+                                        },
+                                        "leg_event_0": {
+                                            "relation": "event",
+                                            "eventname": "depart",
+                                            "time": "=$iteration[value].SchLocalDepDateTime"
+                                        },
+                                        "leg_event_1": {
+                                            "relation": "event",
+                                            "eventname": "arrive",
+                                            "time": "=$iteration[value].SchLocalArrDateTime"
+                                        },
+                                        "flight_event": {
+                                            "relation": "event",
+                                            "eventname": "depart",
+                                            "time": "=$iteration[value].FlightOriginLocalDate"
+                                        }
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Nodes": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"flight\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"type\":{\"type\":\"string\"},\"typeflight\":{\"type\":\"string\"},\"carrierCode\":{\"type\":\"string\"},\"flightNumber\":{\"type\":\"string\"},\"originLocalDate\":{\"type\":\"string\"},\"uuid\":{\"type\":\"string\"},\"label\":{\"type\":\"string\"}}},\"pnr\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"type\":{\"type\":\"string\"},\"typepnr\":{\"type\":\"string\"},\"uuid\":{\"type\":\"string\"},\"label\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"recordLocator\":{\"type\":\"string\"},\"numberInParty\":{\"type\":\"string\"},\"numberOfInfants\":{\"type\":\"string\"},\"phoneNumber\":{\"type\":\"string\"},\"email\":{\"type\":\"string\"},\"addrLine\":{\"type\":\"string\"},\"cityState\":{\"type\":\"string\"},\"zipCode\":{\"type\":\"string\"}}},\"passenger\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"type\":{\"type\":\"string\"},\"typepassenger\":{\"type\":\"string\"},\"uuid\":{\"type\":\"string\"},\"label\":{\"type\":\"string\"},\"firstname\":{\"type\":\"string\"},\"lastname\":{\"type\":\"string\"}}},\"route\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"type\":{\"type\":\"string\"},\"typeroute\":{\"type\":\"string\"},\"uuid\":{\"type\":\"string\"},\"origin\":{\"type\":\"string\"},\"destination\":{\"type\":\"string\"},\"label\":{\"type\":\"string\"}}},\"leg\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"type\":{\"type\":\"string\"},\"typeleg\":{\"type\":\"string\"},\"uuid\":{\"type\":\"string\"},\"label\":{\"type\":\"string\"}}},\"Day\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"type\":{\"type\":\"string\"},\"label\":{\"type\":\"string\"}}},\"airport_0\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"type\":{\"type\":\"string\"},\"typeairport\":{\"type\":\"string\"},\"uuid\":{\"type\":\"string\"},\"label\":{\"type\":\"string\"}}},\"airport_1\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"type\":{\"type\":\"string\"},\"typeairport\":{\"type\":\"string\"},\"uuid\":{\"type\":\"string\"},\"label\":{\"type\":\"string\"}}}}}",
+                                        "fe_metadata": "{\"flight\":{\"_skipCondition\":false,\"type\":\"2\",\"typeflight\":\"2\",\"carrierCode\":\"2\",\"flightNumber\":\"2\",\"originLocalDate\":\"2\",\"uuid\":\"2\",\"label\":\"2\"},\"pnr\":{\"_skipCondition\":false,\"type\":\"2\",\"typepnr\":\"2\",\"uuid\":\"2\",\"label\":\"2\",\"value\":\"2\",\"recordLocator\":\"2\",\"numberInParty\":\"2\",\"numberOfInfants\":\"2\",\"phoneNumber\":\"2\",\"email\":\"2\",\"addrLine\":\"2\",\"cityState\":\"2\",\"zipCode\":\"2\"},\"passenger\":{\"_skipCondition\":false,\"type\":\"2\",\"typepassenger\":\"2\",\"uuid\":\"2\",\"label\":\"2\",\"firstname\":\"2\",\"lastname\":\"2\"},\"route\":{\"_skipCondition\":false,\"type\":\"2\",\"typeroute\":\"2\",\"uuid\":\"2\",\"origin\":\"2\",\"destination\":\"2\",\"label\":\"2\"},\"leg\":{\"_skipCondition\":false,\"type\":\"2\",\"typeleg\":\"2\",\"uuid\":\"2\",\"label\":\"2\"},\"Day\":{\"_skipCondition\":false,\"type\":\"2\",\"label\":\"2\"},\"airport_0\":{\"_skipCondition\":false,\"type\":\"2\",\"typeairport\":\"2\",\"uuid\":\"2\",\"label\":\"2\"},\"airport_1\":{\"_skipCondition\":false,\"type\":\"2\",\"typeairport\":\"2\",\"uuid\":\"2\",\"label\":\"2\"}}"
+                                    },
+                                    "Edges": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"pnr_passenger\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}},\"relation\":{\"type\":\"string\"}}},\"pnr_flight\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}},\"relation\":{\"type\":\"string\"}}},\"flight_route\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}},\"relation\":{\"type\":\"string\"}}},\"flight_leg\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}},\"relation\":{\"type\":\"string\"}}},\"leg_destination\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}},\"relation\":{\"type\":\"string\"}}},\"leg_origin\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}},\"relation\":{\"type\":\"string\"}}},\"route_origin\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}},\"relation\":{\"type\":\"string\"}}},\"route_destination\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}},\"relation\":{\"type\":\"string\"}}},\"flight_event\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}},\"relation\":{\"type\":\"string\"},\"eventname\":{\"type\":\"string\"},\"time\":{\"type\":\"string\"}}},\"leg_event_0\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}},\"relation\":{\"type\":\"string\"},\"eventname\":{\"type\":\"string\"},\"time\":{\"type\":\"string\"}}},\"leg_event_1\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}},\"relation\":{\"type\":\"string\"},\"eventname\":{\"type\":\"string\"},\"time\":{\"type\":\"string\"}}},\"pnr_event\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}},\"relation\":{\"type\":\"string\"},\"eventname\":{\"type\":\"string\"},\"time\":{\"type\":\"string\"}}}}}",
+                                        "fe_metadata": "{\"pnr_passenger\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"},\"relation\":\"2\"},\"pnr_flight\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"},\"relation\":\"2\"},\"flight_route\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"},\"relation\":\"2\"},\"flight_leg\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"},\"relation\":\"2\"},\"leg_destination\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"},\"relation\":\"2\"},\"leg_origin\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"},\"relation\":\"2\"},\"route_origin\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"},\"relation\":\"2\"},\"route_destination\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"},\"relation\":\"2\"},\"flight_event\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"},\"relation\":\"2\",\"eventname\":\"2\",\"time\":\"2\"},\"leg_event_0\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"},\"relation\":\"2\",\"eventname\":\"2\",\"time\":\"2\"},\"leg_event_1\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"},\"relation\":\"2\",\"eventname\":\"2\",\"time\":\"2\"},\"pnr_event\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"},\"relation\":\"2\",\"eventname\":\"2\",\"time\":\"2\"}}"
+                                    },
+                                    "PassThroughData": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+                                        "fe_metadata": "{}"
+                                    }
+                                },
+                                "output": {
+                                    "PassThroughDataOut": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+                                        "fe_metadata": "{}"
+                                    }
+                                },
+                                "settings": {
+                                    "Multiinstances": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"EntityType\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"NumberOfInstances\":{\"type\":\"string\"}},\"required\":[\"EntityType\",\"Name\",\"NumberOfInstances\"]}}",
+                                        "fe_metadata": "[{\"EntityType\":\"Node\",\"Name\":\"airport\",\"NumberOfInstances\":\"2\"},{\"EntityType\":\"Edge\",\"Name\":\"leg_event\",\"NumberOfInstances\":\"2\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "TGDBUpsert",
+                        "name": "TGDBUpsert",
+                        "description": "This activity upsert to tgdb",
+                        "activity": {
+                            "ref": "#tgdbupsert",
+                            "settings": {
+                                "tgdbConnection": {
+                                    "id": "2e035500-995d-11ea-a030-d5552accd2a4",
+                                    "type": "flogo:connector",
+                                    "version": "1.0.0",
+                                    "name": "tibco-tgdb",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "TGDB Connector",
+                                    "description": "This is TGDB GraphDatabase connector",
+                                    "ref": "github.com/TIBCOSoftware/GraphBuilder_TGDB/connector/tgdb",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Connection Name",
+                                                "description": "Name of the connection"
+                                            },
+                                            "value": "TGDB"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "description": "Connection description"
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "url",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "TGDB Server URL",
+                                                "description": "TGDB server URL ex. tcp://scott@localhost:8222",
+                                                "type": "string"
+                                            },
+                                            "value": "tcp://scott@localhost:8222"
+                                        },
+                                        {
+                                            "name": "user",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Username",
+                                                "description": "Username for login to TGDB server",
+                                                "type": "string"
+                                            },
+                                            "value": "scott"
+                                        },
+                                        {
+                                            "name": "password",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Password",
+                                                "description": "Password for login to TGDB server",
+                                                "type": "password"
+                                            },
+                                            "value": "SECRET:PM471417cEupRREL/4uyGr/zZfSd"
+                                        },
+                                        {
+                                            "name": "keepAlive",
+                                            "type": "boolean",
+                                            "display": {
+                                                "name": "Keep Connection Alive",
+                                                "description": "Will keep connection alive"
+                                            },
+                                            "value": true,
+                                            "required": true
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "flogo",
+                                    "key": "flogo/GraphBuilder_TGDB/connector/connector.json",
+                                    "display": {
+                                        "description": "This is TGDB GraphDatabase connector",
+                                        "category": "GraphBuilder_TGDB",
+                                        "visible": true,
+                                        "smallIcon": "tgdb.png"
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "Connect",
+                                            "display": {
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            }
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "iteratorAccumulate": false,
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1589844104666,
+                                    "user": "flogo",
+                                    "connectorName": "TGDB",
+                                    "connectorDescription": " "
+                                },
+                                "allowEmptyStringKey": true
+                            },
+                            "input": {
+                                "Graph": "=$activity[BuildGraph].Graph"
+                            }
+                        }
+                    }
+                ],
+                "errorHandler": {
+                    "tasks": [
+                        {
+                            "id": "Return",
+                            "name": "Return",
+                            "description": "",
+                            "activity": {
+                                "ref": "#actreturn"
+                            }
+                        }
+                    ],
+                    "links": []
+                },
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "MessageId",
+                            "type": "string"
+                        },
+                        {
+                            "name": "FileContent",
+                            "type": "string"
+                        },
+                        {
+                            "name": "ModifiedTime",
+                            "type": "integer"
+                        },
+                        {
+                            "name": "LineNumber",
+                            "type": "integer"
+                        }
+                    ],
+                    "output": [],
+                    "fe_metadata": {
+                        "input": "{\"type\":\"object\",\"title\":\"FlightDataReader\",\"properties\":{\"MessageId\":{\"type\":\"string\",\"required\":false},\"FileContent\":{\"type\":\"string\",\"required\":false},\"ModifiedTime\":{\"type\":\"integer\",\"required\":false},\"LineNumber\":{\"type\":\"integer\",\"required\":false}}}"
+                    }
+                }
+            }
+        },
+        {
+            "id": "flow:PNR_Event",
+            "data": {
+                "name": "PNR Event",
+                "description": "",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "JSONParser",
+                        "to": "BuildGraph",
+                        "type": "default"
+                    },
+                    {
+                        "id": 2,
+                        "from": "BuildGraph",
+                        "to": "TGDBUpsert",
+                        "type": "default"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "JSONParser",
+                        "name": "JSONParser",
+                        "description": "JSON Parser Activity",
+                        "activity": {
+                            "ref": "#jsonparser",
+                            "settings": {
+                                "DateFormat": "",
+                                "ServeGraphData": false,
+                                "OutputFieldnames": "[{\"AttributeName\":\"id\",\"JSONPath\":\"root.id\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"recordLocator\",\"JSONPath\":\"root.PNR.PNRRecordLocator\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"numberOfInfants\",\"JSONPath\":\"root.PNR. NumberOfInfants\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"numberInParty\",\"JSONPath\":\"root.PNR.NumberInParty\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"phoneNumber\",\"JSONPath\":\"root.PNR.PNRPhone.PNRPhoneNumber\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"email\",\"JSONPath\":\"root.PNR.PNREmail.PNREmailAddr\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"addrLine1\",\"JSONPath\":\"root.PNR.PNRLinedAddr.PNRAddrLine1\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"addrLine2\",\"JSONPath\":\"root.PNR.PNRLinedAddr.PNRAddrLine2\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"addrLine3\",\"JSONPath\":\"root.PNR.PNRLinedAddr.PNRAddrLine3\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"addrLine4\",\"JSONPath\":\"root.PNR.PNRLinedAddr.PNRAddrLine4\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"FirstName\",\"JSONPath\":\"root.PNR.PNRPax.FirstName\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"LastName\",\"JSONPath\":\"root.PNR.PNRPax.LastName\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"carrierCode\",\"JSONPath\":\"root.PNR.PNRItinAirSeg.PNRItinAirSegOperatingCarrierCode\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"flightNumber\",\"JSONPath\":\"root.PNR.PNRItinAirSeg.PNRItinAirSegOperatingFlightNumber\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"originLocalDate\",\"JSONPath\":\"root.PNR.PNRItinAirSeg.PNRItinAirSegDepLocalDate\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"originAirportCode\",\"JSONPath\":\"root.PNR.PNRItinAirSeg.PNRItinAirSegOriginAirportCode\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"destAirportCode\",\"JSONPath\":\"root.PNR.PNRItinAirSeg.PNRItinAirSegDestAirportCode\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"PNRCreateDate\",\"JSONPath\":\"root.PNR.PNRCreateDate\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"airSegDepLocalDate\",\"JSONPath\":\"root.PNR.PNRItinAirSeg.PNRItinAirSegDepLocalDate\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"}]",
+                                "PreviousConnector": ""
+                            },
+                            "input": {
+                                "JSONString": "=$flow.FileContent"
+                            },
+                            "schemas": {
+                                "output": {
+                                    "Data": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"recordLocator\":{\"type\":\"string\"},\"numberOfInfants\":{\"type\":\"string\"},\"numberInParty\":{\"type\":\"string\"},\"phoneNumber\":{\"type\":\"string\"},\"email\":{\"type\":\"string\"},\"addrLine1\":{\"type\":\"string\"},\"addrLine2\":{\"type\":\"string\"},\"addrLine3\":{\"type\":\"string\"},\"addrLine4\":{\"type\":\"string\"},\"FirstName\":{\"type\":\"string\"},\"LastName\":{\"type\":\"string\"},\"carrierCode\":{\"type\":\"string\"},\"flightNumber\":{\"type\":\"string\"},\"originLocalDate\":{\"type\":\"string\"},\"originAirportCode\":{\"type\":\"string\"},\"destAirportCode\":{\"type\":\"string\"},\"PNRCreateDate\":{\"type\":\"string\"},\"airSegDepLocalDate\":{\"type\":\"string\"},\"LastElement\":{\"type\":\"boolean\"}}}}",
+                                        "fe_metadata": "[{\"id\":\"2\",\"recordLocator\":\"2\",\"numberOfInfants\":\"2\",\"numberInParty\":\"2\",\"phoneNumber\":\"2\",\"email\":\"2\",\"addrLine1\":\"2\",\"addrLine2\":\"2\",\"addrLine3\":\"2\",\"addrLine4\":\"2\",\"FirstName\":\"2\",\"LastName\":\"2\",\"carrierCode\":\"2\",\"flightNumber\":\"2\",\"originLocalDate\":\"2\",\"originAirportCode\":\"2\",\"destAirportCode\":\"2\",\"PNRCreateDate\":\"2\",\"airSegDepLocalDate\":\"2\",\"LastElement\":true}]"
+                                    }
+                                },
+                                "settings": {
+                                    "OutputFieldnames": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"AttributeName\":{\"type\":\"string\"},\"JSONPath\":{\"type\":\"string\"},\"Default\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Optional\":{\"type\":\"string\"}},\"required\":[\"AttributeName\",\"JSONPath\",\"Default\",\"Type\",\"Optional\"]}}",
+                                        "fe_metadata": "[{\"AttributeName\":\"id\",\"JSONPath\":\"root.id\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"recordLocator\",\"JSONPath\":\"root.PNR.PNRRecordLocator\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"numberOfInfants\",\"JSONPath\":\"root.PNR. NumberOfInfants\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"numberInParty\",\"JSONPath\":\"root.PNR.NumberInParty\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"phoneNumber\",\"JSONPath\":\"root.PNR.PNRPhone.PNRPhoneNumber\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"email\",\"JSONPath\":\"root.PNR.PNREmail.PNREmailAddr\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"addrLine1\",\"JSONPath\":\"root.PNR.PNRLinedAddr.PNRAddrLine1\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"addrLine2\",\"JSONPath\":\"root.PNR.PNRLinedAddr.PNRAddrLine2\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"addrLine3\",\"JSONPath\":\"root.PNR.PNRLinedAddr.PNRAddrLine3\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"addrLine4\",\"JSONPath\":\"root.PNR.PNRLinedAddr.PNRAddrLine4\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"FirstName\",\"JSONPath\":\"root.PNR.PNRPax.FirstName\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"LastName\",\"JSONPath\":\"root.PNR.PNRPax.LastName\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"carrierCode\",\"JSONPath\":\"root.PNR.PNRItinAirSeg.PNRItinAirSegOperatingCarrierCode\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"flightNumber\",\"JSONPath\":\"root.PNR.PNRItinAirSeg.PNRItinAirSegOperatingFlightNumber\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"originLocalDate\",\"JSONPath\":\"root.PNR.PNRItinAirSeg.PNRItinAirSegDepLocalDate\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"originAirportCode\",\"JSONPath\":\"root.PNR.PNRItinAirSeg.PNRItinAirSegOriginAirportCode\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"destAirportCode\",\"JSONPath\":\"root.PNR.PNRItinAirSeg.PNRItinAirSegDestAirportCode\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"PNRCreateDate\",\"JSONPath\":\"root.PNR.PNRCreateDate\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"airSegDepLocalDate\",\"JSONPath\":\"root.PNR.PNRItinAirSeg.PNRItinAirSegDepLocalDate\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "BuildGraph",
+                        "name": "BuildGraph",
+                        "description": "This activity build graph from incoming data",
+                        "type": "iterator",
+                        "settings": {
+                            "iterate": "=$activity[JSONParser].Data",
+                            "accumulate": false
+                        },
+                        "activity": {
+                            "ref": "#builder",
+                            "settings": {
+                                "GraphModel": {
+                                    "id": "2e024390-995d-11ea-a030-d5552accd2a4",
+                                    "type": "flogo:connector",
+                                    "version": "1.0.0",
+                                    "name": "tibco-graph",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "Graph",
+                                    "description": "This is URL file reader",
+                                    "ref": "github.com/TIBCOSoftware/GraphBuilder/connector/graph",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Graph Name",
+                                                "description": "Name of the graph"
+                                            },
+                                            "value": "Airline"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "description": "Graph description"
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "modelSource",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Model Source",
+                                                "description": "Where the model stored",
+                                                "type": "string"
+                                            },
+                                            "allowed": [
+                                                "Local File",
+                                                "TGDB"
+                                            ],
+                                            "value": "Local File"
+                                        },
+                                        {
+                                            "name": "url",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Model Server URL",
+                                                "description": "URL to the model server, ex. http://localhost:9999/tgdb/metadata",
+                                                "type": "string",
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": false
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "model",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Graph Model",
+                                                "description": "Define nodes and entities for a graph",
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".tgbm",
+                                                    ".json"
+                                                ],
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            },
+                                            "value": {
+                                                "filename": "AirLine_model.json",
+                                                "content": "data:application/json;base64,eyAgCgkibm9kZXMiOlsgIAoJCXsgIAogICAgICAgICAgICAibmFtZSI6ImZsaWdodCIsCiAgICAgICAgICAgICJrZXkiOlsidXVpZCJdLAogICAgICAgICAgICAiYXR0cmlidXRlcyI6WyAgCiAgICAgICAgICAgICAgIHsgIm5hbWUiOiJ0eXBlIiwgInR5cGUiOiJTdHJpbmciIH0sCiAgICAgICAgICAgICAgIHsgIm5hbWUiOiJ0eXBlZmxpZ2h0IiwgInR5cGUiOiJTdHJpbmciIH0sCiAgICAgICAgICAgICAgIHsgIm5hbWUiOiJjYXJyaWVyQ29kZSIsICJ0eXBlIjoiU3RyaW5nIiB9LAogICAgICAgICAgICAgICB7ICJuYW1lIjoiZmxpZ2h0TnVtYmVyIiwgInR5cGUiOiJTdHJpbmciIH0sCiAgICAgICAgICAgICAgIHsgIm5hbWUiOiJvcmlnaW5Mb2NhbERhdGUiLCAidHlwZSI6IlN0cmluZyIgfSwKICAgICAgICAgICAgICAgeyAibmFtZSI6InV1aWQiLCAidHlwZSI6IlN0cmluZyIgfSwKICAgICAgICAgICAgICAgeyAibmFtZSI6ImxhYmVsIiwidHlwZSI6IlN0cmluZyIgfQogICAgICAgICAgICBdCiAgICAgICAgIH0sCiAgICAgICAgIHsgIAogICAgICAgICAgICAibmFtZSI6InBuciIsCiAgICAgICAgICAgICJrZXkiOlsidXVpZCJdLAogICAgICAgICAgICAiYXR0cmlidXRlcyI6WyAgCgkJCQl7ICJuYW1lIjoidHlwZSIsICJ0eXBlIjoiU3RyaW5nIiB9LAoJCQkJeyAibmFtZSI6InR5cGVwbnIiLCAidHlwZSI6IlN0cmluZyIgfSwKCQkJCXsgIm5hbWUiOiJ1dWlkIiwgInR5cGUiOiJTdHJpbmciIH0sCgkJCQl7ICJuYW1lIjoibGFiZWwiLCAidHlwZSI6IlN0cmluZyIgfSwKCQkJCXsgIm5hbWUiOiJ2YWx1ZSIsICJ0eXBlIjoiU3RyaW5nIiB9LAoJCQkJeyAibmFtZSI6InJlY29yZExvY2F0b3IiLCAidHlwZSI6IlN0cmluZyIgfSwKCQkJCXsgIm5hbWUiOiJudW1iZXJJblBhcnR5IiwgInR5cGUiOiJTdHJpbmciIH0sCgkJCQl7ICJuYW1lIjoibnVtYmVyT2ZJbmZhbnRzIiwgInR5cGUiOiJTdHJpbmciIH0sCgkJCQl7ICJuYW1lIjoicGhvbmVOdW1iZXIiLCAidHlwZSI6IlN0cmluZyIgfSwKCQkJCXsgIm5hbWUiOiJlbWFpbCIsICJ0eXBlIjoiU3RyaW5nIiB9LAoJCQkJeyAibmFtZSI6ImFkZHJMaW5lIiwgInR5cGUiOiJTdHJpbmciIH0sCgkJCQl7ICJuYW1lIjoiY2l0eVN0YXRlIiwgInR5cGUiOiJTdHJpbmciIH0sCgkJCQl7ICJuYW1lIjoiemlwQ29kZSIsICJ0eXBlIjoiU3RyaW5nIiB9CiAgICAgICAgICAgIF0KICAgICAgICAgfSwKICAgICAgICAgeyAgCiAgICAgICAgICAgICJuYW1lIjoicGFzc2VuZ2VyIiwKICAgICAgICAgICAgImtleSI6WyJ1dWlkIl0sCiAgICAgICAgICAgICJhdHRyaWJ1dGVzIjpbCiAgICAgICAgICAgIAkJeyAibmFtZSI6InR5cGUiLCAidHlwZSI6IlN0cmluZyIgfSwKICAgICAgICAgICAgCQl7ICJuYW1lIjoidHlwZXBhc3NlbmdlciIsICJ0eXBlIjoiU3RyaW5nIiB9LAogICAgICAgICAgICAJCXsgIm5hbWUiOiJ1dWlkIiwgInR5cGUiOiJTdHJpbmciIH0sCiAgICAgICAgICAgIAkJeyAibmFtZSI6ImxhYmVsIiwgInR5cGUiOiJTdHJpbmciIH0sCiAgICAgICAgICAgIAkJeyAibmFtZSI6ImZpcnN0bmFtZSIsICJ0eXBlIjoiU3RyaW5nIiB9LAogICAgICAgICAgICAJCXsgIm5hbWUiOiJsYXN0bmFtZSIsICJ0eXBlIjoiU3RyaW5nIiB9CiAgICAgICAgICAgIF0KCQl9LAogICAgICAgIHsgIAogICAgICAgICAgICAibmFtZSI6InJvdXRlIiwKICAgICAgICAgICAgImtleSI6WyJ1dWlkIl0sCiAgICAgICAgICAgICJhdHRyaWJ1dGVzIjpbCiAgICAgICAgICAgIAkJeyAibmFtZSI6InR5cGUiLCAidHlwZSI6IlN0cmluZyIgfSwKICAgICAgICAgICAgCQl7ICJuYW1lIjoidHlwZXJvdXRlIiwgInR5cGUiOiJTdHJpbmciIH0sCiAgICAgICAgICAgIAkJeyAibmFtZSI6InV1aWQiLCAidHlwZSI6IlN0cmluZyIgfSwKICAgICAgICAgICAgCQl7ICJuYW1lIjoib3JpZ2luIiwgInR5cGUiOiJTdHJpbmciIH0sCiAgICAgICAgICAgIAkJeyAibmFtZSI6ImRlc3RpbmF0aW9uIiwgInR5cGUiOiJTdHJpbmciIH0sCiAgICAgICAgICAgIAkJeyAibmFtZSI6ImxhYmVsIiwgInR5cGUiOiJTdHJpbmciIH0KICAgICAgICAgICAgXQogICAgICAgIH0sCiAgICAgICAgeyAgCiAgICAgICAgICAgICJuYW1lIjoibGVnIiwKICAgICAgICAgICAgImtleSI6WyJ1dWlkIl0sCiAgICAgICAgICAgICJhdHRyaWJ1dGVzIjpbCiAgICAgICAgICAgIAkJeyAibmFtZSI6InR5cGUiLCAidHlwZSI6IlN0cmluZyIgfSwKICAgICAgICAgICAgCQl7ICJuYW1lIjoidHlwZWxlZyIsICJ0eXBlIjoiU3RyaW5nIiB9LAogICAgICAgICAgICAJCXsgIm5hbWUiOiJ1dWlkIiwgInR5cGUiOiJTdHJpbmciIH0sCiAgICAgICAgICAgIAkJeyAibmFtZSI6ImxhYmVsIiwgInR5cGUiOiJTdHJpbmciIH0KICAgICAgICAgICAgXQogICAgICAgIH0sCgkJewogICAgICAgICAgICAibmFtZSI6IkRheSIsCiAgICAgICAgICAgICJrZXkiOlsibGFiZWwiXSwKICAgICAgICAgICAgImF0dHJpYnV0ZXMiOlsKICAgICAgICAgICAgICAgeyAibmFtZSI6InR5cGUiLCAgInR5cGUiOiJTdHJpbmciIH0sCiAgICAgICAgICAgICAgIHsgIm5hbWUiOiJsYWJlbCIsICJ0eXBlIjoiU3RyaW5nIiB9CiAgICAgICAgICAgXQogICAgICAgIH0sCiAgICAgICAgeyAgCiAgICAgICAgICAgICJuYW1lIjoiYWlycG9ydCIsCiAgICAgICAgICAgICJrZXkiOlsidXVpZCJdLAogICAgICAgICAgICAiYXR0cmlidXRlcyI6WwogICAgICAgICAgICAJCXsgIm5hbWUiOiJ0eXBlIiwgInR5cGUiOiJTdHJpbmciIH0sCiAgICAgICAgICAgIAkJeyAibmFtZSI6InR5cGVhaXJwb3J0IiwgInR5cGUiOiJTdHJpbmciIH0sCiAgICAgICAgICAgIAkJeyAibmFtZSI6InV1aWQiLCAidHlwZSI6IlN0cmluZyIgfSwKICAgICAgICAgICAgCQl7ICJuYW1lIjoibGFiZWwiLCAidHlwZSI6IlN0cmluZyIgfQogICAgICAgICAgICBdCiAgICAgICAgfQogICAgXSwKICAgICJlZGdlcyI6WyAgCiAgICAgICAgeyAgCiAgICAgICAgICAgICJ0byI6InBhc3NlbmdlciIsCiAgICAgICAgICAgICJuYW1lIjoicG5yX3Bhc3NlbmdlciIsCiAgICAgICAgICAgICJmcm9tIjoicG5yIiwKICAgICAgICAgICAgImF0dHJpYnV0ZXMiOlsKICAgICAgICAgICAgCQl7ICJuYW1lIjoicmVsYXRpb24iLCAidHlwZSI6IlN0cmluZyIgfQogICAgICAgICAgICBdCiAgICAgICAgfSwKICAgICAgICB7ICAKICAgICAgICAgICAgInRvIjoiZmxpZ2h0IiwKICAgICAgICAgICAgIm5hbWUiOiJwbnJfZmxpZ2h0IiwKICAgICAgICAgICAgImZyb20iOiJwbnIiLAogICAgICAgICAgICAiYXR0cmlidXRlcyI6WwogICAgICAgICAgICAJCXsgIm5hbWUiOiJyZWxhdGlvbiIsICJ0eXBlIjoiU3RyaW5nIiB9CiAgICAgICAgICAgIF0KICAgICAgICB9LAogICAgICAgeyAgCiAgICAgICAgICAgICJ0byI6InJvdXRlIiwKICAgICAgICAgICAgIm5hbWUiOiJmbGlnaHRfcm91dGUiLAogICAgICAgICAgICAiZnJvbSI6ImZsaWdodCIsCiAgICAgICAgICAgICJhdHRyaWJ1dGVzIjpbIAogICAgICAgICAgICAJCXsibmFtZSI6InJlbGF0aW9uIiwgInR5cGUiOiJTdHJpbmciIH0KICAgICAgICAgICAgXQogICAgICAgIH0sCiAgICAgICAgeyAgCiAgICAgICAgICAgICJ0byI6ImxlZyIsCiAgICAgICAgICAgICJuYW1lIjoiZmxpZ2h0X2xlZyIsCiAgICAgICAgICAgICJmcm9tIjoiZmxpZ2h0IiwKICAgICAgICAgICAgImF0dHJpYnV0ZXMiOlsKICAgICAgICAgICAgCQl7ICJuYW1lIjoicmVsYXRpb24iLCAidHlwZSI6IlN0cmluZyIgfQogICAgICAgICAgICBdCiAgICAgICAgfSwKICAgICAgICB7ICAKICAgICAgICAgICAgInRvIjoiYWlycG9ydCIsCiAgICAgICAgICAgICJuYW1lIjoibGVnX2Rlc3RpbmF0aW9uIiwKICAgICAgICAgICAgImZyb20iOiJsZWciLAogICAgICAgICAgICAiYXR0cmlidXRlcyI6WwogICAgICAgICAgICAJCXsgICAibmFtZSI6InJlbGF0aW9uIiwgInR5cGUiOiJTdHJpbmciIH0KICAgICAgICAgICAgXQogICAgICAgIH0sCiAgICAgICAgeyAgCiAgICAgICAgICAgICJ0byI6ImFpcnBvcnQiLAogICAgICAgICAgICAibmFtZSI6ImxlZ19vcmlnaW4iLAogICAgICAgICAgICAiZnJvbSI6ImxlZyIsCiAgICAgICAgICAgICJkaXJlY3Rpb24iIDogMSwKICAgICAgICAgICAgImF0dHJpYnV0ZXMiOlsKICAgICAgICAgICAgCQl7ICJuYW1lIjoicmVsYXRpb24iLCAidHlwZSI6IlN0cmluZyIgfQogICAgICAgICAgICBdCiAgICAgICAgfSwKICAgICAgICB7ICAKICAgICAgICAgICAgInRvIjoiYWlycG9ydCIsCiAgICAgICAgICAgICJuYW1lIjoicm91dGVfb3JpZ2luIiwKICAgICAgICAgICAgImZyb20iOiJyb3V0ZSIsCiAgICAgICAgICAgICJhdHRyaWJ1dGVzIjpbCiAgICAgICAgICAgIAkJeyAibmFtZSI6InJlbGF0aW9uIiwgInR5cGUiOiJTdHJpbmciIH0KICAgICAgICAgICAgXQogICAgICAgIH0sCiAgICAgICAgeyAgCiAgICAgICAgICAgICJ0byI6ImFpcnBvcnQiLAogICAgICAgICAgICAibmFtZSI6InJvdXRlX2Rlc3RpbmF0aW9uIiwKICAgICAgICAgICAgImZyb20iOiJyb3V0ZSIsCiAgICAgICAgICAgICJhdHRyaWJ1dGVzIjpbCiAgICAgICAgICAgIAkJeyAibmFtZSI6InJlbGF0aW9uIiwgInR5cGUiOiJTdHJpbmciIH0KICAgICAgICAgICAgXQogICAgICAgIH0sCiAgICAgICAgeyAgCiAgICAgICAgICAgICJ0byI6ImZsaWdodCIsCiAgICAgICAgICAgICJuYW1lIjoiZmxpZ2h0X2V2ZW50IiwKICAgICAgICAgICAgImZyb20iOiJEYXkiLAogICAgICAgICAgICAiYXR0cmlidXRlcyI6WwogICAgICAgICAgICAJCXsgIm5hbWUiOiJyZWxhdGlvbiIsICJ0eXBlIjoiU3RyaW5nIiB9LAogICAgICAgICAgICAJCXsgIm5hbWUiOiJldmVudG5hbWUiLCAidHlwZSI6IlN0cmluZyIgfSwKICAgICAgICAgICAgCQl7ICJuYW1lIjoidGltZSIsICJ0eXBlIjoiU3RyaW5nIiB9CiAgICAgICAgICAgIF0KICAgICAgICB9LAogICAgICAgICB7ICAKICAgICAgICAgICAgInRvIjoibGVnIiwKICAgICAgICAgICAgIm5hbWUiOiJsZWdfZXZlbnQiLAogICAgICAgICAgICAiZnJvbSI6IkRheSIsCiAgICAgICAgICAgICJhdHRyaWJ1dGVzIjpbCiAgICAgICAgICAgIAkJeyAibmFtZSI6InJlbGF0aW9uIiwgInR5cGUiOiJTdHJpbmciIH0sCiAgICAgICAgICAgIAkJeyAibmFtZSI6ImV2ZW50bmFtZSIsICJ0eXBlIjoiU3RyaW5nIiB9LAogICAgICAgICAgICAJCXsgIm5hbWUiOiJ0aW1lIiwgInR5cGUiOiJTdHJpbmciIH0KICAgICAgICAgICAgXQogICAgICAgIH0sCiAgICAgICAgeyAgCiAgICAgICAgICAgICJ0byI6InBuciIsCiAgICAgICAgICAgICJuYW1lIjoicG5yX2V2ZW50IiwKICAgICAgICAgICAgImZyb20iOiJEYXkiLAogICAgICAgICAgICAiYXR0cmlidXRlcyI6WwogICAgICAgICAgICAJCXsgIm5hbWUiOiJyZWxhdGlvbiIsICJ0eXBlIjoiU3RyaW5nIiB9LAogICAgICAgICAgICAJCXsgIm5hbWUiOiJldmVudG5hbWUiLCAidHlwZSI6IlN0cmluZyIgfSwKICAgICAgICAgICAgCQl7ICJuYW1lIjoidGltZSIsICJ0eXBlIjoiU3RyaW5nIiB9CiAgICAgICAgICAgIF0KICAgICAgICB9CiAgICBdCn0K"
+                                            }
+                                        },
+                                        {
+                                            "name": "metadata",
+                                            "type": "string",
+                                            "display": {
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": false
+                                            },
+                                            "value": "{  \n\t\"nodes\":[  \n\t\t{  \n            \"name\":\"flight\",\n            \"key\":[\"uuid\"],\n            \"attributes\":[  \n               { \"name\":\"type\", \"type\":\"String\" },\n               { \"name\":\"typeflight\", \"type\":\"String\" },\n               { \"name\":\"carrierCode\", \"type\":\"String\" },\n               { \"name\":\"flightNumber\", \"type\":\"String\" },\n               { \"name\":\"originLocalDate\", \"type\":\"String\" },\n               { \"name\":\"uuid\", \"type\":\"String\" },\n               { \"name\":\"label\",\"type\":\"String\" }\n            ]\n         },\n         {  \n            \"name\":\"pnr\",\n            \"key\":[\"uuid\"],\n            \"attributes\":[  \n\t\t\t\t{ \"name\":\"type\", \"type\":\"String\" },\n\t\t\t\t{ \"name\":\"typepnr\", \"type\":\"String\" },\n\t\t\t\t{ \"name\":\"uuid\", \"type\":\"String\" },\n\t\t\t\t{ \"name\":\"label\", \"type\":\"String\" },\n\t\t\t\t{ \"name\":\"value\", \"type\":\"String\" },\n\t\t\t\t{ \"name\":\"recordLocator\", \"type\":\"String\" },\n\t\t\t\t{ \"name\":\"numberInParty\", \"type\":\"String\" },\n\t\t\t\t{ \"name\":\"numberOfInfants\", \"type\":\"String\" },\n\t\t\t\t{ \"name\":\"phoneNumber\", \"type\":\"String\" },\n\t\t\t\t{ \"name\":\"email\", \"type\":\"String\" },\n\t\t\t\t{ \"name\":\"addrLine\", \"type\":\"String\" },\n\t\t\t\t{ \"name\":\"cityState\", \"type\":\"String\" },\n\t\t\t\t{ \"name\":\"zipCode\", \"type\":\"String\" }\n            ]\n         },\n         {  \n            \"name\":\"passenger\",\n            \"key\":[\"uuid\"],\n            \"attributes\":[\n            \t\t{ \"name\":\"type\", \"type\":\"String\" },\n            \t\t{ \"name\":\"typepassenger\", \"type\":\"String\" },\n            \t\t{ \"name\":\"uuid\", \"type\":\"String\" },\n            \t\t{ \"name\":\"label\", \"type\":\"String\" },\n            \t\t{ \"name\":\"firstname\", \"type\":\"String\" },\n            \t\t{ \"name\":\"lastname\", \"type\":\"String\" }\n            ]\n\t\t},\n        {  \n            \"name\":\"route\",\n            \"key\":[\"uuid\"],\n            \"attributes\":[\n            \t\t{ \"name\":\"type\", \"type\":\"String\" },\n            \t\t{ \"name\":\"typeroute\", \"type\":\"String\" },\n            \t\t{ \"name\":\"uuid\", \"type\":\"String\" },\n            \t\t{ \"name\":\"origin\", \"type\":\"String\" },\n            \t\t{ \"name\":\"destination\", \"type\":\"String\" },\n            \t\t{ \"name\":\"label\", \"type\":\"String\" }\n            ]\n        },\n        {  \n            \"name\":\"leg\",\n            \"key\":[\"uuid\"],\n            \"attributes\":[\n            \t\t{ \"name\":\"type\", \"type\":\"String\" },\n            \t\t{ \"name\":\"typeleg\", \"type\":\"String\" },\n            \t\t{ \"name\":\"uuid\", \"type\":\"String\" },\n            \t\t{ \"name\":\"label\", \"type\":\"String\" }\n            ]\n        },\n\t\t{\n            \"name\":\"Day\",\n            \"key\":[\"label\"],\n            \"attributes\":[\n               { \"name\":\"type\",  \"type\":\"String\" },\n               { \"name\":\"label\", \"type\":\"String\" }\n           ]\n        },\n        {  \n            \"name\":\"airport\",\n            \"key\":[\"uuid\"],\n            \"attributes\":[\n            \t\t{ \"name\":\"type\", \"type\":\"String\" },\n            \t\t{ \"name\":\"typeairport\", \"type\":\"String\" },\n            \t\t{ \"name\":\"uuid\", \"type\":\"String\" },\n            \t\t{ \"name\":\"label\", \"type\":\"String\" }\n            ]\n        }\n    ],\n    \"edges\":[  \n        {  \n            \"to\":\"passenger\",\n            \"name\":\"pnr_passenger\",\n            \"from\":\"pnr\",\n            \"attributes\":[\n            \t\t{ \"name\":\"relation\", \"type\":\"String\" }\n            ]\n        },\n        {  \n            \"to\":\"flight\",\n            \"name\":\"pnr_flight\",\n            \"from\":\"pnr\",\n            \"attributes\":[\n            \t\t{ \"name\":\"relation\", \"type\":\"String\" }\n            ]\n        },\n       {  \n            \"to\":\"route\",\n            \"name\":\"flight_route\",\n            \"from\":\"flight\",\n            \"attributes\":[ \n            \t\t{\"name\":\"relation\", \"type\":\"String\" }\n            ]\n        },\n        {  \n            \"to\":\"leg\",\n            \"name\":\"flight_leg\",\n            \"from\":\"flight\",\n            \"attributes\":[\n            \t\t{ \"name\":\"relation\", \"type\":\"String\" }\n            ]\n        },\n        {  \n            \"to\":\"airport\",\n            \"name\":\"leg_destination\",\n            \"from\":\"leg\",\n            \"attributes\":[\n            \t\t{   \"name\":\"relation\", \"type\":\"String\" }\n            ]\n        },\n        {  \n            \"to\":\"airport\",\n            \"name\":\"leg_origin\",\n            \"from\":\"leg\",\n            \"direction\" : 1,\n            \"attributes\":[\n            \t\t{ \"name\":\"relation\", \"type\":\"String\" }\n            ]\n        },\n        {  \n            \"to\":\"airport\",\n            \"name\":\"route_origin\",\n            \"from\":\"route\",\n            \"attributes\":[\n            \t\t{ \"name\":\"relation\", \"type\":\"String\" }\n            ]\n        },\n        {  \n            \"to\":\"airport\",\n            \"name\":\"route_destination\",\n            \"from\":\"route\",\n            \"attributes\":[\n            \t\t{ \"name\":\"relation\", \"type\":\"String\" }\n            ]\n        },\n        {  \n            \"to\":\"flight\",\n            \"name\":\"flight_event\",\n            \"from\":\"Day\",\n            \"attributes\":[\n            \t\t{ \"name\":\"relation\", \"type\":\"String\" },\n            \t\t{ \"name\":\"eventname\", \"type\":\"String\" },\n            \t\t{ \"name\":\"time\", \"type\":\"String\" }\n            ]\n        },\n         {  \n            \"to\":\"leg\",\n            \"name\":\"leg_event\",\n            \"from\":\"Day\",\n            \"attributes\":[\n            \t\t{ \"name\":\"relation\", \"type\":\"String\" },\n            \t\t{ \"name\":\"eventname\", \"type\":\"String\" },\n            \t\t{ \"name\":\"time\", \"type\":\"String\" }\n            ]\n        },\n        {  \n            \"to\":\"pnr\",\n            \"name\":\"pnr_event\",\n            \"from\":\"Day\",\n            \"attributes\":[\n            \t\t{ \"name\":\"relation\", \"type\":\"String\" },\n            \t\t{ \"name\":\"eventname\", \"type\":\"String\" },\n            \t\t{ \"name\":\"time\", \"type\":\"String\" }\n            ]\n        }\n    ]\n}\n"
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "flogo",
+                                    "key": "flogo/GraphBuilder/connector/graph/connector.json",
+                                    "display": {
+                                        "description": "This is URL file reader",
+                                        "category": "GraphBuilder",
+                                        "visible": true,
+                                        "smallIcon": "graph.png"
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "Connect",
+                                            "display": {
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            }
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "iteratorAccumulate": false,
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1589844237584,
+                                    "user": "flogo",
+                                    "connectorName": "Airline",
+                                    "connectorDescription": " "
+                                },
+                                "AllowNullKey": false,
+                                "BatchMode": false,
+                                "PassThrough": "",
+                                "Multiinstances": ""
+                            },
+                            "input": {
+                                "Nodes": {
+                                    "mapping": {
+                                        "pnr": {
+                                            "uuid": "=$iteration[value].id",
+                                            "type": "pnr",
+                                            "typepnr": "",
+                                            "label": "=$iteration[value].recordLocator",
+                                            "value": "=$iteration[value].recordLocator",
+                                            "recordLocator": "=$iteration[value].recordLocator",
+                                            "phoneNumber": "=$iteration[value].phoneNumber",
+                                            "numberInParty": "=$iteration[value].numberInParty",
+                                            "numberOfInfants": "=$iteration[value].numberOfInfants",
+                                            "email": "=$iteration[value].email",
+                                            "addrLine": "=$iteration[value].addrLine1 + \", \" + $iteration[value].addrLine2",
+                                            "zipCode": "=$iteration[value].addrLine4",
+                                            "cityState": "=$iteration[value].addrLine3",
+                                            "_skipCondition": "=null==$iteration[value].id"
+                                        },
+                                        "flight": {
+                                            "type": "flight",
+                                            "typeflight": "",
+                                            "carrierCode": "=$iteration[value].carrierCode",
+                                            "flightNumber": "=$iteration[value].flightNumber",
+                                            "originLocalDate": "=$iteration[value].originLocalDate",
+                                            "uuid": "=$iteration[value].carrierCode + \", \" + $iteration[value].flightNumber + \", \" + $iteration[value].originLocalDate",
+                                            "label": "=$iteration[value].flightNumber + \" \" + $iteration[value].originLocalDate + \" \" + $iteration[value].originAirportCode + \"-\" + $iteration[value].destAirportCode",
+                                            "_skipCondition": "=null==$iteration[value].flightNumber"
+                                        },
+                                        "passenger": {
+                                            "type": "passenger",
+                                            "typepassenger": "",
+                                            "uuid": "=$iteration[value].FirstName + \" \" + $iteration[value].LastName",
+                                            "label": "=$iteration[value].FirstName + \" \" + $iteration[value].LastName",
+                                            "firstname": "=$iteration[value].FirstName",
+                                            "lastname": "=$iteration[value].LastName",
+                                            "_skipCondition": "=null==$iteration[value].FirstName && null==$iteration[value].LastName"
+                                        }
+                                    }
+                                },
+                                "Edges": {
+                                    "mapping": {
+                                        "pnr_event": {
+                                            "relation": "event",
+                                            "eventname": "created",
+                                            "time": "=$iteration[value].PNRCreateDate"
+                                        },
+                                        "pnr_passenger": {
+                                            "relation": "pnr_passenger"
+                                        },
+                                        "pnr_flight": {
+                                            "relation": "pnr_flight"
+                                        },
+                                        "flight_event": {
+                                            "relation": "event",
+                                            "eventname": "depart",
+                                            "time": "=$iteration[value].airSegDepLocalDate"
+                                        }
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Nodes": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"flight\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"type\":{\"type\":\"string\"},\"typeflight\":{\"type\":\"string\"},\"carrierCode\":{\"type\":\"string\"},\"flightNumber\":{\"type\":\"string\"},\"originLocalDate\":{\"type\":\"string\"},\"uuid\":{\"type\":\"string\"},\"label\":{\"type\":\"string\"}}},\"pnr\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"type\":{\"type\":\"string\"},\"typepnr\":{\"type\":\"string\"},\"uuid\":{\"type\":\"string\"},\"label\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"recordLocator\":{\"type\":\"string\"},\"numberInParty\":{\"type\":\"string\"},\"numberOfInfants\":{\"type\":\"string\"},\"phoneNumber\":{\"type\":\"string\"},\"email\":{\"type\":\"string\"},\"addrLine\":{\"type\":\"string\"},\"cityState\":{\"type\":\"string\"},\"zipCode\":{\"type\":\"string\"}}},\"passenger\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"type\":{\"type\":\"string\"},\"typepassenger\":{\"type\":\"string\"},\"uuid\":{\"type\":\"string\"},\"label\":{\"type\":\"string\"},\"firstname\":{\"type\":\"string\"},\"lastname\":{\"type\":\"string\"}}},\"route\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"type\":{\"type\":\"string\"},\"typeroute\":{\"type\":\"string\"},\"uuid\":{\"type\":\"string\"},\"origin\":{\"type\":\"string\"},\"destination\":{\"type\":\"string\"},\"label\":{\"type\":\"string\"}}},\"leg\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"type\":{\"type\":\"string\"},\"typeleg\":{\"type\":\"string\"},\"uuid\":{\"type\":\"string\"},\"label\":{\"type\":\"string\"}}},\"Day\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"type\":{\"type\":\"string\"},\"label\":{\"type\":\"string\"}}},\"airport\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"type\":{\"type\":\"string\"},\"typeairport\":{\"type\":\"string\"},\"uuid\":{\"type\":\"string\"},\"label\":{\"type\":\"string\"}}}}}",
+                                        "fe_metadata": "{\"flight\":{\"_skipCondition\":false,\"type\":\"2\",\"typeflight\":\"2\",\"carrierCode\":\"2\",\"flightNumber\":\"2\",\"originLocalDate\":\"2\",\"uuid\":\"2\",\"label\":\"2\"},\"pnr\":{\"_skipCondition\":false,\"type\":\"2\",\"typepnr\":\"2\",\"uuid\":\"2\",\"label\":\"2\",\"value\":\"2\",\"recordLocator\":\"2\",\"numberInParty\":\"2\",\"numberOfInfants\":\"2\",\"phoneNumber\":\"2\",\"email\":\"2\",\"addrLine\":\"2\",\"cityState\":\"2\",\"zipCode\":\"2\"},\"passenger\":{\"_skipCondition\":false,\"type\":\"2\",\"typepassenger\":\"2\",\"uuid\":\"2\",\"label\":\"2\",\"firstname\":\"2\",\"lastname\":\"2\"},\"route\":{\"_skipCondition\":false,\"type\":\"2\",\"typeroute\":\"2\",\"uuid\":\"2\",\"origin\":\"2\",\"destination\":\"2\",\"label\":\"2\"},\"leg\":{\"_skipCondition\":false,\"type\":\"2\",\"typeleg\":\"2\",\"uuid\":\"2\",\"label\":\"2\"},\"Day\":{\"_skipCondition\":false,\"type\":\"2\",\"label\":\"2\"},\"airport\":{\"_skipCondition\":false,\"type\":\"2\",\"typeairport\":\"2\",\"uuid\":\"2\",\"label\":\"2\"}}"
+                                    },
+                                    "Edges": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"pnr_passenger\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}},\"relation\":{\"type\":\"string\"}}},\"pnr_flight\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}},\"relation\":{\"type\":\"string\"}}},\"flight_route\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}},\"relation\":{\"type\":\"string\"}}},\"flight_leg\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}},\"relation\":{\"type\":\"string\"}}},\"leg_destination\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}},\"relation\":{\"type\":\"string\"}}},\"leg_origin\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}},\"relation\":{\"type\":\"string\"}}},\"route_origin\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}},\"relation\":{\"type\":\"string\"}}},\"route_destination\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}},\"relation\":{\"type\":\"string\"}}},\"flight_event\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}},\"relation\":{\"type\":\"string\"},\"eventname\":{\"type\":\"string\"},\"time\":{\"type\":\"string\"}}},\"leg_event\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}},\"relation\":{\"type\":\"string\"},\"eventname\":{\"type\":\"string\"},\"time\":{\"type\":\"string\"}}},\"pnr_event\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}},\"relation\":{\"type\":\"string\"},\"eventname\":{\"type\":\"string\"},\"time\":{\"type\":\"string\"}}}}}",
+                                        "fe_metadata": "{\"pnr_passenger\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"},\"relation\":\"2\"},\"pnr_flight\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"},\"relation\":\"2\"},\"flight_route\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"},\"relation\":\"2\"},\"flight_leg\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"},\"relation\":\"2\"},\"leg_destination\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"},\"relation\":\"2\"},\"leg_origin\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"},\"relation\":\"2\"},\"route_origin\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"},\"relation\":\"2\"},\"route_destination\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"},\"relation\":\"2\"},\"flight_event\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"},\"relation\":\"2\",\"eventname\":\"2\",\"time\":\"2\"},\"leg_event\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"},\"relation\":\"2\",\"eventname\":\"2\",\"time\":\"2\"},\"pnr_event\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"},\"relation\":\"2\",\"eventname\":\"2\",\"time\":\"2\"}}"
+                                    },
+                                    "PassThroughData": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+                                        "fe_metadata": "{}"
+                                    }
+                                },
+                                "output": {
+                                    "PassThroughDataOut": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+                                        "fe_metadata": "{}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "TGDBUpsert",
+                        "name": "TGDBUpsert",
+                        "description": "This activity upsert to tgdb",
+                        "activity": {
+                            "ref": "#tgdbupsert",
+                            "settings": {
+                                "tgdbConnection": {
+                                    "id": "2e035500-995d-11ea-a030-d5552accd2a4",
+                                    "type": "flogo:connector",
+                                    "version": "1.0.0",
+                                    "name": "tibco-tgdb",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "TGDB Connector",
+                                    "description": "This is TGDB GraphDatabase connector",
+                                    "ref": "github.com/TIBCOSoftware/GraphBuilder_TGDB/connector/tgdb",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Connection Name",
+                                                "description": "Name of the connection"
+                                            },
+                                            "value": "TGDB"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "description": "Connection description"
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "url",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "TGDB Server URL",
+                                                "description": "TGDB server URL ex. tcp://scott@localhost:8222",
+                                                "type": "string"
+                                            },
+                                            "value": "tcp://scott@localhost:8222"
+                                        },
+                                        {
+                                            "name": "user",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Username",
+                                                "description": "Username for login to TGDB server",
+                                                "type": "string"
+                                            },
+                                            "value": "scott"
+                                        },
+                                        {
+                                            "name": "password",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Password",
+                                                "description": "Password for login to TGDB server",
+                                                "type": "password"
+                                            },
+                                            "value": "SECRET:IX9sbqt61nLoEe/Ryv+Rrn/PftaQ"
+                                        },
+                                        {
+                                            "name": "keepAlive",
+                                            "type": "boolean",
+                                            "display": {
+                                                "name": "Keep Connection Alive",
+                                                "description": "Will keep connection alive"
+                                            },
+                                            "value": true,
+                                            "required": true
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "flogo",
+                                    "key": "flogo/GraphBuilder_TGDB/connector/connector.json",
+                                    "display": {
+                                        "description": "This is TGDB GraphDatabase connector",
+                                        "category": "GraphBuilder_TGDB",
+                                        "visible": true,
+                                        "smallIcon": "tgdb.png"
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "Connect",
+                                            "display": {
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            }
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "iteratorAccumulate": false,
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1589844104666,
+                                    "user": "flogo",
+                                    "connectorName": "TGDB",
+                                    "connectorDescription": " "
+                                },
+                                "allowEmptyStringKey": true
+                            },
+                            "input": {
+                                "Graph": "=$activity[BuildGraph].Graph"
+                            }
+                        }
+                    }
+                ],
+                "errorHandler": {
+                    "tasks": [
+                        {
+                            "id": "Return",
+                            "name": "Return",
+                            "description": "",
+                            "activity": {
+                                "ref": "#actreturn"
+                            }
+                        }
+                    ],
+                    "links": []
+                },
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "MessageId",
+                            "type": "string"
+                        },
+                        {
+                            "name": "FileContent",
+                            "type": "string"
+                        },
+                        {
+                            "name": "ModifiedTime",
+                            "type": "integer"
+                        },
+                        {
+                            "name": "LineNumber",
+                            "type": "integer"
+                        }
+                    ],
+                    "output": [],
+                    "fe_metadata": {
+                        "input": "{\"type\":\"object\",\"title\":\"PNRDataReader\",\"properties\":{\"MessageId\":{\"type\":\"string\",\"required\":false},\"FileContent\":{\"type\":\"string\",\"required\":false},\"ModifiedTime\":{\"type\":\"integer\",\"required\":false},\"LineNumber\":{\"type\":\"integer\",\"required\":false}}}"
+                    }
+                }
+            }
+        }
+    ],
+    "properties": [],
+    "connections": {},
+    "contrib": "W3sicmVmIjoiZ2l0aHViLmNvbS9USUJDT1NvZnR3YXJlL0dyYXBoQnVpbGRlcl9Ub29scyIsInMzbG9jYXRpb24iOiJ7VVNFUklEfS9HcmFwaEJ1aWxkZXJfVG9vbHMifSx7InJlZiI6ImdpdGh1Yi5jb20vVElCQ09Tb2Z0d2FyZS9HcmFwaEJ1aWxkZXIiLCJzM2xvY2F0aW9uIjoie1VTRVJJRH0vR3JhcGhCdWlsZGVyIn0seyJyZWYiOiJnaXRodWIuY29tL1RJQkNPU29mdHdhcmUvR3JhcGhCdWlsZGVyX1RHREIiLCJzM2xvY2F0aW9uIjoie1VTRVJJRH0vR3JhcGhCdWlsZGVyX1RHREIifSx7InJlZiI6ImdpdC50aWJjby5jb20vZ2l0L3Byb2R1Y3QvaXBhYXMvd2ktY29udHJpYi5naXQvY29udHJpYnV0aW9ucy9HZW5lcmFsIiwiczNsb2NhdGlvbiI6IlRpYmNvL0dlbmVyYWwifV0=",
+    "fe_metadata": "UEsDBAoAAAAIAPC8slCrqSRGFQAAABMAAAAIAAAAYXBwLmpzb26rViopykxPTy1yy8kvL1ayio6tBQBQSwECFAAKAAAACADwvLJQq6kkRhUAAAATAAAACAAAAAAAAAAAAAAAAAAAAAAAYXBwLmpzb25QSwUGAAAAAAEAAQA2AAAAOwAAAAAA"
+}

@@ -1,0 +1,39 @@
+{
+    "name": "graphtofile",
+    "version": "1.0.0",
+    "author": "TIBCO Software Inc.",
+    "type": "flogo:activity",
+    "title": "Graph to File",
+     
+    "display": {
+       "category": "GraphBuilder",
+       "visible": true,
+       "smallIcon": "graphtofile.png",
+       "description": "This activity write graph to file system"
+    },
+ 
+    "ref": "github.com/TIBCOSoftware/GraphBuilder/activity/graphtofile",
+    "settings": [
+		{
+            "name": "outputFile",
+            "type": "string",
+            "required": true,
+            "display":{
+              "name": "Output File",
+              "description": "Set file for writing graph data"
+            }
+		}
+    ],
+    "inputs": [
+ 		{
+			"name": "Graph",
+			"type": "object"
+		}
+    ],
+    "outputs": [
+		{
+            "name": "MessageId",
+            "type": "string"
+		}
+    ]
+}

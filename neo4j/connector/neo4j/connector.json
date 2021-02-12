@@ -1,0 +1,71 @@
+{
+  "name": "tibco-neo4j",
+  "title": "Neo4j Connector",
+  "author": "TIBCO Software Inc.",
+  "type": "flogo:connector",
+  "version": "1.0.0",
+  "display": {
+    "description": "This is Neo4j connector",
+    "category": "GraphBuilder_neo4j",
+    "visible": true,
+    "smallIcon": "neo4j.png"
+  },
+  "ref": "github.com/TIBCOSoftware/GraphBuilder_neo4j/connector/neo4j",
+  "keyfield": "name",
+  "settings": [
+    {
+      "name": "name",
+      "type": "string",
+      "required": true,
+      "display": {
+        "name": "Connection Name",
+        "description": "Name of the connection"
+      }
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "display": {
+        "name": "Description",
+        "description": "Connection description"
+      }
+    },
+    {
+      "name": "url",
+      "type": "string",
+      "required": true,
+      "display": {
+        "name": "Neo4j Server URL",
+        "description": "Neo4j server URL",
+        "type": "string"
+      }
+    },
+    {
+      "name": "user",
+      "type": "string",
+      "display": {
+        "name": "Username",
+        "description": "Username for login to Neo4j server",
+        "type": "string"
+      }
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "required": true,
+      "display": {
+        "name": "Password",
+        "description": "Password for login to Neo4j server",
+        "type": "password"
+      }
+    }
+  ],
+  "actions": [
+    {
+      "name": "Connect",
+      "display": {
+        "readonly": true
+      }
+    }
+  ]
+}

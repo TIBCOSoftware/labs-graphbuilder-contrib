@@ -1,0 +1,859 @@
+{
+    "imports": [
+        "github.com/project-flogo/flow",
+        "github.com/TIBCOSoftware/GraphBuilder_Tools/activity/csvparser",
+        "github.com/TIBCOSoftware/GraphBuilder/activity/builder",
+        "github.com/TIBCOSoftware/GraphBuilder_TGDB/activity/tgdbupsert",
+        "github.com/TIBCOSoftware/GraphBuilder_Tools/trigger/filesreader",
+        "github.com/project-flogo/contrib/function/array"
+    ],
+    "name": "hierarchy",
+    "description": " ",
+    "version": "1.1.0",
+    "type": "flogo:app",
+    "appModel": "1.1.1",
+    "feVersion": "2.8.1",
+    "triggers": [
+        {
+            "ref": "#filesreader",
+            "name": "files-reader",
+            "description": "This activity read file and pass string content to downstream",
+            "settings": {},
+            "id": "FilesReader",
+            "handlers": [
+                {
+                    "description": "",
+                    "settings": {
+                        "Filename": "<your download folder>/hierarchy/h_members.csv",
+                        "Asynchronous": true,
+                        "EmitPerLine": true,
+                        "MaxNumberOfLine": -1
+                    },
+                    "action": {
+                        "ref": "github.com/project-flogo/flow",
+                        "settings": {
+                            "flowURI": "res://flow:House_Member_Data"
+                        },
+                        "input": {
+                            "FileContent": "=$.FileContent",
+                            "LineNumber": "=$.LineNumber"
+                        }
+                    }
+                },
+                {
+                    "description": "",
+                    "settings": {
+                        "Filename": "<your download folder>/hierarchy/h_relation.csv",
+                        "Asynchronous": true,
+                        "EmitPerLine": true,
+                        "MaxNumberOfLine": -1
+                    },
+                    "action": {
+                        "ref": "github.com/project-flogo/flow",
+                        "settings": {
+                            "flowURI": "res://flow:Relation_Data"
+                        },
+                        "input": {
+                            "FileContent": "=$.FileContent",
+                            "LineNumber": "=$.LineNumber"
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "resources": [
+        {
+            "id": "flow:House_Member_Data",
+            "data": {
+                "name": "House Member Data",
+                "description": "",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "CSVParser01",
+                        "to": "BuildGraph01",
+                        "type": "default"
+                    },
+                    {
+                        "id": 2,
+                        "from": "BuildGraph01",
+                        "to": "TGDBUpsert",
+                        "type": "default"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "CSVParser01",
+                        "name": "CSVParser01",
+                        "description": "CSV Parser Activity",
+                        "activity": {
+                            "ref": "#csvparser",
+                            "settings": {
+                                "DateFormat": "2 Jan 2006",
+                                "ServeGraphData": false,
+                                "OutputFieldnames": "[{\"AttributeName\":\"memberName\",\"CSVFieldName\":\"memberName\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"no\"},{\"AttributeName\":\"crownName\",\"CSVFieldName\":\"crownName\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"houseHead\",\"CSVFieldName\":\"houseHead\",\"Default\":\"\",\"Type\":\"Boolean\",\"Optional\":\"yes\"},{\"AttributeName\":\"yearBorn\",\"CSVFieldName\":\"yearBorn\",\"Default\":\"\",\"Type\":\"Integer\",\"Optional\":\"yes\"},{\"AttributeName\":\"yearDied\",\"CSVFieldName\":\"yearDied\",\"Default\":\"\",\"Type\":\"Integer\",\"Optional\":\"yes\"},{\"AttributeName\":\"reignStart\",\"CSVFieldName\":\"reignStart\",\"Default\":\"\",\"Type\":\"Date\",\"Optional\":\"yes\"},{\"AttributeName\":\"reignEnd\",\"CSVFieldName\":\"reignEnd\",\"Default\":\"\",\"Type\":\"Date\",\"Optional\":\"yes\"},{\"AttributeName\":\"crownTitle\",\"CSVFieldName\":\"crownTitle\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"}]",
+                                "FirstRowIsHeader": false
+                            },
+                            "input": {
+                                "CSVString": "=$flow.FileContent",
+                                "SequenceNumber": "=$flow.LineNumber"
+                            },
+                            "schemas": {
+                                "output": {
+                                    "Data": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"memberName\":{\"type\":\"string\"},\"crownName\":{\"type\":\"string\"},\"houseHead\":{\"type\":\"boolean\"},\"yearBorn\":{\"type\":\"number\"},\"yearDied\":{\"type\":\"number\"},\"reignStart\":{\"type\":\"number\"},\"reignEnd\":{\"type\":\"number\"},\"crownTitle\":{\"type\":\"string\"}}}}",
+                                        "fe_metadata": "[{\"memberName\":\"2\",\"crownName\":\"2\",\"houseHead\":true,\"yearBorn\":2,\"yearDied\":2,\"reignStart\":2,\"reignEnd\":2,\"crownTitle\":\"2\"}]"
+                                    }
+                                },
+                                "settings": {
+                                    "OutputFieldnames": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"AttributeName\":{\"type\":\"string\"},\"CSVFieldName\":{\"type\":\"string\"},\"Default\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Optional\":{\"type\":\"string\"}},\"required\":[\"AttributeName\",\"CSVFieldName\",\"Default\",\"Type\",\"Optional\"]}}",
+                                        "fe_metadata": "[{\"AttributeName\":\"memberName\",\"CSVFieldName\":\"memberName\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"no\"},{\"AttributeName\":\"crownName\",\"CSVFieldName\":\"crownName\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"},{\"AttributeName\":\"houseHead\",\"CSVFieldName\":\"houseHead\",\"Default\":\"\",\"Type\":\"Boolean\",\"Optional\":\"yes\"},{\"AttributeName\":\"yearBorn\",\"CSVFieldName\":\"yearBorn\",\"Default\":\"\",\"Type\":\"Integer\",\"Optional\":\"yes\"},{\"AttributeName\":\"yearDied\",\"CSVFieldName\":\"yearDied\",\"Default\":\"\",\"Type\":\"Integer\",\"Optional\":\"yes\"},{\"AttributeName\":\"reignStart\",\"CSVFieldName\":\"reignStart\",\"Default\":\"\",\"Type\":\"Date\",\"Optional\":\"yes\"},{\"AttributeName\":\"reignEnd\",\"CSVFieldName\":\"reignEnd\",\"Default\":\"\",\"Type\":\"Date\",\"Optional\":\"yes\"},{\"AttributeName\":\"crownTitle\",\"CSVFieldName\":\"crownTitle\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"yes\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "BuildGraph01",
+                        "name": "BuildGraph01",
+                        "description": "This activity build graph from incoming data",
+                        "type": "iterator",
+                        "settings": {
+                            "iterate": "=$activity[CSVParser01].Data",
+                            "accumulate": false
+                        },
+                        "activity": {
+                            "ref": "#builder",
+                            "settings": {
+                                "GraphModel": {
+                                    "id": "2277dea0-9961-11ea-a030-d5552accd2a4",
+                                    "type": "flogo:connector",
+                                    "version": "1.0.0",
+                                    "name": "tibco-graph",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "Graph",
+                                    "description": "This is URL file reader",
+                                    "ref": "github.com/TIBCOSoftware/GraphBuilder/connector/graph",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Graph Name",
+                                                "description": "Name of the graph"
+                                            },
+                                            "value": "hierarchy"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "description": "Graph description"
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "modelSource",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Model Source",
+                                                "description": "Where the model stored",
+                                                "type": "string"
+                                            },
+                                            "allowed": [
+                                                "Local File",
+                                                "TGDB"
+                                            ],
+                                            "value": "Local File"
+                                        },
+                                        {
+                                            "name": "url",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Model Server URL",
+                                                "description": "URL to the model server, ex. http://localhost:9999/tgdb/metadata",
+                                                "type": "string",
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": false
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "model",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Graph Model",
+                                                "description": "Define nodes and entities for a graph",
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".tgbm",
+                                                    ".json"
+                                                ],
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            },
+                                            "value": {
+                                                "filename": "h_model.json",
+                                                "content": "data:application/json;base64,eyAgCgkibm9kZXMiOlsgIAoJCXsgIAogICAgICAgICAgICAibmFtZSI6ImhvdXNlTWVtYmVyVHlwZSIsCiAgICAgICAgICAgICJrZXkiOlsibWVtYmVyTmFtZSJdLAogICAgICAgICAgICAiYXR0cmlidXRlcyI6WyAgCiAgICAgICAgICAgICAgIHsgIAogICAgICAgICAgICAgICAgICAibmFtZSI6Im1lbWJlck5hbWUiLAogICAgICAgICAgICAgICAgICAidHlwZSI6IlN0cmluZyIKICAgICAgICAgICAgICAgfSwKICAgICAgICAgICAgICAgeyAgCiAgICAgICAgICAgICAgICAgICJuYW1lIjoiaG91c2VIZWFkIiwKICAgICAgICAgICAgICAgICAgInR5cGUiOiJCb29sZWFuIgogICAgICAgICAgICAgICB9LAogICAgICAgICAgICAgICB7ICAKICAgICAgICAgICAgICAgICAgIm5hbWUiOiJjcm93bk5hbWUiLAogICAgICAgICAgICAgICAgICAidHlwZSI6IlN0cmluZyIKICAgICAgICAgICAgICAgfSwKICAgICAgICAgICAgICAgeyAgCiAgICAgICAgICAgICAgICAgICJuYW1lIjoiY3Jvd25UaXRsZSIsCiAgICAgICAgICAgICAgICAgICJ0eXBlIjoiU3RyaW5nIgogICAgICAgICAgICAgICB9LAogICAgICAgICAgICAgICB7ICAKICAgICAgICAgICAgICAgICAgIm5hbWUiOiJ5ZWFyQm9ybiIsCiAgICAgICAgICAgICAgICAgICJ0eXBlIjoiSW50ZWdlciIKICAgICAgICAgICAgICAgfSwKICAgICAgICAgICAgICAgeyAgCiAgICAgICAgICAgICAgICAgICJuYW1lIjoieWVhckRpZWQiLAogICAgICAgICAgICAgICAgICAidHlwZSI6IkludGVnZXIiCiAgICAgICAgICAgICAgIH0sCiAgICAgICAgICAgICAgIHsgIAogICAgICAgICAgICAgICAgICAibmFtZSI6InJlaWduU3RhcnQiLAogICAgICAgICAgICAgICAgICAidHlwZSI6IkRhdGUiCiAgICAgICAgICAgICAgIH0sCiAgICAgICAgICAgICAgIHsgIAogICAgICAgICAgICAgICAgICAibmFtZSI6InJlaWduRW5kIiwKICAgICAgICAgICAgICAgICAgInR5cGUiOiJEYXRlIgogICAgICAgICAgICAgICB9CiAgICAgICAgICAgIF0KICAgICAgICB9CiAgICBdLAogICAgImVkZ2VzIjpbICAKICAgICAgICB7ICAKICAgICAgICAgICAgInRvIjoiaG91c2VNZW1iZXJUeXBlIiwKICAgICAgICAgICAgIm5hbWUiOiJyZWxhdGlvbiIsCiAgICAgICAgICAgICJmcm9tIjoiaG91c2VNZW1iZXJUeXBlIiwKICAgICAgICAgICAgImF0dHJpYnV0ZXMiOlsgIAogICAgICAgICAgICAgICB7CiAgICAgICAgICAgICAgICAgICJuYW1lIjoicmVsVHlwZSIsCiAgICAgICAgICAgICAgICAgICJ0eXBlIjoiU3RyaW5nIgogICAgICAgICAgICAgICB9CiAgICAgICAgICAgIF0KICAgICAgICB9CiAgICBdCn0K"
+                                            }
+                                        },
+                                        {
+                                            "name": "metadata",
+                                            "type": "string",
+                                            "display": {
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": false
+                                            },
+                                            "value": "{  \n\t\"nodes\":[  \n\t\t{  \n            \"name\":\"houseMemberType\",\n            \"key\":[\"memberName\"],\n            \"attributes\":[  \n               {  \n                  \"name\":\"memberName\",\n                  \"type\":\"String\"\n               },\n               {  \n                  \"name\":\"houseHead\",\n                  \"type\":\"Boolean\"\n               },\n               {  \n                  \"name\":\"crownName\",\n                  \"type\":\"String\"\n               },\n               {  \n                  \"name\":\"crownTitle\",\n                  \"type\":\"String\"\n               },\n               {  \n                  \"name\":\"yearBorn\",\n                  \"type\":\"Integer\"\n               },\n               {  \n                  \"name\":\"yearDied\",\n                  \"type\":\"Integer\"\n               },\n               {  \n                  \"name\":\"reignStart\",\n                  \"type\":\"Date\"\n               },\n               {  \n                  \"name\":\"reignEnd\",\n                  \"type\":\"Date\"\n               }\n            ]\n        }\n    ],\n    \"edges\":[  \n        {  \n            \"to\":\"houseMemberType\",\n            \"name\":\"relation\",\n            \"from\":\"houseMemberType\",\n            \"attributes\":[  \n               {\n                  \"name\":\"relType\",\n                  \"type\":\"String\"\n               }\n            ]\n        }\n    ]\n}\n"
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "flogo",
+                                    "key": "flogo/GraphBuilder/connector/graph/connector.json",
+                                    "display": {
+                                        "description": "This is URL file reader",
+                                        "category": "GraphBuilder",
+                                        "visible": true,
+                                        "smallIcon": "graph.png"
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "Connect",
+                                            "display": {
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            }
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "iteratorAccumulate": false,
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1589845331216,
+                                    "user": "flogo",
+                                    "connectorName": "hierarchy",
+                                    "connectorDescription": " "
+                                },
+                                "AllowNullKey": false,
+                                "BatchMode": false,
+                                "PassThrough": "",
+                                "Multiinstances": ""
+                            },
+                            "input": {
+                                "BatchEnd": false,
+                                "Nodes": {
+                                    "mapping": {
+                                        "houseMemberType": {
+                                            "memberName": "=$iteration[value].memberName",
+                                            "houseHead": "=$iteration[value].houseHead",
+                                            "crownName": "=$iteration[value].crownName",
+                                            "yearBorn": "=$iteration[value].yearBorn",
+                                            "yearDied": "=$iteration[value].yearDied",
+                                            "crownTitle": "=$iteration[value].crownTitle",
+                                            "reignStart": "=$iteration[value].reignStart",
+                                            "reignEnd": "=$iteration[value].reignEnd"
+                                        }
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Nodes": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"houseMemberType\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"memberName\":{\"type\":\"string\"},\"houseHead\":{\"type\":\"boolean\"},\"crownName\":{\"type\":\"string\"},\"crownTitle\":{\"type\":\"string\"},\"yearBorn\":{\"type\":\"number\"},\"yearDied\":{\"type\":\"number\"},\"reignStart\":{\"type\":\"number\"},\"reignEnd\":{\"type\":\"number\"}}}}}",
+                                        "fe_metadata": "{\"houseMemberType\":{\"_skipCondition\":false,\"memberName\":\"2\",\"houseHead\":true,\"crownName\":\"2\",\"crownTitle\":\"2\",\"yearBorn\":2,\"yearDied\":2,\"reignStart\":2,\"reignEnd\":2}}"
+                                    },
+                                    "Edges": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"relation\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}},\"relType\":{\"type\":\"string\"}}}}}",
+                                        "fe_metadata": "{\"relation\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"},\"relType\":\"2\"}}"
+                                    },
+                                    "PassThroughData": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+                                        "fe_metadata": "{}"
+                                    }
+                                },
+                                "output": {
+                                    "PassThroughDataOut": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+                                        "fe_metadata": "{}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "TGDBUpsert",
+                        "name": "TGDBUpsert",
+                        "description": "This activity upsert to tgdb",
+                        "activity": {
+                            "ref": "#tgdbupsert",
+                            "settings": {
+                                "tgdbConnection": {
+                                    "id": "2e035500-995d-11ea-a030-d5552accd2a4",
+                                    "type": "flogo:connector",
+                                    "version": "1.0.0",
+                                    "name": "tibco-tgdb",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "TGDB Connector",
+                                    "description": "This is TGDB GraphDatabase connector",
+                                    "ref": "github.com/TIBCOSoftware/GraphBuilder_TGDB/connector/tgdb",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Connection Name",
+                                                "description": "Name of the connection"
+                                            },
+                                            "value": "TGDB"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "description": "Connection description"
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "url",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "TGDB Server URL",
+                                                "description": "TGDB server URL ex. tcp://scott@localhost:8222",
+                                                "type": "string"
+                                            },
+                                            "value": "tcp://scott@localhost:8222"
+                                        },
+                                        {
+                                            "name": "user",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Username",
+                                                "description": "Username for login to TGDB server",
+                                                "type": "string"
+                                            },
+                                            "value": "scott"
+                                        },
+                                        {
+                                            "name": "password",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Password",
+                                                "description": "Password for login to TGDB server",
+                                                "type": "password"
+                                            },
+                                            "value": "SECRET:tRCsLbkgGtiSgqB+Ly1XjBtA1eWk"
+                                        },
+                                        {
+                                            "name": "keepAlive",
+                                            "type": "boolean",
+                                            "display": {
+                                                "name": "Keep Connection Alive",
+                                                "description": "Will keep connection alive"
+                                            },
+                                            "value": true,
+                                            "required": true
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "flogo",
+                                    "key": "flogo/GraphBuilder_TGDB/connector/connector.json",
+                                    "display": {
+                                        "description": "This is TGDB GraphDatabase connector",
+                                        "category": "GraphBuilder_TGDB",
+                                        "visible": true,
+                                        "smallIcon": "tgdb.png"
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "Connect",
+                                            "display": {
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            }
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "iteratorAccumulate": false,
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1589844104666,
+                                    "user": "flogo",
+                                    "connectorName": "TGDB",
+                                    "connectorDescription": " "
+                                },
+                                "allowEmptyStringKey": false
+                            },
+                            "input": {
+                                "Graph": "=$activity[BuildGraph01].Graph"
+                            }
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "FileContent",
+                            "type": "string"
+                        },
+                        {
+                            "name": "LineNumber",
+                            "type": "float64"
+                        }
+                    ],
+                    "output": [],
+                    "fe_metadata": {
+                        "input": "{\n    \"FileContent\": \"string\",\n    \"LineNumber\": 1\n}"
+                    }
+                }
+            }
+        },
+        {
+            "id": "flow:Relation_Data",
+            "data": {
+                "name": "Relation Data",
+                "description": "",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "CSVParser02",
+                        "to": "BuildGraph02",
+                        "type": "default"
+                    },
+                    {
+                        "id": 2,
+                        "from": "BuildGraph02",
+                        "to": "TGDBUpsert",
+                        "type": "default"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "CSVParser02",
+                        "name": "CSVParser02",
+                        "description": "CSV Parser Activity",
+                        "activity": {
+                            "ref": "#csvparser",
+                            "settings": {
+                                "DateFormat": "",
+                                "ServeGraphData": false,
+                                "OutputFieldnames": "[{\"AttributeName\":\"fromMemberName\",\"CSVFieldName\":\"fromMemberName\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"no\"},{\"AttributeName\":\"toMemberName\",\"CSVFieldName\":\"toMemberName\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"no\"},{\"AttributeName\":\"relation\",\"CSVFieldName\":\"relation\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"no\"}]",
+                                "FirstRowIsHeader": false
+                            },
+                            "input": {
+                                "CSVString": "=$flow.FileContent",
+                                "SequenceNumber": "=$flow.LineNumber"
+                            },
+                            "schemas": {
+                                "output": {
+                                    "Data": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"fromMemberName\":{\"type\":\"string\"},\"toMemberName\":{\"type\":\"string\"},\"relation\":{\"type\":\"string\"}}}}",
+                                        "fe_metadata": "[{\"fromMemberName\":\"2\",\"toMemberName\":\"2\",\"relation\":\"2\"}]"
+                                    }
+                                },
+                                "settings": {
+                                    "OutputFieldnames": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"AttributeName\":{\"type\":\"string\"},\"CSVFieldName\":{\"type\":\"string\"},\"Default\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Optional\":{\"type\":\"string\"}},\"required\":[\"AttributeName\",\"CSVFieldName\",\"Default\",\"Type\",\"Optional\"]}}",
+                                        "fe_metadata": "[{\"AttributeName\":\"fromMemberName\",\"CSVFieldName\":\"fromMemberName\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"no\"},{\"AttributeName\":\"toMemberName\",\"CSVFieldName\":\"toMemberName\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"no\"},{\"AttributeName\":\"relation\",\"CSVFieldName\":\"relation\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"no\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "BuildGraph02",
+                        "name": "BuildGraph02",
+                        "description": "This activity build graph from incoming data",
+                        "type": "iterator",
+                        "settings": {
+                            "iterate": "=$activity[CSVParser02].Data",
+                            "accumulate": false
+                        },
+                        "activity": {
+                            "ref": "#builder",
+                            "settings": {
+                                "GraphModel": {
+                                    "id": "2277dea0-9961-11ea-a030-d5552accd2a4",
+                                    "type": "flogo:connector",
+                                    "version": "1.0.0",
+                                    "name": "tibco-graph",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "Graph",
+                                    "description": "This is URL file reader",
+                                    "ref": "github.com/TIBCOSoftware/GraphBuilder/connector/graph",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Graph Name",
+                                                "description": "Name of the graph"
+                                            },
+                                            "value": "hierarchy"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "description": "Graph description"
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "modelSource",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Model Source",
+                                                "description": "Where the model stored",
+                                                "type": "string"
+                                            },
+                                            "allowed": [
+                                                "Local File",
+                                                "TGDB"
+                                            ],
+                                            "value": "Local File"
+                                        },
+                                        {
+                                            "name": "url",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Model Server URL",
+                                                "description": "URL to the model server, ex. http://localhost:9999/tgdb/metadata",
+                                                "type": "string",
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": false
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "model",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Graph Model",
+                                                "description": "Define nodes and entities for a graph",
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".tgbm",
+                                                    ".json"
+                                                ],
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            },
+                                            "value": {
+                                                "filename": "h_model.json",
+                                                "content": "data:application/json;base64,eyAgCgkibm9kZXMiOlsgIAoJCXsgIAogICAgICAgICAgICAibmFtZSI6ImhvdXNlTWVtYmVyVHlwZSIsCiAgICAgICAgICAgICJrZXkiOlsibWVtYmVyTmFtZSJdLAogICAgICAgICAgICAiYXR0cmlidXRlcyI6WyAgCiAgICAgICAgICAgICAgIHsgIAogICAgICAgICAgICAgICAgICAibmFtZSI6Im1lbWJlck5hbWUiLAogICAgICAgICAgICAgICAgICAidHlwZSI6IlN0cmluZyIKICAgICAgICAgICAgICAgfSwKICAgICAgICAgICAgICAgeyAgCiAgICAgICAgICAgICAgICAgICJuYW1lIjoiaG91c2VIZWFkIiwKICAgICAgICAgICAgICAgICAgInR5cGUiOiJCb29sZWFuIgogICAgICAgICAgICAgICB9LAogICAgICAgICAgICAgICB7ICAKICAgICAgICAgICAgICAgICAgIm5hbWUiOiJjcm93bk5hbWUiLAogICAgICAgICAgICAgICAgICAidHlwZSI6IlN0cmluZyIKICAgICAgICAgICAgICAgfSwKICAgICAgICAgICAgICAgeyAgCiAgICAgICAgICAgICAgICAgICJuYW1lIjoiY3Jvd25UaXRsZSIsCiAgICAgICAgICAgICAgICAgICJ0eXBlIjoiU3RyaW5nIgogICAgICAgICAgICAgICB9LAogICAgICAgICAgICAgICB7ICAKICAgICAgICAgICAgICAgICAgIm5hbWUiOiJ5ZWFyQm9ybiIsCiAgICAgICAgICAgICAgICAgICJ0eXBlIjoiSW50ZWdlciIKICAgICAgICAgICAgICAgfSwKICAgICAgICAgICAgICAgeyAgCiAgICAgICAgICAgICAgICAgICJuYW1lIjoieWVhckRpZWQiLAogICAgICAgICAgICAgICAgICAidHlwZSI6IkludGVnZXIiCiAgICAgICAgICAgICAgIH0sCiAgICAgICAgICAgICAgIHsgIAogICAgICAgICAgICAgICAgICAibmFtZSI6InJlaWduU3RhcnQiLAogICAgICAgICAgICAgICAgICAidHlwZSI6IkRhdGUiCiAgICAgICAgICAgICAgIH0sCiAgICAgICAgICAgICAgIHsgIAogICAgICAgICAgICAgICAgICAibmFtZSI6InJlaWduRW5kIiwKICAgICAgICAgICAgICAgICAgInR5cGUiOiJEYXRlIgogICAgICAgICAgICAgICB9CiAgICAgICAgICAgIF0KICAgICAgICB9CiAgICBdLAogICAgImVkZ2VzIjpbICAKICAgICAgICB7ICAKICAgICAgICAgICAgInRvIjoiaG91c2VNZW1iZXJUeXBlIiwKICAgICAgICAgICAgIm5hbWUiOiJyZWxhdGlvbiIsCiAgICAgICAgICAgICJmcm9tIjoiaG91c2VNZW1iZXJUeXBlIiwKICAgICAgICAgICAgImF0dHJpYnV0ZXMiOlsgIAogICAgICAgICAgICAgICB7CiAgICAgICAgICAgICAgICAgICJuYW1lIjoicmVsVHlwZSIsCiAgICAgICAgICAgICAgICAgICJ0eXBlIjoiU3RyaW5nIgogICAgICAgICAgICAgICB9CiAgICAgICAgICAgIF0KICAgICAgICB9CiAgICBdCn0K"
+                                            }
+                                        },
+                                        {
+                                            "name": "metadata",
+                                            "type": "string",
+                                            "display": {
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": false
+                                            },
+                                            "value": "{  \n\t\"nodes\":[  \n\t\t{  \n            \"name\":\"houseMemberType\",\n            \"key\":[\"memberName\"],\n            \"attributes\":[  \n               {  \n                  \"name\":\"memberName\",\n                  \"type\":\"String\"\n               },\n               {  \n                  \"name\":\"houseHead\",\n                  \"type\":\"Boolean\"\n               },\n               {  \n                  \"name\":\"crownName\",\n                  \"type\":\"String\"\n               },\n               {  \n                  \"name\":\"crownTitle\",\n                  \"type\":\"String\"\n               },\n               {  \n                  \"name\":\"yearBorn\",\n                  \"type\":\"Integer\"\n               },\n               {  \n                  \"name\":\"yearDied\",\n                  \"type\":\"Integer\"\n               },\n               {  \n                  \"name\":\"reignStart\",\n                  \"type\":\"Date\"\n               },\n               {  \n                  \"name\":\"reignEnd\",\n                  \"type\":\"Date\"\n               }\n            ]\n        }\n    ],\n    \"edges\":[  \n        {  \n            \"to\":\"houseMemberType\",\n            \"name\":\"relation\",\n            \"from\":\"houseMemberType\",\n            \"attributes\":[  \n               {\n                  \"name\":\"relType\",\n                  \"type\":\"String\"\n               }\n            ]\n        }\n    ]\n}\n"
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "flogo",
+                                    "key": "flogo/GraphBuilder/connector/graph/connector.json",
+                                    "display": {
+                                        "description": "This is URL file reader",
+                                        "category": "GraphBuilder",
+                                        "visible": true,
+                                        "smallIcon": "graph.png"
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "Connect",
+                                            "display": {
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            }
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "iteratorAccumulate": false,
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1589845331216,
+                                    "user": "flogo",
+                                    "connectorName": "hierarchy",
+                                    "connectorDescription": " "
+                                },
+                                "AllowNullKey": false,
+                                "BatchMode": false,
+                                "PassThrough": "",
+                                "Multiinstances": "[{\"EntityType\":\"Node\",\"Name\":\"houseMemberType\",\"NumberOfInstances\":\"2\"}]"
+                            },
+                            "input": {
+                                "BatchEnd": false,
+                                "Nodes": {
+                                    "mapping": {
+                                        "houseMemberType_0": {
+                                            "memberName": "=$iteration[value].fromMemberName"
+                                        },
+                                        "houseMemberType_1": {
+                                            "memberName": "=$iteration[value].toMemberName"
+                                        }
+                                    }
+                                },
+                                "Edges": {
+                                    "mapping": []
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Nodes": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"houseMemberType_0\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"memberName\":{\"type\":\"string\"},\"houseHead\":{\"type\":\"boolean\"},\"crownName\":{\"type\":\"string\"},\"crownTitle\":{\"type\":\"string\"},\"yearBorn\":{\"type\":\"number\"},\"yearDied\":{\"type\":\"number\"},\"reignStart\":{\"type\":\"number\"},\"reignEnd\":{\"type\":\"number\"}}},\"houseMemberType_1\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"memberName\":{\"type\":\"string\"},\"houseHead\":{\"type\":\"boolean\"},\"crownName\":{\"type\":\"string\"},\"crownTitle\":{\"type\":\"string\"},\"yearBorn\":{\"type\":\"number\"},\"yearDied\":{\"type\":\"number\"},\"reignStart\":{\"type\":\"number\"},\"reignEnd\":{\"type\":\"number\"}}}}}",
+                                        "fe_metadata": "{\"houseMemberType_0\":{\"_skipCondition\":false,\"memberName\":\"2\",\"houseHead\":true,\"crownName\":\"2\",\"crownTitle\":\"2\",\"yearBorn\":2,\"yearDied\":2,\"reignStart\":2,\"reignEnd\":2},\"houseMemberType_1\":{\"_skipCondition\":false,\"memberName\":\"2\",\"houseHead\":true,\"crownName\":\"2\",\"crownTitle\":\"2\",\"yearBorn\":2,\"yearDied\":2,\"reignStart\":2,\"reignEnd\":2}}"
+                                    },
+                                    "Edges": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"relation\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}},\"relType\":{\"type\":\"string\"}}}}}",
+                                        "fe_metadata": "{\"relation\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"},\"relType\":\"2\"}}"
+                                    },
+                                    "PassThroughData": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+                                        "fe_metadata": "{}"
+                                    }
+                                },
+                                "output": {
+                                    "PassThroughDataOut": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+                                        "fe_metadata": "{}"
+                                    }
+                                },
+                                "settings": {
+                                    "Multiinstances": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"EntityType\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"NumberOfInstances\":{\"type\":\"string\"}}}}",
+                                        "fe_metadata": "[{\"EntityType\":\"Node\",\"Name\":\"houseMemberType\",\"NumberOfInstances\":\"2\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "TGDBUpsert",
+                        "name": "TGDBUpsert",
+                        "description": "This activity upsert to tgdb",
+                        "activity": {
+                            "ref": "#tgdbupsert",
+                            "settings": {
+                                "tgdbConnection": {
+                                    "id": "2e035500-995d-11ea-a030-d5552accd2a4",
+                                    "type": "flogo:connector",
+                                    "version": "1.0.0",
+                                    "name": "tibco-tgdb",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "TGDB Connector",
+                                    "description": "This is TGDB GraphDatabase connector",
+                                    "ref": "github.com/TIBCOSoftware/GraphBuilder_TGDB/connector/tgdb",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Connection Name",
+                                                "description": "Name of the connection"
+                                            },
+                                            "value": "TGDB"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "description": "Connection description"
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "url",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "TGDB Server URL",
+                                                "description": "TGDB server URL ex. tcp://scott@localhost:8222",
+                                                "type": "string"
+                                            },
+                                            "value": "tcp://scott@localhost:8222"
+                                        },
+                                        {
+                                            "name": "user",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Username",
+                                                "description": "Username for login to TGDB server",
+                                                "type": "string"
+                                            },
+                                            "value": "scott"
+                                        },
+                                        {
+                                            "name": "password",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Password",
+                                                "description": "Password for login to TGDB server",
+                                                "type": "password"
+                                            },
+                                            "value": "SECRET:RumSu4xDUfCvB6A5oWQickI44Hjz"
+                                        },
+                                        {
+                                            "name": "keepAlive",
+                                            "type": "boolean",
+                                            "display": {
+                                                "name": "Keep Connection Alive",
+                                                "description": "Will keep connection alive"
+                                            },
+                                            "value": true,
+                                            "required": true
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "flogo",
+                                    "key": "flogo/GraphBuilder_TGDB/connector/connector.json",
+                                    "display": {
+                                        "description": "This is TGDB GraphDatabase connector",
+                                        "category": "GraphBuilder_TGDB",
+                                        "visible": true,
+                                        "smallIcon": "tgdb.png"
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "Connect",
+                                            "display": {
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            }
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "iteratorAccumulate": false,
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1589844104666,
+                                    "user": "flogo",
+                                    "connectorName": "TGDB",
+                                    "connectorDescription": " "
+                                },
+                                "allowEmptyStringKey": false
+                            },
+                            "input": {
+                                "Graph": "=$activity[BuildGraph02].Graph"
+                            }
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "FileContent",
+                            "type": "string"
+                        },
+                        {
+                            "name": "LineNumber",
+                            "type": "float64"
+                        }
+                    ],
+                    "output": [],
+                    "fe_metadata": {
+                        "input": "{\n    \"FileContent\": \"string\",\n    \"LineNumber\": 1\n}"
+                    }
+                }
+            }
+        }
+    ],
+    "properties": [],
+    "connections": {},
+    "contrib": "W3sicmVmIjoiZ2l0aHViLmNvbS9USUJDT1NvZnR3YXJlL0dyYXBoQnVpbGRlcl9Ub29scyIsInMzbG9jYXRpb24iOiJ7VVNFUklEfS9HcmFwaEJ1aWxkZXJfVG9vbHMifSx7InJlZiI6ImdpdGh1Yi5jb20vVElCQ09Tb2Z0d2FyZS9HcmFwaEJ1aWxkZXIiLCJzM2xvY2F0aW9uIjoie1VTRVJJRH0vR3JhcGhCdWlsZGVyIn0seyJyZWYiOiJnaXRodWIuY29tL1RJQkNPU29mdHdhcmUvR3JhcGhCdWlsZGVyX1RHREIiLCJzM2xvY2F0aW9uIjoie1VTRVJJRH0vR3JhcGhCdWlsZGVyX1RHREIifV0=",
+    "fe_metadata": "UEsDBAoAAAAIAHC9slCrqSRGFQAAABMAAAAIAAAAYXBwLmpzb26rViopykxPTy1yy8kvL1ayio6tBQBQSwECFAAKAAAACABwvbJQq6kkRhUAAAATAAAACAAAAAAAAAAAAAAAAAAAAAAAYXBwLmpzb25QSwUGAAAAAAEAAQA2AAAAOwAAAAAA"
+}
